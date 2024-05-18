@@ -1,4 +1,4 @@
 package fpoly.duantotnghiep.shoppingweb.entity;
 
-public class SanPham {
+public class DanhSachYeuThich {
 }

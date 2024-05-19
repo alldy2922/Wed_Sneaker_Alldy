@@ -1,13 +1,17 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import fpoly.duantotnghiep.shoppingweb.entity.KhachHangEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -57,5 +61,16 @@ public class VoucherModel {
     @Column(name = "trangthai")
     private Integer trangThai;
 
+    @Formula("( SELECT count(d.Voucher) FROM Voucher v join donhang d on d.Voucher = v.Ma WHERE v.Ma = ma )")
+    private int soLuongSuDung;
+
+    @Column(name = "doituongsudung")
+    private Integer doiTuongSuDung;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "voucherkhachhang",
+            joinColumns = { @JoinColumn(name = "voucher")},
+            inverseJoinColumns ={@JoinColumn(name = "khachhang")} )
+    @JsonBackReference
+    private List<KhachHangModel> khachHang;
 
 }

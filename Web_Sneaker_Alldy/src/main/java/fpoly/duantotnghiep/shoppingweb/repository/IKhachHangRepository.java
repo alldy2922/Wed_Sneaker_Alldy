@@ -1,7 +1,10 @@
 package fpoly.duantotnghiep.shoppingweb.repository;
 
 import fpoly.duantotnghiep.shoppingweb.entity.KhachHangEntity;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface IKhachHangRepository extends JpaRepository<KhachHangEntity, String> {
+@Repository
+public interface IKhachHangRepository extends JpaRepository<KhachHangModel, String> {
 }

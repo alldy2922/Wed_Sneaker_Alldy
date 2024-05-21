@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
 import fpoly.duantotnghiep.shoppingweb.entity.KhachHangEntity;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class KhachHangDtoReponse {
     private String email;
     private String anhDaiDien;
 
-    public KhachHangDtoReponse(KhachHangEntity khachHangEntity) {
+    public KhachHangDtoReponse(KhachHangModel khachHangModel) {
         this.username = username;
         this.password = password;
         this.hoTen = hoTen;

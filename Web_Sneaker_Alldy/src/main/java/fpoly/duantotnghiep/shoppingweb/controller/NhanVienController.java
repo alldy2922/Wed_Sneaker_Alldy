@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin/nhan-vien")
+@RequestMapping("/nhan-vien")
 public class NhanVienController {
     @Autowired
     HttpServlet req;
     @Autowired
-    private INhanVienServe nvSer;
+    private NhanVienServiceImpl nhanVienService;
 
-    @GetMapping("")
-    public String hienThiNV(){
-        return "admin/nhan-vien";
+    @GetMapping("/hien-thi")
+    public ResponseEntity<?> hienThiNV(){
+        return ResponseEntity.ok(nhanVienService.findAll());
     }
 }

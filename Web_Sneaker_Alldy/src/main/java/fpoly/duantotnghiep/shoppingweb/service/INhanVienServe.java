@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface INhanVienServe {
      Page<NhanVienDtoResponse> getAll(Integer page);
+     List<NhanVienDtoResponse> findAll();
 
 }

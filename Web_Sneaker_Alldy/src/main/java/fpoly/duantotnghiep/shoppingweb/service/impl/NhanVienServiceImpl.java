@@ -16,10 +16,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class NhanVienServiceImpl implements INhanVienServe {
+
     @Autowired
     INhanVienRepository nhanVienRepository;
 
-/*
+    @Override
+    public List<NhanVienDtoResponse> findAll() {
+        return nhanVienRepository.findAll().stream().map(x -> new NhanVienDtoResponse(x)).collect(Collectors.toList());
+    }
+
+    /*
 Pageable pageable = PageRequest.of(page, 5);
         Page<KhachHangEntity> pageKhachHangEntity = khachHangRepository.findAll(pageable);
         return new PageImpl<>(pageKhachHangEntity.getContent().stream().map(n -> new KhachHangDtoReponse()).collect(Collectors.toList()),
@@ -32,4 +38,5 @@ Pageable pageable = PageRequest.of(page, 5);
         return new PageImpl<>(nhanVienModelPage.getContent().stream().map(n-> new NhanVienDtoResponse()).collect(Collectors.toList()),
                 pageable,nhanVienModelPage.getTotalPages());
     }
+
 }

@@ -1,5 +1,7 @@
-package fpoly.duantotnghiep.shoppingweb.service.security;
+package fpoly.duantotnghiep.shoppingweb.service;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
@@ -13,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @SessionScope
-public interface IChiTietSanPhamSevice extends JpaRepository<ChiTietSanPhamModel, String> {
+public interface IChiTietSanPhamService extends JpaRepository<ChiTietSanPhamModel, String> {
     List<ChiTietSanPhamModel> getAllBySanPhamMaAndTrangThaiOrderBySizeMa(String maSP, Boolean trangThai);
 
     @Transactional
@@ -22,6 +24,14 @@ public interface IChiTietSanPhamSevice extends JpaRepository<ChiTietSanPhamModel
             UPDATE ChiTietSanPhamModel s SET s.soLuong = ?1 WHERE s.id = ?2
             """)
     int updateSoLuong(Long soLuong, String id);
+
+    List<ChiTietSanPhamDtoResponse> fillAllChiTietSP();
+
+    ChiTietSanPhamDtoResponse finById(String id);
+
+    List<ChiTietSanPhamDtoResponse> getAllBySanPhamMa(String maSP);
+
+    ChiTietSanPhamDtoResponse updateSoLuong(ChiTietSanPhamDtoRequest request);
 
     Boolean existsBySanPhamMaAndSizeMa(String maSP, Float size);
 
@@ -33,6 +43,18 @@ public interface IChiTietSanPhamSevice extends JpaRepository<ChiTietSanPhamModel
     int updateTrangThai(Boolean trangThai, String id);
 
     ChiTietSanPhamModel getBySanPhamMaAndSizeMa(String maSP, Float size);
+
+    ChiTietSanPhamDtoResponse save(ChiTietSanPhamDtoRequest entity);
+
+    ChiTietSanPhamDtoResponse update(ChiTietSanPhamDtoRequest entity);
+
+    void updateSL(String maCTSP, Long soLuong);
+
+    void delete(String id);
+
+    List<ChiTietSanPhamDtoResponse> saveAll(List<Float> sizes, ChiTietSanPhamDtoRequest model);
+
+    Boolean checkSoLuongSP(String id, Long soLuong);
 
     @Query("""
     SELECT c FROM ChiTietSanPhamModel c 
@@ -55,4 +77,8 @@ public interface IChiTietSanPhamSevice extends JpaRepository<ChiTietSanPhamModel
     List<ChiTietSanPhamModel> getAllBySize(SizeModel sizeModel);
 
     List<ChiTietSanPhamModel> getAllBySanPham(SanPhamModel sanPhamModel);
+
+    void deleteBySize(float size);
+
+    void deleteBySanPham(String maSanPham);
 }

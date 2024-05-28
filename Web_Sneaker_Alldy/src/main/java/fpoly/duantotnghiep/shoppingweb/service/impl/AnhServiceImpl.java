@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 @Component
 @Transactional
-public class AnhSeviceImpl {
+public class AnhServiceImpl {
     @Autowired
     private IAnhModelRepository anhModelRepository;
 

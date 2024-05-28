@@ -1,13 +1,16 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.XuatXuResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.XuatXuRequest;
 import fpoly.duantotnghiep.shoppingweb.model.XuatXuModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IXuatXuRepository;
+import fpoly.duantotnghiep.shoppingweb.service.IXuatXuService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class XuatXuSeviceImpl implements IXuatXuService{
+public class XuatXuServiceImpl implements IXuatXuService {
     @Autowired
     private IXuatXuRepository repo;
 

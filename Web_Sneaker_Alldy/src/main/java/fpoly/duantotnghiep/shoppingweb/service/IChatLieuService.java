@@ -1,11 +1,11 @@
-package fpoly.duantotnghiep.shoppingweb.service.security;
+package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChatLieuDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChatLieuDTORequest;
 
 import java.util.List;
 
-public interface IChatLieuSevice {
+public interface IChatLieuService {
     List<ChatLieuDTOResponse> findAll();
 
     ChatLieuDTOResponse save(ChatLieuDTORequest chatLieuDTORequest);

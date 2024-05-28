@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.*;
+import fpoly.duantotnghiep.shoppingweb.util.ImgUltil;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -102,7 +103,7 @@ public class SanPhamDtoRequest {
 
         oldImages.forEach(img -> {
             if (!newImages.contains(img)) {
-                ImgUtil.deleteImg(img, "product");
+                ImgUltil.deleteImg(img, "product");
             }
         });
 
@@ -110,7 +111,7 @@ public class SanPhamDtoRequest {
             for (MultipartFile f : file) {
                 if (!oldImages.contains(f.getOriginalFilename())) {
                     try {
-                        if(f.getOriginalFilename().length()>0) this.anh.add(ImgUtil.addImage(f, "product"));
+                        if(f.getOriginalFilename().length()>0) this.anh.add(ImgUltil.addImage(f, "product"));
                     } catch (IOException e) {
 //                        e.printStackTrace();
                     }
@@ -122,7 +123,7 @@ public class SanPhamDtoRequest {
 
     public void setAnh(List<MultipartFile> file) throws IOException {
         if (file != null) {
-            if(file.get(0).getOriginalFilename().length()>0) this.anh = ImgUtil.addImages(file,"product");
+            if(file.get(0).getOriginalFilename().length()>0) this.anh = ImgUltil.addImages(file,"product");
         }
 
     }

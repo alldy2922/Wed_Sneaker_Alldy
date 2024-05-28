@@ -1,13 +1,16 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ThuongHieuDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.ThuongHieuDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.ThuongHieuModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IThuongHieuRepository;
+import fpoly.duantotnghiep.shoppingweb.service.IThuongHieuService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ThuongHieuSeviceImpl implements IThuongHieuService{
+public class ThuongHieuServiceImpl implements IThuongHieuService {
     @Autowired
     private IThuongHieuRepository iThuongHieuRepository;
     @Override

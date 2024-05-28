@@ -1,7 +1,10 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.MauSacDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.MauSacModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IMauSacRepository;
+import fpoly.duantotnghiep.shoppingweb.service.IMauSacService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class MauSacSeviceImpl implements IMauSacService{
+public class MauSacServiceImpl implements IMauSacService {
     @Autowired
     private IMauSacRepository mauSacRepository;
 

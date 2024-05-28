@@ -1,7 +1,10 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKieuDangRepository;
+import fpoly.duantotnghiep.shoppingweb.service.IKieuDangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class KieuDangSeviceImpl implements IKieuDangService{
+public class KieuDangServiceImpl implements IKieuDangService {
     @Autowired
     private IKieuDangRepository iKieuDangRepository;
 
@@ -41,7 +44,7 @@ public class KieuDangSeviceImpl implements IKieuDangService{
     }
 
     @Override
-    public KieuDangDTOResponse save(KieuDangDtoRequest kieuDangDtoRequest) {
+    public KieuDangDTOResponse save(KieuDangDTORequest kieuDangDtoRequest) {
         KieuDangModel model = iKieuDangRepository.save(kieuDangDtoRequest.mapToModel());
         return new KieuDangDTOResponse(model);
     }

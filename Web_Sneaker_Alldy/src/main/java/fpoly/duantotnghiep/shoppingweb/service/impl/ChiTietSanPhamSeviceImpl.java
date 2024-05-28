@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ChiTietSanPhamSeviceImpl {
+public class ChiTietSanPhamSeviceImpl implements IChiTietSanPhamService{
     @Autowired
     private IChiTietSanPhamRepository IchiTietSanPhamRepository;
 

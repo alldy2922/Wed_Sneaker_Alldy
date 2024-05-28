@@ -1,6 +1,9 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
+import fpoly.duantotnghiep.shoppingweb.service.security.IChiTietSanPhamSevice;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietSanPhamRepository;
@@ -12,9 +15,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ChiTietSanPhamSeviceImpl implements IChiTietSanPhamService{
+public class ChiTietSanPhamSeviceImpl implements IChiTietSanPhamSevice{
     @Autowired
-    private IChiTietSanPhamRepository IchiTietSanPhamRepository;
+    private IChiTietSanPhamRepository chiTietSanPhamRepository;
 
     @Override
     public List<ChiTietSanPhamDtoResponse> fillAllChiTietSP() {

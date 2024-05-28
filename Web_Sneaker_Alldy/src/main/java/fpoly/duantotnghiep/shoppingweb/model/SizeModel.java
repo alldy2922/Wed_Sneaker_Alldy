@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
 
@@ -19,15 +18,14 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @ToString
-@Table(name = "kieudang")
-public class KieuDangModel {
+@Table(name = "size")
+public class SizeModel {
     @Id
-    @UuidGenerator
-    @Column(name = "id")
-    private String id;
+    @Column(name = "ma")
+    private Float ma;
 
-    @Column(name = "ten")
-    private String ten;
+    @Column(name = "chieudai")
+    private Float chieuDai;
 
     @Column(name = "ngaytao")
     @CreationTimestamp
@@ -36,8 +34,4 @@ public class KieuDangModel {
     @Column(name = "ngaycapnhat")
     @UpdateTimestamp
     private Date ngayCapNhat;
-
-    public KieuDangModel(String id) {
-        this.id = id;
-    }
 }

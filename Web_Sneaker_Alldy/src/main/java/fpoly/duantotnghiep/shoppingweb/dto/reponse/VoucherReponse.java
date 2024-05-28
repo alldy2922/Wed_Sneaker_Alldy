@@ -47,6 +47,7 @@ public class VoucherReponse {
     private Integer soLuongSuDung;
 
     private List<KhachHangModel> danhDachKhachHang;
+
     public VoucherReponse(VoucherModel model){
         this.ma  = model.getMa();
         this.moTa  = model.getMota();

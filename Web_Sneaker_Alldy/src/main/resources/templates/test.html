@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{|/admin/product/${method}|}" th:object="${sanPham}" method="post" enctype="multipart/form-data">
+<form th:action="@{|/static/admin/product/${method}|}" th:object="${sanPham}" method="post" enctype="multipart/form-data">
     Mã: <input th:field="*{ma}" />
     <br>
     Ten: <input th:field="*{ten}" />

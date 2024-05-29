@@ -15,5 +15,5 @@ public interface IKieuDangService {
     public void deleteById(String s);
     public void deleteByIds(List<String> s);
     public int update( String id, String ten);
-    public Page<KieuDangDTOResponse> search(String keyWord, Integer page, Integer limit)
+    public Page<KieuDangDTOResponse> search(String keyWord, Integer page, Integer limit);
 }

@@ -1,7 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDTORequest;
+import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDtoRequest;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 public interface IKieuDangService {
     public Page<KieuDangDTOResponse> findAll(Integer page, Integer limit);
     public List<KieuDangDTOResponse> getAll();
-    public KieuDangDTOResponse save( KieuDangDTORequest kieuDangDtoRequest);
+    public KieuDangDTOResponse save( KieuDangDtoRequest kieuDangDtoRequest);
     public KieuDangDTOResponse findById(String s);
     public boolean existsById(String s);
     public void deleteById(String s);

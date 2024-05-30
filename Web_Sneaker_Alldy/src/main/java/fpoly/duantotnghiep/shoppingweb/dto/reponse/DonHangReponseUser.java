@@ -3,6 +3,8 @@ package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import lombok.*;
 
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;

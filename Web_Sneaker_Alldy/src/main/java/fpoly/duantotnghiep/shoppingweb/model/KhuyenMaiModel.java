@@ -20,7 +20,6 @@ import java.util.List;
 @Entity
 @ToString
 @Table(name = "khuyenmai")
-
 public class KhuyenMaiModel {
     @Id
     @Column(name = "ma")

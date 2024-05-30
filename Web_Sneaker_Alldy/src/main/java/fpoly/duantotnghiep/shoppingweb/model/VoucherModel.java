@@ -1,7 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import fpoly.duantotnghiep.shoppingweb.entity.KhachHangEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -68,8 +67,8 @@ public class VoucherModel {
     private Integer doiTuongSuDung;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "voucherkhachhang",
-            joinColumns = { @JoinColumn(name = "voucher")},
-            inverseJoinColumns ={@JoinColumn(name = "khachhang")} )
+            joinColumns = {@JoinColumn(name = "voucher")},
+            inverseJoinColumns = {@JoinColumn(name = "khachhang")})
     @JsonBackReference
     private List<KhachHangModel> khachHang;
 

@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+//@ToString
 @Table(name = "mausac")
 public class MauSacModel {
     @Id

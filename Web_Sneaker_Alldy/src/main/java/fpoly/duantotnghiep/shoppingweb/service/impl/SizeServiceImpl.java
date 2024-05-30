@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Service
 public class SizeServiceImpl implements ISizeService {
     @Autowired
@@ -52,5 +53,6 @@ public class SizeServiceImpl implements ISizeService {
         System.out.println(s);
         sizeRepository.deleteById(s);
     }
+
 
 }

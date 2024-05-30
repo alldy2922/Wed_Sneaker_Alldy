@@ -1,7 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
-import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
-import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
+import fpoly.duantotnghiep.shoppingweb.model.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.*;
-import fpoly.duantotnghiep.shoppingweb.util.ImgUltil;
+import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -103,7 +100,7 @@ public class SanPhamDtoRequest {
 
         oldImages.forEach(img -> {
             if (!newImages.contains(img)) {
-                ImgUltil.deleteImg(img, "product");
+                ImgUtil.deleteImg(img, "product");
             }
         });
 
@@ -111,7 +108,7 @@ public class SanPhamDtoRequest {
             for (MultipartFile f : file) {
                 if (!oldImages.contains(f.getOriginalFilename())) {
                     try {
-                        if(f.getOriginalFilename().length()>0) this.anh.add(ImgUltil.addImage(f, "product"));
+                        if(f.getOriginalFilename().length()>0) this.anh.add(ImgUtil.addImage(f, "product"));
                     } catch (IOException e) {
 //                        e.printStackTrace();
                     }
@@ -123,7 +120,7 @@ public class SanPhamDtoRequest {
 
     public void setAnh(List<MultipartFile> file) throws IOException {
         if (file != null) {
-            if(file.get(0).getOriginalFilename().length()>0) this.anh = ImgUltil.addImages(file,"product");
+           if(file.get(0).getOriginalFilename().length()>0) this.anh = ImgUtil.addImages(file,"product");
         }
 
     }

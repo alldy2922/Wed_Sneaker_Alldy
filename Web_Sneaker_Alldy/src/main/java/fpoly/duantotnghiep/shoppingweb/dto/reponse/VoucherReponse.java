@@ -1,12 +1,16 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
+@Data
 public class VoucherReponse {
 
     private String ma;
@@ -40,6 +44,7 @@ public class VoucherReponse {
     private String doiTuongSuDung;
 
     private Integer soLuongSuDung;
+    private List<KhachHangModel> danhSachKhachHang;
 
     public VoucherReponse(VoucherModel model) {
         this.ma = model.getMa();
@@ -52,8 +57,14 @@ public class VoucherReponse {
         this.soLuong = model.getSoLuong();
         this.mucGiamToiDa = model.getMucGiamToiDa();
         this.hinhThucThanhToan = model.getHinhThucThanhToan() == 0 ? "Thanh toán khi nhận hàng" :
-                model.getHinhThucThanhToan() == 1 ? "Thanh toán online" : "Tất cả các hình thức thanh toán";
+                model.getHinhThucThanhToan() == 1 ? "Thanh toán online" :
+                        "Tất cả các hình thức thanh toán";
         this.trangThaiXoa = model.getTrangThaiXoa();
         this.trangThai = model.getTrangThai();
+        this.doiTuongSuDung = model.getDoiTuongSuDung() == 0 ? "Tất cả khách hàng" : "Tùy chọn khách";
+        this.soLuongSuDung = model.getSoLuongSuDung();
+        if (this.doiTuongSuDung.equals("Tùy chọn khách")) {
+            this.danhSachKhachHang = model.getKhachHang();
+        }
     }
 }

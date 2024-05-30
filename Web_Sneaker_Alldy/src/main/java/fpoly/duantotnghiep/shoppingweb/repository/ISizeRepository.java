@@ -13,4 +13,5 @@ public interface ISizeRepository extends JpaRepository<SizeModel, Float> {
                                         WHERE c.sanPham.ma = ?1)
             """)
     List<SizeModel> getAllNotInSanPham(String maSP);
+
 }

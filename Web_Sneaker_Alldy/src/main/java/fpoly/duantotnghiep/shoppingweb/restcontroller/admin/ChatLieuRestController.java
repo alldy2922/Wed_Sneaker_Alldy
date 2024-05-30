@@ -1,7 +1,9 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChatLieuDTOResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SizeDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChatLieuDTORequest;
+import fpoly.duantotnghiep.shoppingweb.dto.request.SizeDTORequest;
 import fpoly.duantotnghiep.shoppingweb.service.IChatLieuService;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 @RestController
 @RequestMapping("${admin.domain}/chat-lieu")

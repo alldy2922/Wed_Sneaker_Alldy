@@ -2,8 +2,11 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.ResponseEntity.ResponseObject;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ThuongHieuDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ThuongHieuDtoRequest;
+import fpoly.duantotnghiep.shoppingweb.model.ThuongHieuModel;
 import fpoly.duantotnghiep.shoppingweb.service.IDongSanPhamService;
+import fpoly.duantotnghiep.shoppingweb.service.IKieuDangService;
 import fpoly.duantotnghiep.shoppingweb.service.IThuongHieuService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;

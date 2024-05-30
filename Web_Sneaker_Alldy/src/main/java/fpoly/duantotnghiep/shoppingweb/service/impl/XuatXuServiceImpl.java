@@ -6,10 +6,13 @@ import fpoly.duantotnghiep.shoppingweb.model.XuatXuModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IXuatXuRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IXuatXuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class XuatXuServiceImpl implements IXuatXuService {
     @Autowired
     private IXuatXuRepository repo;

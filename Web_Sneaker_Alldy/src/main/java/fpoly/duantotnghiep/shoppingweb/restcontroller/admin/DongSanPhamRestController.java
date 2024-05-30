@@ -2,7 +2,9 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.ResponseEntity.ResponseObject;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DongSanPhamResponese;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DongSanPhamRequest;
+import fpoly.duantotnghiep.shoppingweb.dto.request.MauSacDTORequest;
 import fpoly.duantotnghiep.shoppingweb.service.IDongSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.servlet.http.HttpServletRequest;

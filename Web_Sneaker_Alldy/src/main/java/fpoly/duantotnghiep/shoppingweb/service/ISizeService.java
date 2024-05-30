@@ -1,14 +1,13 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChatLieuDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SizeDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SizeDTORequest;
-import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface ISizeService  {
+public interface ISizeService {
     List<SizeDTOResponse> findAll();
 
     List<SizeDTOResponse> getByChieuDai(Float chieuDai);

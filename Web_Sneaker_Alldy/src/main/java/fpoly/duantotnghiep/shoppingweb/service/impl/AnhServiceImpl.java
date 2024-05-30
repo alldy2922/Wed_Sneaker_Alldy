@@ -10,13 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 @Component
 @Transactional
 public class AnhServiceImpl {
     @Autowired
     private IAnhModelRepository anhModelRepository;
 
-    public  <S extends AnhModel> List<S> saveAll(Iterable<S> entities) {
+    public <S extends AnhModel> List<S> saveAll(Iterable<S> entities) {
         return anhModelRepository.saveAll(entities);
     }
 

@@ -10,7 +10,7 @@ import fpoly.duantotnghiep.shoppingweb.repository.IDongSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
-import fpoly.duantotnghiep.shoppingweb.util.ImgUltil;
+import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -104,8 +104,8 @@ public class SanPhamServiceImpl implements ISanPhamService {
     public List<SanPhamDtoResponse> saveAll(List<SanPhamDtoRequest> sanPham) {
 
         List<SanPhamModel> entities = sanPham.stream().map(s -> s.mapToModel())
-                .peek(s -> s.setHienThi(false))
-                .collect(Collectors.toList());
+                                .peek(s -> s.setHienThi(false))
+                                .collect(Collectors.toList());
 
         entities = sanPhamRepository.saveAll(entities);
 
@@ -171,7 +171,7 @@ public class SanPhamServiceImpl implements ISanPhamService {
 
         SanPhamModel model = sanPhamRepository.findById(s).get();
         Boolean checkCTSPInSanPham = model.getCtsp().stream().allMatch(c -> c.kiemTraCoTrongDonHang() == false);
-        ImgUltil.deleteImg(model.getImages().stream().map(img -> img.getTen()).collect(Collectors.toList()), "product");
+        ImgUtil.deleteImg(model.getImages().stream().map(img -> img.getTen()).collect(Collectors.toList()), "product");
         if (model.getCtsp().size() == 0 || checkCTSPInSanPham == true) {
             anhService.deleteBySanPham(model);
             sanPhamRepository.deleteById(s);

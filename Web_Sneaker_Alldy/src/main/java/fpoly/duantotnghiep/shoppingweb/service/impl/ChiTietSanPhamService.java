@@ -1,13 +1,16 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
+import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
-import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietSanPhamRepository;
+import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -165,4 +168,5 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
         List<ChiTietSanPhamModel> lst =chiTietSanPhamRepository.getAllBySanPham(sanPhamModel);
         chiTietSanPhamRepository.getAllBySanPham(sanPhamModel).forEach(c -> delete(c.getId()));
     }
+
 }

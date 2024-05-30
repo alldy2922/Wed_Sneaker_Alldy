@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/index}">
+<body data-topbar="dark">
+<div class="main-content" layout:fragment="content">
+    <style>
+        .textDetail {
+            font-weight: bold;
+            font-size: 15px;
+            font-style: italic;
+        }
+
+        .er {
+            color: red;
+            font-size: 13px;
+        }
+    </style>
+    <div class="page-content" ng-app="nhanvien-admin" ng-controller="ctrl">
+        <div class="container-fluid">
+
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3 me-2">
+                        <div>
+                            <input class="form-control" onchange="angular.element(this).scope().getAll(0)"
+                                   placeholder="Nhập mã, tên hoặc sđt" ng-model="keyWord">
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+                        <div>
+                            <button class="btn btn-secondary" data-toggle="modal"
+                                    data-target="#viewAdd"><i class="bx bx-plus me-1"></i> Thêm mới nhân viên
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <h3 class="text-center col-12 mt-5" ng-if="nhanVien.length == 0">Không có nhân viên liên quan</h3>
+                <div class="col-xl-3 col-sm-6" ng-repeat="n in nhanVien">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <img ng-if="n.anhDaiDien!=null" src="/image/loadImage/user/{{n.anhDaiDien}}" alt=""
+                                         class="avatar-lg rounded-circle img-thumbnail">
+                                    <img ng-if="n.anhDaiDien==null" src="/image/loadImage/user/default.png" alt=""
+                                         class="avatar-lg rounded-circle img-thumbnail">
+                                </div>
+                                <div class="flex-1 ms-3">
+                                    <h5 class="font-size-15 mb-1"><a href="#" class="text-dark">{{n.username}} -
+                                        {{n.hoVaTen}}</a></h5>
+                                    <p class="text-muted mb-0">{{n.tenVaiTro}}</p>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-1">
+                                <p class="text-muted mb-0"><i
+                                        class="mdi mdi-gender-male-female font-size-16 align-middle pe-2 text-primary"></i>
+                                    {{n.gioiTinhName}}</p>
+                                <p class="text-muted mb-0"><i
+                                        class="mdi mdi-calendar-today font-size-16 align-middle pe-2 text-primary"></i>
+                                    {{n.ngaySinh | date:'yyyy-MM-dd'}}</p>
+                                <p class="text-muted mb-0"><i
+                                        class="mdi mdi-phone font-size-15 align-middle pe-2 text-primary"></i>
+                                    {{n.soDienThoai}}</p>
+                                <p class="text-muted mb-0 mt-2"><i
+                                        class="mdi mdi-email font-size-15 align-middle pe-2 text-primary"></i>
+                                    {{n.email}}</p>
+                            </div>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-light text-truncate" data-toggle="modal"
+                                    data-target="#viewUpdate11" ng-click="detail(n.username)">
+                                <i class="uil uil-user me-1"></i>Thông tin
+                            </button>
+                            <button type="button" class="btn bg-danger btn-outline-light text-truncate text-light"
+                                    ng-click="deleteByUsername(n.username)">
+                                Xóa
+                            </button>
+                        </div>
+                    </div>
+                    <!-- end card -->
+                </div>
+            </div>
+            <div class="row g-0 align-items-center mb-4">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <div class="float-sm-end">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item" ng-click="getAll(0)" ng-if="pageNumber>0">
+                                                <span class="page-link" style="cursor: pointer" aria-label="First">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">First</span>
+                                                </span>
+                            </li>
+                            <li class="page-item" ng-if="pageNumber>0">
+                                                <span class="page-link" style="cursor: pointer" aria-label="Previous"
+                                                      ng-click="getAll(pageNumber==0 ? 0 : pageNumber-1)">
+                                                    <span><</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </span>
+                            </li>
+                            <li class="page-item pageNumber" ng-repeat="p in pageNumbers" ng-click="getAll(p)"
+                                id="{{p}}">
+                                <span ng-if="p!=pageNumber" class="page-link" style="cursor: pointer">{{p + 1}}</span>
+                                <span ng-if="p==pageNumber" class="page-link active"
+                                      style="cursor: pointer">{{p + 1}}</span>
+                            </li>
+                            <li class="page-item">
+                                                <span class="page-link" style="cursor: pointer" aria-label="Next"
+                                                      ng-if="pageNumber<totalPage-1"
+                                                      ng-click="getAll(pageNumber==totalPage.length-1 ? totalPage-1 : pageNumber+1)">
+                                                    <span>></span>
+                                                    <span class="sr-only">Next</span>
+                                                </span>
+                            </li>
+                            <li class="page-item">
+                                                <span class="page-link" style="cursor: pointer" aria-label="Last"
+                                                      ng-if="pageNumber<totalPage-1"
+                                                      ng-click="getAll(totalPage-1)">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Last</span>
+                                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- container-fluid -->
+            <!--    //////////////////////////////////////////////////////////////////////-->
+            <div class="modal fade" id="viewUpdate11" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Chi Tiết Nhân Viên</h5>
+                            <span type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="username">Username</label>
+                                <span id="username" class="form-control">{{nhanVienDetail.username}}</span>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hoVaTen">Họ và tên</label>
+                                <input id="hoVaTen" ng-model="nhanVienDetail.hoVaTen" class="form-control"
+                                       ng-focus="removeErrors('hoVaTenPutER')">
+                                <i class="er" id="hoVaTenPutER"></i>
+                            </div>
+                            <div class="mb-3">
+                                <label for="vaiTro">Vai trò</label>
+                                <select id="vaiTro" class="form-control " ng-model="nhanVienDetail.vaiTro"
+                                        onchange="angular.element(this).scope().removeErrors('vaTroPutER')">
+                                    <option value="STAFF" selected>Nhân viên</option>
+                                    <option value="ADMIN">Quản lý</option>
+                                </select>
+                                <i class="er" id="vaiTroPutER"></i>
+                            </div>
+                            <div class=" mb-3">
+                                <label class="control-label">Giới tính</label>
+                                <select class="form-control " ng-model="nhanVienDetail.gioiTinh"
+                                        onchange="angular.element(this).scope().removeErrors('gioiTinhPutER')">
+                                    <option value="null">Không xác định</option>
+                                    <option value="true">Nam</option>
+                                    <option value="false">Nữ</option>
+                                </select>
+                                <i class="er" id="gioiTinhPutER"></i>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ngaySinh">Ngày sinh</label>
+                                <input id="ngaySinh" ng-model="nhanVienDetail.ngaySinh" type="date" class="form-control"
+                                       ng-focus="removeErrors('ngaySinhPutER')">
+                                <i class="er" id="ngaySinhPutER"></i>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sdt">Số điện thoại</label>
+                                <input id="sdt" ng-model="nhanVienDetail.soDienThoai" class="form-control"
+                                       ng-focus="removeErrors('soDienThoaiPutER')">
+                                <i class="er" id="soDienThoaiPutER"></i>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email">Email</label>
+                                <input id="email" ng-model="nhanVienDetail.email" class="form-control"
+                                       ng-focus="removeErrors('emailPutER')">
+                                <i class="er" id="emailPutER"></i>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-click="update()">Cập nhật thông tin
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="viewAdd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thêm Nhân Viên</h5>
+                            <span type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="usernameAdd">Username</label>
+                                <input id="usernameAdd" ng-model="nhanVienAdd.username" class="form-control"
+                                       ng-focus="removeErrors('usernameAddER')">
+                                <i class="er" id="usernameAddER"></i>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hoVaTenAdd">Họ và tên</label>
+                                <input id="hoVaTenAdd" ng-model="nhanVienAdd.hoVaTen" class="form-control"
+                                       ng-focus="removeErrors('hoVaTenAddER')">
+                                <i class="er" id="hoVaTenAddER"></i>
+                            </div>
+                            <div class="mb-3">
+                                <label>Vai trò</label>
+                                <select class="form-control " ng-model="nhanVienAdd.vaiTro"
+                                        onchange="angular.element(this).scope().removeErrors('vaiTroAddER')">
+                                    <option value="STAFF" selected>Nhân viên</option>
+                                    <option value="ADMIN">Quản lý</option>
+                                </select>
+                                <i class="er" id="vaiTroAddER"></i>
+                            </div>
+                            <div class=" mb-3">
+                                <label class="control-label">Giới tính</label>
+                                <select class="form-control " ng-model="nhanVienAdd.gioiTinh"
+                                        onchange="angular.element(this).scope().removeErrors('gioiTinhAddER')">
+                                    <option value="null">Không xác định</option>
+                                    <option value="true">Nam</option>
+                                    <option value="false">Nữ</option>
+                                </select>
+                                <i class="er" id="gioiTinhAddER"></i>
+                            </div>
+                            <div class="mb-3">
+                                <label for="ngaySinhAdd">Ngày sinh</label>
+                                <input id="ngaySinhAdd" ng-model="nhanVienAdd.ngaySinh" type="date" class="form-control"
+                                       ng-focus="removeErrors('ngaySinhAddER')">
+                                <i class="er" id="ngaySinhAddER"></i>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sdtAdd">Số điện thoại</label>
+                                <input id="sdtAdd" ng-model="nhanVienAdd.soDienThoai" class="form-control"
+                                       ng-focus="removeErrors('soDienThoaiAddER')">
+                                <i class="er" id="soDienThoaiAddER"></i>
+                            </div>
+                            <div class="mb-3">
+                                <label for="emailAdd">Email</label>
+                                <input id="emailAdd" ng-model="nhanVienAdd.email" class="form-control"
+                                       ng-focus="removeErrors('emailAddER')">
+                                <i class="er" id="emailAddER"></i>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelModal">Đóng
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-click="add()">Thêm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <!-- End Page-content -->
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <script>document.write(new Date().getFullYear())</script>
+                        © DMV.
+                    </div>
+<!--                    <div class="col-sm-6">-->
+<!--                        <div class="text-sm-end d-none d-sm-block">-->
+<!--                            Design & Develop by <a href="#!" class="text-decoration-underline">Themesbrand</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- end main content-->
+</div>
+</body>
+</html>

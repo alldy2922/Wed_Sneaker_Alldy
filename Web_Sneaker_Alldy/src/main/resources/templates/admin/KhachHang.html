@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/index}">
+<body data-topbar="dark">
+<div class="main-content" layout:fragment="content">
+    <style>
+        .textDetail{
+            font-weight: bold;
+            font-size: 15px;
+            font-style: italic;
+        }
+    </style>
+    <div class="page-content" ng-app="nguoidung-admin" ng-controller="ctrl">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0 font-size-18">Khách Hàng</h4>
+
+                        <!-- <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">T</a></li>
+                                <li class="breadcrumb-item active">DataTables</li>
+                            </ol>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3 me-2">
+                        <div>
+                            <input class="form-control" onchange="angular.element(this).scope().getAll(0)"
+                                   placeholder="Nhập tên hoặc sđt" ng-model="keyWord">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <h3 class="text-center col-12 mt-5" ng-if="khachHang.length == 0">Không có khách hàng liên quan</h3>
+                <div class="col-xl-3 col-sm-6" ng-repeat="n in khachHang">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <img ng-if="n.anhDaiDien!=null" src="/image/loadImage/user/{{n.anhDaiDien}}" alt=""
+                                         class="avatar-lg rounded-circle img-thumbnail">
+                                    <img ng-if="n.anhDaiDien==null" src="/image/loadImage/user/default.png" alt=""
+                                         class="avatar-lg rounded-circle img-thumbnail">
+                                </div>
+                                <div class="flex-1 ms-3">
+                                    <h5 class="font-size-15 mb-1"><a href="#" class="text-dark">{{n.hoVaTen}}</a></h5>
+                                </div>
+                            </div>
+                            <div class="mt-3 pt-1">
+                                <p class="text-muted mb-0"><i
+                                        class="mdi mdi-gender-male-female font-size-16 align-middle pe-2 text-primary"></i>
+                                    {{n.gioiTinh == false ? 'Nữ' : n.gioiTinh == true ? 'Nam' : 'Không xác định'}}</p>
+                                <p class="text-muted mb-0"><i
+                                        class="mdi mdi-calendar-today font-size-16 align-middle pe-2 text-primary"></i>
+                                    {{n.ngaySinh | date:'yyyy-MM-dd'}}</p>
+                                <p class="text-muted mb-0"><i
+                                        class="mdi mdi-phone font-size-15 align-middle pe-2 text-primary"></i>
+                                    {{n.soDienThoai}}</p>
+                                <p class="text-muted mb-0 mt-2"><i
+                                        class="mdi mdi-email font-size-15 align-middle pe-2 text-primary"></i>
+                                    {{n.email}}</p>
+                            </div>
+                        </div>
+
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-light text-truncate" data-toggle="modal"
+                                    data-target="#viewUpdate11" ng-click="detail(n.username)">
+                                <i class="uil uil-user me-1"></i>Thông tin
+                            </button>
+                            <button th:if="${hasAdmin}" type="button" class="btn bg-danger btn-outline-light text-truncate text-light"
+                                    ng-click="delete(n.username)">
+                                Xóa
+                            </button>
+                        </div>
+                    </div>
+                    <!-- end card -->
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-0 align-items-center mb-4">
+            <div class="col-sm-6">
+            </div>
+            <div class="col-sm-6">
+                <div class="float-sm-end">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item" ng-click="getAll(0)" ng-if="pageNumber>0">
+                                                <span class="page-link" style="cursor: pointer" aria-label="First">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">First</span>
+                                                </span>
+                        </li>
+                        <li class="page-item" ng-if="pageNumber>0">
+                                                <span class="page-link" style="cursor: pointer" aria-label="Previous"
+                                                      ng-click="getAll(pageNumber==0 ? 0 : pageNumber-1)">
+                                                    <span><</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </span>
+                        </li>
+                        <li class="page-item pageNumber" ng-repeat="p in pageNumbers" ng-click="getAll(p)"
+                            id="{{p}}">
+                            <span ng-if="p!=pageNumber" class="page-link" style="cursor: pointer">{{p + 1}}</span>
+                            <span ng-if="p==pageNumber" class="page-link active"
+                                  style="cursor: pointer">{{p + 1}}</span>
+                        </li>
+                        <li class="page-item">
+                                                <span class="page-link" style="cursor: pointer" aria-label="Next"
+                                                      ng-if="pageNumber<totalPage-1"
+                                                      ng-click="getAll(pageNumber==totalPage.length-1 ? totalPage-1 : pageNumber+1)">
+                                                    <span>></span>
+                                                    <span class="sr-only">Next</span>
+                                                </span>
+                        </li>
+                        <li class="page-item">
+                                                <span class="page-link" style="cursor: pointer" aria-label="Last"
+                                                      ng-if="pageNumber<totalPage-1"
+                                                      ng-click="getAll(totalPage-1)">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Last</span>
+                                                </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- container-fluid -->
+        <!--    //////////////////////////////////////////////////////////////////////-->
+        <div class="modal fade" id="viewUpdate11" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chi Tiết Nhân Viên</h5>
+                        <span type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="username">Username</label>
+                            <span id="username" class="form-control">{{khachHangDetail.username}}</span>
+                        </div>
+                        <div class="mb-3">
+                            <label >Họ và tên</label>
+                            <span class="form-control">{{khachHangDetail.hoVaTen}}</span>
+                        </div>
+                        <div class=" mb-3">
+                            <label class="control-label">Giới tính</label>
+                            <span class="form-control">{{n.gioiTinh == false ? 'Nữ' : n.gioiTinh == true ? 'Nam' : 'Không xác định'}}</span>
+                        </div>
+                        <div class="mb-3">
+                            <label >Ngày sinh</label>
+                            <span class="form-control">{{khachHangDetail.ngaySinh | date:'dd-MM-yyyy'}}</span>
+                        </div>
+                        <div class="mb-3">
+                            <label >Số điện thoại</label>
+                            <span class="form-control">{{khachHangDetail.soDienThoai}}</span>
+                        </div>
+                        <div class="mb-3">
+                            <label >Email</label>
+                            <span class="form-control">{{khachHangDetail.email}}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelModal">Đóng
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- End Page-content -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script>
+                    © DMVSTORE.
+                </div>
+<!--                <div class="col-sm-6">-->
+<!--                    <div class="text-sm-end d-none d-sm-block">-->
+<!--                        Design & Develop by <a href="#!" class="text-decoration-underline">Themesbrand</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </footer>
+
+</div>
+<!-- end main content-->
+</body>
+</html>

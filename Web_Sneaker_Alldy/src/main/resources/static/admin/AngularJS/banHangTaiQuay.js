@@ -84,7 +84,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                     donGiaSauGiam: c.donGiaSauGiam
                 })
             })
-            $scope.donHangAdd.email = "baphuoc03@gmail.com"
+            $scope.donHangAdd.email = "quocthanh2929@gmail.com"
             $scope.donHangAdd.thanhPhoName = "a"
             $scope.donHangAdd.thanhPhoCode = 1
             $scope.donHangAdd.quanHuyenName = "a"

@@ -33,7 +33,7 @@ public class ChatLieuModel {
 
     @Column(name = "ngaycapnhat")
     @UpdateTimestamp
-    private Date ngayCapNhat;
+        private Date ngayCapNhat;
 
     @OneToMany(mappedBy = "chatLieu")
     @ToString.Exclude

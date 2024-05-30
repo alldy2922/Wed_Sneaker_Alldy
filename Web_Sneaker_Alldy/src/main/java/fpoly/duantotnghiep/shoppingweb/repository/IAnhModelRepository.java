@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface IAnhModelRepository  extends JpaRepository<AnhModel,Long> {
+public interface IAnhModelRepository extends JpaRepository<AnhModel,Long> {
 
     void deleteBySanPham(SanPhamModel sanPhamModel);
 

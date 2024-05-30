@@ -1,5 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DongSanPhamResponese;
+import fpoly.duantotnghiep.shoppingweb.dto.request.DongSanPhamRequest;
 import fpoly.duantotnghiep.shoppingweb.model.DongSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.ThuongHieuModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDongSanPhamRepository;

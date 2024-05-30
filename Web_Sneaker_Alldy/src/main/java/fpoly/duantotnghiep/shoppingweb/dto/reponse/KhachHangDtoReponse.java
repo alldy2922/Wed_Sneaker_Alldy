@@ -1,6 +1,5 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
-import fpoly.duantotnghiep.shoppingweb.entity.KhachHangEntity;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

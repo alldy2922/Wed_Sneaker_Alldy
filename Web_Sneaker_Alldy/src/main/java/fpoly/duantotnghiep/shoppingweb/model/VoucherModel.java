@@ -1,4 +1,4 @@
-package fpoly.duantotnghiep.shoppingweb.entity;
+package fpoly.duantotnghiep.shoppingweb.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 @Table(name = "voucher")
-public class VoucherEntity {
+public class VoucherModel {
     @Id
     private String ma;
 

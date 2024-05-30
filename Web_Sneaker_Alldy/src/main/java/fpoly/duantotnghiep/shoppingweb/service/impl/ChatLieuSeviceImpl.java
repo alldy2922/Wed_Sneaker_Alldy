@@ -2,13 +2,14 @@ package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.model.ChatLieuModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IChatLieuRepository;
+import fpoly.duantotnghiep.shoppingweb.service.security.IChatLieuSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
-public class ChatLieuSeviceImpl implements IChatLieuService {
+public class ChatLieuSeviceImpl implements IChatLieuSevice {
     @Autowired
     private IChatLieuRepository chatLieuRepository;
 

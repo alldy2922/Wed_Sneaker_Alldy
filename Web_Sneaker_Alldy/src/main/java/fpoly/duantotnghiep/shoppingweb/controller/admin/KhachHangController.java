@@ -1,6 +1,5 @@
 package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
-import fpoly.duantotnghiep.shoppingweb.service.KhachHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.KhachHangServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;

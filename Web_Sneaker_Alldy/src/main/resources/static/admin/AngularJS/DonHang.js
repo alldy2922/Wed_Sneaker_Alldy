@@ -34,7 +34,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         $scope.chiTietDonHang.forEach(c => total += (c.donGiaSauGiam * c.soLuong))
         return total
     }
-    ///////////////////////
+    /////////////////////// 
     $scope.getSanPham = function () {
         $http.get("/admin/san-pham/1/get-all-ctsp").then(r => {
             $scope.sanPham = r.data

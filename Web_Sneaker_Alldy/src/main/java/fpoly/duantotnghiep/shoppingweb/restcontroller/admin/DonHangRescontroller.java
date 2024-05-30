@@ -33,7 +33,7 @@ import java.text.NumberFormat;
 import java.util.*;
 
 @RestController("don-hang-restCtrl-admin")
-@RequestMapping("${admin.domain}/don-ang")
+@RequestMapping("${admin.domain}/don-hang")
 public class DonHangRescontroller {
     @Autowired
     private IDonHangService donHangService;
@@ -199,4 +199,6 @@ public class DonHangRescontroller {
 
         return code.toString();
     }
+
+
 }

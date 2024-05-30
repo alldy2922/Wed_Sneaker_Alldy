@@ -29,7 +29,7 @@ app.controller("thongTinNhanVien-ctrl", function ($scope, $http) {
     }).catch(e => console.log(e))
 
     $scope.update = function () {
-        alertify.confirm("Đổi mật khẩu?", function () {
+        alertify.confirm("Đổi thông tin?", function () {
             let anhDaiDien = document.getElementById("pro-image").files.length == 0 ? null : document.getElementById("pro-image").files[0];
             let formData = new FormData();
             if($scope.user.gioiTinh == undefined) $scope.user.gioiTinh = null;

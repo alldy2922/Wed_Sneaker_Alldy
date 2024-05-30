@@ -1,12 +1,17 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.NhanVienDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SizeDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhachHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.DiaChiModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
+import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
 import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
+import fpoly.duantotnghiep.shoppingweb.util.RandomUtil;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

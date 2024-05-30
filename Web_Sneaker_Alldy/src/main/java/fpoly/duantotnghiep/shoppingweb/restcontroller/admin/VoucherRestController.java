@@ -3,6 +3,7 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 import fpoly.duantotnghiep.shoppingweb.ResponseEntity.ResponseObject;
 import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.validation.Valid;

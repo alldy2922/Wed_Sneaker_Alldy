@@ -1,7 +1,10 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.GioHangDtoReponse;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.GioHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

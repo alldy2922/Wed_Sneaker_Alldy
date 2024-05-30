@@ -2,6 +2,9 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
+import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
+import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
 import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
 //import fpoly.duantotnghiep.shoppingweb.util.SocketUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("${admin.domain}/san-pham")

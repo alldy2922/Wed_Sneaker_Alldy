@@ -9,6 +9,7 @@ import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;

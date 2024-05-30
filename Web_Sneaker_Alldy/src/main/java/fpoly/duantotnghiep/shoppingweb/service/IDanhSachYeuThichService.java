@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DanhSachYeuThichResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DanhSachYeuThichRequest;
+import fpoly.duantotnghiep.shoppingweb.model.DanhSachYeuThichModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 

@@ -3,6 +3,7 @@ package fpoly.duantotnghiep.shoppingweb.repository;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DanhSachYeuThichResponse;
 import fpoly.duantotnghiep.shoppingweb.model.DanhSachYeuThichModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.KhuyenMaiModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

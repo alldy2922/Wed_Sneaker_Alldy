@@ -1,10 +1,17 @@
 package fpoly.duantotnghiep.shoppingweb.entitymanager;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.thongKe.SanPhamBanChayDto;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.stream.Collectors;
 

@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.*;
+import jakarta.persistence.Entity;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 

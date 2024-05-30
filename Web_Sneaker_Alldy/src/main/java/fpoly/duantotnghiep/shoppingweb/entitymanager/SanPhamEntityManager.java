@@ -1,14 +1,19 @@
 package fpoly.duantotnghiep.shoppingweb.entitymanager;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.thongKe.SanPhamBanChayDto;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.DongSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDongSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
+import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
+import fpoly.duantotnghiep.shoppingweb.service.impl.SanPhamServiceImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.Tuple;
@@ -21,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component

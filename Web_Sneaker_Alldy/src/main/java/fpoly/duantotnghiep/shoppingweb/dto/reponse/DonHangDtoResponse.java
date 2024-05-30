@@ -1,6 +1,11 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 import java.math.BigDecimal;

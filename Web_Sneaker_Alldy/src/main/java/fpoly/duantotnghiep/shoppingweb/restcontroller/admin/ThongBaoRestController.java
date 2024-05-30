@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.repository.IThongBaoNhanRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IThongBaoNhanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

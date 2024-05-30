@@ -8,8 +8,10 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
+import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
 import fpoly.duantotnghiep.shoppingweb.util.RemoveAccent;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.awt.*;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 @NoArgsConstructor
@@ -32,7 +35,7 @@ public class PdfService {
         cell.setBackgroundColor(Color.white);
         cell.setPadding(7);
 
-        Font font = FontFactory.getFont(FontFactory.HELVETICA);
+        com.lowagie.text.Font font = FontFactory.getFont(FontFactory.HELVETICA);
         font.setColor(Color.BLACK);
 
         cell.setPhrase(new Phrase("STT", font));

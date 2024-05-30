@@ -6,6 +6,8 @@ import fpoly.duantotnghiep.shoppingweb.repository.INhanVienRepository;
 import fpoly.duantotnghiep.shoppingweb.service.INhanVienService;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("${admin.domain}/doi-mat-khau")

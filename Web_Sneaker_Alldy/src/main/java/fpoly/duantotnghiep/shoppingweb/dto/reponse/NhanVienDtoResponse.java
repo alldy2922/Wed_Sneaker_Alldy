@@ -1,11 +1,13 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Base64;
 
 @Data
 @NoArgsConstructor

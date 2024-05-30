@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.List;
+
+
 public interface INhanXetRepository extends JpaRepository<NhanXetModel,String> {
     @Query("""
     SELECT n FROM NhanXetModel n 

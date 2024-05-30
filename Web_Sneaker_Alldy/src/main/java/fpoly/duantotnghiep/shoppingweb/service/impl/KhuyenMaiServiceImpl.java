@@ -2,9 +2,14 @@ package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.filter.KhuyenMaiDTOFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhuyenMaiResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhuyenMaiRequest;
+import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.KhuyenMaiEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.KhuyenMaiModel;
+import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
+import fpoly.duantotnghiep.shoppingweb.model.VoucherModel;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.KhuyenMaiRepository;
 import fpoly.duantotnghiep.shoppingweb.service.KhuyenMaiService;
@@ -14,6 +19,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class KhuyenMaiServiceImpl implements KhuyenMaiService {

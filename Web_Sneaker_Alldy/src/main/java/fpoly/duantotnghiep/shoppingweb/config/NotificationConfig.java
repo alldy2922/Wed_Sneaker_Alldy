@@ -1,4 +1,4 @@
-package fpoly.duantotnghiep.shoppingweb.config;//package fpoly.duantotnghiep.shoppingweb.config;
+//package fpoly.duantotnghiep.shoppingweb.config;
 //
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.messaging.simp.config.MessageBrokerRegistry;

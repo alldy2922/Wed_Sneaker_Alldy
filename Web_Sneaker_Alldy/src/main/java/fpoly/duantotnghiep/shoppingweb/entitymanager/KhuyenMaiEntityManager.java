@@ -1,7 +1,9 @@
 package fpoly.duantotnghiep.shoppingweb.entitymanager;
 
 import fpoly.duantotnghiep.shoppingweb.dto.filter.KhuyenMaiDTOFilter;
+import fpoly.duantotnghiep.shoppingweb.dto.filter.VoucherDTOFiler;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhuyenMaiResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.model.KhuyenMaiModel;
 import fpoly.duantotnghiep.shoppingweb.repository.KhuyenMaiRepository;
 import jakarta.persistence.EntityManager;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Component

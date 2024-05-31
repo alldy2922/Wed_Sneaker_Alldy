@@ -1,7 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.service.seucrity;
 
 import fpoly.duantotnghiep.shoppingweb.config.security.AdminUser;
-import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import fpoly.duantotnghiep.shoppingweb.repository.INhanVienRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

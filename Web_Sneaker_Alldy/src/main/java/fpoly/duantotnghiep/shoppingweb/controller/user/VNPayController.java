@@ -1,9 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.controller.user;
 
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
-import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
-import fpoly.duantotnghiep.shoppingweb.service.impl.ChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.DonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VnPayServiceImpl;
 import jakarta.mail.MessagingException;
@@ -13,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class VNPayController {

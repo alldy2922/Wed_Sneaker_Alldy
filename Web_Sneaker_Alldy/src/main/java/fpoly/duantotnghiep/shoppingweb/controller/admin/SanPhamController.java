@@ -2,8 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.*;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
-import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
-import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
+
 import fpoly.duantotnghiep.shoppingweb.service.*;
 import fpoly.duantotnghiep.shoppingweb.service.impl.AnhServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;

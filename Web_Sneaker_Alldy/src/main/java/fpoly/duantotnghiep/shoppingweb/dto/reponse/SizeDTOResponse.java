@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
+
 import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -8,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

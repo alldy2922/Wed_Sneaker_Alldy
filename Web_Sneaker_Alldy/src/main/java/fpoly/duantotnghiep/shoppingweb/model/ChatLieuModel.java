@@ -8,9 +8,9 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
+import java.util.List;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -33,7 +33,7 @@ public class ChatLieuModel {
 
     @Column(name = "ngaycapnhat")
     @UpdateTimestamp
-    private Date ngayCapNhat;
+        private Date ngayCapNhat;
 
     @OneToMany(mappedBy = "chatLieu")
     @ToString.Exclude

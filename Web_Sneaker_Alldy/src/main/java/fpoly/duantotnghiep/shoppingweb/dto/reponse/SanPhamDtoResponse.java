@@ -1,13 +1,17 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
+import fpoly.duantotnghiep.shoppingweb.model.AnhModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Comparator;
+import java.util.List;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -50,10 +54,10 @@ public class SanPhamDtoResponse {
         ngayCapNhat = model.getNgayCapNhat();
         hienThi = model.getHienThi();
         if(model.getImages() != null)
-            anh = model.getImages().stream()
+        anh = model.getImages().stream()
 //                .sorted(Comparator.comparing(AnhModel::getId))
-                    .map(img -> img.getTen())
-                    .collect(Collectors.toList());
+                .map(img -> img.getTen())
+                .collect(Collectors.toList());
 
         soLuong = model.getSoLuongSanPham();
 

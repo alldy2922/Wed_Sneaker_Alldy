@@ -31,5 +31,4 @@ public class DongSanPhamRequest {
         model.setNgayCapNhat(ngayCapNhat);
         return model;
     }
-
 }

@@ -1,8 +1,8 @@
 package fpoly.duantotnghiep.shoppingweb.repository;
 
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
+
 import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
-import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

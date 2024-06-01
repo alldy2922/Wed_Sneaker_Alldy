@@ -1,4 +1,8 @@
 package fpoly.duantotnghiep.shoppingweb.model;
+<<<<<<< HEAD
+=======
+
+>>>>>>> eac474d71b53808626d26d5c9cc2ffed84c9f1b4
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +16,10 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "nhanvien")
 public class NhanVienModel {
+<<<<<<< HEAD
 
+=======
+>>>>>>> eac474d71b53808626d26d5c9cc2ffed84c9f1b4
     @Id
     @Column(name = "username")
     private String username;

@@ -1,4 +1,8 @@
 package fpoly.duantotnghiep.shoppingweb.model;
+<<<<<<< HEAD
+=======
+
+>>>>>>> eac474d71b53808626d26d5c9cc2ffed84c9f1b4
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

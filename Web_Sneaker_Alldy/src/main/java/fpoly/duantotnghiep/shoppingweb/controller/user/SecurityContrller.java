@@ -1,4 +1,4 @@
-package com.example.shoppingweb.controller.user;
+package fpoly.duantotnghiep.shoppingweb.controller.user;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;

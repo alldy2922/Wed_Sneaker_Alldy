@@ -1,12 +1,11 @@
-package com.example.shoppingweb.dto.reponse;
+package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
-import com.example.shoppingweb.model.NhanVienModel;
+import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Base64;
 
 @Data
 @NoArgsConstructor

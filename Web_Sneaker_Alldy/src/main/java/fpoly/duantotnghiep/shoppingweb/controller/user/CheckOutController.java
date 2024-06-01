@@ -1,4 +1,4 @@
-package com.example.shoppingweb.controller.user;
+package fpoly.duantotnghiep.shoppingweb.controller.user;
 
 import com.example.shoppingweb.service.impl.GioHangServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

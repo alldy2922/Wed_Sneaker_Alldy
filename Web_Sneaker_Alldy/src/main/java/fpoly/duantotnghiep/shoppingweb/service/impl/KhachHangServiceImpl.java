@@ -2,7 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
-import fpoly.duantotnghiep.shoppingweb.service.security.IKhachHangService;
+import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

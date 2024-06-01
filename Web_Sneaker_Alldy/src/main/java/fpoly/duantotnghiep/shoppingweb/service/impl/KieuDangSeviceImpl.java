@@ -4,7 +4,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKieuDangRepository;
-import fpoly.duantotnghiep.shoppingweb.service.security.IKieuDangSevice;
+import fpoly.duantotnghiep.shoppingweb.service.IKieuDangSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

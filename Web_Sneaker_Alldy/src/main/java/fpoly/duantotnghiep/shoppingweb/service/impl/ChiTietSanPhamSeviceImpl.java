@@ -3,7 +3,7 @@ package fpoly.duantotnghiep.shoppingweb.service.impl;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietSanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
-import fpoly.duantotnghiep.shoppingweb.service.security.IChiTietSanPhamSevice;
+import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamSevice;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietSanPhamRepository;

@@ -1,4 +1,4 @@
-//package fpoly.duantotnghiep.shoppingweb.controller.user;
+package fpoly.duantotnghiep.shoppingweb.controller.user;//package fpoly.duantotnghiep.shoppingweb.controller.user;
 //
 //import org.springframework.stereotype.Controller;
 //import org.springframework.web.bind.annotation.GetMapping;

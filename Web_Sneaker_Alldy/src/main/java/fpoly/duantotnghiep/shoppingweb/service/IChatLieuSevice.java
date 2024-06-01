@@ -1,4 +1,4 @@
-package fpoly.duantotnghiep.shoppingweb.service.security;
+package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChatLieuDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChatLieuDTORequest;

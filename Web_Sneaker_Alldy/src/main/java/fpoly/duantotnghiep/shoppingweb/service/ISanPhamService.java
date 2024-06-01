@@ -1,4 +1,4 @@
-package fpoly.duantotnghiep.shoppingweb.service.security;
+package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import org.springframework.data.domain.Page;

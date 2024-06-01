@@ -4,9 +4,8 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.XuatXuResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.XuatXuRequest;
 import fpoly.duantotnghiep.shoppingweb.model.XuatXuModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IXuatXuRepository;
-import fpoly.duantotnghiep.shoppingweb.service.security.IXuatXuSevice;
+import fpoly.duantotnghiep.shoppingweb.service.IXuatXuSevice;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;

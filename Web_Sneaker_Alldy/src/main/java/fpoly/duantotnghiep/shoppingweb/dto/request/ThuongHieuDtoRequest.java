@@ -1,6 +1,5 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
-import fpoly.duantotnghiep.shoppingweb.model.MauSacModel;
 import fpoly.duantotnghiep.shoppingweb.model.ThuongHieuModel;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

@@ -3,7 +3,6 @@ package fpoly.duantotnghiep.shoppingweb.dto.request;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
-import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,11 +1,9 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
-import fpoly.duantotnghiep.shoppingweb.model.DongSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietDonHangRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietDonHangService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import fpoly.duantotnghiep.shoppingweb.enumtype.KhuyenMaiType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +9,6 @@ import lombok.ToString;
 import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 

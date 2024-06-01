@@ -88,11 +88,11 @@ public class ChiTietSanPhamSeviceImpl implements IChiTietSanPhamSevice{
     @Override
     public void delete(String id) {
         ChiTietSanPhamModel model = chiTietSanPhamRepository.findById(id).get();
-        if (model.kiemTraCoTrongDonHang()) {
-            chiTietSanPhamRepository.updateTrangThai(false, model.getId());
-        } else {
-            chiTietSanPhamRepository.deleteById(id);
-        }
+//        if (model.kiemTraCoTrongDonHang()) {
+//            chiTietSanPhamRepository.updateTrangThai(false, model.getId());
+//        } else {
+//            chiTietSanPhamRepository.deleteById(id);
+//        }
     }
 
     @Override

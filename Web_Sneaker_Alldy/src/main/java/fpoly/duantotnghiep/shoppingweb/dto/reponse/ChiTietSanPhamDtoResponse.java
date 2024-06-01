@@ -5,9 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class ChiTietSanPhamDtoResponse {
     private String id;
     private String sanPham;
@@ -15,10 +15,12 @@ public class ChiTietSanPhamDtoResponse {
     private Long soLuong;
     private SanPhamDtoResponse sanPhamDTO;
 
+
+
     public ChiTietSanPhamDtoResponse(ChiTietSanPhamModel model) {
         id = model.getId();
         sanPham = model.getSanPham().getTen();
-        size = model.getSize() == null ? 0 : model.getSize().getMa();
+//        size = model.getSize() == null ? 0 : model.getSize().getMa();
         soLuong = model.getSoLuong();
         sanPhamDTO = new SanPhamDtoResponse(model.getSanPham());
     }

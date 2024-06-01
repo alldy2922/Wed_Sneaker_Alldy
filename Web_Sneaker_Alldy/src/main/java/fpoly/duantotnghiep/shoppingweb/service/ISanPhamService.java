@@ -1,5 +1,12 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
+<<<<<<< HEAD
+=======
+
+import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
+>>>>>>> c147c504a5348021019527ed5e618ccbf3043942
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

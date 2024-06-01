@@ -1,8 +1,17 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+<<<<<<< HEAD:Web_Sneaker_Alldy/src/main/java/fpoly/duantotnghiep/shoppingweb/service/impl/ThuongHieuSeviceImpl.java
+=======
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ThuongHieuDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.ThuongHieuDtoRequest;
+>>>>>>> c147c504a5348021019527ed5e618ccbf3043942:Web_Sneaker_Alldy/src/main/java/fpoly/duantotnghiep/shoppingweb/service/impl/ThuongHieuService.java
 import fpoly.duantotnghiep.shoppingweb.model.ThuongHieuModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IThuongHieuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD:Web_Sneaker_Alldy/src/main/java/fpoly/duantotnghiep/shoppingweb/service/impl/ThuongHieuSeviceImpl.java
+=======
+import org.springframework.stereotype.Service;
+>>>>>>> c147c504a5348021019527ed5e618ccbf3043942:Web_Sneaker_Alldy/src/main/java/fpoly/duantotnghiep/shoppingweb/service/impl/ThuongHieuService.java
 
 import java.util.List;
 import java.util.stream.Collectors;

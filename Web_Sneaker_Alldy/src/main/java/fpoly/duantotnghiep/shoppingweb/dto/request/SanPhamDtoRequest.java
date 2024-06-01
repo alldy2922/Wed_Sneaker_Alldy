@@ -1,6 +1,10 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
+<<<<<<< HEAD
 import fpoly.duantotnghiep.shoppingweb.model.*;
+=======
+import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
+>>>>>>> c147c504a5348021019527ed5e618ccbf3043942
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,10 +13,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+=======
+import java.util.*;
+>>>>>>> c147c504a5348021019527ed5e618ccbf3043942
 import java.util.stream.Collectors;
 
 @AllArgsConstructor

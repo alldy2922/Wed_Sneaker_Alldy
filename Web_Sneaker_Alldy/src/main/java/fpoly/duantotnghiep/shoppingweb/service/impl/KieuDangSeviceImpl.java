@@ -1,7 +1,11 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
+<<<<<<< HEAD:Web_Sneaker_Alldy/src/main/java/fpoly/duantotnghiep/shoppingweb/service/impl/KieuDangSeviceImpl.java
 import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDTORequest;
+=======
+import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDtoRequest;
+>>>>>>> c147c504a5348021019527ed5e618ccbf3043942:Web_Sneaker_Alldy/src/main/java/fpoly/duantotnghiep/shoppingweb/service/impl/KieuDangService.java
 import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKieuDangRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IKieuDangSevice;

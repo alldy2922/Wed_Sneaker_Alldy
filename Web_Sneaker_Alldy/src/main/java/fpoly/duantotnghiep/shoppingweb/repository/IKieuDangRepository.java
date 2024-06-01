@@ -1,6 +1,13 @@
 package fpoly.duantotnghiep.shoppingweb.repository;
 
+<<<<<<< HEAD
 import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
+=======
+import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
+
+import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
+import org.hibernate.validator.constraints.pl.REGON;
+>>>>>>> c147c504a5348021019527ed5e618ccbf3043942
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

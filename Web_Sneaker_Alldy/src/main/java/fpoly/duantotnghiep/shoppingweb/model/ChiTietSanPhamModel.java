@@ -48,6 +48,7 @@ public class ChiTietSanPhamModel {
     @Column(name = "ngaycapnhap")
     @UpdateTimestamp
     private Date ngayCapNhat;
+<<<<<<< HEAD
 
     @OneToMany(mappedBy = "chiTietSanPham",fetch = FetchType.EAGER)
     private List<ChiTietSanPhamModel> chiTietDonHangList;
@@ -59,4 +60,18 @@ public class ChiTietSanPhamModel {
         if(chiTietDonHangList.size()==0)return false;
         else return true;
     }
+=======
+//
+//    @OneToMany(mappedBy = "chiTietSanPham",fetch = FetchType.EAGER)
+//    private List<ChiTietDonHangModel> chiTietDonHangList;
+//
+//    public ChiTietSanPhamModel(String sanPham) {
+//    }
+//
+//    public Boolean kiemTraCoTrongDonHang(){
+//        if(chiTietDonHangList.size()==0)return false;
+//        else return true;
+//    }
+
+>>>>>>> c147c504a5348021019527ed5e618ccbf3043942
 }

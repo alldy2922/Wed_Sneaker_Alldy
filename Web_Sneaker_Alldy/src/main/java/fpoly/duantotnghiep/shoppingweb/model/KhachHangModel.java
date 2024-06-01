@@ -1,23 +1,12 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.time.LocalDate;
 import java.util.List;
-
-import lombok.ToString;
-import org.hibernate.annotations.UuidGenerator;
-
-import java.util.List;
-import java.time.LocalDate;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -25,7 +14,6 @@ import java.util.Set;
 @Entity
 @Table(name = "khachhang")
 public class KhachHangModel {
-
     @Id
     @Column(name = "username")
     private String username;
@@ -51,19 +39,9 @@ public class KhachHangModel {
     @Column(name = "anhdaidien")
     private String anhDaiDien;
 
-
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    @JoinTable(name = "voucherkhachhang",
 //            joinColumns = {@JoinColumn(name = "khachhang")},
 //            inverseJoinColumns = {@JoinColumn(name = "voucher")})
 //    private List<VoucherModel> voucher;
-
-    @OneToMany(mappedBy = "taiKhoan", fetch = FetchType.LAZY)
-    @ToString.Exclude
-    private List<DiaChiModel> danhSachDiaChi;
-
-    @OneToMany(mappedBy = "nguoiSoHuu", fetch = FetchType.LAZY)
-    @ToString.Exclude
-    @JsonBackReference
-    private List<DonHangModel> danhSachDonHang;
 }

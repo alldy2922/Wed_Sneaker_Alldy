@@ -34,5 +34,4 @@ public class SizeModel {
     @Column(name = "ngaycapnhat")
     @UpdateTimestamp
     private Date ngayCapNhat;
-
 }

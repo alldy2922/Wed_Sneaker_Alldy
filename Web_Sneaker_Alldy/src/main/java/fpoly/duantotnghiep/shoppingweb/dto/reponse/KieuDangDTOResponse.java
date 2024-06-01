@@ -1,16 +1,15 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
 import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+
 public class KieuDangDTOResponse {
     private String id;
     private String ten;

@@ -1,6 +1,8 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +21,6 @@ import java.util.List;
 @ToString
 @Table(name = "chitietsanpham")
 public class ChiTietSanPhamModel {
-
     @Id
     @UuidGenerator
     @Column(name = "id")
@@ -49,7 +50,7 @@ public class ChiTietSanPhamModel {
     private Date ngayCapNhat;
 
     @OneToMany(mappedBy = "chiTietSanPham",fetch = FetchType.EAGER)
-    private List<ChiTietDonHangModel> chiTietDonHangList;
+    private List<ChiTietSanPhamModel> chiTietDonHangList;
 
     public ChiTietSanPhamModel(String sanPham) {
     }
@@ -58,5 +59,4 @@ public class ChiTietSanPhamModel {
         if(chiTietDonHangList.size()==0)return false;
         else return true;
     }
-
 }

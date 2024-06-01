@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -22,5 +21,4 @@ public class ChatLieuDTOResponse {
         ngayTao = model.getNgayTao();
         ngayCapNhat = model.getNgayCapNhat();
     }
-
 }

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ChiTietSanPhamDtoResponse {
-
     private String id;
     private String sanPham;
     private Float size;

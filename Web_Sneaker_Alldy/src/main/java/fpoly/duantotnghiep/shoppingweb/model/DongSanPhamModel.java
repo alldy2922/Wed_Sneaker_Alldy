@@ -11,13 +11,13 @@ import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Date;
 import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @ToString
 @Table(name = "dongsanpham")
+
 public class DongSanPhamModel {
     @Id
     @UuidGenerator

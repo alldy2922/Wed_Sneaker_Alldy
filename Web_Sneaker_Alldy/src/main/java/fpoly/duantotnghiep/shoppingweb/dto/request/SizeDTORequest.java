@@ -1,12 +1,13 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
-
 @Data
 @AllArgsConstructor
 @NotNull

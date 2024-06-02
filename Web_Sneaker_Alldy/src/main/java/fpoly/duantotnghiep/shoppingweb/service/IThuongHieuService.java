@@ -1,8 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ThuongHieuDtoResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ThuongHieuDtoRequest;
 
 import java.util.List;

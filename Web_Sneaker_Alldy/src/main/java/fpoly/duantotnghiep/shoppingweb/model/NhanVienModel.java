@@ -1,15 +1,10 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
-import fpoly.duantotnghiep.shoppingweb.service.impl.TokenServiceImpl;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.Formula;
-import org.hibernate.annotations.JoinColumnOrFormula;
-import org.hibernate.annotations.JoinColumnsOrFormulas;
-import org.hibernate.annotations.JoinFormula;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -2,8 +2,6 @@ package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.*;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
-import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
-import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
 import fpoly.duantotnghiep.shoppingweb.service.*;
 import fpoly.duantotnghiep.shoppingweb.service.impl.AnhServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,9 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;

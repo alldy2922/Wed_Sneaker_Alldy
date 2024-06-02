@@ -2,6 +2,8 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhachHangDTORequest;
+import fpoly.duantotnghiep.shoppingweb.dto.request.VoucherRequest;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
@@ -14,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,10 +27,7 @@ public class KhachHangRestcontroller {
     @Autowired
     private IKhachHangService taiKhoanService;
 
-    @GetMapping("/khach-hang-voucher")
-    public List<KhachHangDtoResponse> findAllKhach(@RequestParam(name = "dieuKien", defaultValue = "3", required = false) int dieuKien) {
-        return taiKhoanService.khachHangVoucher(dieuKien);
-    }
+
 
     @GetMapping("get-all-khach-hang")
     public ResponseEntity<Page<KhachHangDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0") Integer page,
@@ -37,14 +37,6 @@ public class KhachHangRestcontroller {
             return ResponseEntity.ok(taiKhoanService.search(keyWord, page, limit));
         }
         return ResponseEntity.ok(taiKhoanService.getAll(page, limit));
-    }
-
-    @GetMapping("detail/{id}")
-    public ResponseEntity<KhachHangDtoResponse> getById(@PathVariable("id") String id) {
-        if (taiKhoanService.findById(id) == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(taiKhoanService.findById(id));
     }
 
     @PostMapping("")
@@ -70,4 +62,11 @@ public class KhachHangRestcontroller {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("detail/{id}")
+    public ResponseEntity<KhachHangDtoResponse> getById(@PathVariable("id") String id) {
+        if (taiKhoanService.findById(id) == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(taiKhoanService.findById(id));
+    }
 }

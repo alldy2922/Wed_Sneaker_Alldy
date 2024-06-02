@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/admin/index}">
 <head>
-    <title>DMV STORE | Bán Hàng</title>
+    <title>ALLDY SNAEKER | Bán Hàng</title>
 </head>
 <body>
 
@@ -271,9 +271,9 @@
                                                             ng-click="hoanThanh.getDetail(d.ma)">
                                                             {{d.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}
                                                         </td>
-<!--                                                        <td>-->
-<!--                                                            <a href="/export/don-hang/{{d.ma}}" class="btn btn-primary">In hóa đơn</a>-->
-<!--                                                        </td>-->
+                                                        <td>
+                                                            <a href="/export/don-hang/{{d.ma}}" class="btn btn-primary">In hóa đơn</a>
+                                                        </td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -541,7 +541,7 @@
                                             <label>Phương thức thanh toán</label>
                                             <select class="form-control" ng-model="chuaXacNhan.detail.phuongThucThanhToan">
                                                 <option value="true">Tiền mặt</option>
-<!--                                                <option value="false">Thanh toán VNPAY</option>-->
+                                                <option value="false">Thanh toán VNPAY</option>
                                             </select>
                                         </div>
                                     </div>
@@ -763,7 +763,7 @@
                                             <label>Phương thức thanh toán</label>
                                             <select class="form-control" ng-model="donHangAdd.phuongThucThanhToan">
                                                 <option value="0">Tiền mặt</option>
-<!--                                                <option value="1">Thanh toán VNPAY</option>-->
+                                                <option value="1">Thanh toán VNPAY</option>
                                             </select>
                                         </div>
                                     </div>

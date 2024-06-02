@@ -1,14 +1,19 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.MauSacDTOResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.MauSacDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.MauSacModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IMauSacRepository;
+import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IMauSacService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service

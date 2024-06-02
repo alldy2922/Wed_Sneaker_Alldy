@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/index}">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <title>ALLDY SNEAKER | Dòng sản phẩm</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
+    <meta content="Themesbrand" name="author"/>
+
+</head>
+
+<body data-topbar="dark">
+
+<!-- <body data-layout="horizontal"> -->
+
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content" layout:fragment="content">
+    <div ng-app="dong-san-pham" ng-controller="dong-san-pham-ctrl">
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0 font-size-18">Dòng Sản Phẩm</h4>
+
+                        <!-- <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">T</a></li>
+                                <li class="breadcrumb-item active">DataTables</li>
+                            </ol>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#dongSPModal">
+                                        Thêm Dòng Sản Phẩm
+                                    </button>
+                                </div>
+                                <div class="col-6 nav justify-content-end ">
+<!--                                    <form action="" class="d-flex">-->
+<!--                                        <input class="form-control me-2" name="name" type="text"-->
+<!--                                               placeholder="Search">-->
+<!--                                        <button class="btn btn-primary" type="submit">Search</button>-->
+<!--                                    </form>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table id="datatable"
+                                   class="table table-striped table-hover dt-responsive  nowrap w-100">
+                                <thead>
+                                <tr>
+                                    <th>Tên Dòng</th>
+                                    <th>Thương Hiệu</th>
+                                    <th>Ngày Tạo</th>
+                                    <th>Ngày Cập Nhật</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+
+
+                                <tbody>
+                                <tr ng-repeat="d in items">
+                                    <td>{{d.ten}}</td>
+                                    <td>{{d.thuongHieu}}</td>
+                                    <td>{{d.ngayTao | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td>{{d.ngayCapNhat | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td>
+                                        <button data-bs-toggle="modal"
+                                                data-bs-target="#update"
+                                                class="btn btn-primary"
+                                                ng-click="getDongSanPham(d.id)"
+                                        >Cập nhật
+                                        </button>
+                                        <button class="btn btn-danger" ng-click="delete(d.id)">Xóa</button>
+                                    </td>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-6">
+
+                                </div>
+                                <div class="col-6">
+<!--                                    <nav aria-label="Page navigation example">-->
+<!--                                        <ul class="pagination justify-content-end">-->
+<!--                                            <li class="page-item">-->
+<!--                                                <a class="page-link" href="#" aria-label="Previous">-->
+<!--                                                    <span aria-hidden="true">&laquo;</span>-->
+<!--                                                    <span class="sr-only">Previous</span>-->
+<!--                                                </a>-->
+<!--                                            </li>-->
+<!--                                            <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--                                            <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--                                            <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--                                            <li class="page-item">-->
+<!--                                                <a class="page-link" href="#" aria-label="Next">-->
+<!--                                                    <span aria-hidden="true">&raquo;</span>-->
+<!--                                                    <span class="sr-only">Next</span>-->
+<!--                                                </a>-->
+<!--                                            </li>-->
+<!--                                        </ul>-->
+<!--                                    </nav>-->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row -->
+        </div>
+
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script>
+                    © ALLDY SNEAKER.
+                </div>
+<!--                <div class="col-sm-6">-->
+<!--                    <div class="text-sm-end d-none d-sm-block">-->
+<!--                        Design & Develop by <a href="#!" class="text-decoration-underline">Themesbrand</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </footer>
+    <!--    modal mau-->
+    <div class="modal" id="dongSPModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Thêm dòng sản phẩm</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+
+                        <select class="form-select" ng-model="thuongHieu"  data-placeholder="Chọn thương hiệu"  onchange="document.getElementById('erAddDongSP').innerText = ''">
+                            <option ng-repeat="s in thuongHieus" value="{{s.id}}" style="border-bottom: 1px" >{{s.ten}}</option>
+                        </select>
+                        <i id="erAddDongSP" class="er"></i>
+                        <div class="mb-3">
+                            <label class="form-label">Tên dòng sản phẩm</label>
+                            <input type="text" class="form-control" ng-model="ten" onfocus="document.getElementById('eTenDong').innerText = ''">
+                            <i id="eTenDong" class="er"></i>
+                            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" ng-click="create()">Thêm</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+        <div class="modal" id="update">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Cập nhật</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Mã</label>
+                                <input type="text" ng-model="id" class="form-control" readonly>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                            <select class="form-select" ng-model="thuongHieu"  data-placeholder="Chọn thương hiệu"  >
+                                <option ng-repeat="s in thuongHieus" value="{{s.id}}" style="border-bottom: 1px" >{{s.ten}}</option>
+                            </select>
+                            <div class="mb-3">
+                                <label class="form-label">Tên Dòng</label>
+                                <input type="text" ng-model="ten" class="form-control" onfocus="document.getElementById('eTenDongUd').innerText = ''">
+                                <i id="eTenDongUd" class="er"></i>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" ng-click="update(id)">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+
+</html>

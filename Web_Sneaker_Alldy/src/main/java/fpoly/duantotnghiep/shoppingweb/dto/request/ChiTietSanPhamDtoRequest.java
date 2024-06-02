@@ -3,10 +3,14 @@ package fpoly.duantotnghiep.shoppingweb.dto.request;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.SizeModel;
+import jakarta.persistence.Column;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Value;
 
 @NoArgsConstructor
 @AllArgsConstructor

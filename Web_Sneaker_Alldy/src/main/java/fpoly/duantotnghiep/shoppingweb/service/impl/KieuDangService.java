@@ -1,8 +1,11 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KieuDangDTOResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.NhanVienDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ThuongHieuDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KieuDangDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.model.KieuDangModel;
+import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKieuDangRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IKieuDangService;
 import org.springframework.beans.factory.annotation.Autowired;

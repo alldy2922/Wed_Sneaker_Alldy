@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/index}">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <title>ALLDY SNEAKER | Thương Hiệu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
+    <meta content="Themesbrand" name="author"/>
+</head>
+
+<body data-topbar="dark">
+
+<!-- <body data-layout="horizontal"> -->
+
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content" layout:fragment="content">
+    <div ng-app="thuonghieu" ng-controller="thuonghieu-ctrl">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0 font-size-18">Thương Hiệu</h4>
+
+                            <!-- <div class="page-title-right">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item"><a href="javascript: void(0);">T</a></li>
+                                    <li class="breadcrumb-item active">DataTables</li>
+                                </ol>
+                            </div> -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#create">
+                                            Thêm Thương Hiệu
+                                        </button>
+                                    </div>
+                                    <div class="col-6 nav justify-content-end ">
+<!--                                        <form action="" class="d-flex">-->
+<!--                                            <input class="form-control me-2" name="name" type="text"-->
+<!--                                                   placeholder="Search">-->
+<!--                                            <button class="btn btn-primary" type="submit">Search</button>-->
+<!--                                        </form>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table id="datatable"
+                                       class="table table-striped table-hover dt-responsive  nowrap w-100">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tên</th>
+                                        <th>Ngày Tạo</th>
+                                        <th>Ngày Cập Nhật</th>
+                                        <th>Thao Tác</th>
+
+                                    </tr>
+                                    </thead>
+
+
+                                    <tbody>
+                                    <tr ng-repeat="p in itemss">
+                                        <td>{{p.id}}</td>
+                                        <td>{{p.ten}}</td>
+                                        <td>{{p.ngayTao | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>{{p.ngayCapNhat | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>
+                                            <a href="" class="edit" data-bs-toggle="modal" data-bs-target="#update"
+                                               ng-click=findById(p.id)>
+                                                <i class="material-icons" title="Edit">&#xE254;</i>
+                                            </a>
+                                            <a href="" class="edit"
+                                               ng-click=delete(p.id)
+                                            >
+                                                <i class="material-icons" title="Delete" >&#xE872;</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-6">
+
+                                    </div>
+                                    <div class="col-6">
+<!--                                        <nav aria-label="Page navigation example">-->
+<!--                                            <ul class="pagination justify-content-end">-->
+<!--                                                <li class="page-item">-->
+<!--                                                    <a class="page-link" href="#" aria-label="Previous">-->
+<!--                                                        <span aria-hidden="true">&laquo</span>-->
+<!--                                                        <span class="sr-only">Previous</span>-->
+<!--                                                    </a>-->
+<!--                                                </li>-->
+<!--                                                <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--                                                <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--                                                <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--                                                <li class="page-item">-->
+<!--                                                    <a class="page-link" href="#" aria-label="Next">-->
+<!--                                                        <span aria-hidden="true">&raquo;</span>-->
+<!--                                                        <span class="sr-only">Next</span>-->
+<!--                                                    </a>-->
+<!--                                                </li>-->
+<!--                                            </ul>-->
+<!--                                        </nav>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div> <!-- end col -->
+                </div> <!-- end row -->
+            </div>
+
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <script>document.write(new Date().getFullYear())</script>
+                        © ALLDY SNEAKER.
+                    </div>
+<!--                    <div class="col-sm-6">-->
+<!--                        <div class="text-sm-end d-none d-sm-block">-->
+<!--                            Design & Develop by <a href="#!" class="text-decoration-underline">Themesbrand</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </footer>
+        <!--    modal update-->
+        <div class="modal" id="update">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Cập nhật</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+
+                            <div class="mb-3">
+                                <label class="form-label">Mã</label>
+                                <input type="text" disabled class="form-control" ng-model="id">
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tên Thương Hiệu</label>
+                                <input type="text" class="form-control" ng-model="ten" onfocus="document.getElementById('erTenUd').innerText=''">
+                                <i id="erTenUd" class="er"></i>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" ng-click="update(id)" class="btn btn-danger">Cập nhật</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <!--    modal save-->
+        <div class="modal" id="create">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Thêm Thương Hiệu</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên Thương Hiệu</label>
+                                <input type="text" class="form-control" ng-model="ten" onfocus="document.getElementById('erTen').innerText=''">
+                                <i id="erTen" class="er"></i>
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" ng-click="create()" class="btn btn-danger">Thêm</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- end main content-->
+</body>
+
+</html>

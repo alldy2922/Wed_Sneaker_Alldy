@@ -1,4 +1,3 @@
-// Khởi tạo Module và Controller
 var app = angular.module("banhang-app", [])
 app.controller("banhang-ctrl", function ($scope, $http) {
     $scope.donHang = {}
@@ -15,7 +14,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
     $scope.khachHang = []
     $scope.erAdd = {}
 
-    // Quản lý hiển thị modal và tính tổng giá tiền đơn hàng
+
     $scope.closeModal = function (id) {
         $(id).modal('hide')
         $scope.donHang = {}
@@ -35,8 +34,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         $scope.chiTietDonHang.forEach(c => total += (c.donGiaSauGiam * c.soLuong))
         return total
     }
-
-    // Lấy danh sách sản phẩm và thêm chi tiết đơn hàng
+    ///////////////////////
     $scope.getSanPham = function () {
         $http.get("/admin/san-pham/1/get-all-ctsp").then(r => {
             $scope.sanPham = r.data
@@ -55,8 +53,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         })
         $scope.er.soLuongSP = ""
     }
-
-    // Tìm kiếm sản phẩm và kiểm tra sản phẩm trong đơn hàng
     $scope.searchSanPham = function () {
         $http.get("/admin/san-pham/1/get-all-ctsp?keyWord=" + $scope.inputProduct).then(r => {
             $scope.sanPham = r.data
@@ -72,8 +68,9 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         return result;
     }
 
-    // Tạo và xử lý đơn hàng
-    //Tạo đơn hàng mới với chi tiết đơn hàng và thông tin khách
+    ///////////////////////////////////////
+
+    ////////////////////////
     $scope.themDonHang = function (trangThai){
         alertify.confirm("Tạo đơn hàng?", function () {
             let chiTietDonHang = [];
@@ -87,7 +84,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                     donGiaSauGiam: c.donGiaSauGiam
                 })
             })
-            $scope.donHangAdd.email = "baphuoc03@gmail.com"
+            $scope.donHangAdd.email = "quocthanh2929@gmail.com"
             $scope.donHangAdd.thanhPhoName = "a"
             $scope.donHangAdd.thanhPhoCode = 1
             $scope.donHangAdd.quanHuyenName = "a"
@@ -133,8 +130,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             })
         },function (){})
     }
-
-    //Clear dữ liệu form thêm đơn hàng
     $scope.clearFormAdd=function (){
         $scope.donHangAdd = {
             phuongThucThanhToan : "0",
@@ -146,8 +141,8 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         document.getElementById("khachHangSL").value = "null"
         document.getElementById("btnAddKh").style.display = "block";
     }
-
-    // Quản lý khách hàng
+    /////////////////////////////////////////
+    ///////////////////////////////////////
     //Get Khách Hàng
     $scope.keyWordKhachHang = ""
     $scope.getAllKhachHang = function (){
@@ -156,7 +151,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         }).catch(e => console.log(e))
     }
     $scope.getAllKhachHang()
-    // Thêm khách hàng vào đơn hàng
     $scope.addKhachHangToDonHang = function (){
         let value = document.getElementById("khachHangSL").value
         if(value!='null'){
@@ -181,14 +175,13 @@ app.controller("banhang-ctrl", function ($scope, $http) {
 
         }
     }
-    //Thêm khách hàng mới vào hệ thống
     $scope.addKhachHang = function (){
         var data = {
             username: $scope.donHangAdd.soDienThoai,
             password: $scope.donHangAdd.soDienThoai,
             hoVaTen: $scope.donHangAdd.tenNguoiNhan,
             soDienThoai: $scope.donHangAdd.soDienThoai,
-            email: "baphuoc03@gmail.com"
+            email: "quocthanh2929@gmail.com"
         }
         $http.post("/admin/khach-hang",data).then(r => {
             var khachHangSL = document.getElementById("khachHangSL")
@@ -208,7 +201,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         console.log(data)
     }
 
-    // Quản lý đơn hàng chưa xác nhận
+    //////////////////////////////////////////////////////
     $scope.chuaXacNhan = {
         list: [],
         detail: {},
@@ -218,7 +211,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         id: [],
         pages: [],
         sdtSearch : "",
-        // Khởi tạo đơn hàng chưa xác nhận
         init() {
             $scope.trangThaiDonHang = 2
             $http.get("/admin/don-hang/get-by-trangthai?trangThai=5&loai=1").then(r => {
@@ -228,7 +220,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             })
 
         },
-        // Lấy danh sách các đơn hàng chưa được xác nhận
         getList(pageNumber) {
             $scope.trangThaiDonHang = 2
             this.page = pageNumber;
@@ -238,7 +229,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 this.setPageNumbers()
             })
         },
-        // Xác nhận thanh toán cho một đơn hàng cụ thể
         xacNhanDH() {
             alertify.confirm("Xác nhận thanh toán đơn hàng?", function () {
 
@@ -265,7 +255,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 alertify.error("Xác nhận thất bại")
             })
         },
-        // Xác nhận thanh toán cho nhiều đơn hàng đã chọn
         xacNhanDHAll() {
             alertify.confirm("Xác nhận đơn hàng?", function () {
                 let checkBox = document.getElementsByName('checkChuaXacNhan')
@@ -294,12 +283,10 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 alertify.error("Xác nhận thất bại")
             })
         },
-        //Set ID các đơn hàng đã chọn
         setIdDonHang(id) {
             this.id = []
             this.id.push(id)
         },
-        //Set ID tất cả đơn hàng đã chọn
         setAllIdDonHang() {
             this.id = []
             let checkBox = document.getElementsByName('checkChuaXacNhan')
@@ -309,7 +296,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 }
             })
         },
-        //Huỷ các đơn hàng đã chọn
         huyDH() {
 
             if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
@@ -343,7 +329,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 console.log(e)
             })
         },
-        //Get Chi tiết 1 đơn hàng cụ thể
         getDetail(ma) {
             $http.get("/admin/don-hang/" + ma).then(r => {
                 this.detail = r.data;
@@ -354,7 +339,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 $scope.chiTietDonHang = r.data;
             }).catch(e => console.log(e))
         },
-        // Cập nhật một đơn hàng cụ thể
         capNhat() {
             alertify.confirm("Cập nhật đơn hàng?", function () {
                 let data = {
@@ -415,7 +399,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             })
 
         },
-        // Phân trang
         setPageNumbers() {
             let numbers = [];
             let i = this.page
@@ -436,7 +419,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             }
             this.pages = numbers;
         },
-        // Cập nhật số lượng của sản phẩm trong đơn hàng
         updateSoLuong(idCTSP, soLuong) {
             let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)
             let chiTietDonHang = $scope.chiTietDonHang[index]
@@ -456,7 +438,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
 
 
         },
-        // Giảm số lượng sản phẩm trong đơn hàng
         subtractSoLuong(idCTSP) {
             let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)
             let chiTietDonHang = $scope.chiTietDonHang[index]
@@ -471,7 +452,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
 
 
         },
-        // Tăng số lượng sản phẩm trong đơn hàng
         addSoLuong(idCTSP) {
             let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)
             let chiTietDonHang = $scope.chiTietDonHang[index]
@@ -484,13 +464,10 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             })
 
         },
-        // Xoá sản phẩm khỏi đơn hàng
         removeSanPham(idCTDH) {
             let index = $scope.chiTietDonHang.findIndex(c => c.id == idCTDH)
             $scope.chiTietDonHang.splice(index, 1)
         },
-        //Kiểm tra trạng thái checkbox và cập nhật trạng thái các nút bấm
-        //checkChuaXacNhan được chọn thì bật các nút bấm huỷ và xác nhận All
         checkButton() {
             let checkboxs = document.getElementsByName('checkChuaXacNhan')
             let check = true;
@@ -503,11 +480,9 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             document.getElementById("xacNhanAll1").disabled = check;
         }
     }
-    // Khởi tạo, lấy danh sách đơn hàng chưa xác nhận
     $scope.chuaXacNhan.init()
     $scope.chuaXacNhan.getList(0)
 
-    // Quản lý danh sách đơn hàng đã hoàn thành
     $scope.hoanThanh = {
         list: [],
         detail: {},
@@ -565,7 +540,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
 
         }
     }
-    // Quản lý danh sách đơn hàng đã bị huỷ
+
     $scope.huy = {
         list: [],
         detail: {},
@@ -625,7 +600,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
 
 
     ///////Hàm dùng chung
-    // Huỷ đơn hàng dựa trên trạng thái đơn hàng
     $scope.id = []
     $scope.trangThaiDonHang = 2
     $scope.huyDH = function () {
@@ -641,7 +615,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         }
 
     }
-    //Check Box
+    /////////////////////Check Box
     $scope.setCheckAll = function (id, name) {
         console.log($scope.trangThaiDonHang)
         let setCheckbox = document.getElementById(id)

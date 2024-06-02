@@ -1,11 +1,18 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.NhanXetModel;
+import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 
 import java.util.Date;

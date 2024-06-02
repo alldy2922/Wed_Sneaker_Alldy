@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
@@ -8,19 +9,24 @@ import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
+import fpoly.duantotnghiep.shoppingweb.service.impl.VnPayServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
+import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -35,8 +41,8 @@ public class DonHangRescontroller {
     private DonHangEntityManager donHangEntityManager;
     @Autowired
     private HttpServletRequest httpServletRequest;
-//    @Autowired
-//    private VnPayServiceImpl vnPayService;
+    @Autowired
+    private VnPayServiceImpl vnPayService;
     @Autowired
     private IDonHangResponsitory donHangResponsitory;
     @Autowired
@@ -71,9 +77,9 @@ public class DonHangRescontroller {
             if(donHangModel.getLoai()==1 && trangThai==4){
                 if (donHangModel.getPhuongThucThanhToan() == false) {
                     String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort();
-//                    String vnpayUrl = vnPayService.createOrder(donHangModel.getMa(), baseUrl, donHangModel.getTongTien().multiply(BigDecimal.valueOf(100)).intValue()+"");
+                    String vnpayUrl = vnPayService.createOrder(donHangModel.getMa(), baseUrl, donHangModel.getTongTien().multiply(BigDecimal.valueOf(100)).intValue()+"");
                     Map<String, String> vnPayUrl = new HashMap<>();
-//                    vnPayUrl.put("vnPayUrl", vnpayUrl);
+                    vnPayUrl.put("vnPayUrl", vnpayUrl);
                     return ResponseEntity.ok(vnPayUrl);
                 }
             }
@@ -164,9 +170,9 @@ public class DonHangRescontroller {
             if(request.getLoai()==1 && request.getTrangThai()==4){
                 if (request.getPhuongThucThanhToan() == 1) {
                     String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort();
-//                    String vnpayUrl = vnPayService.createOrder(maDH, baseUrl, request.getTongTien());
+                    String vnpayUrl = vnPayService.createOrder(maDH, baseUrl, request.getTongTien());
                     Map<String, String> vnPayUrl = new HashMap<>();
-//                    vnPayUrl.put("vnPayUrl", vnpayUrl);
+                    vnPayUrl.put("vnPayUrl", vnpayUrl);
                     return ResponseEntity.ok(vnPayUrl);
                 }
             }

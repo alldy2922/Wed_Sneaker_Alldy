@@ -1,5 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.interceptor;
 
+import fpoly.duantotnghiep.shoppingweb.service.IDongSanPhamService;
+import fpoly.duantotnghiep.shoppingweb.service.IThuongHieuService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;

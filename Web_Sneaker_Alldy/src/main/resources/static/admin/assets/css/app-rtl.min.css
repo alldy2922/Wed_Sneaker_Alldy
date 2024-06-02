@@ -8,8 +8,8 @@ File: Main Css File
 */
 @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap");
 body[data-layout-mode="dark"] {
-  background-color:#8fdf82 ;
-  color: #8fdf82; }
+  background-color: #191e22;
+  color: #ced4da; }
   body[data-layout-mode="dark"] .h1, body[data-layout-mode="dark"] .h2, body[data-layout-mode="dark"] .h3, body[data-layout-mode="dark"] .h4, body[data-layout-mode="dark"] .h5, body[data-layout-mode="dark"] .h6,
   body[data-layout-mode="dark"] h1, body[data-layout-mode="dark"] h2, body[data-layout-mode="dark"] h3, body[data-layout-mode="dark"] h4, body[data-layout-mode="dark"] h5, body[data-layout-mode="dark"] h6 {
     color: #ced4da; }
@@ -20,7 +20,7 @@ body[data-layout-mode="dark"] {
   left: 0;
   right: 0;
   z-index: 1002;
-  background-color: #8fdf82;
+  background-color: #ffffff;
   border-bottom: 1px solid #e9e9ef;
   -webkit-box-shadow: 0 0.25rem 0.75rem rgba(18, 38, 63, 0.08);
           box-shadow: 0 0.25rem 0.75rem rgba(18, 38, 63, 0.08); }

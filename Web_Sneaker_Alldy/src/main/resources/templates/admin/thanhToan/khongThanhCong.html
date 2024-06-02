@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/index}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán thành công</title>
+</head>
+<body>
+<div class="main-content" layout:fragment="content">
+    <div class="page-content" ng-app="banhang-app" ng-controller="banhang-ctrl">
+        <div class="container-fluid">
+            <h4 class="text-center text-danger">Thanh toán không thành công</h4>
+            <a class="btn btn-primary" href="/admin/don-hang/ban-hang">Tiếp tục bán hàng</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

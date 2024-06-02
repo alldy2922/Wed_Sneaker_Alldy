@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.config.security;
 
+import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

@@ -134,7 +134,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 if (r.data.vnPayUrl == undefined) {
                     Swal.fire({
                         title: 'Đặt hàng thành công',
-                        text: 'Cảm ơn bạn đã mua hàng tại DMV Store!!!',
+                        text: 'Cảm ơn bạn đã mua hàng tại Alldy Store!!!',
                         icon: 'success',
                         timer: 1200,
                         showConfirmButton: false

@@ -110,7 +110,7 @@ public class VoucherServiceImpl implements VoucherService {
                     context.setVariable("voucher", vc);
                     new Thread(() -> {
                         try {
-                            EmailUtil.sendEmailWithHtml(mail.getEmail(), "DMV Store tặng bạn voucher giảm giá", "email/voucherTang", context);
+                            EmailUtil.sendEmailWithHtml(mail.getEmail(), "Alldy Store tặng bạn voucher giảm giá", "email/voucherTang", context);
                         } catch (MessagingException e) {
                             e.printStackTrace();
                         }

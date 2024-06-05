@@ -120,7 +120,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 $scope.getSanPham()
                 $scope.inputProduct = ""
                 $('#mySelect2').val('null').trigger('change');
-                document.getElementById("khachHangSL").value = "null"
+                document.getElementById("khachHangSL").value = ""
                 $('#add').modal('hide')
                 alertify.success("Thêm thành công")
             }).catch(e => {
@@ -165,42 +165,64 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 username : value
             }
             document.getElementById("btnAddKh").style.display = "none";
+
         }else{
             $scope.donHangAdd = {
                 phuongThucThanhToan : $scope.donHangAdd.phuongThucThanhToan,
                 tenNguoiNhan : "Khách lẻ",
                 soDienThoai : "0000000000"
+
             }
             document.getElementById("btnAddKh").style.display = "block";
 
         }
+
     }
-    $scope.addKhachHang = function (){
+    ///autocomplate khachhang
+    $scope.searchText = '';
+    $scope.filteredCustomers = [];
+    $scope.donHangAdd = {};
+
+    $scope.filterCustomers = function() {
+        var searchTextLower = $scope.searchText.toLowerCase();
+        $scope.filteredCustomers = $scope.khachHang.filter(function(customer) {
+            return customer.hoVaTen.toLowerCase().includes(searchTextLower) ||
+                customer.soDienThoai.includes($scope.searchText);
+        });
+    };
+
+    $scope.selectCustomer = function(customer) {
+        $scope.searchText = customer.hoVaTen + ' - ' + customer.soDienThoai;
+        $scope.selectedCustomer = customer;
+        $scope.filteredCustomers = [];
+        $scope.donHangAdd.tenNguoiNhan = customer.hoVaTen;
+        $scope.donHangAdd.soDienThoai = customer.soDienThoai;
+        $scope.donHangAdd.username= customer.soDienThoai;
+    };
+
+    $scope.addKhachHang = function() {
         var data = {
             username: $scope.donHangAdd.soDienThoai,
             password: $scope.donHangAdd.soDienThoai,
             hoVaTen: $scope.donHangAdd.tenNguoiNhan,
             soDienThoai: $scope.donHangAdd.soDienThoai,
             email: "quocthanh2929@gmail.com"
-        }
-        $http.post("/admin/khach-hang",data).then(r => {
-            var khachHangSL = document.getElementById("khachHangSL")
-            var option = document.createElement("option");
-            option.text = data.hoVaTen + ' - ' + data.soDienThoai;
-            option.value = data.username
-            khachHangSL.add(option, khachHangSL[khachHangSL.length - 1]);
-            khachHangSL.value = option.value;
-            document.getElementById("btnAddKh").style.display = "none";
-            alertify.success("Lưu khách hàng thành công")
-        }).catch(e => {
-            alertify.error("Lưu khách hàng thất bại")
-            if(e.data.soDienThoai != undefined) $scope.erAdd.soDienThoai = e.data.soDienThoai
-            $scope.erAdd.tenNguoiNhan = e.data.hoVaTen
-        })
+        };
+        $http.post("/admin/khach-hang", data).then(function(response) {
+            var newCustomer = response.data; // assuming the response returns the new customer data
+            $scope.khachHang.push(newCustomer);
+            $scope.selectCustomer(newCustomer);
+            alertify.success("Lưu khách hàng thành công");
+        }).catch(function(error) {
+            alertify.error("Lưu khách hàng thất bại");
+            if (error.data.soDienThoai !== undefined) {
+                $scope.erAdd.soDienThoai = error.data.soDienThoai;
+            }
+            $scope.erAdd.tenNguoiNhan = error.data.hoVaTen;
 
-        console.log(data)
-    }
+        });
 
+    };
     //////////////////////////////////////////////////////
     $scope.chuaXacNhan = {
         list: [],

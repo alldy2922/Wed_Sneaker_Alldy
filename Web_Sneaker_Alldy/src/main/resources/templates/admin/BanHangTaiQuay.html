@@ -751,11 +751,24 @@
                                     <div class="row">
                                         <div class="mb-3">
                                             <label class="control-label">Khách hàng</label>
-                                            <select class="form-control " id="khachHangSL" style="width: 100%"
-                                                    onchange="angular.element(this).scope().addKhachHangToDonHang()">
-                                                <option selected value="null">Khách lẻ</option>
-                                                <option ng-repeat="k in khachHang" value="{{k.username}}">{{k.hoVaTen + ' - ' + k.soDienThoai}}</option>
-                                            </select>
+
+                                            <div class="form-control " >
+                                                <div class="container"  >
+                                                    <input type="text" class="form-control" ng-model="searchText" placeholder="Nhập Tên Hoặc SDT KH" id="khachHangSL" style="width: 100%"
+                                                           ng-focus="filterCustomers()" ng-keyup="filterCustomers()" >
+                                                    <ul class="list-group" ng-show="filteredCustomers.length > 0">
+                                                        <li class="list-group-item" ng-repeat="customer in filteredCustomers | limitTo: 5" ng-click="selectCustomer(customer)" >
+                                                            {{ customer.hoVaTen + ' - ' + customer.soDienThoai}}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+
+                                            </div>
+
+
+
                                         </div>
                                     </div>
                                     <div class="row">

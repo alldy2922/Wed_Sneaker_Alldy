@@ -29,6 +29,10 @@ public class ChiTietSanPhamController {
         request.setAttribute("sanPham",sanPhamService.findByMa(maSP).getTen());
         request.setAttribute("sizes",sizerepo.findAll());
         return "admin/chiTietSanPham";
+
+
+
+
     }
 
 

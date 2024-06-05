@@ -1,10 +1,10 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
-<<<<<<< HEAD
+
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
-=======
+
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhachHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.DiaChiModel;
@@ -13,11 +13,20 @@ import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
 import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
 import jakarta.mail.MessagingException;
->>>>>>> c147c504a5348021019527ed5e618ccbf3043942
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class KhachHangServiceImpl implements IKhachHangService {
@@ -26,15 +35,12 @@ public class KhachHangServiceImpl implements IKhachHangService {
 
 
     @Override
-    public List<KhachHangModel> getAll() {
-        return khachHangRepository.findAll();
-    }
-<<<<<<< HEAD
-=======
+    public Page<KhachHangDtoResponse> getAll(Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<KhachHangModel> pageModel = khachHangRepository.findAll(pageable);
 
-    @Override
-    public List<KhachHangDtoResponse> getAllFromVoucher() {
-        return khachHangRepository.findAll().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
+        return new PageImpl<>(pageModel.getContent().stream().map(k -> new KhachHangDtoResponse(k)).collect(Collectors.toList()),
+                pageable, pageModel.getTotalElements());
     }
 
     @Override
@@ -46,6 +52,7 @@ public class KhachHangServiceImpl implements IKhachHangService {
     public Boolean exsistsByUsername(String username) {
         return khachHangRepository.existsById(username);
     }
+
 
     @Override
     public KhachHangDtoResponse add(KhachHangDTORequest khachHang) throws MessagingException {
@@ -63,7 +70,7 @@ public class KhachHangServiceImpl implements IKhachHangService {
     }
 
     @Override
-    public KhachHangDtoResponse update(KhachHangDTORequest khachHang, MultipartFile img) throws IOException {
+    public KhachHangDtoResponse update(KhachHangDTORequest khachHang, MultipartFile img) throws IOException, IOException {
         KhachHangModel khachHangDefault = khachHangRepository.findById(khachHang.getUsername()).get();
         khachHang.setPassword(khachHangDefault.getPassword());
 
@@ -92,28 +99,5 @@ public class KhachHangServiceImpl implements IKhachHangService {
         khachHangRepository.deleteById(username);
     }
 
-    @Override
-    public List<KhachHangDtoResponse> khachHangVoucher(int dieuKien) {
-        if (dieuKien == 0) {
-            return khachHangRepository.findKhachMuaNhieu().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
-        } else if (dieuKien == 1) {
-            return khachHangRepository.findKhachMuaLanDau().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
-        } else if (dieuKien == 2) {
-            return khachHangRepository.findKhachMoiMua().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
-        } else {
-            return khachHangRepository.findAll().stream().map(x -> new KhachHangDtoResponse(x)).collect(Collectors.toList());
-        }
-    }
 
-    @Override
-    public List<KhachHangModel> findByUserNameIn(List<String> maKhachHang) {
-        return khachHangRepository.findByUsernameIn(maKhachHang);
-    }
-
-//    @Override
-//    public List<DiaChiModel> diaChiByTaiKhoan(String taiKhoan) {
-//        return khachHangRepository.findAllDiaChiByTaiKhoan(taiKhoan);
-//    }
-
->>>>>>> c147c504a5348021019527ed5e618ccbf3043942
 }

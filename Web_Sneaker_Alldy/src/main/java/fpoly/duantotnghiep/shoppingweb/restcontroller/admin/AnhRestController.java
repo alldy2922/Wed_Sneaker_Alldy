@@ -1,6 +1,9 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.NhanVienDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
+import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
+import fpoly.duantotnghiep.shoppingweb.service.INhanVienService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;

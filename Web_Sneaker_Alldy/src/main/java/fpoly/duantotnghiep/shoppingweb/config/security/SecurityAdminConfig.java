@@ -1,7 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.config.security;
 
 import fpoly.duantotnghiep.shoppingweb.enumtype.Roles;
-import fpoly.duantotnghiep.shoppingweb.service.security.UserAdminService;
+import fpoly.duantotnghiep.shoppingweb.service.sercurity.UserAdminService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;

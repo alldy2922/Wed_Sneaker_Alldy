@@ -1,55 +1,56 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
-<<<<<<< HEAD
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-=======
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
->>>>>>> c147c504a5348021019527ed5e618ccbf3043942
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-<<<<<<< HEAD
+import lombok.ToString;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-=======
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.util.List;
->>>>>>> c147c504a5348021019527ed5e618ccbf3043942
+
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Data
 @Table(name = "voucher")
 public class VoucherModel {
     @Id
+    @Column(name = "ma")
     private String ma;
 
-    private String moTa;
+    @Column(name = "ten")
+    private String ten;
 
-    private String loaiMucGiam;
+    @Column(name = "loaivoucher")
+    private String loai;
 
+    @Column(name = "mucgiam")
     private Double mucGiam;
 
-    private DecimalFormat giaTriDonHang;
+    @Column(name = "giatritoithieu")
+    private Double giaTriToiThieu;
 
-    private DecimalFormat mucGiamToiDa;
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "ngaybatdau")
+    private Date ngayBatDau;
 
-    private LocalDate ngayBatDau;
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "ngayketthuc")
+    private Date ngayKetThuc;
 
-    private LocalDate ngayKetThuc;
+    @Column(name = "soluong")
+    private int soLuong;
 
-    private Long soLuong;
-
-    private Boolean trangThaiXoa;
-
-    private Integer hinhThucThanhToan;
-
-    private Integer trangThai;
-
-    private Boolean doiTuongSuDung;
+    @Column(name = "mucgiamtoida")
+    private Double mucGiamToiDa;
 }

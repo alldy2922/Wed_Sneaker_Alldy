@@ -1,8 +1,8 @@
-package fpoly.duantotnghiep.shoppingweb.service.seucrity;
+package fpoly.duantotnghiep.shoppingweb.service.sercurity;
 
 import fpoly.duantotnghiep.shoppingweb.config.security.Customer;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
-import fpoly.duantotnghiep.shoppingweb.repository.INhanVienRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,11 +19,8 @@ public class CustomerService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        KhachHangModel khachHangModel = khachHangRepository.getByUsername(username).orElse(null);
+        KhachHangModel khachHangModel = khachHangRepository.findById(username).orElse(null);
         if(khachHangModel==null){
-            throw new UsernameNotFoundException("Username không tồn tại");
-        }
-        if(!khachHangModel.getUsername().equals(username)){
             throw new UsernameNotFoundException("Username không tồn tại");
         }
         return new Customer(khachHangModel);

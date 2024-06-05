@@ -1,26 +1,19 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
-<<<<<<< HEAD
-=======
+
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.KhachHangDTORequest;
 
->>>>>>> c147c504a5348021019527ed5e618ccbf3043942
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import jakarta.mail.MessagingException;
+import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IKhachHangService {
-<<<<<<< HEAD
-    List<KhachHangModel> getAll();
-=======
-
     Page<KhachHangDtoResponse> getAll(Integer page, Integer limit);
-
-    Page<KhachHangDtoResponse> search(String keyWord, Integer page, Integer limit);
-
-    List<KhachHangDtoResponse> getAllFromVoucher();
-
 
     KhachHangDtoResponse findById(String username);
 
@@ -36,9 +29,4 @@ public interface IKhachHangService {
 
     void deleteByUsername(String username);
 
-    List<KhachHangDtoResponse> khachHangVoucher(int dieuKien);
-
-    List<KhachHangModel> findByUserNameIn(List<String> maKhachHang);
-//    List<DiaChiModel> diaChiByTaiKhoan(String taiKhoan);
->>>>>>> c147c504a5348021019527ed5e618ccbf3043942
 }

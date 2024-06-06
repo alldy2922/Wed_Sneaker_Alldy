@@ -1,9 +1,16 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
+import fpoly.duantotnghiep.shoppingweb.entitymanager.SanPhamEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.AnhModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDongSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
+import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
+import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
+import fpoly.duantotnghiep.shoppingweb.util.ImgUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class SanPhamSeviceImpl implements ISanPhamService{
+public class SanPhamServiceImpl implements ISanPhamService {
     @Autowired
     private ISanPhamRepository sanPhamRepository;
 
@@ -97,8 +104,8 @@ public class SanPhamSeviceImpl implements ISanPhamService{
     public List<SanPhamDtoResponse> saveAll(List<SanPhamDtoRequest> sanPham) {
 
         List<SanPhamModel> entities = sanPham.stream().map(s -> s.mapToModel())
-                .peek(s -> s.setHienThi(false))
-                .collect(Collectors.toList());
+                                .peek(s -> s.setHienThi(false))
+                                .collect(Collectors.toList());
 
         entities = sanPhamRepository.saveAll(entities);
 

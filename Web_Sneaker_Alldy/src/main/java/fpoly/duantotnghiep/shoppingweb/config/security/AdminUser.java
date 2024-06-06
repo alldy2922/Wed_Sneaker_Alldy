@@ -1,10 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.config.security;
 
-<<<<<<< HEAD
-
 import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
-=======
->>>>>>> c147c504a5348021019527ed5e618ccbf3043942
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +14,6 @@ import java.util.Collections;
 @Data
 public class AdminUser implements UserDetails {
     NhanVienModel nhanVienModel;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(nhanVienModel.getVaiTro().getMa()));

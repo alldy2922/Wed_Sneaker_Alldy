@@ -1,5 +1,8 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
+
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.KhachHangDtoResponse;
+
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.NhanVienDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.repository.IKhachHangRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IKhachHangService;
@@ -29,11 +32,11 @@ public class AnhRestController {
                                           @PathVariable("imgName") String imgName) throws IOException {
 
         byte[] ima;
-            try{
-                ima = Files.readAllBytes(new File("src/main/resources/images/"+forder+"/"+imgName).toPath());
-            }catch (Exception e){
-                ima = Files.readAllBytes(new File("src/main/resources/images/"+forder+"/default.png").toPath());
-            }
+        try {
+            ima = Files.readAllBytes(new File("src/main/resources/images/" + forder + "/" + imgName).toPath());
+        } catch (Exception e) {
+            ima = Files.readAllBytes(new File("src/main/resources/images/" + forder + "/default.png").toPath());
+        }
         ByteArrayResource byteArrayResource = new ByteArrayResource(ima);
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf("image/png"))
@@ -45,16 +48,16 @@ public class AnhRestController {
     }
 
     @GetMapping("/loadImageUser/{username}")
-    public ResponseEntity<?> getImageUser(@PathVariable("username")String username) throws IOException {
+    public ResponseEntity<?> getImageUser(@PathVariable("username") String username) throws IOException {
         byte[] ima;
-        if(nhanVienService.existsByUsername(username)){
+        if (nhanVienService.existsByUsername(username)) {
             NhanVienDtoResponse nhanVienDtoResponse = nhanVienService.findById(username);
-            try{
-                ima = Files.readAllBytes(new File("src/main/resources/images/user/"+nhanVienDtoResponse.getAnhDaiDien()).toPath());
-            }catch (Exception e){
+            try {
+                ima = Files.readAllBytes(new File("src/main/resources/images/user/" + nhanVienDtoResponse.getAnhDaiDien()).toPath());
+            } catch (Exception e) {
                 ima = Files.readAllBytes(new File("src/main/resources/images/user/default.png").toPath());
             }
-        }else{
+        } else {
             ima = Files.readAllBytes(new File("src/main/resources/images/user/default.png").toPath());
         }
         ByteArrayResource byteArrayResource = new ByteArrayResource(ima);
@@ -65,25 +68,26 @@ public class AnhRestController {
                 .contentType(MediaType.valueOf("image/jpeg"))
                 .body(byteArrayResource);
     }
-//    @GetMapping("/loadImageKhachHang/{username}")
-//    public ResponseEntity<?> getImageKhachHang(@PathVariable("username")String username) throws IOException {
-//        byte[] ima;
-//        if(khachHangService.exsistsByUsername(username)){
-//            KhachHangDtoResponse khachHangDtoResponse = khachHangService.findById(username);
-//            try{
-//                ima = Files.readAllBytes(new File("src/main/resources/images/user/"+khachHangDtoResponse.getAnhDaiDien()).toPath());
-//            }catch (Exception e){
-//                ima = Files.readAllBytes(new File("src/main/resources/images/user/default.png").toPath());
-//            }
-//        }else{
-//            ima = Files.readAllBytes(new File("src/main/resources/images/user/default.png").toPath());
-//        }
-//        ByteArrayResource byteArrayResource = new ByteArrayResource(ima);
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.valueOf("image/png"))
-//                .contentType(MediaType.valueOf(MediaType.IMAGE_GIF_VALUE))
-//                .contentType(MediaType.valueOf("image/jpg"))
-//                .contentType(MediaType.valueOf("image/jpeg"))
-//                .body(byteArrayResource);
-//    }
+
+    @GetMapping("/loadImageKhachHang/{username}")
+    public ResponseEntity<?> getImageKhachHang(@PathVariable("username") String username) throws IOException {
+        byte[] ima;
+        if (khachHangService.exsistsByUsername(username)) {
+            KhachHangDtoResponse khachHangDtoResponse = khachHangService.findById(username);
+            try {
+                ima = Files.readAllBytes(new File("src/main/resources/images/user/" + khachHangDtoResponse.getAnhDaiDien()).toPath());
+            } catch (Exception e) {
+                ima = Files.readAllBytes(new File("src/main/resources/images/user/default.png").toPath());
+            }
+        } else {
+            ima = Files.readAllBytes(new File("src/main/resources/images/user/default.png").toPath());
+        }
+        ByteArrayResource byteArrayResource = new ByteArrayResource(ima);
+        return ResponseEntity.ok()
+                .contentType(MediaType.valueOf("image/png"))
+                .contentType(MediaType.valueOf(MediaType.IMAGE_GIF_VALUE))
+                .contentType(MediaType.valueOf("image/jpg"))
+                .contentType(MediaType.valueOf("image/jpeg"))
+                .body(byteArrayResource);
+    }
 }

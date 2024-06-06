@@ -4,22 +4,22 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@ToString
-@Table(name = "chatlieu")
+//@ToString
+@Table(name = "sanpham")
 public class SanPhamModel {
     @Id
     @Column(name = "ma")
@@ -71,7 +71,7 @@ public class SanPhamModel {
     @Column(name = "trangthai")
     private Boolean trangThai;
 
-    //    @Transient
+//    @Transient
     @Formula("(SELECT SUM(c.soluong) FROM chitietsanpham c WHERE c.sanpham = ma AND c.TrangThai = 1)")
     private Long soLuong;
 
@@ -123,7 +123,7 @@ public class SanPhamModel {
     public String toString() {
         return "SanPhamModel{" +
                 "ma='" + ma + '\'' +
-                ", mauSac=" + mauSac+
+                ", mauSac=" + mauSac.getTen() +
                 ", ten='" + ten + '\'' +
                 ", giaNhap=" + giaNiemYet +
                 ", giaBan=" + giaBan +
@@ -137,6 +137,4 @@ public class SanPhamModel {
     }
 
     public SanPhamModel(String ma){ this.ma = ma;}
-
-
 }

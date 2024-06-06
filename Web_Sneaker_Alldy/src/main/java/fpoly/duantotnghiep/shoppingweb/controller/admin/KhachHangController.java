@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class KhachHangController {
 
     @GetMapping("")
-    public String getAllTaiKhoanNguoiDung(){
+    public String getAllTaiKhoanNguoiDung() {
         return "admin/KhachHang";
     }
 }

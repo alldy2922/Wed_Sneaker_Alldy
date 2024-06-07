@@ -31,7 +31,7 @@ import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-public class CheckOutController {
+public class Checkoutcontroller {
     @Autowired
     IKhachHangService khachHangService;
     @Autowired

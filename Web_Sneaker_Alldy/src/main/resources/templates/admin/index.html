@@ -206,9 +206,21 @@
                         </a>
                     </li>
                     <li>
+                        <a th:href="@{/admin/don-hang/ban-hang-tai-quay}">
+                            <i data-feather="layout"></i>
+                            <span data-key="t-chat">Bán Hàng Tại Quầy</span>
+                        </a>
+                    </li>
+                    <li>
                         <a th:href="@{/admin/don-hang}">
                             <i data-feather="layout"></i>
                             <span data-key="t-chat">Đơn Hàng online</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/don-hang/quan-ly-don-hang}">
+                            <i data-feather="layout"></i>
+                            <span data-key="t-ecommerce">Quản lý đơn hàng</span>
                         </a>
                     </li>
                     <li class="menu-title" data-key="t-apps">Sản phẩm</li>
@@ -547,6 +559,12 @@
             khachHang.style.display = 'block';
         }
     }
+    $(document).ready(function() {
+        $('#khachHangSL').select2({
+            tags: true,
+            allowClear: true
+        });
+    });
 </script>
 
 </body>

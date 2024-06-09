@@ -12,4 +12,13 @@ public class DonHangController {
         return "admin/BanHangTaiQuay";
     }
 
+    @GetMapping("quan-ly-don-hang")
+    public String quanLyDonHang(){
+        return "admin/quan-ly-don-hang";
+    }
+
+    @GetMapping("ban-hang-tai-quay")
+    public String bhTaijQuaayf(){
+        return "admin/ban-hang-tai-quay";
+    }
 }

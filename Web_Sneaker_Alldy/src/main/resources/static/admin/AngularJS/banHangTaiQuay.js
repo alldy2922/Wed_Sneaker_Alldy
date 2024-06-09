@@ -659,5 +659,32 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             $scope.chuaThanhToan.checkButton();
         }
     }
+    // $(document).ready(function() {
+    //     $('#khachHangSL').select2({
+    //         tags: true,
+    //         placeholder: "Select or type",
+    //         allowClear: true
+    //     });
+    // });
+    $scope.selectedKhachHang = null;
+    $scope.searchKhachHang = function() {
+        var keyword = $scope.selectedKhachHang;
+        if (keyword) {
+            keyword = keyword.toLowerCase();
+            var found = $scope.khachHang.filter(function(k) {
+                return (k.hoVaTen.toLowerCase().includes(keyword) ||
+                    k.soDienThoai.toLowerCase().includes(keyword));
+            });
+
+            if (found.length > 0) {
+                // Do something with the found result
+                console.log('Match found:', found);
+            } else {
+                console.log('No match found');
+            }
+        } else {
+            console.log('Please enter a search keyword');
+        }
+    };
 
 })

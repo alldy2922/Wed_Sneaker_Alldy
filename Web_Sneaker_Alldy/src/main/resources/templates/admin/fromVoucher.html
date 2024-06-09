@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/index}">
+
+<head>
+    <title>DMV STORE | Voucher</title>
+</head>
+
+<body data-topbar="dark">
+
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content" layout:fragment="content" ng-app="voucher" ng-controller="voucher-ctrl">
+    <div class="page-content">
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box align-items-center justify-content-between">
+                        <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+                            <div class="container-fluid">
+                                <a href="/admin/voucher">
+                                    <img src="/userStyle/images/icons/icon-prev.png" alt="">
+                                </a>
+                                <div class="collapse navbar-collapse" id="mynavbar">
+                                    <ul class="navbar-nav me-auto">
+                                    </ul>
+                                    <form class="d-flex">
+                                        <button ng-click="create()"
+                                                class="btn btn-primary" type="button">Lưu voucher
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label for="metatitle">Thời gian bắt đầu</label>
+                                            <input ng-model="voucherAdd.ngayBatDau" name="productname"
+                                                   type="datetime-local"
+                                                   class="form-control">
+                                            <p class="form-text text-danger">{{erNgayBatDau}}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="metakeywords">Thời gian kết thúc</label>
+                                            <input ng-model="voucherAdd.ngayKetThuc" id="metakeywords"
+                                                   name="manufacturername"
+                                                   type="datetime-local" class="form-control">
+                                            <p class="form-text text-danger">{{erNgayKetThuc}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label for="metadescription">Mô tả</label>
+                                            <textarea ng-model="voucherAdd.moTa" class="form-control"
+                                                      id="metadescription"
+                                                      rows="5"></textarea>
+                                            <p class="form-text text-danger">{{erMoTa}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- card giá trị đơn hàng -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Giá trị đơn hàng</h4>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="mb-3">
+                                            <label for="metatitle">Mức giảm</label>
+                                            <input name="productname" type="number"
+                                                   class="form-control" ng-model="voucherAdd.mucGiam">
+                                            <p class="form-text text-danger">{{erMucGiam}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="mb-3">
+                                            <label for="metatitle">Loại</label>
+                                            <div class="mb-3">
+                                                <select class="form-select" ng-model="voucherAdd.loaiMucGiam"
+                                                        id="loai">
+                                                    <option value="TIEN">
+                                                        đ
+                                                    </option>
+                                                    <option value="PHAN TRAM">%
+                                                    </option>
+                                                </select>
+                                                <p class="form-text text-danger">{{erLoaiMucGiam}}</p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <div class="mb-3" id="mucGiamToiDa"
+                                             ng-if="voucherAdd.loaiMucGiam ==='PHAN TRAM'">
+                                            <label for="metadescription">Mức giảm tối đa</label>
+                                            <input name="productname" ng-model="voucherAdd.mucGiamToiDa" type="number"
+                                                   class="form-control">
+                                            <p class="form-text text-danger">{{erMucGiamToiDa}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--                    dieu kien ap dung-->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Điều kiện giảm</h4>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="mb-3">
+                                            <label for="metatitle">Giá trị đơn hàng</label>
+                                            <input name="productname" type="number"
+                                                   class="form-control" ng-model="voucherAdd.giaTriDonHang">
+                                            <p class="form-text text-danger">{{erGiaTriDonHang}}</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- card hình thức giảm -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                <h5 class="font-size-14 mb-3"><i
+                                        class="mdi mdi-arrow-right text-primary me-1"></i>Hình thức thanh toán
+                                </h5>
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault1"
+                                           ng-model="voucherAdd.hinhThucThanhToan" value="0"
+                                           ng-checked="true">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Thanh toán khi nhận hàng
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault2"
+                                           ng-model="voucherAdd.hinhThucThanhToan" value="1">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Thanh toán onnile
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                           id="flexRadioDefault"
+                                           ng-model="voucherAdd.hinhThucThanhToan" value="2">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Tất cả các hình thức thanh toán
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- khách hàng -->
+                <div class="col-6">
+                    <!-- card doi tuong khach -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                <h5 class="font-size-14 mb-3"><i
+                                        class="mdi mdi-arrow-right text-primary me-1"></i>Đối tượng khách hàng
+                                </h5>
+                                <p class="form-text text-danger">{{erdoiTuongSuDung}}</p>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" value="0"
+                                           type="radio" name="formRadios" id="tatCaKhachHang"
+                                           ng-model="voucherAdd.doiTuongSuDung"
+                                           onchange="toggleDiv2()">
+                                    <label class="form-check-label">
+                                        Tất cả khách hàng
+                                    </label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="mb-3" id="soLuong" style="display: none">
+                                        <label for="metatitle">Số lượng</label>
+                                        <input id="metatitle" ng-model="voucherAdd.soLuong" name="productname"
+                                               type="text"
+                                               class="form-control">
+                                        <p class="form-text text-danger">{{erSoLuong}}</p>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" value="1" ng-model="voucherAdd.doiTuongSuDung"
+                                           type="radio" name="formRadios1" id="tuyChonKhach" onchange="toggleDiv2()">
+                                    <label class="form-check-label">
+                                        Tùy chọn khách hàng
+                                    </label>
+                                    <p class="form-text text-danger">{{erdoiTuongSuDung}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- danh sách khách hàng -->
+                    <div class="card" id="khach" style="display: none">
+                        <div class="card-header">
+                            <h4 class="card-title">Danh sách khách hàng</h4>
+                            <p class="form-text text-danger">{{erKhachHang}}</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="mb-3">
+                                        <label>Nhóm khách</label>
+                                        <div class="mb-3">
+                                            <select class="form-control select2" ng-model="locKhach"
+                                                    ng-change="handleOptionChange(locKhach)" style="width: 150px">
+                                                <option value="3">Tất cả</option>
+                                                <option value="0">Mua nhiều nhất</option>
+                                                <option value="1">Mua Lần đầu</option>
+<!--                                                <option value="2">Đã ghé thăm</option>-->
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+<!--                                <div class="col-8">-->
+<!--                                    <label style="color: white;">ddddddddd </label>-->
+<!--                                    <div class="mb-3">-->
+<!--                                        <input type="text" class="form-control" placeholder="Search...">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                            </div>
+                            <hr>
+                            <div style="max-height: 400px; overflow-y: auto">
+                                <table id="datatable"
+                                       class="table table-striped table-hover dt-responsive  nowrap w-100">
+                                    <thead>
+                                    <tr style="position: sticky; top: 0; z-index: 1">
+                                        <th>
+                                            <input type="checkbox" name="">
+                                        </th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr ng-repeat="kh in findAllKhachHang">
+                                        <td><input type="checkbox" ng-model="kh.selected"
+                                                   ng-change="selectKhach(kh.username)"></td>
+<!--                                        <td>-->
+                                            <!--                                        <img style="height: 70px; width: 70px;"-->
+                                            <!--                                             src="assets/images/logo-sm.svg" alt="" srcset="">-->
+<!--                                            ảnh-->
+<!--                                        </td>-->
+                                        <td>
+                                            <h7><b>{{kh.hoVaTen}} - {{kh.soDienThoai}}</b></h7>
+                                            <p>{{kh.email}}</p>
+                                        </td>
+<!--                                        <td>-->
+<!--                                            <p style="color: red;">4 mã đã tặng</p>-->
+<!--                                        </td>-->
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+    </div> <!-- container-fluid -->
+
+    <!-- End Page-content -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script>
+                    © Dason.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by <a href="#!" class="text-decoration-underline">Themesbrand</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+<!doctype html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <title>Đăng ký | ALLDY STORE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
+    <meta content="Themesbrand" name="author"/>
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/admin/images/LOGOALLDY.jpg">
+
+    <!-- preloader css -->
+    <link rel="stylesheet" href="/admin/assets/css/preloader.min.css" type="text/css"/>
+
+    <!-- Bootstrap Css -->
+    <link href="/admin/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"/>
+    <!-- Icons Css -->
+    <link href="/admin/assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
+    <!-- App Css-->
+    <link href="/admin/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body data-topbar="dark">
+
+<!-- <body data-layout="horizontal"> -->
+<div class="page-content" ng-app="khachhang-user" ng-controller="ctrl">
+<div class="auth-page">
+    <div class="container-fluid p-0">
+        <div class="row g-0 d-flex justify-content-center">
+            <div class="col-xxl-4 col-lg-4 col-md-5 mt-5">
+                <div class="auth-full-page-content d-flex p-sm-5 p-4 mt-5"
+                     style="min-height: 550px;
+                            border-radius: 40px;
+                            box-shadow: 2px 2px 2px 2px gainsboro;">
+                    <div class="w-100">
+                        <div class="d-flex flex-column h-100">
+                            <div class="auth-content my-auto">
+                                <div class="mb-4 mb-md-5 text-center">
+                                    <a class="d-block auth-logo">
+                                        <img src="/admin/images/LOGOALLDY.jpg" alt="" height="100">
+                                        <span class="logo-txt" style="font-size: 30px">ALLDY STORE</span>
+                                    </a>
+                                </div>
+
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="usernameAdd">Username</label>
+                                            <input id="usernameAdd" ng-model="khachHangAdd.username"
+                                                   class="form-control"
+                                                   ng-focus="removeErrors('usernameAddER')">
+                                            <i class="er text-danger" id="usernameAddER"></i>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="hoVaTenAdd">Họ và tên</label>
+                                            <input id="hoVaTenAdd" ng-model="khachHangAdd.hoVaTen" class="form-control"
+                                                   ng-focus="removeErrors('hoVaTenAddER')">
+                                            <i class="er text-danger" id="hoVaTenAddER"></i>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="sdtAdd">Số điện thoại</label>
+                                            <input id="sdtAdd" ng-model="khachHangAdd.soDienThoai" class="form-control"
+                                                   ng-focus="removeErrors('soDienThoaiAddER')">
+                                            <i class="er text-danger" id="soDienThoaiAddER"></i>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="emailAdd">Email</label>
+                                            <input id="emailAdd" ng-model="khachHangAdd.email" class="form-control"
+                                                   ng-focus="removeErrors('emailAddER')">
+                                            <i class="er text-danger" id="emailAddER"></i>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label>Mật khẩu</label>
+                                            <div class="input-group col-12">
+                                                <input id="passNew" ng-model="khachHangAdd.password1" class="form-control inputInInputgroup "
+                                                       type="password"
+                                                       ng-focus="removeErrors('passNewER')">
+                                                <button class="btn show-pass">
+                                                    <i class="bx bxs-show " id="iPassNew"
+                                                       style="font-size: 25px; align-items: center;display: flex;"
+                                                       ng-click="showPassword('passNew','iPassNew')"></i>
+                                                </button>
+                                            </div>
+                                            <i class="er text-danger" id="passNewER"></i>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label>Nhập lại mật khẩu</label>
+                                            <div class="input-group col-12">
+                                                <input id="verifyPassNew" ng-model="khachHangAdd.password" class="form-control inputInInputgroup"
+                                                       type="password"
+                                                       ng-focus="removeErrors('verifyPassNewER')">
+                                                <button class="btn show-pass">
+                                                    <i class="bx bxs-show" id="iVerifyPassNew"
+                                                       style="font-size: 25px;align-items: center;display: flex;"
+                                                       ng-click="showPassword('verifyPassNew','iVerifyPassNew')"></i>
+                                                </button>
+                                            </div>
+                                            <p ng-if="checkPassRe === true" class="text-danger">Nhập lại mật khẩu không chính xác</p>
+                                            <i class="er text-danger" id="verifyPassNewER"></i>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" ng-click="add()">Đăng ký
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end auth full page content -->
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container fluid -->
+</div>
+
+
+<!-- JAVASCRIPT -->
+<script src="/admin/assets/libs/jquery/jquery.min.js"></script>
+<script src="/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/admin/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="/admin/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="/admin/assets/libs/node-waves/waves.min.js"></script>
+<script src="/admin/assets/libs/feather-icons/feather.min.js"></script>
+<!-- pace js -->
+<script src="/admin/assets/libs/pace-js/pace.min.js"></script>
+
+<script src="/admin/assets/js/pages/pass-addon.init.js"></script>
+
+<script src="/admin/assets/js/pages/feather-icon.init.js"></script>
+<script th:src="@{/user/js/KhachHang.js}"></script>
+</body>
+
+</html>

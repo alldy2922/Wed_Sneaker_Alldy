@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/index}">
+
+<head>
+
+</head>
+<style></style>
+<body data-topbar="dark">
+
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content" layout:fragment="content">
+    <div class="page-content" ng-app="thongTinNhanVien-app" ng-controller="thongTinNhanVien-ctrl">
+        <style>
+            .er {
+                color: red;
+                font-size: 13px;
+            }
+        </style>
+        <link th:href="@{/admin/css/fileupload.css}" rel="stylesheet" type="text/css"/>
+        <!-- start page title -->
+        <!-- end page title -->
+        <div class="row d-flex justify-content-center">
+            <div class="col-10">
+                <form id="formUser" method="put" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                                <h4 class="mb-sm-0 font-size-18">Thông tin người dùng</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6 d-flex justify-content-center">
+                                    <div class="mb-3">
+                                        <div class="container">
+                                            <fieldset class="form-group">
+                                                <input type="file" accept=".jpg,.gif,.png" id="pro-image" name="pro-image"
+                                                       style="display: none;"
+                                                       onchange="angular.element(this).scope().addFile()"
+                                                       class="form-control">
+                                            </fieldset>
+                                            <div class="preview-images-zone user  d-flex justify-content-center">
+                                                <div class="preview-image preview-show-1" ng-if="user.anhDaiDien!=null">
+                                                    <div class="image-cancel" data-no="1" ng-click="removeFile(this.id)">x</div>
+                                                    <div class="image-zone"><img id="pro-img-1" src="/image/loadImage/user/{{user.anhDaiDien}}"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <i class="er" id="erImg">{{er.anh}}</i>
+                                        <span id="ma" class="form-control text-center" style="border: none">{{user.username}}</span>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label for="hoVaTen">Họ và tên</label>
+                                        <input id="hoVaTen" ng-model="user.hoVaTen" name="hoVaTen" class="form-control" ng-focus="removeErrors('hoVaTenER')">
+                                        <i  class="er" id="hoVaTenER"></i>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="gioiTinh">Giới tính</label>
+                                        <select class="form-control" id="gioiTinh" name="gioiTinh" ng-model="user.gioiTinh">
+                                            <option ng-repeat="g in gioiTinh" value="{{g.value}}">{{g.text}}</option>
+                                        </select>
+                                        <i  class="er" id="gioiTinhER"></i>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="ngaySinh">Ngày sinh</label>
+                                        <input id="ngaySinh" ng-model="user.ngaySinh" name="ngaySinh" class="form-control" type="date">
+                                        <i  class="er" id="ngaySinhER"></i>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="sdt">Số điện thoại</label>
+                                        <input id="sdt" ng-model="user.soDienThoai" name="soDienThoai" class="form-control" ng-focus="removeErrors('soDienThoaiER')">
+                                        <i  class="er" id="soDienThoaiER"></i>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email">Email</label>
+                                        <input id="email" ng-model="user.email" name="email" class="form-control" ng-focus="removeErrors('emailER')">
+                                        <i  class="er" id="emailER"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer ">
+                            <div class="d-flex flex-wrap gap-2" style="float: right">
+                                <button type="submit"
+                                        class="btn btn-primary waves-effect waves-light" id="sm" ng-click="update()">Cập nhật thông tin
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <script>document.write(new Date().getFullYear())</script>
+                © Dason.
+            </div>
+            <div class="col-sm-6">
+                <div class="text-sm-end d-none d-sm-block">
+                    Design & Develop by <a href="#!" class="text-decoration-underline">Themesbrand</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script>
+
+</script>
+</div>
+
+<!-- end main content-->
+<!-- JAVASCRIPT -->
+<!--<script th:src="@{/admin/assets/libs/jquery/jquery.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/metismenu/metisMenu.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/simplebar/simplebar.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/node-waves/waves.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/feather-icons/feather.min.js}"></script>-->
+<!--&lt;!&ndash; pace js} &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/libs/pace-js/pace.min.js}"></script>-->
+
+<!--&lt;!&ndash; apexcharts &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>-->
+
+<!--&lt;!&ndash; Plugins js}&ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>-->
+<!--<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>-->
+<!--&lt;!&ndash; dashboard init &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>-->
+
+<!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
+
+<!--&lt;!&ndash; select 2 plugin &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/libs/select2/js/select2.min.js}"></script>-->
+
+<!--&lt;!&ndash; dropzone plugin &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/libs/dropzone/min/dropzone.min.js}"></script>-->
+
+<!--&lt;!&ndash; init js} &ndash;&gt;-->
+<!--<script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>-->
+
+<!--<script th:src="@{/admin/assets/js/app.js}"></script>-->
+
+</body>
+
+</html>

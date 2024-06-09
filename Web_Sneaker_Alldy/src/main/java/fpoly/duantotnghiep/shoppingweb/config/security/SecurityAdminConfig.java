@@ -52,7 +52,7 @@ public class SecurityAdminConfig {
                 .userDetailsService(userAdminService)
                 .formLogin(login -> login.loginPage("/admin/login")
                         .loginProcessingUrl("/admin/login")
-                        .defaultSuccessUrl("/admin/don-hang/ban-hang", false)
+                        .defaultSuccessUrl("/admin/trang-chu", false)
                         .failureUrl("/admin/login/error")
                         .usernameParameter("username")
                         .passwordParameter("password")
@@ -76,8 +76,5 @@ public class SecurityAdminConfig {
         return NoOpPasswordEncoder.getInstance();
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+
 }

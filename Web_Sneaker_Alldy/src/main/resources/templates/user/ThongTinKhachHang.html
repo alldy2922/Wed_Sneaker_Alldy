@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/trangChu}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông Tin Khách Hàng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body data-topbar="dark">
+
+<div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" ng-app="diaChi" ng-controller="diaChiCtrl">
+
+
+    <!--        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css" rel="stylesheet">-->
+
+    <!-- Product Detail -->
+    <section class="sec-product-detail bg0 p-t-65 p-b-60">
+        <div class="container">
+            <form id="formUser" method="put" enctype="multipart/form-data">
+                <style>
+                    .er {
+                        color: red;
+                        font-size: 13px;
+                    }
+                </style>
+                <link th:href="@{/admin/css/fileupload.css}" rel="stylesheet" type="text/css"/>
+                <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+                <!-- start page title -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                            <h4 class="mb-sm-0 font-size-18">Thông tin của bạn</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 d-flex justify-content-center">
+                                <div class="mb-3">
+                                    <div class="container">
+                                        <fieldset class="form-group">
+                                            <input type="file" accept=".jpg,.gif,.png" id="pro-image"
+                                                   name="pro-image"
+                                                   style="display: none;"
+                                                   onchange="angular.element(this).scope().addFile()"
+                                                   class="form-control">
+                                        </fieldset>
+                                        <div class="preview-images-zone user  d-flex justify-content-center">
+                                            <div class="preview-image preview-show-1" ng-if="user.anhDaiDien!=null">
+                                                <div class="image-cancel" data-no="1"
+                                                     ng-click="removeFile(this.id)">x
+                                                </div>
+                                                <div class="image-zone"><img id="pro-img-1"
+                                                                             src="/image/loadImage/user/{{user.anhDaiDien}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span id="ma" class="form-control text-center"
+                                          style="border: none">{{user.username}}</span>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="hoVaTen">Họ và tên</label>
+                                    <input id="hoVaTen" ng-model="user.hoVaTen" name="hoVaTen" class="form-control"
+                                           ng-focus="removeErrors('hoVaTenER')">
+                                    <i class="er" id="hoVaTenER"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="gioiTinh">Giới tính</label>
+                                    <select class="form-control" id="gioiTinh" name="gioiTinh"
+                                            ng-model="user.gioiTinh">
+                                        <option ng-repeat="g in gioiTinh" value="{{g.value}}">{{g.text}}</option>
+                                    </select>
+                                    <i class="er" id="gioiTinhER"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="ngaySinh">Ngày sinh</label>
+                                    <input id="ngaySinh" ng-model="user.ngaySinh" name="ngaySinh"
+                                           class="form-control"
+                                           type="date">
+                                    <i class="er" id="ngaySinhER"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="sdt">Số điện thoại</label>
+                                    <input id="sdt" ng-model="user.soDienThoai" name="soDienThoai"
+                                           class="form-control"
+                                           ng-focus="removeErrors('soDienThoaiER')">
+                                    <i class="er" id="soDienThoaiER"></i>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email">Email</label>
+                                    <input id="email" ng-model="user.email" name="email" class="form-control"
+                                           ng-focus="removeErrors('emailER')">
+                                    <i class="er" id="emailER"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-footer ">
+                        <div class="d-flex flex-wrap gap-2" style="float: right">
+                            <button type="submit"
+                                    class="btn btn-success waves-effect waves-light" id="sm" ng-click="update()">Cập
+                                nhật thông tin
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <br>
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- Tiêu đề "Địa chỉ của tôi" -->
+                        <h1>Địa chỉ của tôi</h1>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <!-- Nút "Thêm mới địa chỉ" bên phải -->
+                        <button class="btn btn-success" data-bs-toggle="modal"
+                                data-bs-target="#addDiaChi">
+                            <i class="fas fa-plus"></i> Thêm mới địa chỉ
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <div class="modal fade" id="addDiaChi" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thêm Địa Chỉ</h5>
+                            <span type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#addDiaChi').modal('hide')">
+                                    <span aria-hidden="true">x</span>
+                                </span>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <input type="text" ng-model="diaChiChiTiet" name="boGoc"
+                                       class="form-control rounded-4"
+                                       id="inputAddress2"
+                                       placeholder="Địa chỉ: ví dụ(193 Phú Diễn)">
+                                <p class="form-text text-danger">{{errDiaChiChiTiet}}</p>                            </div>
+                            <div class="mb-3">
+                                <label>Tỉnh/Thành phố</label>
+                                <select title="Country" id="city" ng-model="thanhPhoCode"
+                                        onchange="angular.element(this).scope().cityChange(this.value)"
+                                        class="form-select  rounded-4">
+                                    <option selected>Tỉnh/thành phố</option>
+                                    <option ng-repeat="c in citys" value="{{c.ProvinceID}}">
+                                        {{c.ProvinceName}}
+                                    </option>
+                                </select>
+                                <p class="form-text text-danger" id="eThanhPho"></p>
+                            </div>
+                            <div class="mb-3">
+                                <label>Quận huyện</label>
+                                <select id="district" data-placeholder="Quận huyện"
+                                        ng-model="quanHuyenCode"
+                                        onchange="angular.element(this).scope().districtChange(this.value)"
+                                        title="Country"
+                                        class="form-select rounded-4">
+                                    <option selected>Quận/huyện</option>
+                                    <option ng-repeat="d in districts"
+                                            value="{{d.DistrictID}}">{{d.DistrictName}}
+                                    </option>
+                                </select>
+                                <p class="form-text text-danger" id="eQuanHuyen"></p>
+                            </div>
+                            <div class="mb-3">
+                                <label>Xã phường</label>
+                                <select title="Country" id="ward" ng-model="xaPhuongCode"
+                                        onchange="angular.element(this).scope().getFeeShipped(getElementById('district').value,this.value)"
+                                        class="form-select  rounded-4">
+                                    <option selected>Xã/phường</option>
+                                    <option ng-repeat="w in wards" value="{{w.WardCode}}">
+                                        {{w.WardName}}
+                                    </option>
+                                </select>
+                                <p class="form-text text-danger" id="eXaPhuong"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" ng-click="create()">Thêm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="datatable"
+                       class="table table-striped table-hover dt-responsive  nowrap w-100">
+                    <thead>
+                    <tr>
+                        <th>Địa Chỉ</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+
+                    <tbody>
+                    <tr ng-repeat="dc in diaChiByTaiKhoan">
+                        <td>
+                            <p>
+                                {{dc.diaChiChiTiet}},{{dc.xaPhuongName}}, {{dc.quanHuyenName}},
+                                {{dc.thanhPhoName}}
+                            </p>
+                        </td>
+                        <td>
+                            <button type="button" class="btn" ng-if="dc.macDinh == true" disabled>Mặc định</button>
+                            <button type="button" class="btn btn-light" ng-if="dc.macDinh != true" ng-click="setMacDinh(dc.id)">Đặt làm mặc định</button>
+                        </td>
+                        <td>
+                            <button data-bs-toggle="modal"
+                                    data-bs-target="#diaChiUpdate"
+                                    ng-click="getDiaChi(dc.id)">Sửa
+                            </button>
+                            <button class="btn " ng-click="deleteById(dc.id)">Xóa</button>
+                        <td>
+                            <!--                                <a href="/chi-tiet/{{dc.id}}" data-bs-toggle="modal"-->
+                            <!--                                        data-bs-target="#diaChiUpdate">-->
+                            <!--                                Update-->
+                            <!--                                </a>-->
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal fade" id="diaChiUpdate" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content ">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cập nhật địa chỉ</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <input type="text" ng-model="diaChiChiTiet" name="boGoc"
+                                       class="form-control rounded-4"
+                                       id="inputAddress2"
+                                       placeholder="Địa chỉ: ví dụ(193 Phú Diễn)">
+                                <p class="form-text text-danger" id="eDiaChi"></p>
+                            </div>
+                            <div class="mb-3">
+                                <select title="Country" id="city" ng-model="thanhPhoCode"
+                                        onchange="angular.element(this).scope().cityChange(this.value)"
+                                        class="form-select  rounded-4">
+                                    <option selected>Tỉnh/thành phố</option>
+                                    <option ng-repeat="c in citys" value="{{c.ProvinceID}}">
+                                        {{c.ProvinceName}}
+                                    </option>
+                                </select>
+                                <p class="form-text text-danger" id="eThanhPho"></p>
+                            </div>
+                            <div class="mb-3">
+                                <select id="district" data-placeholder="Quận huyện"
+                                        ng-model="quanHuyenCode"
+                                        onchange="angular.element(this).scope().districtChange(this.value)"
+                                        title="Country"
+                                        class="form-select rounded-4">
+                                    <option selected>Quận/huyện</option>
+                                    <option ng-repeat="d in districts"
+                                            value="{{d.DistrictID}}">{{d.DistrictName}}
+                                    </option>
+                                </select>
+                                <p class="form-text text-danger" id="eQuanHuyen"></p>
+                            </div>
+                            <div class="mb-3">
+                                <select title="Country" id="ward" ng-model="xaPhuongCode"
+                                        onchange="angular.element(this).scope().getFeeShipped(getElementById('district').value,this.value)"
+                                        class="form-select  rounded-4">
+                                    <option selected>Xã/phường</option>
+                                    <option ng-repeat="w in wards" value="{{w.WardCode}}">
+                                        {{w.WardName}}
+                                    </option>
+                                </select>
+                                <p class="form-text text-danger" id="eXaPhuong"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" ng-click="updateDiaChi()">Cập Nhật
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+</body>
+</div>
+</html>

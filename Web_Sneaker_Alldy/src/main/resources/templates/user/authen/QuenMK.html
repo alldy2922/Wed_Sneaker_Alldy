@@ -1,0 +1,142 @@
+<!doctype html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8"/>
+    <title>Quên mật khẩu | ALLDY STORE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
+    <meta content="Themesbrand" name="author"/>
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="/admin/images/LOGOALLDY.jpg">
+
+    <!-- preloader css -->
+    <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css"/>
+
+    <!-- Bootstrap Css -->
+    <link href="/admin/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"/>
+    <!-- Icons Css -->
+    <link href="/admin/assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
+    <!-- App Css-->
+    <link href="/admin/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css"/>
+
+</head>
+
+<body data-topbar="dark" ng-app="app" ng-controller="ctrl">
+<style>
+    .er {
+        color: red;
+        font-size: 13px;
+    }
+</style>
+<!-- <body data-layout="horizontal"> -->
+<div class="auth-page">
+    <div class="container-fluid p-0">
+        <div class="row g-0 d-flex justify-content-center">
+            <div class="col-xxl-4 col-lg-4 col-md-5 mt-5">
+                <div class="auth-full-page-content d-flex p-sm-5 p-4 mt-5"
+                     style="min-height: 550px;
+                            border-radius: 40px;
+                            box-shadow: 2px 2px 2px 2px gainsboro;">
+                    <div class="w-100">
+                        <div class="d-flex flex-column h-100">
+                            <div class="auth-content my-auto">
+                                <div class="mb-4 mb-md-5 text-center">
+                                    <a class="d-block auth-logo">
+                                        <img src="/admin/images/LOGOALLDY.jpg" alt="" height="100">
+                                        <span class="logo-txt" style="font-size: 30px">ALLDY STORE</span>
+                                    </a>
+                                </div>
+                                <form class="mt-4 pt-2" >
+                                    <div class="mb-4">
+                                        <div class="form-floating form-floating-custom ">
+                                            <input type="text" class="form-control" id="input-username" ng-model="username" onfocus="removeER('erUsername')"
+                                                   ng-focus="success=''"
+                                                   ng-disabled="loading"
+                                                   placeholder="Enter User Name" >
+                                            <label for="input-username">Tài khoản</label>
+                                            <div class="form-floating-icon">
+                                                <i data-feather="users"></i>
+                                            </div>
+                                        </div>
+                                        <i class="er" id="erUsername"></i>
+                                        <i class="text-primary" id="sc">{{success}}</i>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button ng-disabled="loading" class="col-4 btn btn-danger waves-effect waves-light"><a class=" text-light" href="/admin/login" >
+                                            Quay lại
+                                        </a></button>
+                                        <button class="col-7 btn btn-primary waves-effect waves-light" ng-disabled="loading"
+                                                ng-click="forgotPass()" style="float: right" type="button">
+                                            Tìm lại mật khẩu
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end auth full page content -->
+            </div>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container fluid -->
+</div>
+
+<script src="/admin/js/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular.min.js"></script>
+<script>
+    function showConfirmPass(){
+        let input = document.getElementById("password-confirm");
+        let button = document.getElementById('confirm-pass');
+        if(input.type == "password"){
+            input.type = "text"
+            button.className  = 'mdi mdi-eye-off-outline font-size-18 text-muted'
+        }else{
+            input.type = "password"
+            button.className  = 'mdi mdi-eye-outline font-size-18 text-muted'
+        }
+    }
+    function removeER(id){
+        document.getElementById(id).innerText = ""
+    }
+    var app = angular.module("app",[])
+    app.controller("ctrl",function ($scope, $http){
+        const pathName = location.pathname;
+        $scope.loading = false;
+        $scope.forgotPass = function (){
+            $scope.loading = true;
+            $http.post(pathName, $scope.username == undefined ?"  " : $scope.username).then(r=>{
+                // $scope.success = r.data.success
+                // $scope.loading = false;
+                document.cookie = "username="+$scope.username;
+                console.log($scope.username)
+
+                location.href = "/quen-mat-khau/xac-nhan"
+            }).catch(e =>{
+                console.log(e)
+                document.getElementById("erUsername").innerText = e.data.er;
+                $scope.success = "";
+                $scope.loading = false;
+            })
+        }
+    })
+</script>
+<!-- JAVASCRIPT -->
+<script src="/admin/assets/libs/jquery/jquery.min.js"></script>
+<script src="/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/admin/assets/libs/metismenu/metisMenu.min.js"></script>
+<script src="/admin/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="/admin/assets/libs/node-waves/waves.min.js"></script>
+<script src="/admin/assets/libs/feather-icons/feather.min.js"></script>
+<!-- pace js -->
+<script src="/admin/assets/libs/pace-js/pace.min.js"></script>
+
+<script src="/admin/assets/js/pages/pass-addon.init.js"></script>
+
+<script src="/admin/assets/js/pages/feather-icon.init.js"></script>
+
+</body>
+
+</html>

@@ -64,9 +64,9 @@
                             </ul>
                         </div>
                         <div class="card-body">
-                            <div class="form-group" ng-repeat="s in sanPham" >
-                                <input type="checkbox" id="{{'productCheckbox' + $index}}" ng-model="s.selected" ng-change="toggleSelection(s) " >
-                                <label for="{{'productCheckbox' + $index}}" ng-click="addChiTietDonHang(s)"  >
+                            <div class="form-group" ng-repeat="s in sanPham">
+                                <input type="checkbox" id="{{'productCheckbox' + $index}}" ng-model="s.selected" ng-change="toggleSelection(s)" ng-disabled="s.sanPhamDTO.soLuong <= 0">
+                                <label for="{{'productCheckbox' + $index}}" ng-click="addChiTietDonHang(s)">
                                     <div class="row d-flex justify-content-start align-items-center">
                                         <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length > 0">
                                             <img ng-src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}" style="height: 50px; border-radius: 15px; margin-left: 10px; width: 70px;">
@@ -115,35 +115,8 @@
                                             <button class="btn btn-light" ng-click="updateQuantity(product, true)">+</button>
                                         </div>
                                     </td>
-                                    <td style="width: 260px;">
-                                        <div class="d-flex justify-content-start">
-                                            <div style="width: 70px;">
-                                                <img src="/image/loadImage/product/{{product.sanPhamDTO.anh}}"
-                                                     style="width: 70px; height: 70px; border-radius: 10px">
-                                            </div>
-                                            <div>
-                                                <p style="font-weight: bold;padding-left: 10px; ">{{product.sanPhamDTO.sanPham}}</p>
-                                                <i style="font-size: 10px;padding-left: 10px;">Size {{product.sanPhamDTO.size}}</i>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            <input id="{{product.sanPhamDTO.idChiTietSanPham}}"
-                                                   ng-model="chiTietDonHang[$index].soLuong"
-                                                   onchange="angular.element(this).scope().chuaXacNhan.updateSoLuong(this.id,this.value)"
-                                                   class="form-control me-1">
-                                            <div>
-                                                    <span class="rounded-circle mb-1"
-                                                          style="cursor: pointer; border: 1px solid #ced4da;padding: 1px;"
-                                                          ng-click="chuaXacNhan.addSoLuong(d.idChiTietSanPham)">+</span>
-                                                <span class="rounded-circle"
-                                                      style="cursor: pointer;border: 1px solid #ced4da;padding: 1px;"
-                                                      ng-click="chuaXacNhan.subtractSoLuong(d.idChiTietSanPham)">-</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                           
+
+
                                 </tr>
                                 </tbody>
                             </table>

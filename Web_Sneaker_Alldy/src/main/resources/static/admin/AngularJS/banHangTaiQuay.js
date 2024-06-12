@@ -136,11 +136,11 @@ app.controller("banhang-ctrl", function ($scope, $http) {
     };
 
     // Function to calculate the total price of all selected products
-    // $scope.getTotalPrice = function () {
-    //     return $scope.selectedProducts.reduce(function (sum, product) {
-    //         return sum + $scope.calculateTotalPrice(product);
-    //     }, 0);
-    // };
+    $scope.getTotalPrice = function () {
+        return $scope.selectedProducts.reduce(function (sum, product) {
+            return sum + $scope.calculateTotalPrice(product);
+        }, 0);
+    };
 
     // Function to filter customers
     $scope.filterCustomers = function () {
@@ -184,11 +184,11 @@ app.controller("banhang-ctrl", function ($scope, $http) {
 //         $scope.chiTietDonHang.length = 0
 //     });
 //
-    $scope.getTotalPrice = function () {
-        let total = 0;
-        $scope.chiTietDonHang.forEach(c => total += (c.donGiaSauGiam * c.soLuong))
-        return total
-    }
+//     $scope.getTotalPrice = function () {
+//         let total = 0;
+//         $scope.chiTietDonHang.forEach(c => total += (c.donGiaSauGiam * c.soLuong))
+//         return total
+//     }
 //     ///////////////////////
 //     $scope.getSanPham = function () {
 //         $http.get("/admin/san-pham/1/get-all-ctsp").then(r => {
@@ -278,6 +278,9 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 $('#mySelect2').val('null').trigger('change');
                 document.getElementById("khachHangSL").value = ""
                 $('#add').modal('hide')
+                $scope.sanPham.forEach(s => {
+                    s.selected = false;
+                });
                 alertify.success("Thêm thành công")
             }).catch(e => {
                 $scope.erAdd = e.data

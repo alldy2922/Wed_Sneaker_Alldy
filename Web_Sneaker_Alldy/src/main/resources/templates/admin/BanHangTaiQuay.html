@@ -103,22 +103,33 @@
                         <div class="card-body">
                             <table class="table">
                                 <tbody>
-                                <tr ng-repeat="d in chiTietDonHang" style="vertical-align: middle">
+                                <tr ng-repeat="product in selectedProducts">
+                                    <td>
+                                        <img ng-src="/image/loadImage/product/{{product.sanPhamDTO.anh[0]}}" style="height: 50px; border-radius: 15px; width: 70px;">
+                                    </td>
+                                    <td>{{product.sanPhamDTO.ten}}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-center">
+                                            <button class="btn btn-light" ng-click="updateQuantity(product, false)">-</button>
+                                            <input type="number" ng-model="product.quantity" ng-change="updateQuantity(product, true)" min="1" class="form-control" style="width: 60px;">
+                                            <button class="btn btn-light" ng-click="updateQuantity(product, true)">+</button>
+                                        </div>
+                                    </td>
                                     <td style="width: 260px;">
                                         <div class="d-flex justify-content-start">
                                             <div style="width: 70px;">
-                                                <img src="/image/loadImage/product/{{d.anh}}"
+                                                <img src="/image/loadImage/product/{{product.sanPhamDTO.anh}}"
                                                      style="width: 70px; height: 70px; border-radius: 10px">
                                             </div>
                                             <div>
-                                                <p style="font-weight: bold;padding-left: 10px; ">{{d.sanPham}}</p>
-                                                <i style="font-size: 10px;padding-left: 10px;">Size {{d.size}}</i>
+                                                <p style="font-weight: bold;padding-left: 10px; ">{{product.sanPhamDTO.sanPham}}</p>
+                                                <i style="font-size: 10px;padding-left: 10px;">Size {{product.sanPhamDTO.size}}</i>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            <input id="{{d.idChiTietSanPham}}"
+                                            <input id="{{product.sanPhamDTO.idChiTietSanPham}}"
                                                    ng-model="chiTietDonHang[$index].soLuong"
                                                    onchange="angular.element(this).scope().chuaXacNhan.updateSoLuong(this.id,this.value)"
                                                    class="form-control me-1">
@@ -132,7 +143,8 @@
                                             </div>
                                         </div>
                                     </td>
-
+                           
+                                </tr>
                                 </tbody>
                             </table>
                             <hr>

@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 
-        <div class="row">
+        <div class="row"> 
             <div class="col-12">
 <!--                Form readonly-->
                 <form th:if="${hasAdmin == false}" inert th:object="${sanPham}" enctype="multipart/form-data">
@@ -100,12 +100,7 @@
                                         <input id="manufacturerbrand" th:field="*{giaBan}" class="form-control">
                                         <i th:errors="*{giaBan}" class="er"></i>
                                     </div>
-                                    <!--                                    <div class="mb-3">-->
-                                    <!--                                        <label>Trạng thái</label>-->
-                                    <!--                                        <input th:field="*{hienThi}" type="radio" th:value="1"/>Đăng bán-->
-                                    <!--                                        <input th:field="*{hienThi}" th:checked="*{hienThi == null ? true :false}"-->
-                                    <!--                                               type="radio" th:value="0"/>Ẩn-->
-                                    <!--                                    </div>-->
+
                                 </div>
 
                                 <div class="col-sm-6">

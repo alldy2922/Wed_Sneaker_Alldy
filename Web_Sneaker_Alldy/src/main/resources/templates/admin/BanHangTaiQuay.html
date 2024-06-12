@@ -63,7 +63,7 @@
                                 <h5 ng-if="sanPham.length ==0" style="text-align: center;padding: 5px">Không có sản phẩm liên quan</h5>
                             </ul>
                         </div>
-                        <div class="card-body">
+                        <div class="card">
                             <div class="form-group" ng-repeat="s in sanPham" >
                                 <input type="checkbox" id="{{'productCheckbox' + $index}}" ng-model="s.selected" ng-change="toggleSelection(s) " >
                                 <label for="{{'productCheckbox' + $index}}" ng-click="addChiTietDonHang(s)"  >
@@ -71,7 +71,7 @@
                                         <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length > 0">
                                             <img ng-src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}" style="height: 50px; border-radius: 15px; margin-left: 10px; width: 70px;">
                                         </div>
-                                        <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length == 0">
+                                        <div class="col-md-2" ng-if="s.sanPhamDTO.anh.length == 0">
                                             <img src="/image/loadImage/product/default.png" style="height: 50px; border-radius: 15px; margin-left: 10px; width: 70px;">
                                         </div>
                                         <div class="col-sm-4">

@@ -35,23 +35,74 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         return total
     }
     ///////////////////////
-    $scope.getSanPham = function () {
+    // $scope.getSanPham = function () {
+    //     $http.get("/admin/san-pham/1/get-all-ctsp").then(r => {
+    //         $scope.sanPham = r.data
+    //     }).catch(e => console.log(e))
+    // }
+    // $scope.getSanPham()
+    // $scope.addChiTietDonHang = function (item) {
+    //     $scope.chiTietDonHang.push({
+    //         sanPham: item.sanPham,
+    //         anh: item.sanPhamDTO.anh.length == 0 ? "default.png" : item.sanPhamDTO.anh[0],
+    //         size: item.size,
+    //         soLuong: 1,
+    //         donGia: item.sanPhamDTO.giaBan,
+    //         donGiaSauGiam: item.sanPhamDTO.giaNiemYet,
+    //         idChiTietSanPham: item.id
+    //     })
+    //     $scope.er.soLuongSP = ""
+    // }
+    // $scope.searchSanPham = function () {
+    //     $http.get("/admin/san-pham/1/get-all-ctsp?keyWord=" + $scope.inputProduct).then(r => {
+    //         $scope.sanPham = r.data
+    //     }).catch(e => console.log(e))
+    // }
+    // $scope.checkSanPhamInDonHang = function (idCTSP) {
+    //     let result = false;
+    //     $scope.chiTietDonHang.forEach(d => {
+    //         if (d.idChiTietSanPham == idCTSP) {
+    //             result = true;
+    //         }
+    //     })
+    //     return result;
+    // }
+
+    /////////////////////////////////////// test
+        $scope.getSanPham = function () {
         $http.get("/admin/san-pham/1/get-all-ctsp").then(r => {
             $scope.sanPham = r.data
         }).catch(e => console.log(e))
     }
     $scope.getSanPham()
     $scope.addChiTietDonHang = function (item) {
-        $scope.chiTietDonHang.push({
-            sanPham: item.sanPham,
-            anh: item.sanPhamDTO.anh.length == 0 ? "default.png" : item.sanPhamDTO.anh[0],
-            size: item.size,
-            soLuong: 1,
-            donGia: item.sanPhamDTO.giaBan,
-            donGiaSauGiam: item.sanPhamDTO.giaNiemYet,
-            idChiTietSanPham: item.id
-        })
-        $scope.er.soLuongSP = ""
+        let existingItem = $scope.chiTietDonHang.find(d => d.idChiTietSanPham == item.id);
+    
+        if (existingItem) {
+            // Nếu sản phẩm đã có trong danh sách, cộng dồn số lượng
+            if (existingItem.soLuong < item.soLuong) {
+                existingItem.soLuong += 1;
+            } else {
+                alert("Không đủ số lượng sản phẩm.");
+            }
+        } else {
+            // Nếu sản phẩm chưa có trong danh sách, thêm mới
+            if (item.soLuong > 0) {
+                $scope.chiTietDonHang.push({
+                    sanPham: item.sanPham,
+                    anh: item.sanPhamDTO.anh.length == 0 ? "default.png" : item.sanPhamDTO.anh[0],
+                    size: item.size,
+                    soLuong: 1,
+                    donGia: item.sanPhamDTO.giaBan,
+                    donGiaSauGiam: item.sanPhamDTO.giaNiemYet,
+                    idChiTietSanPham: item.id
+                });
+            } else {
+                alert("Sản phẩm đã hết hàng.");
+            }
+        }
+    
+        $scope.er.soLuongSP = "";
     }
     $scope.searchSanPham = function () {
         $http.get("/admin/san-pham/1/get-all-ctsp?keyWord=" + $scope.inputProduct).then(r => {
@@ -67,10 +118,8 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         })
         return result;
     }
-
-    ///////////////////////////////////////
-
-    ////////////////////////
+    
+    ////////////////////////end test
     $scope.themDonHang = function (trangThai){
         alertify.confirm("Tạo đơn hàng?", function () {
             let chiTietDonHang = [];

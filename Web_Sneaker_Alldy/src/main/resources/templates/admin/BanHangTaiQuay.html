@@ -863,7 +863,7 @@
                                                                     <th>STT</th>
                                                                     <th>Hình ảnh</th>
                                                                     <th>Tên sản phẩm</th>
-                                                                    <th>Màu Sắc</th>
+                                                                    
                                                                     <th>Size</th>
                                                                     <th>Số Lượng</th>
                                                                     <th>Giá </th>
@@ -874,16 +874,6 @@
 
                                                                 <tr ng-repeat="s in sanPham">
                                                                     <td>{{$index + 1}}</td>
-                                                                    <!-- <td>
-                                                                        
-                                                                        <input type="checkbox"
-
-                                                                            id="{{'productCheckbox' + $index}}"
-                                                                            ng-model="s.selected"
-                                                                            ng-change="toggleSelection(s)"
-                                                                            ng-disabled="s.sanPhamDTO.soLuong <= 0"
-                                                                            >
-                                                                    </td> -->
                                                                     <td>
                                                                         <label for="{{'productCheckbox' + $index}}"
                                                                             ng-click="addChiTietDonHang(s)">
@@ -907,27 +897,22 @@
                                                                     <td>
 
                                                                         <div
-                                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold;">
+                                                                            style=" font-weight: bold;">
                                                                             {{s.sanPhamDTO.ten}}
                                                                         </div>
                                                                     </td>
 
-                                                                    <td>
-                                                                        <div
-                                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold;">
-                                                                            {{s.sanPhamDTO.mausac}}
-                                                                        </div>
-                                                                    </td>
+                                                                   
 
                                                                     <td>
                                                                         <div
-                                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold;">
+                                                                        style=" font-weight: bold;">
                                                                             <i>Size: {{s.size}} </i>
                                                                         </div>
                                                                     </td>
                                                                     <td>
                                                                         <i
-                                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold;">
+                                                                        style=" font-weight: bold;">
                                                                             Còn lại: {{s.soLuong}}</i>
                                                                     </td>
 
@@ -938,18 +923,20 @@
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <button type="button" class="btn btn-success"
-                                                                            ng-click="addChiTietDonHang(s)">Chọn</button>
+                                                                        <button type="button" class="btn btn-success" 
+                                                                            ng-click="addChiTietDonHang(s)" 
+                                                                            ng-disabled="s.soLuong <= 0">
+                                                                            {{ s.soLuong > 0 ? "Chọn" : "Hết hàng" }}
+                                                                        </button>
                                                                     </td>
+                                                                    
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
-
-
-
                                             </div>
+
                                             <div class="card-body">
                                                 <div style="width: 100%" class="d-flex flex-column">
                                                     <div class="col-sm-12">
@@ -1078,25 +1065,24 @@
                                                                     </td>
                                                                     <!-- tên -->
                                                                     <td style="width: 50px;">
-                                                                        <div class="d-flex justify-content-start">
+                                                                        <div>
+                                                                            <p style="font-weight: bold; ">
+                                                                                {{d.sanPham}}</p>
 
-                                                                            <div>
-                                                                                <p
-                                                                                    style="font-weight: bold;padding-left: 10px; ">
-                                                                                    {{d.sanPham}}</p>
-
-                                                                            </div>
                                                                         </div>
                                                                     </td>
                                                                     <!-- size -->
                                                                     <td>
-                                                                        <div class="d-flex justify-content-center">
-                                                                            <input style="text-align: center;"  id="{{d.idChiTietSanPham}}"
+                                                                        <div>
+                                                                            <!-- <input style="text-align: center;"  id="{{d.idChiTietSanPham}}"
                                                                                 ng-model="chiTietDonHang[$index].size"
-                                                                                class="form-control me-1">
+                                                                                class="form-control me-1"> -->
                                                                             <!-- <select name="" id="" ng-repeat="a in lst">
                                                                                     <option value="{{a.size}}">{{'size: '+a.size}}</option>
                                                                                 </select> -->
+
+                                                                            <p>
+                                                                                {{d.size}}</p>
 
                                                                         </div>
                                                                     </td>
@@ -1104,7 +1090,8 @@
                                                                     <!-- soluong -->
                                                                     <td>
                                                                         <div class="d-flex justify-content-center">
-                                                                            <input style="text-align: center;" id="{{d.idChiTietSanPham}}"
+                                                                            <input style="text-align: center;"
+                                                                                id="{{d.idChiTietSanPham}}"
                                                                                 ng-model="chiTietDonHang[$index].soLuong"
                                                                                 onchange="angular.element(this).scope().chuaXacNhan.updateSoLuong(this.id,this.value)"
                                                                                 class="form-control me-1">
@@ -1118,10 +1105,12 @@
                                                                             </div>
                                                                         </div>
                                                                     </td>
-                                                                    <td>{{d.donGia | currency: "" : 0}} đ</td>
                                                                     <td>
-
+                                                                        {{d.donGia | currency: "" : 0}} đ
+                                                                    </td>
+                                                                    <td>
                                                                         {{d.donGiaSauGiam | currency: "" : 0}}đ
+                                                                    </td>
                                                     </div>
                                                     </td>
                                                     <td>
@@ -1130,7 +1119,7 @@
                                                 </div>
                                                 </td>
                                                 <td>
-                                                    <span style="font-size: 13px;color:red;cursor: pointer"
+                                                    <span style="font-size: 20px;color:red;cursor: pointer"
                                                         ng-click="chuaXacNhan.removeSanPham(d.id)">
                                                         <i class=" bx bx-trash"></i>
                                                     </span>

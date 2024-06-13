@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,4 +49,10 @@ public class DiaChiModel {
 
     @Column(name = "macdinh")
     private Boolean macDinh;
+
+    @ManyToOne
+    @JoinColumn(name = "khachhang")
+    @JsonBackReference
+    private KhachHangModel taiKhoan;
+
 }

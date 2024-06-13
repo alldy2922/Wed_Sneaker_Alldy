@@ -846,13 +846,13 @@
                                         <!-- ben trai -->
                                         <div class="col-7">
 
-                                            <div class="card-body">
+                                            <!-- <div class="card-body">
                                                 <input data-toggle="dropdown" ng-keyup="searchSanPham()"
                                                     ng-model="inputProduct" ng-focus="erAdd.soLuongSP=''"
                                                     placeholder="Tìm sản phẩm" class="form-control"
                                                     style="width: 300px; text-align: left;">
 
-                                            </div>
+                                            </div> -->
                                             <div>
 
                                                 <div class="card-body">
@@ -879,8 +879,7 @@
                                                                     <td>
                                                                         <label for="{{'productCheckbox' + $index}}"
                                                                             ng-click="addChiTietDonHang(s)">
-                                                                            <div
-                                                                                >
+                                                                            <div>
                                                                                 <div class="col-sm-2"
                                                                                     ng-if="s.anh.length > 0">
                                                                                     <img ng-src="/image/loadImage/product/{{s.anh[0]}}"
@@ -907,13 +906,15 @@
 
                                                                     <td>
                                                                         <select class="form-select"
-                                                                         ng-model="selectedSize[s.ma]"
+                                                                            ng-model="selectedSize[s.ma]"
                                                                             ng-options="size as size.size for size in productDetails[s.ma]"
                                                                             ng-change="getSoLuong(selectedSize[s.ma].id, s.ma)">
-                                                                            <option value="" >Chọn Size</option>
+                                                                            <option value="">Chọn Size</option>
                                                                         </select>
-                                                                        <p ng-if="selectedSize[s.ma] && selectedSize[s.ma].soLuong">
-                                                                            Còn lại {{ selectedSize[s.ma].soLuong }} sản phẩm
+                                                                        <p
+                                                                            ng-if="selectedSize[s.ma] && selectedSize[s.ma].soLuong">
+                                                                            Còn lại {{ selectedSize[s.ma].soLuong }} sản
+                                                                            phẩm
                                                                         </p>
 
                                                                     </td>
@@ -927,23 +928,22 @@
                                                                     <td>
                                                                         <!-- <button type="button" class="btn btn-success"
                                                                             ng-click="addChiTietDonHang(s)"
-                                                                            ng-disabled="s.soLuong <= 0">
-                                                                            {{ s.soLuong > 0 ? "Chọn" : "Hết hàng" }}
-                                                                        </button> -->
-
-                                                                        <!-- <button type="button" class="btn btn-success"
-                                                                            ng-click="addChiTietDonHang(s, selectedSize[s.ma])"
-                                                                            ng-disabled="s.soLuong <= 0 || !selectedSize[s.ma]">
-                                                                            {{ s.soLuong > 0 ? "Chọn" : "Hết hàng" }}
-                                                                        </button> -->
-
-                                                                        <button type="button" class="btn btn-success"
-                                                                            ng-click="addChiTietDonHang(s)"
                                                                             ng-disabled="!selectedSize[s.ma] || selectedSize[s.ma].soLuong <= 0">
                                                                             {{ selectedSize[s.ma] &&
                                                                             selectedSize[s.ma].soLuong > 0 ? "Chọn" :
                                                                             "Hết hàng" }}
-                                                                        </button>
+                                                                        </button> -->
+
+                                                                        <button type="button" class="btn"
+                                                                            ng-click="addChiTietDonHang(s)" ng-class="{'btn-success': selectedSize[s.ma] && selectedSize[s.ma].soLuong > 0,
+                                                                            'btn-outline-danger': selectedSize[s.ma] && selectedSize[s.ma].soLuong <= 0,
+                                                                            'btn-secondary': !selectedSize[s.ma]}">
+                                                                            {{ selectedSize[s.ma] &&
+                                                                            selectedSize[s.ma].soLuong > 0 ? "Thêm Giỏ Hàng" :
+                                                                            selectedSize[s.ma] &&
+                                                                            selectedSize[s.ma].soLuong <= 0 ? "Hết hàng"
+                                                                                : "Chờ chọn" }} </button>
+
 
                                                                     </td>
 

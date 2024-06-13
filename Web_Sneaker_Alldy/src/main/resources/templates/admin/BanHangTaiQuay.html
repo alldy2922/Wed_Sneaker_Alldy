@@ -863,29 +863,31 @@
                                                                     <th>STT</th>
                                                                     <th>Hình ảnh</th>
                                                                     <th>Tên sản phẩm</th>
-                                                                    
-                                                                    <th>Size</th>
-                                                                    <th>Số Lượng</th>
+
+                                                                    <th style="width: 150px;">Size</th>
+
                                                                     <th>Giá </th>
                                                                     <th>Hành Động</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
 
-                                                                <tr ng-repeat="s in sanPham">
+                                                                <tr ng-repeat="s in products"
+                                                                    ng-init="getProductDetails(s.ma)">
+
                                                                     <td>{{$index + 1}}</td>
                                                                     <td>
                                                                         <label for="{{'productCheckbox' + $index}}"
                                                                             ng-click="addChiTietDonHang(s)">
                                                                             <div
-                                                                                class="row d-flex justify-content-start align-items-center">
+                                                                                >
                                                                                 <div class="col-sm-2"
-                                                                                    ng-if="s.sanPhamDTO.anh.length > 0">
-                                                                                    <img ng-src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
+                                                                                    ng-if="s.anh.length > 0">
+                                                                                    <img ng-src="/image/loadImage/product/{{s.anh[0]}}"
                                                                                         style="height: 50px; border-radius: 15px; margin-left: 10px; width: 70px;">
                                                                                 </div>
                                                                                 <div class="col-sm-2"
-                                                                                    ng-if="s.sanPhamDTO.anh.length == 0">
+                                                                                    ng-if="s.anh.length == 0">
                                                                                     <img src="/image/loadImage/product/default.png"
                                                                                         style="height: 50px; border-radius: 15px; margin-left: 10px; width: 70px;">
                                                                                 </div>
@@ -896,46 +898,62 @@
                                                                     </td>
                                                                     <td>
 
-                                                                        <div
-                                                                            style=" font-weight: bold;">
-                                                                            {{s.sanPhamDTO.ten}}
+                                                                        <div style=" font-weight: bold;">
+                                                                            {{s.ten}}
                                                                         </div>
                                                                     </td>
 
-                                                                   
+
 
                                                                     <td>
-                                                                        <div
-                                                                        style=" font-weight: bold;">
-                                                                            <i>Size: {{s.size}} </i>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <i
-                                                                        style=" font-weight: bold;">
-                                                                            Còn lại: {{s.soLuong}}</i>
-                                                                    </td>
+                                                                        <select class="form-select"
+                                                                         ng-model="selectedSize[s.ma]"
+                                                                            ng-options="size as size.size for size in productDetails[s.ma]"
+                                                                            ng-change="getSoLuong(selectedSize[s.ma].id, s.ma)">
+                                                                            <option value="" >Chọn Size</option>
+                                                                        </select>
+                                                                        <p ng-if="selectedSize[s.ma] && selectedSize[s.ma].soLuong">
+                                                                            Còn lại {{ selectedSize[s.ma].soLuong }} sản phẩm
+                                                                        </p>
 
+                                                                    </td>
+                                                                    <!-- test -->
                                                                     <td>
                                                                         <div>
-                                                                            {{s.sanPhamDTO.giaNiemYet |
+                                                                            {{s.giaNiemYet |
                                                                             currency:"":0}} đ
                                                                         </div>
                                                                     </td>
                                                                     <td>
-                                                                        <button type="button" class="btn btn-success" 
-                                                                            ng-click="addChiTietDonHang(s)" 
+                                                                        <!-- <button type="button" class="btn btn-success"
+                                                                            ng-click="addChiTietDonHang(s)"
                                                                             ng-disabled="s.soLuong <= 0">
                                                                             {{ s.soLuong > 0 ? "Chọn" : "Hết hàng" }}
+                                                                        </button> -->
+
+                                                                        <!-- <button type="button" class="btn btn-success"
+                                                                            ng-click="addChiTietDonHang(s, selectedSize[s.ma])"
+                                                                            ng-disabled="s.soLuong <= 0 || !selectedSize[s.ma]">
+                                                                            {{ s.soLuong > 0 ? "Chọn" : "Hết hàng" }}
+                                                                        </button> -->
+
+                                                                        <button type="button" class="btn btn-success"
+                                                                            ng-click="addChiTietDonHang(s)"
+                                                                            ng-disabled="!selectedSize[s.ma] || selectedSize[s.ma].soLuong <= 0">
+                                                                            {{ selectedSize[s.ma] &&
+                                                                            selectedSize[s.ma].soLuong > 0 ? "Chọn" :
+                                                                            "Hết hàng" }}
                                                                         </button>
+
                                                                     </td>
-                                                                    
+
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
                                             </div>
+
 
                                             <div class="card-body">
                                                 <div style="width: 100%" class="d-flex flex-column">
@@ -1074,12 +1092,6 @@
                                                                     <!-- size -->
                                                                     <td>
                                                                         <div>
-                                                                            <!-- <input style="text-align: center;"  id="{{d.idChiTietSanPham}}"
-                                                                                ng-model="chiTietDonHang[$index].size"
-                                                                                class="form-control me-1"> -->
-                                                                            <!-- <select name="" id="" ng-repeat="a in lst">
-                                                                                    <option value="{{a.size}}">{{'size: '+a.size}}</option>
-                                                                                </select> -->
 
                                                                             <p>
                                                                                 {{d.size}}</p>

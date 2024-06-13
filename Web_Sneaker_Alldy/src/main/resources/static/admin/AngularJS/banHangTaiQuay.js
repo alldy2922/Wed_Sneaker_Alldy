@@ -8,6 +8,10 @@ app.controller("banhang-ctrl", function ($scope, $http) {
     }
     $scope.chiTietDonHang = []
     $scope.sanPham = [];
+    $scope.products = [];
+    $scope.productDetails = [];
+    $scope.selectedSize =[];
+
     const limit = 10;
     $scope.er = {}
     $scope.dateNow = new Date().getTime();
@@ -53,57 +57,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
     //     })
     //     $scope.er.soLuongSP = ""
     // }
-    // $scope.searchSanPham = function () {
-    //     $http.get("/admin/san-pham/1/get-all-ctsp?keyWord=" + $scope.inputProduct).then(r => {
-    //         $scope.sanPham = r.data
-    //     }).catch(e => console.log(e))
-    // }
-    // $scope.checkSanPhamInDonHang = function (idCTSP) {
-    //     let result = false;
-    //     $scope.chiTietDonHang.forEach(d => {
-    //         if (d.idChiTietSanPham == idCTSP) {
-    //             result = true;
-    //         }
-    //     })
-    //     return result;
-    // }
-
-    /////////////////////////////////////// test
-        $scope.getSanPham = function () {
-        $http.get("/admin/san-pham/1/get-all-ctsp").then(r => {
-            $scope.sanPham = r.data
-        }).catch(e => console.log(e))
-    }
-    $scope.getSanPham()
-    $scope.addChiTietDonHang = function (item) {
-        let existingItem = $scope.chiTietDonHang.find(d => d.idChiTietSanPham == item.id);
-    
-        if (existingItem) {
-            // Nếu sản phẩm đã có trong danh sách, cộng dồn số lượng
-            if (existingItem.soLuong < item.soLuong) {
-                existingItem.soLuong += 1;
-            } else {
-                alert("Không đủ số lượng sản phẩm.");
-            }
-        } else {
-            // Nếu sản phẩm chưa có trong danh sách, thêm mới
-            if (item.soLuong > 0) {
-                $scope.chiTietDonHang.push({
-                    sanPham: item.sanPham,
-                    anh: item.sanPhamDTO.anh.length == 0 ? "default.png" : item.sanPhamDTO.anh[0],
-                    size: item.size,
-                    soLuong: 1,
-                    donGia: item.sanPhamDTO.giaBan,
-                    donGiaSauGiam: item.sanPhamDTO.giaNiemYet,
-                    idChiTietSanPham: item.id
-                });
-            } else {
-                alert("Sản phẩm đã hết hàng.");
-            }
-        }
-    
-        $scope.er.soLuongSP = "";
-    }
     $scope.searchSanPham = function () {
         $http.get("/admin/san-pham/1/get-all-ctsp?keyWord=" + $scope.inputProduct).then(r => {
             $scope.sanPham = r.data
@@ -118,7 +71,95 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         })
         return result;
     }
-    
+
+    /////////////////////////////////////// test
+$scope.selectedSize = {}; // Để lưu trữ size đã chọn cho từng sản phẩm
+$scope.productDetails = {}; // Để lưu trữ chi tiết sản phẩm và số lượng còn lại của từng size
+
+$scope.getSanPham = function () {
+    $http.get("/admin/san-pham/get-all").then(r => {
+        $scope.products = r.data.content;
+        $scope.getPageNumbers(r.data.totalPages);
+        $scope.filterData = {};
+    }).catch(e => console.log(e));
+};
+
+$scope.getAll = function (pageNumber) {
+    $scope.pageNumber = pageNumber;
+    if (!isfilter) {
+        $http.get("/san-pham/get-all?pageNumber=" + pageNumber).then(r => {
+            $scope.products = r.data.content;
+        }).catch(e => console.log(e));
+    } else {
+        $http.post("/san-pham/filter?pageNumber=" + pageNumber, $scope.filterDto).then(r => {
+            $scope.products = r.data.content;
+        }).catch(e => console.log(e));
+    }
+};
+
+$scope.getSanPham();
+
+$scope.getProductDetails = function(maSP) {
+    $http.get("/chi-tiet-san-pham/" + maSP + "/get-all").then(r => {
+        $scope.productDetails[maSP] = r.data;
+    }).catch(e => console.log(e));
+};
+
+// Hàm để lấy số lượng sản phẩm còn lại theo size đã chọn
+$scope.getSoLuong = function (maSP, idCTSP) {
+    $http.get("/chi-tiet-san-pham/" + maSP + "/" + idCTSP).then(r => {
+        $scope.selectedSize[maSP].soLuong = r.data;
+    }).catch(e => console.log(e));
+};
+
+
+
+$scope.addChiTietDonHang = function (item, selectedSize) {
+      // Kiểm tra xem đã chọn size cho sản phẩm này chưa
+      if (!$scope.selectedSize[item.ma]) {
+        alert("Vui lòng chọn size trước khi thêm vào đơn hàng.");
+        return;
+    }
+
+    // Tạo một bản sao của sản phẩm để tránh thay đổi trực tiếp dữ liệu nguồn
+    let selectedSizeItem = angular.copy($scope.selectedSize[item.ma]);
+
+    // Tìm sản phẩm đã có trong đơn hàng chưa
+    let existingItemIndex = $scope.chiTietDonHang.findIndex(d => d.idChiTietSanPham === selectedSizeItem.id);
+
+    if (existingItemIndex !== -1) {
+        // Nếu sản phẩm đã có trong đơn hàng, kiểm tra số lượng
+        if ($scope.chiTietDonHang[existingItemIndex].soLuong < selectedSizeItem.soLuong) {
+            // Nếu số lượng hiện tại nhỏ hơn số lượng tối đa, tăng số lượng lên 1
+            $scope.chiTietDonHang[existingItemIndex].soLuong += 1;
+        } else {
+            // Nếu đã đạt số lượng tối đa, thông báo không đủ số lượng
+            alert("Không đủ số lượng sản phẩm.");
+        }
+    } else {
+        // Nếu sản phẩm chưa có trong đơn hàng, thêm mới vào chiTietDonHang
+        if (selectedSizeItem.soLuong > 0) {
+            $scope.chiTietDonHang.push({
+                sanPham: item.ten,
+                anh: item.anh.length === 0 ? "default.png" : item.anh[0],
+                size: selectedSizeItem.size,
+                soLuong: 1, // Mặc định số lượng là 1 khi thêm mới
+                donGia: item.giaBan,
+                donGiaSauGiam: item.giaNiemYet,
+                idChiTietSanPham: selectedSizeItem.id
+            });
+        } else {
+            // Nếu size đã hết hàng, thông báo lỗi
+            alert("Size đã hết hàng.");
+        }
+    }
+
+    // Đặt lại giá trị nhập liệu số lượng sản phẩm thành rỗng sau khi thêm
+    $scope.erAdd.soLuongSP = "";
+};
+
+
+
     ////////////////////////end test
     $scope.themDonHang = function (trangThai){
         alertify.confirm("Tạo đơn hàng?", function () {

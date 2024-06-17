@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/index}">
+<head>
+    <title>ALLDY SNEAKER | Bán hàng tại quầy</title>
+</head>
+<body data-topbar="dark">
+
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div  layout:fragment="content">
+    <div >
+        <div class="page-content" ng-app="banhang-app" ng-controller="banhang-ctrl">
+            <div class="container-fluid">
+
+                <!-- start page title -->
+
+                <!-- end page title -->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+
+                            <div class="" id="add" tabindex="-1"
+                                 aria-labelledby="myLargeModalLabel">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="adDonHang">Tạo đơn hàng</h5>
+                                            <button type="button" class="close btn" data-dismiss="modal" aria-label="Close"
+                                                    ng-click="closeModal('#add')">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body d-flex align-content-center justify-content-start">
+                                            <div class="me-2" style="width: 33%">
+                                                <div class="row">
+                                                    <div class="mb-3">
+                                                        <label class="control-label">Khách hàng</label>
+                                                        <select class="form-control " id="khachHangSL" style="width: 100%"
+                                                                onchange="angular.element(this).scope().addKhachHangToDonHang()" ng-model="selectedKhachHang" ng-change="searchKhachHang()">
+                                                            <option selected value="null">Khách lẻ</option>
+                                                            <option ng-repeat="k in khachHang" value="{{k.username}}">{{k.hoVaTen + ' - ' + k.soDienThoai}}</option>
+                                                        </select>
+<!--                                                        <input data-toggle="dropdown" ng-keyup="searchSanPham()" ng-model="inputProduct"-->
+<!--                                                               ng-focus="erAdd.soLuongSP=''"-->
+<!--                                                               placeholder="Thêm sản phẩm" class="form-control"-->
+<!--                                                               style="width: 200px;float: right">-->
+<!--                                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"-->
+<!--                                                            style="width: 330px;max-height: 500px;overflow-y: auto;">-->
+<!--                                                            <li ng-repeat="k in khachHang">-->
+<!--                                                                <div style="cursor: pointer"-->
+<!--                                                                     class="row d-flex justify-content-start align-items-center"-->
+<!--                                                                     ng-click="addChiTietDonHang(s)">-->
+
+<!--                                                                    <div class="col-sm-4">-->
+<!--                                                                        <div style="white-space: nowrap;-->
+<!--                                                        overflow: hidden;-->
+<!--                                                        text-overflow: ellipsis;-->
+<!--                                                        font-weight: bold;">{{k.hoVaTen}}-->
+<!--                                                                        </div>-->
+<!--                                                                    </div>-->
+
+<!--                                                                    <div class="col-sm-3 d-flex justify-content-center"-->
+<!--                                                                         style="margin-top: 15px">-->
+<!--                                                                        <p style="font-weight: bold;">{{k.soDienThoai}}</p>-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
+<!--                                                                &lt;!&ndash;                                            /////////////////////////////////////////&ndash;&gt;-->
+
+<!--                                                                <hr>-->
+<!--                                                            </li>-->
+<!--                                                        </ul>-->
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-3 col-12">
+                                                        <label>Phương thức thanh toán</label>
+                                                        <select class="form-control" ng-model="donHangAdd.phuongThucThanhToan">
+                                                            <option value="0">Tiền mặt</option>
+                                                            <option value="1">Thanh toán VNPAY</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="mb-3">
+                                                            <label>Tên khách hàng</label>
+                                                            <input class="form-control" ng-focus="erAdd.tenNguoiNhan=''"
+                                                                   ng-model="donHangAdd.tenNguoiNhan">
+                                                            <i class="er">{{erAdd.tenNguoiNhan == undefined ? '' : erAdd.tenNguoiNhan}}</i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="mb-3">
+                                                            <label>Số điện thoại</label>
+                                                            <input class="form-control" ng-focus="erAdd.soDienThoai=''"
+                                                                   ng-model="donHangAdd.soDienThoai">
+                                                            <i class="er">{{erAdd.soDienThoai == undefined ? '' : erAdd.soDienThoai}}</i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row d-flex justify-content-center">
+                                                    <button class="btn btn-primary col-10" style="display: block" ng-click="addKhachHang()" id="btnAddKh">Lưu khách hàng</button>
+                                                </div>
+                                                <hr>
+                                                <table class="table">
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>Tổng</td>
+                                                        <td colspan="4">
+                                                            <div class="d-flex justify-content-end">{{getTotalPrice() | currency: "" : 1}} đ
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div style="width: 65%" class="d-flex flex-column">
+                                                <div class="col-sm-12">
+                                                    <div class="dropdown">
+                                                        <input data-toggle="dropdown" ng-keyup="searchSanPham()" ng-model="inputProduct"
+                                                               ng-focus="erAdd.soLuongSP=''"
+                                                               placeholder="Thêm sản phẩm" class="form-control"
+                                                               style="width: 200px;float: right">
+                                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"
+                                                            style="margin-top: 40px;margin-left: 190px;width: 530px;max-height: 500px;overflow-y: auto;">
+                                                            <h5 ng-if="sanPham.length ==0" style="text-align: center;padding: 5px">Không có sản phẩm liên quan</h5>
+                                                            <li ng-repeat="s in sanPham">
+                                                                <div ng-if="checkSanPhamInDonHang(s.id)==false && s.soLuong>0" style="cursor: pointer"
+                                                                     class="row d-flex justify-content-start align-items-center"
+                                                                     ng-click="addChiTietDonHang(s)">
+                                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0"><img
+                                                                            src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
+                                                                            style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                                    </div>
+                                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length==0"><img
+                                                                            src="/image/loadImage/product/default.png"
+                                                                            style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div style="white-space: nowrap;
+                                                        overflow: hidden;
+                                                        text-overflow: ellipsis;
+                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
+                                                                        </div>
+                                                                        <i style="font-size: 12px;">Size: {{s.size}} - Còn lại: {{s.soLuong}}</i>
+                                                                    </div>
+                                                                    <div class="col-sm-3 d-flex justify-content-center">
+                                                                        <i style="text-decoration: line-through;"
+                                                                           ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
+                                                                    </div>
+                                                                    <div class="col-sm-3 d-flex justify-content-center"
+                                                                         style="margin-top: 15px">
+                                                                        <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet}}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <!--                                            /////////////////////////////////////////-->
+                                                                <div ng-if="checkSanPhamInDonHang(s.id)==true || s.soLuong<=0"
+                                                                     class="row d-flex justify-content-start align-items-center dropdown-item disabled"
+                                                                     style="background-color: gainsboro">
+                                                                    <!--                                                <div style="position: absolute" class="d-flex justify-content-center">-->
+                                                                    <!--                                                    <span style="font-weight: bold;font-size: 20px;color: black;-->
+                                                                    <!--                                                                font-style: italic;">Đã có trong đơn hàng</span>-->
+                                                                    <!--                                                </div>-->
+                                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0"><img
+                                                                            src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
+                                                                            style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                                    </div>
+                                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length==0"><img
+                                                                            src="/image/loadImage/product/default.png"
+                                                                            style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                                    </div>
+                                                                    <div class="col-sm-4">
+                                                                        <div style="white-space: nowrap;
+                                                        overflow: hidden;
+                                                        text-overflow: ellipsis;
+                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
+                                                                        </div>
+                                                                        <i style="font-size: 12px;">Size: {{s.size}} - Còn lại: {{s.soLuong}}</i>
+                                                                    </div>
+                                                                    <div class="col-sm-3 d-flex justify-content-center">
+                                                                        <i style="text-decoration: line-through;"
+                                                                           ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
+                                                                    </div>
+                                                                    <div class="col-sm-3 d-flex justify-content-center"
+                                                                         style="margin-top: 15px">
+                                                                        <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet}}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div style="height: 430px;overflow-y: auto;">
+                                                    <table class="table table-hover dt-responsive  nowrap w-100">
+                                                        <thead>
+                                                        <tr style="position: sticky;
+                                            top: 0;
+                                            z-index: 1;
+                                            background: white;">
+                                                            <th style="width: 250px;">Sản phẩm</th>
+                                                            <th style="width: 90px">Số lượng</th>
+                                                            <th style="width: 115px">Đơn giá</th>
+                                                            <th style="width: 115px">Đơn giá<br> sau giảm</th>
+                                                            <th style="width: 120px;">Thành tiền</th>
+                                                            <th style="width: 15px"></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <i class="er">{{erAdd.soLuongSP == undefined ? '' : erAdd.soLuongSP}}</i>
+                                                        <tr ng-repeat="d in chiTietDonHang" style="vertical-align: middle">
+                                                            <td style="width: 260px;">
+                                                                <div class="d-flex justify-content-start">
+                                                                    <div style="width: 70px;">
+                                                                        <img src="/image/loadImage/product/{{d.anh}}"
+                                                                             style="width: 70px; height: 70px; border-radius: 10px">
+                                                                    </div>
+                                                                    <div>
+                                                                        <p style="font-weight: bold;padding-left: 10px; ">{{d.sanPham}}</p>
+                                                                        <i style="font-size: 10px;padding-left: 10px;">Size {{d.size}}</i>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <input id="{{d.idChiTietSanPham}}"
+                                                                           ng-model="chiTietDonHang[$index].soLuong"
+                                                                           onchange="angular.element(this).scope().chuaXacNhan.updateSoLuong(this.id,this.value)"
+                                                                           class="form-control me-1">
+                                                                    <div>
+                                                    <span class="rounded-circle mb-1"
+                                                          style="cursor: pointer; border: 1px solid #ced4da;padding: 1px;"
+                                                          ng-click="chuaXacNhan.addSoLuong(d.idChiTietSanPham)">+</span>
+                                                                        <span class="rounded-circle"
+                                                                              style="cursor: pointer;border: 1px solid #ced4da;padding: 1px;"
+                                                                              ng-click="chuaXacNhan.subtractSoLuong(d.idChiTietSanPham)">-</span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>{{d.donGia | currency: "" : 1}} đ</td>
+                                                            <td>
+                                                                <div class="d-flex justify-content-end">{{d.donGiaSauGiam | currency: "" : 1}}
+                                                                    đ
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="d-flex justify-content-end">
+                                                                    {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
+                                                                    đ
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                            <span style="font-size: 13px;color:red;cursor: pointer"
+                                                  ng-click="chuaXacNhan.removeSanPham(d.id)">
+                                             <i class=" bx bx-trash"></i>
+                                            </span>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" ng-click="clearFormAdd()">Làm mới</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                    ng-click="closeModal('#add')">Đóng
+                                            </button>
+                                            <button type="button" class="btn btn-danger" ng-click="themDonHang(5)">Lưu hóa đơn chờ
+                                            </button>
+                                            <button type="button" class="btn btn-primary" ng-click="themDonHang(4)">Thanh toán
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div> <!-- end col -->
+                </div> <!-- end row -->
+            </div>
+
+            <!-- container-fluid -->
+        </div>
+        <!-- End Page-content -->
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <script>document.write(new Date().getFullYear())</script>
+                        © ALLDY SNEAKER.
+                    </div>
+                    <!--                    <div class="col-sm-6">-->
+                    <!--                        <div class="text-sm-end d-none d-sm-block">-->
+                    <!--                            Design & Develop by <a href="#!" class="text-decoration-underline">Themesbrand</a>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                </div>
+            </div>
+        </footer>
+        <!--    modal mau-->
+        <div class="modal" id="sizeModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Thêm kích thước</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Mã </label>
+                                <input type="number" ng-model="ma" class="form-control" ng-focus="removeER('eSizeMa')">
+                                <i id="eSizeMa"  class="text-danger"></i>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Chiều dài </label>
+                                <input type="number" ng-model="chieuDai" class="form-control" ng-focus="removeER('eSizeChieuDai')">
+                                <i id="eSizeChieuDai"  class="text-danger" ></i>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" ng-click="create()">Thêm</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="sizeUpdate">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Cập nhật</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form>
+                        <!--                         Modal body -->
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Mã </label>
+                                <input type="text" ng-model="ma" class="form-control" readonly>
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Chiều dài </label>
+                                <input type="number" ng-model="chieuDai" class="form-control" ng-focus="removeER('eSizeChieuDaiUd')">
+                                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                                <i id="eSizeChieuDaiUd"  class="text-danger" ></i>
+                            </div>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" ng-click="update(ma)">Update</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end main content-->
+</body>
+
+</html>

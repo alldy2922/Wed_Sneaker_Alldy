@@ -57,11 +57,16 @@ app.controller("banhang-ctrl", function ($scope, $http) {
     //     })
     //     $scope.er.soLuongSP = ""
     // }
+    $scope.sanPham = [];
+
     $scope.searchSanPham = function () {
-        $http.get("/admin/san-pham/1/get-all-ctsp?keyWord=" + $scope.inputProduct).then(r => {
-            $scope.sanPham = r.data
+        $http.get("/admin/san-pham/search?ten=" + $scope.inputProduct).then(r => {
+            $scope.products = r.data
+            console.log("12", $scope.products)
         }).catch(e => console.log(e))
+
     }
+
     $scope.checkSanPhamInDonHang = function (idCTSP) {
         let result = false;
         $scope.chiTietDonHang.forEach(d => {
@@ -76,25 +81,17 @@ app.controller("banhang-ctrl", function ($scope, $http) {
 $scope.selectedSize = {}; // Để lưu trữ size đã chọn cho từng sản phẩm
 $scope.productDetails = {}; // Để lưu trữ chi tiết sản phẩm và số lượng còn lại của từng size
 
+// Hàm để lấy tất cả sản phẩm
 $scope.getSanPham = function () {
-    $http.get("/admin/san-pham/get-all").then(r => {
-        $scope.products = r.data.content;
-        $scope.getPageNumbers(r.data.totalPages);
-        $scope.filterData = {};
-    }).catch(e => console.log(e));
-};
-
-$scope.getAll = function (pageNumber) {
-    $scope.pageNumber = pageNumber;
-    if (!isfilter) {
-        $http.get("/san-pham/get-all?pageNumber=" + pageNumber).then(r => {
-            $scope.products = r.data.content;
-        }).catch(e => console.log(e));
-    } else {
-        $http.post("/san-pham/filter?pageNumber=" + pageNumber, $scope.filterDto).then(r => {
-            $scope.products = r.data.content;
-        }).catch(e => console.log(e));
-    }
+    $http.get("/admin/san-pham/get-sphoadon")
+        .then(r => {
+            $scope.products = r.data;
+            // Lấy chi tiết cho tất cả sản phẩm
+            $scope.products.forEach(product => {
+                $scope.getProductDetails(product.ma);
+            });
+        })
+        .catch(e => console.log(e));
 };
 
 $scope.getSanPham();
@@ -116,6 +113,7 @@ $scope.getSoLuong = function (maSP, idCTSP) {
 
 $scope.addChiTietDonHang = function (item, selectedSize) {
       // Kiểm tra xem đã chọn size cho sản phẩm này chưa
+    //   console.log("data",item)
       if (!$scope.selectedSize[item.ma]) {
         alert("Vui lòng chọn size trước khi thêm vào đơn hàng.");
         return;
@@ -142,6 +140,7 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
             $scope.chiTietDonHang.push({
                 sanPham: item.ten,
                 anh: item.anh.length === 0 ? "default.png" : item.anh[0],
+                mauSac: item.mauSac,
                 size: selectedSizeItem.size,
                 soLuong: 1, // Mặc định số lượng là 1 khi thêm mới
                 donGia: item.giaBan,

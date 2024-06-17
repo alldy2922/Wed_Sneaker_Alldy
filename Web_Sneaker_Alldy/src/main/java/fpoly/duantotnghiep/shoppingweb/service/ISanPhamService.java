@@ -18,6 +18,7 @@ public interface ISanPhamService {
     Page<SanPhamDtoResponse> pagination(Integer page, Integer limit);
 
     Page<SanPhamDtoResponse> paginationInUser(Integer page, Integer limit);
+    List<SanPhamDtoResponse> searchSanPhamByTen(String ten);
 
     Page<SanPhamDtoResponse> paginationInUserByThuongHieu(Integer page, Integer limit, String idThuongHieu);
 

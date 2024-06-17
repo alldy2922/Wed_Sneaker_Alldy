@@ -33,6 +33,17 @@ public class SanPhamRestController {
         return ResponseEntity.ok(sanPhamService.pagination(pageNumber, limit));
     }
 
+    @GetMapping("get-sphoadon")
+    public ResponseEntity<List<SanPhamDtoResponse>> getListSpHoaDon() {
+
+        return ResponseEntity.ok(sanPhamService.findAll());
+    }
+    @GetMapping("search")
+    public ResponseEntity<?> searchSanPham(@RequestParam (required = false) String ten) {
+
+        return ResponseEntity.ok(sanPhamService.searchSanPhamByTen(ten));
+    }
+
     @DeleteMapping("delete/{id}")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})//Khi có lỗi sẽ rollback
     public ResponseEntity<?> delete(@PathVariable("id") String ma) throws IOException {

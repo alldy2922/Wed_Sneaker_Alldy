@@ -47,6 +47,14 @@ public class SanPhamServiceImpl implements ISanPhamService {
                 .collect(Collectors.toList());
     }
 
+    public List<SanPhamDtoResponse> searchSanPhamByTen(String ten) {
+        List<SanPhamDtoResponse> sanPhamDtoResponses = sanPhamRepository.findByTenStartsWith(ten).stream()
+                .filter(s -> s.getTrangThai() == true)
+                .filter(s -> s.getHienThi() == true)
+                .map(s -> new SanPhamDtoResponse(s))
+                .collect(Collectors.toList());
+        return  sanPhamDtoResponses;
+    }
     @Override
     public Page<SanPhamDtoResponse> pagination(Integer page, Integer limit) {
         Pageable pageable = PageRequest.of(page, limit);

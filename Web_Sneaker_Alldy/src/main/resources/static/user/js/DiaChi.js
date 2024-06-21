@@ -146,7 +146,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
         r.data.gioiTinh = r.data.gioiTinh+""
         $scope.user = r.data
         $scope.user.ngaySinh = new Date(r.data.ngaySinh)
-        console.log("datauser",$scope.user)
+        console.log($scope.user)
         if ($scope.user.anhDaiDien == null) $(".preview-images-zone").append(labelAddImg);
         else {
             let imgUser = new DataTransfer();

@@ -38,5 +38,4 @@ public class GioHangDtoReponse {
         soLuong = sl;
     }
 
-
 }

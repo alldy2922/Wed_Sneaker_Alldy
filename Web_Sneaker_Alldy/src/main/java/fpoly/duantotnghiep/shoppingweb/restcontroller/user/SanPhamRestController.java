@@ -69,5 +69,4 @@ public class SanPhamRestController {
         return ResponseEntity.ok(sanPhamService.getSanPhamMoi(limit));
     }
 
-
 }

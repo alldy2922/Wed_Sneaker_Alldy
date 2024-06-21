@@ -21,8 +21,6 @@ public interface ISanPhamService {
 
     Page<SanPhamDtoResponse> paginationInUserByThuongHieu(Integer page, Integer limit, String idThuongHieu);
 
-    List<SanPhamDtoResponse> searchSanPhamByTen(String ten);
-
     SanPhamDtoResponse findByMa(String ma);
 
     SanPhamDtoRequest findDtoRequetsByMa(String ma);

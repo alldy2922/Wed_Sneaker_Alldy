@@ -58,7 +58,6 @@ app.controller("banhang-ctrl", function ($scope, $http) {
     //     $scope.er.soLuongSP = ""
     // }
     $scope.sanPham = [];
-
     $scope.searchSanPham = function () {
         $http.get("/admin/san-pham/search?ten=" + $scope.inputProduct).then(r => {
             $scope.products = r.data

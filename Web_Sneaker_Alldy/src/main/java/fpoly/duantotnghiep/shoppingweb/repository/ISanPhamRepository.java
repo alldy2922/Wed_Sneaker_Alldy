@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.repository;
 
+import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,11 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-
+import java.util.Optional;
 public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> {
 
     @Transactional
@@ -34,6 +36,12 @@ public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> 
 
     @Query("SELECT km.sanPham  FROM KhuyenMaiModel km where km.ngayBatDau > current_date")
     List<SanPhamModel> findAllSanPhamWithKmWhereNgayBatDau();
+
+    @Query("""
+    SELECT s FROM SanPhamModel s 
+    WHERE s.ten LIKE concat('%',?1,'%')
+""")
+    List<SanPhamModel> findByTenStartsWith(String ten);
 
     @Query("""
                 SELECT s FROM SanPhamModel s JOIN ChiTietSanPhamModel c ON s.ma = c.sanPham.ma

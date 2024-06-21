@@ -7,13 +7,19 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         soDienThoai : "0000000000"
     }
     $scope.chiTietDonHang = []
-    $scope.sanPham = [];
+     $scope.sanPhamCT = [];
+    $scope.soLuong = ""
+    $scope.selectedProduct = [];
+    $scope.selectedSize =[];
     const limit = 10;
+    $scope.productDetails = [];
+    $scope.products = [];
     $scope.er = {}
     $scope.dateNow = new Date().getTime();
     $scope.khachHang = []
     $scope.erAdd = {}
-
+    $scope.sanPhamTable = [];
+    var isfilter = false;
 
     $scope.closeModal = function (id) {
         $(id).modal('hide')
@@ -35,29 +41,114 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         return total
     }
     ///////////////////////
-    $scope.getSanPham = function () {
-        $http.get("/admin/san-pham/1/get-all-ctsp").then(r => {
-            $scope.sanPham = r.data
+    $scope.sanPham = [];
+
+    $scope.getSanPham = function() {
+        $http.get("/admin/san-pham/get-all")
+            .then(function(response) {
+                $scope.products = response.data.content;
+                $scope.getPageNumbers(response.data.totalPages);
+                $scope.filterData = {};
+            })
+            .catch(function(error) {
+                console.error("Lỗi khi lấy sản phẩm:", error);
+            });
+    };
+
+    $scope.getSanPham();
+    $scope.getPageNumbers = function (totalPages) {
+        $scope.pageNumbers = []
+        for (let i = 0; i < totalPages; i++) {
+            $scope.pageNumbers.push(i);
+        }
+    }
+
+    $scope.getAll = function (pageNumber) {
+        $scope.pageNumber = pageNumber;
+
+        if (!isfilter) {
+            $http.get("/san-pham/get-all?pageNumber=" + pageNumber).then(r => {
+                $scope.products = r.data.content;
+                // $scope.filterData = {}
+            }).catch(e => console.log(e))
+        } else {
+            $http.post("/san-pham/filter?pageNumber=" + pageNumber, $scope.filterDto).then(r => {
+                $scope.products = r.data.content;
+            }).catch(e => console.log(e))
+        }
+    }
+
+  // Example quantity, replace with your actual quantity
+    $scope.quantity = {};
+    $scope.isOutOfStock = false; // Initially, assume the product is not out of stock
+
+
+//
+
+    $scope.getProductDetails = function(maSP) {
+        $http.get("/chi-tiet-san-pham/" + maSP + "/get-all").then(r => {
+            $scope.productDetails = r.data;
         }).catch(e => console.log(e))
-    }
-    $scope.getSanPham()
-    $scope.addChiTietDonHang = function (item) {
-        $scope.chiTietDonHang.push({
-            sanPham: item.sanPham,
-            anh: item.sanPhamDTO.anh.length == 0 ? "default.png" : item.sanPhamDTO.anh[0],
-            size: item.size,
-            soLuong: 1,
-            donGia: item.sanPhamDTO.giaBan,
-            donGiaSauGiam: item.sanPhamDTO.giaNiemYet,
-            idChiTietSanPham: item.id
-        })
-        $scope.er.soLuongSP = ""
-    }
+    };
+    $scope.getProductDetails();
+    $scope.addChiTietDonHang = function () {
+        if (!$scope.selectedSize) {
+            // Nếu người dùng chưa chọn size, thông báo hoặc xử lý khác tùy nhu cầu
+            alertify.error("Vui Lòng Chọn Size")
+            return;
+        }
+        if ($scope.selectedSize.soLuong <=0) {
+            // Nếu người dùng chưa chọn size, thông báo hoặc xử lý khác tùy nhu cầu
+            alertify.error("Sản Phảm Đã Hết")
+            return;
+        }
+
+
+        var existingItem = $scope.chiTietDonHang.find(function(item) {
+            return item.idChiTietSanPham === $scope.selectedSize.id;
+        });
+
+        if (existingItem) {
+            if (existingItem.soLuong + 1 > $scope.selectedSize.soLuong) {
+                alertify.error("Số Lượng Sản Phẩm Không Đủ");
+                return;
+            }
+            existingItem.soLuong++;
+        } else {
+            // Nếu sản phẩm chưa tồn tại, kiểm tra số lượng có vượt quá số lượng trong kho không
+            if (1 > $scope.selectedSize.soLuong) {
+                alertify.error("Số Lượng Sản Phẩm Không Đủ");
+                return;
+            }
+            // Nếu chưa tồn tại, thêm mới vào danh sách
+            
+            $scope.chiTietDonHang.push({
+                sanPham: $scope.selectedSize.sanPham,
+                anh: $scope.selectedSize.sanPhamDTO.anh.length == 0 ? "default.png" : $scope.selectedSize.sanPhamDTO.anh[0],
+                size: $scope.selectedSize.size,
+                soLuong: 1,
+                donGia: $scope.selectedSize.sanPhamDTO.giaBan,
+                donGiaSauGiam: $scope.selectedSize.sanPhamDTO.giaNiemYet,
+                idChiTietSanPham: $scope.selectedSize.id
+            });
+        }
+
+        // Đóng modal khi đã thêm vào danh sách
+        $('#productModal').modal('hide');
+
+        // Reset trường nhập liệu
+        $scope.er.soLuongSP = null; // Hoặc giá trị khác thay vì chuỗi rỗng
+    };
     $scope.searchSanPham = function () {
-        $http.get("/admin/san-pham/1/get-all-ctsp?keyWord=" + $scope.inputProduct).then(r => {
-            $scope.sanPham = r.data
+        $http.get("/admin/san-pham/search?ten=" + $scope.inputProduct).then(r => {
+            $scope.products = r.data
+            console.log("12", $scope.products)
         }).catch(e => console.log(e))
+
     }
+        $scope.closeModel = function() {
+        $('#productModal').modal('hide');  // Close the modal programmatically
+    };
     $scope.checkSanPhamInDonHang = function (idCTSP) {
         let result = false;
         $scope.chiTietDonHang.forEach(d => {
@@ -68,13 +159,79 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         return result;
     }
 
-    ///////////////////////////////////////
+
+    $scope.openModal = function(product) {
+        $scope.selectedProduct = product;
+        $scope.selectedSize = null;
+        $scope.soLuong = ''
+        $scope.getProductDetails(product.ma);
+        $('#productModal').modal('show');
+    };
+
+    $scope.getSoLuong = function (idCTSP) {
+        $http.get("/chi-tiet-san-pham/1/" + idCTSP).then(r => {
+            if (r.data <=0){
+                $scope.soLuong = "Còn lại " + 0 + " sản phẩm"
+                return
+            }else{
+                $scope.soLuong = "Còn lại " + r.data + " sản phẩm"
+            }
+
+        }).catch(e => console.log(e))
+    }
+
+    $scope.getSanPhamCT = function() {
+        $http.get("/admin/san-pham/1/get-all-ctsp")
+            .then(function(response) {
+                $scope.sanPhamCT = response.data;
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    };
+
+    $scope.getData = function(size) {
+        // In ra console thông tin của size được chọn
+
+        $scope.selectedSize = size;
+        console.log("Size được chọn:", size);
+        // Thực hiện các công việc khác tùy vào nhu cầu của bạn
+    };
+    $scope.getSanPhamCT();
+    //validate so luong
+    $scope.validateSoLuong = function(item) {
+        if (item.soLuong < 0) {
+            item.invalid = true;
+            return
+        } else {
+            item.invalid = false;
+            // Call your existing functions to handle valid input
+            $scope.updateSoLuong(item.idChiTietSanPham, item.soLuong);
+            $scope.subtractSoLuong(item.idChiTietSanPham);
+        }
+    },
+
+ ////////////////
+    // $scope.openSizeModal = function(sanPham) {
+    //     $scope.selectedProduct = sanPham;
+    //     $scope.availableSizes = sanPham.sanPhamDTO.sizes; // Chỉ định danh sách kích thước
+    //     $('#sizeModal').modal('show'); // Mở modal
+    // };
+    //
+    // $scope.selectSize = function(size) {
+    //     $scope.selectedProduct.size = size; // Cập nhật kích thước cho sản phẩm
+    //     $('#sizeModal').modal('hide'); // Đóng modal
+    // };
 
     ////////////////////////
     $scope.themDonHang = function (trangThai){
         alertify.confirm("Tạo đơn hàng?", function () {
             let chiTietDonHang = [];
             $scope.chiTietDonHang.forEach(c => {
+                if(c.soLuong<=0){
+                    alertify.error("Số Lượng Không hợp lệ");
+                        return;
+                }
                 chiTietDonHang.push({
                     id: c.id,
                     donHangID: $scope.chuaXacNhan.detail.ma,
@@ -117,7 +274,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                     soDienThoai : "0000000000"
                 }
                 $scope.chiTietDonHang.length = 0
-                $scope.getSanPham()
+                $scope.getSanPhamCT()
                 $scope.inputProduct = ""
                 $('#mySelect2').val('null').trigger('change');
                 document.getElementById("khachHangSL").value = "null"
@@ -144,6 +301,40 @@ app.controller("banhang-ctrl", function ($scope, $http) {
     /////////////////////////////////////////
     ///////////////////////////////////////
     //Get Khách Hàng
+    $scope.searchText = '';
+    $scope.filteredCustomers = [];
+    $scope.donHangAdd = {};
+
+    $scope.filterOpen = false;
+
+    $scope.filterCustomers = function() {
+        $scope.filterOpen = true;
+        // Add your filtering logic here
+    };
+
+    $scope.closeFilter = function() {
+        $scope.filterOpen = false;
+    };
+
+    $scope.filterCustomers = function() {
+        var searchTextLower = $scope.searchText.toLowerCase();
+        $scope.filteredCustomers = $scope.khachHang.filter(function(customer) {
+            return customer.hoVaTen.toLowerCase().includes(searchTextLower) ||
+                customer.soDienThoai.includes($scope.searchText);
+        });
+    };
+
+    $scope.selectCustomer = function(customer) {
+        $scope.searchText = customer.hoVaTen + ' - ' + customer.soDienThoai;
+        $scope.selectedCustomer = customer;
+        $scope.filteredCustomers = [];
+        $scope.donHangAdd.tenNguoiNhan = customer.hoVaTen;
+        $scope.donHangAdd.soDienThoai = customer.soDienThoai;
+        $scope.donHangAdd.username = customer.soDienThoai;
+        $scope.closeFilter();
+    };
+
+
     $scope.keyWordKhachHang = ""
     $scope.getAllKhachHang = function (){
         $http.get("/admin/khach-hang/get-all-khach-hang?limit=1000&&keyWord="+$scope.keyWordKhachHang).then(r =>{
@@ -153,6 +344,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
     $scope.getAllKhachHang()
     $scope.addKhachHangToDonHang = function (){
         let value = document.getElementById("khachHangSL").value
+        console.log("test2",value)
         if(value!='null'){
 
             $http.get("/admin/khach-hang/detail/"+value).then(r => {
@@ -183,6 +375,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             soDienThoai: $scope.donHangAdd.soDienThoai,
             email: "quocthanh2929@gmail.com"
         }
+        console.log("test3")
         $http.post("/admin/khach-hang",data).then(r => {
             var khachHangSL = document.getElementById("khachHangSL")
             var option = document.createElement("option");
@@ -419,24 +612,34 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             }
             this.pages = numbers;
         },
+
+
+
+
         updateSoLuong(idCTSP, soLuong) {
-            let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)
-            let chiTietDonHang = $scope.chiTietDonHang[index]
-            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + idCTSP + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id == undefined ? "" : chiTietDonHang.id)).then(r => {
-                $scope.chiTietDonHang[index].soLuong = soLuong
-                $scope.getTotalPrice()
-            }).catch(e => {
-                if (chiTietDonHang.id == undefined) {
-                    chiTietDonHang.soLuong = 1
+
+            // Find the index of the product detail in the order by its ID
+            let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP);
+            let chiTietDonHang = $scope.chiTietDonHang[index];
+
+            // Check the available stock for the product with the requested quantity
+            $http.get(`/admin/san-pham/1/kiem-tra-so-luong/${idCTSP}?soLuong=${soLuong}&idCTDH=${chiTietDonHang.id ? chiTietDonHang.id : ""}`).then(response => {
+                // Update the quantity if the stock check passes
+                $scope.chiTietDonHang[index].soLuong = soLuong;
+                $scope.getTotalPrice();  // Recalculate the total price
+            }).catch(error => {
+                if (chiTietDonHang.id === undefined) {
+                    // If the product is new and not yet added to the order, reset the quantity to 1
+                    chiTietDonHang.soLuong = 1;
                 } else {
-                    $http.get("/admin/chi-tiet-don-hang/detail/" + chiTietDonHang.id).then(r => {
-                        $scope.chiTietDonHang[index].soLuong = r.data.soLuong
-                    }).catch(e => console.log(e))
+                    // If the product is already in the order, reset to the previous valid quantity
+                    $http.get(`/admin/chi-tiet-don-hang/detail/${chiTietDonHang.id}`).then(response => {
+                        $scope.chiTietDonHang[index].soLuong = response.data.soLuong;
+                    }).catch(e => console.log(e));
                 }
-                alertify.error("số lượng đã vượt quá số lượng sản phẩm!")
-            })
-
-
+                // Show an error message if the quantity exceeds the available stock
+                alertify.error("Số lượng đã vượt quá số lượng sản phẩm!");
+            });
         },
         subtractSoLuong(idCTSP) {
             let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)

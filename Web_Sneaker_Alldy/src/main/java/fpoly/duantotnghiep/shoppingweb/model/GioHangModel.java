@@ -13,6 +13,7 @@ import lombok.ToString;
 @Table(name = "giohang")
 public class GioHangModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private String id;
 
@@ -26,4 +27,7 @@ public class GioHangModel {
     @ManyToOne
     @JoinColumn(name = "chitietsanpham")
     private ChiTietSanPhamModel chiTietSanPham;
+
+    public void setChiTietSanPham() {
+    }
 }

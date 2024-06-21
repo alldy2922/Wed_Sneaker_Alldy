@@ -13,6 +13,8 @@ public interface IChiTietSanPhamService {
 
     List<ChiTietSanPhamDtoResponse> getAllBySanPhamMa(String maSP);
 
+
+
     ChiTietSanPhamDtoResponse updateSoLuong(ChiTietSanPhamDtoRequest request);
 
     Boolean existsBySanPhamMaAndSizeMa(String maSP, Float size);

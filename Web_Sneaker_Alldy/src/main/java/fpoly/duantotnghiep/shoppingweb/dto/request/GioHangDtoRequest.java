@@ -17,7 +17,7 @@ import lombok.ToString;
 public class GioHangDtoRequest {
     private String id;
     private String chiTietSanPham;
-//    private String khachHang;
+    private String khachHang;
     private Integer soLuong;
 
 //    public GioHangDtoRequest(GioHangModel model) {
@@ -28,12 +28,12 @@ public class GioHangDtoRequest {
 //
 //    }
 
-    public GioHangModel maptoModel() {
-        GioHangModel model = new GioHangModel();
-        model.setId(id);
-        if (chiTietSanPham != null && !chiTietSanPham.isBlank()) model.setChiTietSanPham(new ChiTietSanPhamModel(chiTietSanPham));
-//        if(khachHang != null && !khachHang.isBlank()) model.setKhachHang(new KhachHangModel(khachHang));
-        model.setSoLuong(soLuong);
-        return model;
-    }
+//    public GioHangModel maptoModel() {
+//        GioHangModel model = new GioHangModel();
+//        model.setId(id);
+//        if (chiTietSanPham != null && !chiTietSanPham.isBlank()) model.setChiTietSanPham(new ChiTietSanPhamModel(chiTietSanPham));
+////        if(khachHang != null && !khachHang.isBlank()) model.setKhachHang(new KhachHangModel(khachHang));
+//        model.setSoLuong(soLuong);
+//        return model;
+//    }
 }

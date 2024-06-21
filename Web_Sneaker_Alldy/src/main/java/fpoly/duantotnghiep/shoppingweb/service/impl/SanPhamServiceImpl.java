@@ -88,6 +88,15 @@ public class SanPhamServiceImpl implements ISanPhamService {
     }
 
 
+    public List<SanPhamDtoResponse> searchSanPhamByTen(String ten) {
+        List<SanPhamDtoResponse> sanPhamDtoResponses = sanPhamRepository.findByTenStartsWith(ten).stream()
+                .filter(s -> s.getTrangThai() == true)
+                .filter(s -> s.getHienThi() == true)
+                .map(s -> new SanPhamDtoResponse(s))
+                .collect(Collectors.toList());
+        return  sanPhamDtoResponses;
+    }
+
     @Override
     public SanPhamDtoResponse findByMa(String ma) {
         SanPhamModel sanPhamModel = sanPhamRepository.findById(ma).get();

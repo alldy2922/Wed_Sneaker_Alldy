@@ -4,12 +4,14 @@ import fpoly.duantotnghiep.shoppingweb.dto.filter.SanPhamDtoFilter;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.SanPhamDtoRequest;
 import fpoly.duantotnghiep.shoppingweb.enumtype.ThongBaoType;
+import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.model.ThongBaoModel;
 import fpoly.duantotnghiep.shoppingweb.service.ISanPhamService;
 //import fpoly.duantotnghiep.shoppingweb.util.SocketUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +32,18 @@ public class SanPhamRestController {
     public ResponseEntity<Page<SanPhamDtoResponse>> getAll(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
                                                            @RequestParam(value = "limit", defaultValue = "8") Integer limit) {
 
-        return ResponseEntity.ok(sanPhamService.pagination(pageNumber, limit));
+        return ResponseEntity.ok(sanPhamService.paginationInUser(pageNumber, limit));
     }
+
+    @GetMapping("{ma}")
+    public ResponseEntity<?> detail(@PathVariable("ma")String ma){
+        if(!sanPhamService.existsById(ma)){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(sanPhamService.findByMa(ma));
+
+    }
+
 
     @DeleteMapping("delete/{id}")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})//Khi có lỗi sẽ rollback
@@ -66,5 +78,9 @@ public class SanPhamRestController {
                                                            @RequestParam(value = "limit", defaultValue = "8") Integer limit) {
         return ResponseEntity.ok(sanPhamService.filter(sanPhamDtoFilter, pageNumber, limit));
     }
+    @GetMapping("search")
+    public ResponseEntity<?> searchSanPham(@RequestParam (required = false) String ten) {
 
+        return ResponseEntity.ok(sanPhamService.searchSanPhamByTen(ten));
+    }
 }

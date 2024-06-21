@@ -15,14 +15,14 @@ public class CheckOutController {
     private IChiTietSanPhamService chiTietSanPhamService;
 
 
-    @GetMapping("/check-out")
-    public String checkOut() {
-        if (gioHangService.laySpTrongGio() == null) {
-            return "redirect:/cart";
-        }
-
-
-
-        return "/user/Checkout";
-    }
+//    @GetMapping("/check-out")
+//    public String checkOut() {
+//        if (gioHangService.laySpTrongGio() == null) {
+//            return "redirect:/cart";
+//        }
+//
+//
+//
+//        return "/user/Checkout";
+//    }
 }

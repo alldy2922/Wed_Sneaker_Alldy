@@ -210,34 +210,26 @@
 <section class="section-slide">
     <div class="wrap-slick1 rs2-slick1">
         <div class="slick1">
-<!--            bannner 1-->
-            <div class="item-slick1 bg-overlay1" style="background-image: url(/image/loadImage/product/banner1.png); height: 500px"
+            <!-- Banner 1 -->
+            <div class="item-slick1 bg-overlay1" style="background-image: url(/image/loadImage/product/banner1.png); height: 100vh"
                  data-thumb="/image/loadImage/product/banner1.png" data-caption="ALLDY STORE">
-                <div class="container h-full">
-
-                </div>
             </div>
 
-<!--            banner2-->
-            <div class="item-slick1 bg-overlay1" style="background-image: url(/image/loadImage/product/banner2.png); height: 500px"
+            <!-- Banner 2 -->
+            <div class="item-slick1 bg-overlay1" style="background-image: url(/image/loadImage/product/banner2.png); height: 100vh"
                  data-thumb="/image/loadImage/product/banner2.png" data-caption="ALLDY STORE">
-                <div class="container h-full">
-
-                </div>
             </div>
 
-<!--            banner 3-->
-            <div class="item-slick1 bg-overlay1" style="background-image: url(/image/loadImage/product/banner3.png); height: 500px"
+            <!-- Banner 3 -->
+            <div class="item-slick1 bg-overlay1" style="background-image: url(/image/loadImage/product/banner3.png); height: 100vh"
                  data-thumb="/image/loadImage/product/banner3.png" data-caption="ALLDY STORE">
-                <div class="container h-full">
-
-                </div>
             </div>
         </div>
 
         <div class="wrap-slick1-dots p-lr-10"></div>
     </div>
 </section>
+
 
 <div class="container-fuild" ng-app="trangChu-app" ng-controller="ctrl" layout:fragment="contentUser">
     <!--    cart-->
@@ -269,7 +261,7 @@
                                 {{c.tenSanPham}}
                             </a>
                             <span class="header-cart-item-info">
-								{{c.soLuong}} x {{c.donGiaSauGiam | currency: "" : 1}}đ
+								{{c.soLuong}} x {{c.donGiaSauGiam | currency: "" : 0}}đ
 							</span>
                         </div>
                     </li>
@@ -277,7 +269,7 @@
 
                 <div class="w-full">
                     <div class="header-cart-total w-full p-tb-40">
-                        Tổng tiền: {{ getTotal() | currency: "" : 1}}đ
+                        Tổng tiền: {{ getTotal() | currency: "" : 0}}đ
                     </div>
 
                     <div class="header-cart-buttons flex-w w-full">
@@ -514,123 +506,6 @@
         </div>
 
     </div>
-    <!-- blog 1 -->
-    <div class="row m-t-50 m-r-10 m-l-10"
-         style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
-        <div class="p-t-50 p-b-50">
-            <div class="container-fuild">
-                <div class="row">
-                    <div class="col-8">
-                        <img style="width: 100%; height: 100%" src="/userStyle/images/vans-section-banner.jpg" alt="">
-                    </div>
-                    <div class="col-4">
-                        <h1 class="m-b-30">VANS</h1>
-                        Vans đem phong cách trượt ván những năm 90 của thế kỷ trước trở lại làm tiền đề
-                        cho xu hướng
-                        thời trang giày “Puffy” mới với tên gọi The Knu Skool. Trong đợt này, ra mắt
-                        hàng loạt các
-                        phối
-                        màu phù hợp với thiết kế cổ điển của Knu Skool. Ba màu sắc được giới thiệu ở
-                        Việt Nam gồm
-                        đỏ,
-                        đen và xanh, đều mix cùng dải logo Old Skool Sidestripe™ kinh điển phiên bản 3D
-                        tại hai bên
-                        hông
-                        tăng thêm cảm giác “puffy - mụp mụp” thường thấy ở loại “giày bánh mì”, đồng
-                        thời cũng đem
-                        lại
-                        sự cân bằng về thị giác trên tổng thể sản phẩm. Là một item low top, mũi giày
-                        làm từ da lộn
-                        bền
-                        bỉ.
-                        <h4 class="m-t-50">
-                            <a href="/san-pham">XEM TẤT CẢ ></a>
-                        </h4>
-                    </div>
-                </div>
-                <div class="tab-content p-t-50">
-                    <!-- - -->
-                    <section class="sec-product bg0 p-b-50 mt-5">
-                        <div class="container">
-                            <!-- Tab01 -->
-                            <div class="tab01">
-                                <!-- Tab panes -->
-                                <div class="tab-content p-t-50">
-                                    <!-- - -->
-                                    <div>
-                                        <!-- Slide2 -->
-                                        <div>
-                                            <div class="d-flex justify-content-between">
-                                                <div class="col-3" style="padding: 20px" ng-repeat="p in productVans">
-                                                    <!-- Block2 -->
-                                                    <div>
-                                                        <div class="block2-pic hov-img0" style="border-radius: 5px">
-                                                            <div ng-if="p.loaiGiam!=null"
-                                                                 style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
-                                                                <p style="color: white;font-weight: bold;padding: 5px"
-                                                                   ng-if="p.loaiGiam=='TIEN'">
-                                                                    -{{p.mucGiam | currency: "" : 1}}đ</p>
-                                                                <p style="color: white;font-weight: bold;padding: 5px"
-                                                                   ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
-                                                            </div>
-                                                            <img src="/image/loadImage/product/{{p.anh[0]}}"
-                                                                 style="width: 100%;height: 273px"
-                                                                 ng-if="p.anh.length>0">
-                                                            <img src="/image/loadImage/product/default.png"
-                                                                 style="width: 100%;height: 273px"
-                                                                 ng-if="p.anh.length==0">
-                                                            <a href="/chi-tiet-san-pham/{{p.ma}}" style="font-weight: bold; font-size: 17px; width:200px;
-                                                                                white-space: nowrap;
-                                                                                overflow: hidden;
-                                                                                text-overflow: ellipsis;"
-                                                               class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                                Xem chi tiết
-                                                            </a>
-                                                        </div>
-
-                                                        <div class="block2-txt flex-w flex-t p-t-14">
-                                                            <div class="block2-txt-child1 flex-col-l ">
-                                                                <a href="/chi-tiet-san-pham/{{p.ma}}"
-                                                                   class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                                    {{p.ten}}
-                                                                </a>
-                                                                <span class=" cl3">
-                                                <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
-                                                <del>{{p.giaBan | currency: "" : 1}}đ</del>
-                                                </span>
-                                                <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet | currency: "" : 1}}đ</b>
-                                                </span>
-                                                            </div>
-
-                                                            <div class="block2-txt-child2 flex-r p-t-3">
-                                                                <i ng-if="maSpInDSYT.includes(p.ma) == false"
-                                                                   id="{{p.ma}}"
-                                                                   class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
-                                                                <i ng-if="maSpInDSYT.includes(p.ma) == true"
-                                                                   id="{{p.ma}}"
-                                                                   class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                </div>
-            </div>
-            <div class="flex-c-m flex-w w-full p-t-5">
-                <a href="/san-pham" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-                    Xem tất cả
-                </a>
-            </div>
-        </div>
-    </div>
     <!-- blog 2 -->
     <div class="row m-t-50 m-r-10 m-l-10"
          style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
@@ -748,6 +623,123 @@
         </div>
 
     </div>
+       <!-- blog 1 -->
+       <div class="row m-t-50 m-r-10 m-l-10"
+       style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
+      <div class="p-t-50 p-b-50">
+          <div class="container-fuild">
+              <div class="row">
+                  <div class="col-8">
+                      <img style="width: 100%; height: 100%" src="/userStyle/images/vans-section-banner.jpg" alt="">
+                  </div>
+                  <div class="col-4">
+                      <h1 class="m-b-30">VANS</h1>
+                      Vans đem phong cách trượt ván những năm 90 của thế kỷ trước trở lại làm tiền đề
+                      cho xu hướng
+                      thời trang giày “Puffy” mới với tên gọi The Knu Skool. Trong đợt này, ra mắt
+                      hàng loạt các
+                      phối
+                      màu phù hợp với thiết kế cổ điển của Knu Skool. Ba màu sắc được giới thiệu ở
+                      Việt Nam gồm
+                      đỏ,
+                      đen và xanh, đều mix cùng dải logo Old Skool Sidestripe™ kinh điển phiên bản 3D
+                      tại hai bên
+                      hông
+                      tăng thêm cảm giác “puffy - mụp mụp” thường thấy ở loại “giày bánh mì”, đồng
+                      thời cũng đem
+                      lại
+                      sự cân bằng về thị giác trên tổng thể sản phẩm. Là một item low top, mũi giày
+                      làm từ da lộn
+                      bền
+                      bỉ.
+                      <h4 class="m-t-50">
+                          <a href="/san-pham">XEM TẤT CẢ ></a>
+                      </h4>
+                  </div>
+              </div>
+              <div class="tab-content p-t-50">
+                  <!-- - -->
+                  <section class="sec-product bg0 p-b-50 mt-5">
+                      <div class="container">
+                          <!-- Tab01 -->
+                          <div class="tab01">
+                              <!-- Tab panes -->
+                              <div class="tab-content p-t-50">
+                                  <!-- - -->
+                                  <div>
+                                      <!-- Slide2 -->
+                                      <div>
+                                          <div class="d-flex justify-content-between">
+                                              <div class="col-3" style="padding: 20px" ng-repeat="p in productVans">
+                                                  <!-- Block2 -->
+                                                  <div>
+                                                      <div class="block2-pic hov-img0" style="border-radius: 5px">
+                                                          <div ng-if="p.loaiGiam!=null"
+                                                               style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
+                                                              <p style="color: white;font-weight: bold;padding: 5px"
+                                                                 ng-if="p.loaiGiam=='TIEN'">
+                                                                  -{{p.mucGiam | currency: "" : 1}}đ</p>
+                                                              <p style="color: white;font-weight: bold;padding: 5px"
+                                                                 ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
+                                                          </div>
+                                                          <img src="/image/loadImage/product/{{p.anh[0]}}"
+                                                               style="width: 100%;height: 273px"
+                                                               ng-if="p.anh.length>0">
+                                                          <img src="/image/loadImage/product/default.png"
+                                                               style="width: 100%;height: 273px"
+                                                               ng-if="p.anh.length==0">
+                                                          <a href="/chi-tiet-san-pham/{{p.ma}}" style="font-weight: bold; font-size: 17px; width:200px;
+                                                                              white-space: nowrap;
+                                                                              overflow: hidden;
+                                                                              text-overflow: ellipsis;"
+                                                             class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                                                              Xem chi tiết
+                                                          </a>
+                                                      </div>
+
+                                                      <div class="block2-txt flex-w flex-t p-t-14">
+                                                          <div class="block2-txt-child1 flex-col-l ">
+                                                              <a href="/chi-tiet-san-pham/{{p.ma}}"
+                                                                 class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+                                                                  {{p.ten}}
+                                                              </a>
+                                                              <span class=" cl3">
+                                              <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
+                                              <del>{{p.giaBan | currency: "" : 1}}đ</del>
+                                              </span>
+                                              <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet | currency: "" : 1}}đ</b>
+                                              </span>
+                                                          </div>
+
+                                                          <div class="block2-txt-child2 flex-r p-t-3">
+                                                              <i ng-if="maSpInDSYT.includes(p.ma) == false"
+                                                                 id="{{p.ma}}"
+                                                                 class="far fa-heart" ng-click="addDSYT(p.ma)"></i>
+                                                              <i ng-if="maSpInDSYT.includes(p.ma) == true"
+                                                                 id="{{p.ma}}"
+                                                                 class="fas fa-heart" ng-click="addDSYT(p.ma)"></i>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                              </div>
+                          </div>
+                      </div>
+                  </section>
+
+              </div>
+          </div>
+          <div class="flex-c-m flex-w w-full p-t-5">
+              <a href="/san-pham" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+                  Xem tất cả
+              </a>
+          </div>
+      </div>
+  </div>
     <!--    /////////Modal đăng nhập-->
     <div class="modal fade" id="dangNhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
          aria-hidden="true">

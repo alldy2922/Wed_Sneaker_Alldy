@@ -1,126 +1,146 @@
-<!doctype html >
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title>Login ADMIN | ALLDY SNEAKER</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
-    <meta content="Themesbrand" name="author"/>
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="/admin/images/LOGOALLDY.jpg">
 
     <!-- preloader css -->
-    <link rel="stylesheet" href="/admin/assets/css/preloader.min.css" type="text/css"/>
+    <link rel="stylesheet" href="/admin/assets/css/preloader.min.css" type="text/css" />
 
     <!-- Bootstrap Css -->
-    <link href="/admin/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css"/>
+    <link href="/admin/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="/admin/assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/admin/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="/admin/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css"/>
+    <link href="/admin/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
 
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .auth-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('/admin/images/anhnenloginadmin.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body data-topbar="dark">
 
-<!-- <body data-layout="horizontal"> -->
-<div class="auth-page">
-    <div class="container-fluid p-0">
-        <div class="row g-0 d-flex justify-content-center">
-            <div class="col-xxl-4 col-lg-4 col-md-5 mt-5">
-                <div class="auth-full-page-content d-flex p-sm-5 p-4 mt-5"
-                     style="min-height: 550px;
+    <!-- <body data-layout="horizontal"> -->
+    <div class="auth-page">
+        <div class="container-fluid p-0">
+            <div class="row g-0 d-flex justify-content-center">
+                <div class="col-xxl-4 col-lg-4 col-md-5 mt-5">
+                    <div class="auth-full-page-content d-flex p-sm-5 p-4 mt-5" style="min-height: 550px;
                             border-radius: 40px;
                             box-shadow: 2px 2px 2px 2px gainsboro;
-background-color: #2ca67a">
-                    <div class="w-100">
-                        <div class="d-flex flex-column h-100">
-                            <div class="auth-content my-auto">
-                                <div class="mb-4 mb-md-5 text-center">
-                                    <a class="d-block auth-logo">
-                                        <img src="/admin/images/LOGOALLDY.jpg" alt="" height="100">
-                                        <br>
-                                        <span class="logo-txt" style="font-size: 30px">
-                                            ADMIN - ALLDY SNEAKER
-                                        </span>
-                                    </a>
-                                </div>
-                                <form class="mt-4 pt-2" action="/admin/login" method="post">
-                                    <div class="form-floating form-floating-custom mb-4">
-                                        <input type="text" class="form-control" id="input-username" name="username"
-                                               placeholder="Enter User Name">
-                                        <label for="input-username">Tài khoản</label>
-                                        <div class="form-floating-icon">
-                                            <i data-feather="users"></i>
-                                        </div>
+                            background-color: rgba(255, 255, 255, 0.9);">
+                        <div class="w-100">
+                            <div class="d-flex flex-column h-100">
+                                <div class="auth-content my-auto">
+                                    <div class="mb-4 mb-md-5 text-center">
+                                        <a class="d-block auth-logo">
+                                            <img src="/admin/images/LOGOALLDY.png" alt="" height="100">
+                                            <br>
+                                            <span class="logo-txt" style="font-size: 30px">
+                                                ALLDY STORE SNEAKER
+                                            </span>
+                                        </a>
                                     </div>
-
-                                    <div class="form-floating form-floating-custom mb-4 auth-pass-inputgroup">
-                                        <input type="password" class="form-control pe-5" id="password-input" name="password"
-                                               placeholder="Enter Password">
-
-                                        <button type="button" class="btn btn-link position-absolute h-100 end-0 top-0"
-                                                id="password-addon">
-                                            <i class="mdi mdi-eye-outline font-size-18 text-muted"></i>
-                                        </button>
-                                        <label for="password-input">Mật khẩu</label>
-                                        <div class="form-floating-icon">
-                                            <i data-feather="lock"></i>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-4">
-                                        <div class="col">
-                                            <div class="form-check font-size-15">
-<!--                                                <input class="form-check-input" type="checkbox" id="remember-check">-->
-<!--                                                <label class="form-check-label font-size-13" for="remember-check">-->
-<!--                                                    Remember me-->
-<!--                                                </label>-->
-                                                <div style="float: right">
-                                                    <a href="/admin/quen-mat-khau" class="text-light fw-semibold"> Quên mật khẩu </a>
-                                                </div>
+                                    <form class="mt-4 pt-2" action="/admin/login" method="post">
+                                        <div class="form-floating form-floating-custom mb-4">
+                                            <input type="text" class="form-control" id="input-username" name="username"
+                                                placeholder="Enter User Name">
+                                            <label for="input-username">Tài khoản</label>
+                                            <div class="form-floating-icon">
+                                                <i data-feather="users"></i>
                                             </div>
+                                        </div>
+
+                                        <div class="form-floating form-floating-custom mb-4 auth-pass-inputgroup">
+                                            <input type="password" class="form-control pe-5" id="password-input"
+                                                name="password" placeholder="Enter Password">
+
+                                            <button type="button"
+                                                class="btn btn-link position-absolute h-100 end-0 top-0"
+                                                id="password-addon">
+                                                <i class="mdi mdi-eye-outline font-size-18 text-muted"></i>
+                                            </button>
+                                            <label for="password-input">Mật khẩu</label>
+                                            <div class="form-floating-icon">
+                                                <i data-feather="lock"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-4">
+                                            <div class="col">
+                                                <div class="form-check font-size-15">
+                                                    <!--                                                <input class="form-check-input" type="checkbox" id="remember-check">-->
+                                                    <!--                                                <label class="form-check-label font-size-13" for="remember-check">-->
+                                                    <!--                                                    Remember me-->
+                                                    <!--                                                </label>-->
+                                                    <div style="float: right">
+                                                        <a href="/admin/quen-mat-khau" class="text-light fw-semibold">
+                                                            Quên mật khẩu </a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <span class="text-danger"> [[${mess}]]</span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <button class="btn btn-primary w-100 waves-effect waves-light"
+                                                type="submit">
+                                                Đăng nhập
+                                            </button>
 
                                         </div>
-                                    </div>
-                                    <div class="mb-2">
-                                        <span class="text-danger"> [[${mess}]]</span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <button class="btn btn-primary w-100 waves-effect waves-light" type="submit">
-                                            Đăng nhập
-                                        </button>
-
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- end auth full page content -->
                 </div>
-                <!-- end auth full page content -->
             </div>
+            <!-- end row -->
         </div>
-        <!-- end row -->
+        <!-- end container fluid -->
     </div>
-    <!-- end container fluid -->
-</div>
 
 
-<!-- JAVASCRIPT -->
-<script src="/admin/assets/libs/jquery/jquery.min.js"></script>
-<script src="/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/admin/assets/libs/metismenu/metisMenu.min.js"></script>
-<script src="/admin/assets/libs/simplebar/simplebar.min.js"></script>
-<script src="/admin/assets/libs/node-waves/waves.min.js"></script>
-<script src="/admin/assets/libs/feather-icons/feather.min.js"></script>
-<!-- pace js -->
-<script src="/admin/assets/libs/pace-js/pace.min.js"></script>
+    <!-- JAVASCRIPT -->
+    <script src="/admin/assets/libs/jquery/jquery.min.js"></script>
+    <script src="/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/admin/assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="/admin/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="/admin/assets/libs/node-waves/waves.min.js"></script>
+    <script src="/admin/assets/libs/feather-icons/feather.min.js"></script>
+    <!-- pace js -->
+    <script src="/admin/assets/libs/pace-js/pace.min.js"></script>
 
-<script src="/admin/assets/js/pages/pass-addon.init.js"></script>
+    <script src="/admin/assets/js/pages/pass-addon.init.js"></script>
 
-<script src="/admin/assets/js/pages/feather-icon.init.js"></script>
+    <script src="/admin/assets/js/pages/feather-icon.init.js"></script>
 
 </body>
 

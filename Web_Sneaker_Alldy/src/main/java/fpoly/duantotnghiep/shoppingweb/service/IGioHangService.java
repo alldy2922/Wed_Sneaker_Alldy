@@ -17,7 +17,9 @@ public interface IGioHangService {
     void syncCartFromSessionToDatabase(Cart sessionCart, KhachHangModel user);
 
      void removeProductFromCart(KhachHangModel user, String productId);
-    void updateProductQuantityInDatabase(KhachHangModel user, String productId, Integer newQuantity);
+
+     void updateProductQuantityInDatabase(KhachHangModel user, String productId, Integer newQuantity);
+
     void addOrUpdateToCart(String idCTSP, Integer sl);
 
     void addProductToCart(Cart sessionCart, String productId, Integer quantity);

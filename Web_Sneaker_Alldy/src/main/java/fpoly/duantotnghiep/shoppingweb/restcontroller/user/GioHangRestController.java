@@ -33,6 +33,7 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContents(Authentication au
         // Đã đăng nhập, lấy giỏ hàng từ database
         Customer customer = (Customer) authentication.getPrincipal();
         KhachHangModel khachHang = customer.getKhachHangModel();
+        List<GioHangDtoReponse> cartContents1 = service.laySpTrongGio();
         List<GioHangDtoReponse> cartContents = service.getCartFromDatabase(khachHang);
         return new ResponseEntity<>(cartContents, HttpStatus.OK);
     }
@@ -64,17 +65,19 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContents(Authentication au
 
         if (authentication == null || !authentication.isAuthenticated()) {
             service.addProductToCart(service.getSessionCart(), idCTSP, sl);
+
             return ResponseEntity.ok(service.laySpTrongGio());
         } else {
             Customer customer = (Customer) authentication.getPrincipal();
             KhachHangModel khachHang = customer.getKhachHangModel();
             service.addProductToCart(khachHang, idCTSP, sl);
+            service.addOrUpdateToCart(idCTSP,sl);
             return ResponseEntity.ok(service.getCartFromDatabase(khachHang));
         }
     }
     @PostMapping("mua-ngay")
     public ResponseEntity<?> muaNgay(@RequestParam(value = "idCTSP",required = false)String idCTSP,
-                                       @RequestParam("sl")Integer sl){
+                                       @RequestParam("sl")Integer sl, Authentication authentication){
         Map<String,String> er = new HashMap<>();
         Integer soLuongCheck = sl;
 
@@ -89,11 +92,25 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContents(Authentication au
             er.put("eSize","Số lượng không hợp lệ!!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
         }
-        if (service.laySpTrongGio().size()>=1){
-            service.removeAllProdcutInCart();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            // Nếu chưa đăng nhập, cập nhật trong session
+            if (service.laySpTrongGio().size()>=1){
+                service.removeAllProdcutInCart();
+            }
+            service.addOrUpdateToCart(idCTSP,sl);
+            return ResponseEntity.ok(service.laySpTrongGio());
+        } else {
+            if (service.laySpTrongGio().size()>=1){
+                service.removeAllProdcutInCart();
+            }
+            // Nếu đã đăng nhập, cập nhật trong cơ sở dữ liệu
+            Customer customer = (Customer) authentication.getPrincipal();
+            KhachHangModel khachHang = customer.getKhachHangModel();
+            service.addProductToCart(khachHang,idCTSP,sl);
+            service.addOrUpdateToCart(idCTSP,sl);
+            return ResponseEntity.ok(service.laySpTrongGio());
         }
-        service.addOrUpdateToCart(idCTSP,sl);
-        return ResponseEntity.ok(service.laySpTrongGio());
     }
     @PutMapping("update-sl/{idCTSP}/{sl}")
     public ResponseEntity<?> updateSL(@PathVariable("idCTSP") String idCTSP, @PathVariable("sl") Integer sl, Authentication authentication) {

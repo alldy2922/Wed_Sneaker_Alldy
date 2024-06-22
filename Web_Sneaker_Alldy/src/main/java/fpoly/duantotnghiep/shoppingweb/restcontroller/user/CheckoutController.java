@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.user;
 
+import fpoly.duantotnghiep.shoppingweb.config.security.Customer;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.*;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
@@ -141,14 +142,7 @@ public class CheckoutController {
                 voucherService.deleteVoucherKhachHang(authentication.getName(), donHangDTORequest.getVoucher());
             }
         }
-//        save chi tiết đơn hàng
-        gioHangService.laySpTrongGio().stream().forEach(c -> {
-            ChiTietDonHangDTORequest donHangCT = new ChiTietDonHangDTORequest(response.getMa(), c.getId(), c.getSoLuong(), c.getDonGia(), c.getDonGiaSauGiam());
-            chiTietDonHangService.save(donHangCT);
-            ChiTietSanPhamDtoResponse chtsp = sanPhamServic.finById(c.getId());
-            Long sl = chtsp.getSoLuong() - c.getSoLuong();
-            sanPhamServic.updateSL(chtsp.getId(), sl);
-        });
+
 //        update cart and soluong voucher
         if (donHangDTORequest.getVoucher() != null && !donHangDTORequest.getVoucher().isBlank()) {
             VoucherModel voucherUpdateSL = voucherService.findById1(donHangDTORequest.getVoucher());
@@ -160,7 +154,37 @@ public class CheckoutController {
                 }
             }
         }
-        gioHangService.removeAllProdcutInCart();
+        if (authentication == null && !authentication.isAuthenticated()) {
+            //        save chi tiết đơn hàng
+            gioHangService.laySpTrongGio().stream().forEach(c -> {
+                ChiTietDonHangDTORequest donHangCT = new ChiTietDonHangDTORequest(response.getMa(), c.getId(), c.getSoLuong(), c.getDonGia(), c.getDonGiaSauGiam());
+                chiTietDonHangService.save(donHangCT);
+                ChiTietSanPhamDtoResponse chtsp = sanPhamServic.finById(c.getId());
+                Long sl = chtsp.getSoLuong() - c.getSoLuong();
+                sanPhamServic.updateSL(chtsp.getId(), sl);
+            });
+        }else {
+            Customer customer = (Customer) authentication.getPrincipal();
+            KhachHangModel khachHang = customer.getKhachHangModel();
+            gioHangService.getCartFromDatabase(khachHang).stream().forEach(c -> {
+                ChiTietDonHangDTORequest donHangCT = new ChiTietDonHangDTORequest(response.getMa(), c.getId(), c.getSoLuong(), c.getDonGia(), c.getDonGiaSauGiam());
+                chiTietDonHangService.save(donHangCT);
+                ChiTietSanPhamDtoResponse chtsp = sanPhamServic.finById(c.getId());
+                Long sl = chtsp.getSoLuong() - c.getSoLuong();
+                sanPhamServic.updateSL(chtsp.getId(), sl);
+            });
+        }
+
+        if (authentication == null && !authentication.isAuthenticated()) {
+            gioHangService.removeAllProdcutInCart();
+
+        } else {
+            Customer customer = (Customer) authentication.getPrincipal();
+            KhachHangModel khachHang = customer.getKhachHangModel();
+            gioHangService.removeAllProductFromCart(khachHang);
+        }
+
+
         //Thanh Toán Online
         if (donHangDTORequest.getPhuongThucThanhToan() == 1) {
 //            DonHangReponseUser donHangReponseUser = donHangService.findByMaUser(donHangDTORequest.getMa());

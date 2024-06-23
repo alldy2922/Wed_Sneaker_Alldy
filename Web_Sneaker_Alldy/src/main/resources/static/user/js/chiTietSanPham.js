@@ -208,11 +208,36 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
 
 //    cart show
     $scope.cartShow = function () {
-        $http.get("/cart/find-all").then(r => {
-            console.log(r.data)
-            $scope.cart = r.data;
-            console.log("soLuong:")
-        }).catch(e => console.log(e))
+        $http.get("/cart/check-login")
+            .then(function(response) {
+                if (response.data) {
+                    // User is logged in, fetch the cart data from the database
+                    $http.get("/cart/find-all-sp")
+                        .then(function(r) {
+                            console.log(r.data);
+                            $scope.cart = r.data;
+                            console.log("soLuong:", $scope.cart);
+                        })
+                        .catch(function(e) {
+                            console.log(e);
+                        });
+                } else {
+                    // User is not logged in, fetch the cart data from the session
+                    $http.get("/cart/find-all")
+                        .then(function(r) {
+                            console.log(r.data);
+                            $scope.cart = r.data;
+                            console.log("soLuong:", $scope.cart);
+                        })
+                        .catch(function(e) {
+                            console.log(e);
+                        });
+                }
+            })
+            .catch(function(error) {
+                console.log('Error checking login status:', error);
+            });
+
         $scope.getTotal = function () {
             var totalPrice = 0;
             for (let i = 0; i < $scope.cart.length; i++) {
@@ -221,7 +246,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
             return totalPrice;
         }
     }
-
+$scope.cartShow()
 
     $scope.login = function () {
         var expires = (new Date(Date.now() + 60 * 1000)).toUTCString();

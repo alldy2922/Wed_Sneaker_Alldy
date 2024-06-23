@@ -1,9 +1,13 @@
 package fpoly.duantotnghiep.shoppingweb.controller.user;
 
+import fpoly.duantotnghiep.shoppingweb.config.security.Customer;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.GioHangDtoReponse;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.IGioHangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -37,15 +41,38 @@ public class HomeController {
 //    }
 
     @GetMapping("thanh-toan")
-    public String thanhToan() {
-        List<GioHangDtoReponse> giohang = gioHangService.laySpTrongGio();
-        if (giohang.size() == 0) {
-            return "redirect:/gio-hang";
-        }
-        if(!gioHangService.checkSoLuong()) return "redirect:/gio-hang";
-        return "/user/thanhToan";
-    }
+    public String thanhToanUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            // User is not logged in
+            List<GioHangDtoReponse> giohang = gioHangService.laySpTrongGio();
+            if (giohang.size() == 0) {
+                return "redirect:/gio-hang";
+            }
+            if (!gioHangService.checkSoLuong()) {
+                return "redirect:/gio-hang";
+            }
+            return "/user/thanhToan";
+        } else {
+            // User is logged in
+            Customer customer = (Customer) authentication.getPrincipal();
+            KhachHangModel khachHang = customer.getKhachHangModel();
+            List<GioHangDtoReponse> giohang = gioHangService.getCartFromDatabase(khachHang);
+            List<GioHangDtoReponse> giohangM = gioHangService.laySpTrongGio();
 
+
+            if (gioHangService.laySpTrongGio().size() >= 1) {
+                return "/user/thanhToan";
+            } else {
+                if (giohang.size() >= 1) {
+                    return "/user/thanhToanUserLogin";
+                } else {
+                    return "redirect:/gio-hang";
+                }
+
+            }
+        }
+    }
 
     @GetMapping("lich-su-mua-hang1")
     public String licSu() {

@@ -58,7 +58,7 @@
                                 {{c.tenSanPham}}
                             </a>
                             <span class="header-cart-item-info">
-								{{c.soLuong}} x {{c.donGiaSauGiam | currency: "" : 1}}đ
+								{{c.soLuong}} x {{c.donGiaSauGiam | currency: "" : 0}}đ
 							</span>
                         </div>
                     </li>
@@ -66,7 +66,7 @@
 
                 <div class="w-full">
                     <div class="header-cart-total w-full p-tb-40">
-                        Tổng tiền: {{ getTotal() | currency: "" : 1}}đ
+                        Tổng tiền: {{ getTotal() | currency: "" : 0}}đ
                     </div>
 
                     <div class="header-cart-buttons flex-w w-full">
@@ -97,7 +97,7 @@
     </div>
     <form class="bg0 p-t-10 p-b-85">
         <div class="row">
-            <!--                giỏ hàng trống-->
+
             <div class="col-lg-10 col-xl-8 m-lr-auto m-b-50" style=" height: 437px;background-color: #f9f9fa"
                  ng-if="cart.length === 0">
                 <div class="col-12 m-t-150" style="text-align: center;">
@@ -113,11 +113,14 @@
                     </button>
                 </div>
             </div>
+
+
             <div class="col-lg-10 col-xl-8 m-lr-auto m-b-50" ng-if="cart.length > 0">
                 <div class="m-l-25 m-r--38 m-lr-0-xl">
                     <div class="wrap-table-shopping-cart">
                         <table class="table-shopping-cart">
                             <tr class="table_head">
+                                <th class="column-1">Chọn</th>
                                 <th class="column-1">Sản Phẩm</th>
                                 <th class="column-2">Tên</th>
                                 <th class="column-3">Giá</th>
@@ -127,6 +130,7 @@
                             </tr>
 
                             <tr class="table_row" ng-repeat="c in cart">
+                                <td>checkbox</td>
                                 <td class="column-1" style="padding-left: 20px">
                                     <div class="how-itemcart1">
                                         <img src="/image/loadImage/product/{{c.anh}}"
@@ -198,7 +202,7 @@
 
                         <div class="size-209">
 								<span class="mtext-110 cl2">
-									{{ getTotal() | currency: "" : 1}} VNĐ
+									{{ getTotal() | currency: "" : 0}} VNĐ
 								</span>
                         </div>
                     </div>

@@ -1,9 +1,13 @@
 package fpoly.duantotnghiep.shoppingweb.controller.user;
 
+import fpoly.duantotnghiep.shoppingweb.config.security.Customer;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.GioHangDtoReponse;
+import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.IGioHangService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -36,16 +40,39 @@ public class HomeController {
 //        return "/user/GioHang";
 //    }
 
-    @GetMapping("thanh-toan")
-    public String thanhToan() {
+//    @GetMapping("thanh-toan")
+//    public String thanhToan() {
+//        List<GioHangDtoReponse> giohang = gioHangService.laySpTrongGio();
+//        if (giohang.size() == 0) {
+//            return "redirect:/gio-hang";
+//        }
+//        if(!gioHangService.checkSoLuong()) return "redirect:/gio-hang";
+//        return "/user/thanhToan";
+//    }
+@GetMapping("thanh-toan")
+public String thanhToan() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
         List<GioHangDtoReponse> giohang = gioHangService.laySpTrongGio();
         if (giohang.size() == 0) {
             return "redirect:/gio-hang";
         }
         if(!gioHangService.checkSoLuong()) return "redirect:/gio-hang";
         return "/user/thanhToan";
+
+    }else {
+        Customer customer = (Customer) authentication.getPrincipal();
+        KhachHangModel khachHang = customer.getKhachHangModel();
+        List<GioHangDtoReponse> giohang = gioHangService.getCartFromDatabase(khachHang);
+        if (giohang.size() == 0) {
+            return "redirect:/gio-hang";
+        }
+        if(!gioHangService.checkSoLuong()) return "redirect:/gio-hang";
+        return "/user/thanhToan";
+
     }
 
+}
 
     @GetMapping("lich-su-mua-hang1")
     public String licSu() {

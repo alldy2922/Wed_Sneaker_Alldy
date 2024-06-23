@@ -207,7 +207,9 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     }
     $scope.getSizePhuHop()
 
+
 //    cart show
+    $scope.cartShow = function () {
         $http.get("/cart/check-login")
             .then(function(response) {
                 if (response.data) {
@@ -232,8 +234,17 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                             console.log(e);
                         });
                 }
-            })
+            }).catch(e => console.log(e))
+        $scope.getTotal = function () {
+            var totalPrice = 0;
+            for (let i = 0; i < $scope.cart.length; i++) {
+                totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+            }
+            return totalPrice;
+        }
+    }
 
+    $scope.cartShow()
 
         $scope.getTotal = function () {
             var totalPrice = 0;

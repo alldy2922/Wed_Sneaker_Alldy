@@ -244,7 +244,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
         }
     }
 
-    $scope.cartShow()
+
 
         $scope.getTotal = function () {
             var totalPrice = 0;

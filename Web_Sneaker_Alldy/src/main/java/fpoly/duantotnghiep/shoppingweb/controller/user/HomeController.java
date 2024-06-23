@@ -50,28 +50,41 @@ public class HomeController {
 //        return "/user/thanhToan";
 //    }
 @GetMapping("thanh-toan")
-public String thanhToan() {
+public String thanhToanUser() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+        // User is not logged in
         List<GioHangDtoReponse> giohang = gioHangService.laySpTrongGio();
         if (giohang.size() == 0) {
             return "redirect:/gio-hang";
         }
-        if(!gioHangService.checkSoLuong()) return "redirect:/gio-hang";
+        if (!gioHangService.checkSoLuong()) {
+            return "redirect:/gio-hang";
+        }
         return "/user/thanhToan";
-
-    }else {
+    } else {
+        // User is logged in
         Customer customer = (Customer) authentication.getPrincipal();
         KhachHangModel khachHang = customer.getKhachHangModel();
         List<GioHangDtoReponse> giohang = gioHangService.getCartFromDatabase(khachHang);
+        List<GioHangDtoReponse> giohangM = gioHangService.laySpTrongGio();
+
         if (giohang.size() == 0) {
             return "redirect:/gio-hang";
         }
-        if(!gioHangService.checkSoLuong()) return "redirect:/gio-hang";
-        return "/user/thanhToan";
-
+        if (giohangM.size() == 0 || !gioHangService.checkSoLuong()) {
+            return "/user/thanhToanUserLogin";
+        }
+        if (gioHangService.checkSoLuong()) {
+            return "/user/thanhToan";
+        }
+        if (giohangM.size() >= 1) {
+            return "/user/thanhToan";
+        }else if(giohang.size()>=1){
+            return "/user/thanhToanUserLogin";
+        }
+        return "/user/thanhToanUserLogin"; // Ensure there's a return statement here
     }
-
 }
 
     @GetMapping("lich-su-mua-hang1")

@@ -14,6 +14,8 @@ public interface IGioHangService {
 
      void removeAllProductFromCart(KhachHangModel user);
 
+     Boolean checkSoLuongLogin(KhachHangModel khachHang);
+
     void syncCartFromSessionToDatabase(Cart sessionCart, KhachHangModel user);
 
      void removeProductFromCart(KhachHangModel user, String productId);

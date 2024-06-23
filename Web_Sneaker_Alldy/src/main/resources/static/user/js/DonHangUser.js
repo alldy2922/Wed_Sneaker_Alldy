@@ -15,11 +15,11 @@ app.controller("donhangUser-ctrl", function ($scope, $http) {
                         console.log(e);
                     });
             } else {
-                $http.get("/cart/find-all-sp")
+                $http.get("/cart/find-all")
                     .then(function(r) {
                         console.log(r.data);
                         $scope.cart = r.data;
-                        console.log("soLuong:", $scope.cart);
+                        console.log("soLuong 23:", $scope.cart);
                     })
                     .catch(function(e) {
                         console.log(e);

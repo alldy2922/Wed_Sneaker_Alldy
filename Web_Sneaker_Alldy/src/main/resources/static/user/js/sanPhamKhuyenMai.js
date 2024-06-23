@@ -113,7 +113,7 @@ app.controller("sanPhamKhuyenMai-ctrl", function ($scope, $http) {
                         console.log(e);
                     });
             } else {
-                $http.get("/cart/find-all-sp")
+                $http.get("/cart/find-all")
                     .then(function(r) {
                         console.log(r.data);
                         $scope.cart = r.data;

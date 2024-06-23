@@ -87,6 +87,22 @@ public class GioHangServiceImpl implements IGioHangService {
     public void removeAllProductFromCart(KhachHangModel user) {
         gioHangUserRepository.deleteAllByKhachHang(user);
     }
+
+    @Override
+    public Boolean checkSoLuongLogin(KhachHangModel khachHang) {
+        Boolean rs = true;
+        List<GioHangDtoReponse> giohang = this.getCartFromDatabase(khachHang);
+
+        for (var item: giohang) {
+            int sl = item.getSoLuong();
+            if(item.getSoLuongSanPham() < sl){
+                rs = false;
+            }
+        }
+
+        return rs;
+    }
+
     @Override
     public void removeAllProdcutInCart(){
         Map<String,Integer> productInCart = cart.getProductInCart();

@@ -7,7 +7,7 @@ app.controller("filter-ctrl", function ($scope, $http) {
     $scope.pageNumber = 0;
     $scope.maSpInDSYT = []
     var isfilter = false;
-
+    $scope.cart = [];
     const pathName = location.pathname;
     const thuongHieu = pathName.substring(pathName.lastIndexOf("/"))
     $scope.filterDto = {
@@ -110,18 +110,32 @@ app.controller("filter-ctrl", function ($scope, $http) {
     }
 
     //    cart show
-    $scope.cart = [];
-    $http.get("/cart/find-all").then(r => {
-        console.log(r.data)
-        $scope.cart = r.data;
-    }).catch(e => console.log(e))
-    $scope.getTotal = function () {
-        var totalPrice = 0;
-        for (let i = 0; i < $scope.cart.length; i++) {
-            totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
-        }
-        return totalPrice;
-    }
+
+    $http.get("/cart/check-login")
+        .then(function(response) {
+            if (response.data) {
+                // User is logged in, fetch the cart data
+                $http.get("/cart/find-all-sp")
+                    .then(function(r) {
+                        console.log(r.data);
+                        $scope.cart = r.data;
+                        console.log("soLuong: chi tiet sp", $scope.cart);
+                    })
+                    .catch(function(e) {
+                        console.log(e);
+                    });
+            } else {
+                $http.get("/cart/find-all")
+                    .then(function(r) {
+                        console.log(r.data);
+                        $scope.cart = r.data;
+                        console.log("soLuong:", $scope.cart);
+                    })
+                    .catch(function(e) {
+                        console.log(e);
+                    });
+            }
+        })
 
     //dang nhap
     $scope.login = function () {

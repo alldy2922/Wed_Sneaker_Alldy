@@ -75,8 +75,7 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authenticati
         }
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            service.addProductToCart(service.getSessionCart(), idCTSP, sl);
-
+            service.addOrUpdateToCart(idCTSP,sl);
             return ResponseEntity.ok(service.laySpTrongGio());
         } else {
             Customer customer = (Customer) authentication.getPrincipal();

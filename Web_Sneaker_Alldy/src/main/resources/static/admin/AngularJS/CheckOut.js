@@ -10,6 +10,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     $scope.citys = []
     $scope.wards = []
     $scope.cart = []
+    $scope.cartUser = []
     $scope.districts = []
     $scope.disVoucher = false;
     $scope.voucherDH = ""
@@ -188,12 +189,22 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         $scope.giaGiam = 0;
         $scope.voucherDH = "";
     }
-
-    $http.get("/cart/find-all").then(r => {
-        console.log(r.data)
-        $scope.cart = r.data;
+    $http.get("/cart/find-all")
+        .then(function(r) {
+                        console.log(r.data);
+                        $scope.cart = r.data;
+                        console.log("soLuong:", $scope.cart);
         for (var i = 0; i < $scope.cart.length; i++) {
             $scope.sumTotal += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+        }
+    }).catch(e => console.log(e))
+    $http.get("/cart/find-all-sp")
+        .then(function(r) {
+                        console.log(r.data);
+                        $scope.cartUser = r.data;
+                        console.log("soLuong:", $scope.cart);
+        for (var i = 0; i < $scope.cartUser.length; i++) {
+            $scope.sumTotal += $scope.cartUser[i].soLuong * $scope.cartUser[i].donGiaSauGiam
         }
     }).catch(e => console.log(e))
 
@@ -264,7 +275,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     };
 
     //    show giỏ hàng
-    $scope.cart = []
+
     $scope.getTotal = function () {
         var totalPrice = 0;
         for (let i = 0; i < $scope.cart.length; i++) {
@@ -272,11 +283,23 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         }
         return totalPrice;
     }
-    $http.get("/cart/find-all").then(r => {
-        console.log(r.data)
-        $scope.cart = r.data;
-        console.log("soLuong:")
-    }).catch(e => console.log(e))
 
-
+    $http.get("/cart/find-all-sp")
+        .then(function(r) {
+            console.log(r.data);
+            $scope.cartUser = r.data;
+            console.log("soLuong: chi tiet sp", $scope.cart);
+        })
+        .catch(function(e) {
+            console.log(e);
+        });
+    $http.get("/cart/find-all")
+        .then(function(r) {
+            console.log(r.data);
+            $scope.cart = r.data;
+            console.log("soLuong:", $scope.cart);
+        })
+        .catch(function(e) {
+            console.log(e);
+        });
 });

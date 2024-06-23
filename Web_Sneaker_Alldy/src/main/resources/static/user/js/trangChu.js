@@ -115,7 +115,7 @@ app.controller("ctrl", function ($scope, $http) {
                     .then(function(r) {
                         console.log(r.data);
                         $scope.cart = r.data;
-                        console.log("soLuong:", $scope.cart);
+                        console.log("soLuong trangchu:", $scope.cart);
                     })
                     .catch(function(e) {
                         console.log(e);

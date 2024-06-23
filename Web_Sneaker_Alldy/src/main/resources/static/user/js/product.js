@@ -7,6 +7,7 @@ app.controller("index-ctrl", function ($scope, $http) {
     $scope.pageNumbers = [];
     $scope.pageNumber = 0;
     $scope.maSpInDSYT = []
+    $scope.cart = [];
     var isfilter = false;
 
     $http.get("/san-pham/get-all").then(r => {
@@ -226,7 +227,7 @@ app.controller("index-ctrl", function ($scope, $http) {
     }
 
     //    cart show
-    $scope.cart = [];
+
     $http.get("/cart/check-login")
         .then(function(response) {
             if (response.data) {
@@ -241,7 +242,7 @@ app.controller("index-ctrl", function ($scope, $http) {
                         console.log(e);
                     });
             } else {
-                $http.get("/cart/find-all-sp")
+                $http.get("/cart/find-all")
                     .then(function(r) {
                         console.log(r.data);
                         $scope.cart = r.data;

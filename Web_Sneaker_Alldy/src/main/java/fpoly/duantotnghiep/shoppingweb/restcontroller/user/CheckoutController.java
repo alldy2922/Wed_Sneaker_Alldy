@@ -154,8 +154,32 @@ public class CheckoutController {
                 }
             }
         }
-        if (authentication == null && !authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             //        save chi tiết đơn hàng
+            if( gioHangService.laySpTrongGio().size()>=1){
+                gioHangService.laySpTrongGio().stream().forEach(c -> {
+                    ChiTietDonHangDTORequest donHangCT = new ChiTietDonHangDTORequest(response.getMa(), c.getId(), c.getSoLuong(), c.getDonGia(), c.getDonGiaSauGiam());
+                    chiTietDonHangService.save(donHangCT);
+                    ChiTietSanPhamDtoResponse chtsp = sanPhamServic.finById(c.getId());
+                    Long sl = chtsp.getSoLuong() - c.getSoLuong();
+                    sanPhamServic.updateSL(chtsp.getId(), sl);
+                });
+            }else {
+                Customer customer = (Customer) authentication.getPrincipal();
+                KhachHangModel khachHang = customer.getKhachHangModel();
+                gioHangService.getCartFromDatabase(khachHang).stream().forEach(c -> {
+                    ChiTietDonHangDTORequest donHangCT = new ChiTietDonHangDTORequest(response.getMa(), c.getId(), c.getSoLuong(), c.getDonGia(), c.getDonGiaSauGiam());
+                    chiTietDonHangService.save(donHangCT);
+                    ChiTietSanPhamDtoResponse chtsp = sanPhamServic.finById(c.getId());
+                    Long sl = chtsp.getSoLuong() - c.getSoLuong();
+                    sanPhamServic.updateSL(chtsp.getId(), sl);
+                    //tets
+                });
+            }
+
+
+        }else {
+
             gioHangService.laySpTrongGio().stream().forEach(c -> {
                 ChiTietDonHangDTORequest donHangCT = new ChiTietDonHangDTORequest(response.getMa(), c.getId(), c.getSoLuong(), c.getDonGia(), c.getDonGiaSauGiam());
                 chiTietDonHangService.save(donHangCT);
@@ -163,26 +187,22 @@ public class CheckoutController {
                 Long sl = chtsp.getSoLuong() - c.getSoLuong();
                 sanPhamServic.updateSL(chtsp.getId(), sl);
             });
-        }else {
-            Customer customer = (Customer) authentication.getPrincipal();
-            KhachHangModel khachHang = customer.getKhachHangModel();
-            gioHangService.getCartFromDatabase(khachHang).stream().forEach(c -> {
-                ChiTietDonHangDTORequest donHangCT = new ChiTietDonHangDTORequest(response.getMa(), c.getId(), c.getSoLuong(), c.getDonGia(), c.getDonGiaSauGiam());
-                chiTietDonHangService.save(donHangCT);
-                ChiTietSanPhamDtoResponse chtsp = sanPhamServic.finById(c.getId());
-                Long sl = chtsp.getSoLuong() - c.getSoLuong();
-                sanPhamServic.updateSL(chtsp.getId(), sl);
-            });
         }
 
-        if (authentication == null && !authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
+
+            if (gioHangService.laySpTrongGio().size() >= 1) {
+                gioHangService.removeAllProdcutInCart();
+            } else {
+                Customer customer = (Customer) authentication.getPrincipal();
+                KhachHangModel khachHang = customer.getKhachHangModel();
+                gioHangService.removeAllProductFromCart(khachHang);
+            }
+        }else{
             gioHangService.removeAllProdcutInCart();
-
-        } else {
-            Customer customer = (Customer) authentication.getPrincipal();
-            KhachHangModel khachHang = customer.getKhachHangModel();
-            gioHangService.removeAllProductFromCart(khachHang);
         }
+
+
 
 
         //Thanh Toán Online

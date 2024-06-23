@@ -24,19 +24,30 @@ public class GioHangRestController {
     private IChiTietSanPhamService chiTietSanPhamService;
 
 @GetMapping("/find-all")
-public ResponseEntity<List<GioHangDtoReponse>> getCartContents(Authentication authentication) {
-    if (authentication == null || !authentication.isAuthenticated()) {
+public ResponseEntity<List<GioHangDtoReponse>> getCartContents() {
         // Chưa đăng nhập, lấy giỏ hàng từ session
         List<GioHangDtoReponse> cartContents = service.laySpTrongGio();
         return new ResponseEntity<>(cartContents, HttpStatus.OK);
-    } else {
+
+}
+    @GetMapping("/check-login")
+    public ResponseEntity<Boolean> checkLoginStatus(Authentication authentication) {
+        boolean isLoggedIn = authentication != null && authentication.isAuthenticated();
+        return ResponseEntity.ok(isLoggedIn);
+    }
+
+@GetMapping("/find-all-sp")
+public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authentication authentication) {
+
         // Đã đăng nhập, lấy giỏ hàng từ database
+
         Customer customer = (Customer) authentication.getPrincipal();
         KhachHangModel khachHang = customer.getKhachHangModel();
-        List<GioHangDtoReponse> cartContents1 = service.laySpTrongGio();
         List<GioHangDtoReponse> cartContents = service.getCartFromDatabase(khachHang);
         return new ResponseEntity<>(cartContents, HttpStatus.OK);
-    }
+
+
+
 }
     @PostMapping("add-to-cart")
     public ResponseEntity<?> addToCart(@RequestParam(value = "idCTSP", required = false) String idCTSP,
@@ -71,7 +82,6 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContents(Authentication au
             Customer customer = (Customer) authentication.getPrincipal();
             KhachHangModel khachHang = customer.getKhachHangModel();
             service.addProductToCart(khachHang, idCTSP, sl);
-            service.addOrUpdateToCart(idCTSP,sl);
             return ResponseEntity.ok(service.getCartFromDatabase(khachHang));
         }
     }
@@ -105,9 +115,7 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContents(Authentication au
                 service.removeAllProdcutInCart();
             }
             // Nếu đã đăng nhập, cập nhật trong cơ sở dữ liệu
-            Customer customer = (Customer) authentication.getPrincipal();
-            KhachHangModel khachHang = customer.getKhachHangModel();
-            service.addProductToCart(khachHang,idCTSP,sl);
+
             service.addOrUpdateToCart(idCTSP,sl);
             return ResponseEntity.ok(service.laySpTrongGio());
         }

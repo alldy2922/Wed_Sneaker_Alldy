@@ -5,33 +5,41 @@ app.controller("cart-ctrl", function ($scope, $http) {
     $scope.user = [];
     $scope.cartUser = [];
     $scope.productDetails ={};
-    // $http.get("/khach-hang/getUser").then(r => {
-    //     let data = r.data;
-    //     data.ngaySinh = new Date(data.ngaySinh); // Chuyển đổi ngaySinh sang đối tượng Date
-    //     $scope.user = data;
-    //     $scope.getThongTinCartUser($scope.user.username)
-    //     console.log("datauser", $scope.user);
-    // }).catch(e => {
-    //     console.error("Error", e);
-    // });
 
-    // $scope.getThongTinCartUser = function (username){
-    //     $http.get("/cart/find-all-user?kh=" + username ).then(r => {
-    //         $scope.productDetails  = r.data;
-    //         console.log("soLuong1:", $scope.productDetails);
-    //         $scope.getProductDetails($scope.productDetails[0].chiTietSanPham)
-    //
-    //     }).catch(e => console.log(e));
-    //
-    // }
-    // $scope.getSoLuong = function (idCTSP) {
-    //
-    // }
-    $http.get("/cart/find-all").then(r => {
-        console.log(r.data)
-        $scope.cart = r.data;
-        console.log("soLuong:")
-    }).catch(e => console.log(e))
+
+        // Check if the user is logged in
+    $http.get("/cart/check-login")
+        .then(function(response) {
+            if (response.data) {
+                // User is logged in, fetch the cart data from the database
+                $http.get("/cart/find-all-sp")
+                    .then(function(r) {
+                        console.log(r.data);
+                        $scope.cart = r.data;
+                        console.log("soLuong:", $scope.cart);
+                    })
+                    .catch(function(e) {
+                        console.log(e);
+                    });
+            } else {
+                // User is not logged in, fetch the cart data from the session
+                $http.get("/cart/find-all")
+                    .then(function(r) {
+                        console.log(r.data);
+                        $scope.cart = r.data;
+                        console.log("soLuong:", $scope.cart);
+                    })
+                    .catch(function(e) {
+                        console.log(e);
+                    });
+            }
+        })
+        .catch(function(error) {
+            console.log('Error checking login status:', error);
+        });
+
+    // Call the function to check login status and fetch cart data
+
     //
     // $scope.getProductDetails = function(idCTSP) {
     //         $http.get("/chi-tiet-san-pham/1/get-all-id?id=" + idCTSP).then(r => {

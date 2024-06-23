@@ -8,6 +8,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.soLuong = ""
     $scope.size = null
     $scope.lengthFoot = 26
+    $scope.cart =[];
     // const idSP = pathName[pathName.length - 1]
     // $scope.form ={
     //     sanPham : idSP
@@ -207,12 +208,33 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.getSizePhuHop()
 
 //    cart show
-    $scope.cartShow = function () {
-        $http.get("/cart/find-all").then(r => {
-            console.log(r.data)
-            $scope.cart = r.data;
-            console.log("soLuong:")
-        }).catch(e => console.log(e))
+        $http.get("/cart/check-login")
+            .then(function(response) {
+                if (response.data) {
+                    // User is logged in, fetch the cart data
+                    $http.get("/cart/find-all-sp")
+                        .then(function(r) {
+                            console.log(r.data);
+                            $scope.cart = r.data;
+                            console.log("soLuong: chi tiet sp", $scope.cart);
+                        })
+                        .catch(function(e) {
+                            console.log(e);
+                        });
+                } else {
+                    $http.get("/cart/find-all-sp")
+                        .then(function(r) {
+                            console.log(r.data);
+                            $scope.cart = r.data;
+                            console.log("soLuong:", $scope.cart);
+                        })
+                        .catch(function(e) {
+                            console.log(e);
+                        });
+                }
+            })
+
+
         $scope.getTotal = function () {
             var totalPrice = 0;
             for (let i = 0; i < $scope.cart.length; i++) {
@@ -220,7 +242,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
             }
             return totalPrice;
         }
-    }
+
 
 
     $scope.login = function () {

@@ -2,6 +2,7 @@ var app = angular.module("ctdh-app", [])
 app.controller("ctdh-ctrl", function ($scope, $http) {
     $scope.donHang = {}
     $scope.chiTietDonHang = []
+    $scope.cart =[];
     const pathName = location.pathname;
     const maDH = pathName.substring(pathName.lastIndexOf("/"))
     $scope.cart = [];
@@ -19,4 +20,29 @@ app.controller("ctdh-ctrl", function ($scope, $http) {
         $scope.chiTietDonHang.forEach(c => total += (c.donGiaSauGiam * c.soLuong))
         return total
     }
+    $http.get("/cart/check-login")
+        .then(function(response) {
+            if (response.data) {
+                // User is logged in, fetch the cart data
+                $http.get("/cart/find-all-sp")
+                    .then(function(r) {
+                        console.log(r.data);
+                        $scope.cart = r.data;
+                        console.log("soLuong: chi tiet sp", $scope.cart);
+                    })
+                    .catch(function(e) {
+                        console.log(e);
+                    });
+            } else {
+                $http.get("/cart/find-all-sp")
+                    .then(function(r) {
+                        console.log(r.data);
+                        $scope.cart = r.data;
+                        console.log("soLuong:", $scope.cart);
+                    })
+                    .catch(function(e) {
+                        console.log(e);
+                    });
+            }
+        })
 })

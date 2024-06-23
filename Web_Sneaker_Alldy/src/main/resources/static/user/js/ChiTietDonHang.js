@@ -5,7 +5,7 @@ app.controller("ctdh-ctrl", function ($scope, $http) {
     $scope.cart =[];
     const pathName = location.pathname;
     const maDH = pathName.substring(pathName.lastIndexOf("/"))
-    $scope.cart = [];
+
 
     $http.get("/don-hang" + maDH).then(r => {
         $scope.donHang = r.data
@@ -21,6 +21,10 @@ app.controller("ctdh-ctrl", function ($scope, $http) {
         return total
     }
 
+    $http.get("/cart/check-login")
+        .then(function(response) {
+            if (response.data) {
+                // User is logged in, fetch the cart data from the database
                 $http.get("/cart/find-all-sp")
                     .then(function(r) {
                         console.log(r.data);
@@ -30,5 +34,22 @@ app.controller("ctdh-ctrl", function ($scope, $http) {
                     .catch(function(e) {
                         console.log(e);
                     });
+            } else {
+                // User is not logged in, fetch the cart data from the session
+                $http.get("/cart/find-all")
+                    .then(function(r) {
+                        console.log(r.data);
+                        $scope.cart = r.data;
+                        console.log("soLuong:", $scope.cart);
+                    })
+                    .catch(function(e) {
+                        console.log(e);
+                    });
+            }
+        })
+        .catch(function(error) {
+            console.log('Error checking login status:', error);
+        });
+
 
 })

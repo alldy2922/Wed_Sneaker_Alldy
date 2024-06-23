@@ -74,15 +74,20 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authenticati
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
         }
 
+
         if (authentication == null || !authentication.isAuthenticated()) {
-            service.addOrUpdateToCart(idCTSP,sl);
+            // Nếu chưa đăng nhập, cập nhật trong session
+            service.addOrUpdateToCart(idCTSP, sl);
             return ResponseEntity.ok(service.laySpTrongGio());
         } else {
+            // Nếu đã đăng nhập, cập nhật trong cơ sở dữ liệu
             Customer customer = (Customer) authentication.getPrincipal();
             KhachHangModel khachHang = customer.getKhachHangModel();
-            service.addProductToCart(khachHang, idCTSP, sl);
+            service.addProductToCart(khachHang,idCTSP,sl);
+            service.removeAllProdcutInCart();
             return ResponseEntity.ok(service.getCartFromDatabase(khachHang));
         }
+
     }
     @PostMapping("mua-ngay")
     public ResponseEntity<?> muaNgay(@RequestParam(value = "idCTSP",required = false)String idCTSP,
@@ -166,5 +171,12 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authenticati
             service.removeAllProdcutInCart();
             return ResponseEntity.ok(service.laySpTrongGio());
         }
+    }
+    @DeleteMapping("removeLogin")
+    public ResponseEntity<?> removeAllProductsLogin() {
+        service.removeAllProdcutInCart();
+        // Ghi log khi nhận được yêu cầu
+        System.out.println("Received request to remove all products for logged in user.");
+        return ResponseEntity.ok(service.laySpTrongGio());
     }
 }

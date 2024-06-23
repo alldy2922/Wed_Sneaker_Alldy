@@ -69,21 +69,19 @@ public String thanhToanUser() {
         List<GioHangDtoReponse> giohang = gioHangService.getCartFromDatabase(khachHang);
         List<GioHangDtoReponse> giohangM = gioHangService.laySpTrongGio();
 
-        if (giohang.size() == 0) {
-            return "redirect:/gio-hang";
-        }
-        if (giohangM.size() == 0 || !gioHangService.checkSoLuong()) {
-            return "/user/thanhToanUserLogin";
-        }
-        if (gioHangService.checkSoLuong()) {
+
+
+        if (gioHangService.laySpTrongGio().size()>=1) {
             return "/user/thanhToan";
+        }else {
+            if(giohang.size()>=1){
+                return "/user/thanhToanUserLogin";
+            }else {
+                return "redirect:/gio-hang";
+            }
+
         }
-        if (giohangM.size() >= 1) {
-            return "/user/thanhToan";
-        }else if(giohang.size()>=1){
-            return "/user/thanhToanUserLogin";
-        }
-        return "/user/thanhToanUserLogin"; // Ensure there's a return statement here
+
     }
 }
 

@@ -50,6 +50,7 @@ app.controller('diaChiCtrl', function ($scope, $http) {
             }).catch(err => console.log(err))
         }
     }
+
     $scope.create = function () {
 
         if($scope.diaChiByTaiKhoan.length>=5){

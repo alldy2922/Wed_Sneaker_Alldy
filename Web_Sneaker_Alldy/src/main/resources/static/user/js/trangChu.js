@@ -96,6 +96,7 @@ app.controller("ctrl", function ($scope, $http) {
         }
         return totalPrice;
     }
+
     $http.get("/cart/check-login")
         .then(function(response) {
             if (response.data) {

@@ -141,9 +141,9 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                         showConfirmButton: false
                     }).then(() => {
                         if ($scope.loginIn == false) {
-                            window.location.href = "http://localhost:8080/gio-hang";
+                            window.location.href = "/gio-hang";
                         } else {
-                            window.location.href = "http://localhost:8080/lich-su-mua-hang1";
+                            window.location.href = "/lich-su-mua-hang1";
                         }
                     });
                 } else {
@@ -214,18 +214,33 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         return tien
     }
 //    disabledVoucher
+    window.onunload= function() {
+        // Gửi một yêu cầu đến máy chủ trước khi người dùng tải lại trang
+            // Ngăn trình duyệt thực hiện hành động mặc định (rời khỏi trang)
+        if ($location.path() === '/thanh-toan') {
+            console.log("test")
+            // Người dùng đang ở trang thanh toán, không thực hiện bất kỳ hành động nào
+        } else {
+            $scope.deleteoAll();
+        }
 
-    $http.get("/dia-chi-khach-hang")
-        .then(function (response) {
-            // Nếu API trả về tên tài khoản, hiển thị tên tài khoản
-            $scope.loginIn = true;
-            console.log(response.data)
-            $scope.diaChiByTaiKhoan = response.data;
+
+
+    };
+    window.addEventListener('load', function(event) {
+        // Thực hiện các hành động cần thiết sau khi trang được tải lại từ máy chủ
+        console.log('Page is fully loaded');
+        // Ví dụ: Cập nhật dữ liệu trang sau khi tải lại
+    });
+    $scope.deleteoAll = function () {
+        // Ghi log đơn giản khi sự kiện unload xảy ra
+        console.log('response.data()')
+        $http.delete("/cart/removeLogin").then(function (response) {
+            // alert("Success")
+            $scope.cart = response.data;
+            console.log(response.data())
         })
-        .catch(function (error) {
-            // Không đăng nhập hoặc có lỗi, giữ trạng thái loggedIn là false
-            $scope.loginIn = false;
-        });
+    };
     $scope.getDiaChiById = function (idDiaChi) {
         var data = {
             id: idDiaChi

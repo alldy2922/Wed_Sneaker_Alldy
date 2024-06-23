@@ -5,6 +5,7 @@ app.controller("cart-ctrl", function ($scope, $http) {
     $scope.user = [];
     $scope.cartUser = [];
     $scope.productDetails ={};
+    $scope.datacheck = [];
 
 
         // Check if the user is logged in
@@ -38,6 +39,18 @@ app.controller("cart-ctrl", function ($scope, $http) {
             console.log('Error checking login status:', error);
         });
 
+    $scope.checkThanhToan = function () {
+        $http.get("/cart/find-all-sp")
+            .then(function(r) {
+                console.log(r.data);
+                $scope.cart = r.data;
+                console.log("soLuong:", $scope.cart);
+            })
+            .catch(function(e) {
+                console.log(e);
+            });
+
+    }
     // Call the function to check login status and fetch cart data
 
     //

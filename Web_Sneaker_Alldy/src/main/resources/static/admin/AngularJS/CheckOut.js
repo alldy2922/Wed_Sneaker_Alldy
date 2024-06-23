@@ -10,6 +10,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     $scope.citys = []
     $scope.wards = []
     $scope.cart = []
+    $scope.cartUser = []
     $scope.districts = []
     $scope.disVoucher = false;
     $scope.voucherDH = ""
@@ -165,7 +166,27 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         }, function () {
         })
     }
+    window.addEventListener('beforeunload', function(event) {
+        // Thực hiện các hành động cần thiết trước khi người dùng rời khỏi trang
 
+        $scope.deleteoAll();
+
+    });
+
+    window.addEventListener('load', function(event) {
+        // Thực hiện các hành động cần thiết sau khi trang được tải lại từ máy chủ
+        console.log('Page is fully loaded');
+        // Ví dụ: Cập nhật dữ liệu trang sau khi tải lại
+    });
+    $scope.deleteoAll = function () {
+        // Ghi log đơn giản khi sự kiện unload xảy ra
+        console.log('response.data()')
+        $http.delete("/cart/removeLogin").then(function (response) {
+            // alert("Success")
+            $scope.cart = response.data;
+            console.log(response.data())
+        })
+    };
     $scope.getDataAPI = function (maVC) {
         if ($scope.sumTotal == 0) {
             console.log("không có tiền")
@@ -188,14 +209,24 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         $scope.giaGiam = 0;
         $scope.voucherDH = "";
     }
-
-    $http.get("/cart/find-all").then(r => {
-        console.log(r.data)
-        $scope.cart = r.data;
-        for (var i = 0; i < $scope.cart.length; i++) {
-            $scope.sumTotal += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
-        }
-    }).catch(e => console.log(e))
+    $http.get("/cart/find-all")
+        .then(function(r) {
+            console.log(r.data);
+            $scope.cart = r.data;
+            console.log("soLuong:", $scope.cart);
+            for (var i = 0; i < $scope.cart.length; i++) {
+                $scope.sumTotal += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+            }
+        }).catch(e => console.log(e))
+    $http.get("/cart/find-all-sp")
+        .then(function(r) {
+            console.log(r.data);
+            $scope.cartUser = r.data;
+            console.log("soLuong:", $scope.cart);
+            for (var i = 0; i < $scope.cartUser.length; i++) {
+                $scope.sumTotal += $scope.cartUser[i].soLuong * $scope.cartUser[i].donGiaSauGiam
+            }
+        }).catch(e => console.log(e))
 
     $scope.totalpayment = function () {
         var tien = 0;

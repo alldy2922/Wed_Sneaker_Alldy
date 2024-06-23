@@ -24,18 +24,28 @@ public class GioHangRestController {
     private IChiTietSanPhamService chiTietSanPhamService;
 
     @GetMapping("/find-all")
-    public ResponseEntity<List<GioHangDtoReponse>> getCartContents(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
-            // Chưa đăng nhập, lấy giỏ hàng từ session
-            List<GioHangDtoReponse> cartContents = service.laySpTrongGio();
-            return new ResponseEntity<>(cartContents, HttpStatus.OK);
-        } else {
-            // Đã đăng nhập, lấy giỏ hàng từ database
-            Customer customer = (Customer) authentication.getPrincipal();
-            KhachHangModel khachHang = customer.getKhachHangModel();
-            List<GioHangDtoReponse> cartContents = service.getCartFromDatabase(khachHang);
-            return new ResponseEntity<>(cartContents, HttpStatus.OK);
-        }
+    public ResponseEntity<List<GioHangDtoReponse>> getCartContents() {
+        // Chưa đăng nhập, lấy giỏ hàng từ session
+        List<GioHangDtoReponse> cartContents = service.laySpTrongGio();
+        return new ResponseEntity<>(cartContents, HttpStatus.OK);
+
+    }
+    @GetMapping("/check-login")
+    public ResponseEntity<Boolean> checkLoginStatus(Authentication authentication) {
+        boolean isLoggedIn = authentication != null && authentication.isAuthenticated();
+        return ResponseEntity.ok(isLoggedIn);
+    }
+
+    @GetMapping("/find-all-sp")
+    public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authentication authentication) {
+
+        // Đã đăng nhập, lấy giỏ hàng từ database
+
+        Customer customer = (Customer) authentication.getPrincipal();
+        KhachHangModel khachHang = customer.getKhachHangModel();
+        List<GioHangDtoReponse> cartContents = service.getCartFromDatabase(khachHang);
+        return new ResponseEntity<>(cartContents, HttpStatus.OK);
+
     }
     @PostMapping("add-to-cart")
     public ResponseEntity<?> addToCart(@RequestParam(value = "idCTSP", required = false) String idCTSP,
@@ -63,7 +73,7 @@ public class GioHangRestController {
         }
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            service.addProductToCart(service.getSessionCart(), idCTSP, sl);
+            service.addOrUpdateToCart(idCTSP,sl);
             return ResponseEntity.ok(service.laySpTrongGio());
         } else {
             Customer customer = (Customer) authentication.getPrincipal();
@@ -74,7 +84,7 @@ public class GioHangRestController {
     }
     @PostMapping("mua-ngay")
     public ResponseEntity<?> muaNgay(@RequestParam(value = "idCTSP",required = false)String idCTSP,
-                                     @RequestParam("sl")Integer sl){
+                                     @RequestParam("sl")Integer sl, Authentication authentication){
         Map<String,String> er = new HashMap<>();
         Integer soLuongCheck = sl;
 
@@ -89,11 +99,23 @@ public class GioHangRestController {
             er.put("eSize","Số lượng không hợp lệ!!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
         }
-        if (service.laySpTrongGio().size()>=1){
-            service.removeAllProdcutInCart();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            // Nếu chưa đăng nhập, cập nhật trong session
+            if (service.laySpTrongGio().size()>=1){
+                service.removeAllProdcutInCart();
+            }
+            service.addOrUpdateToCart(idCTSP,sl);
+            return ResponseEntity.ok(service.laySpTrongGio());
+        } else {
+            if (service.laySpTrongGio().size()>=1){
+                service.removeAllProdcutInCart();
+            }
+            // Nếu đã đăng nhập, cập nhật trong cơ sở dữ liệu
+
+            service.addOrUpdateToCart(idCTSP,sl);
+            return ResponseEntity.ok(service.laySpTrongGio());
         }
-        service.addOrUpdateToCart(idCTSP,sl);
-        return ResponseEntity.ok(service.laySpTrongGio());
     }
     @PutMapping("update-sl/{idCTSP}/{sl}")
     public ResponseEntity<?> updateSL(@PathVariable("idCTSP") String idCTSP, @PathVariable("sl") Integer sl, Authentication authentication) {
@@ -142,5 +164,12 @@ public class GioHangRestController {
             service.removeAllProdcutInCart();
             return ResponseEntity.ok(service.laySpTrongGio());
         }
+    }
+    @DeleteMapping("removeLogin")
+    public ResponseEntity<?> removeAllProductsLogin() {
+        service.removeAllProdcutInCart();
+        // Ghi log khi nhận được yêu cầu
+        System.out.println("Received request to remove all products for logged in user.");
+        return ResponseEntity.ok(service.laySpTrongGio());
     }
 }

@@ -30,7 +30,7 @@ public class ThongKeEntityManager {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public Map<Integer,Long> getQuantityOrderByYear(String year){
-
+    // Lấy số lượng theo năm
         return entityManager.createQuery("""
                 SELECT MONTH(d.ngayDatHang) AS month, COUNT(d)  AS quantity
                 FROM DonHangModel d

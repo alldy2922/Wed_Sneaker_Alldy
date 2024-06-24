@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class SanPhamBanChayDto {
+    //
     private SanPhamDtoResponse sanPham;
     private Long soLuong;
 }

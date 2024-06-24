@@ -32,6 +32,7 @@ public class ThongKeRestController {
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+    //Thống kê số lượng theo khoảng thời gian
     @GetMapping("tong-quat")
     public ResponseEntity<?> getTotalQauntityInOrdersWithDate(@RequestParam(required = false)
                                                               @DateTimeFormat(pattern = "yyyy-MM-dd")Date firstDate,

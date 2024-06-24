@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ChiTietSanPhamThongKeDto {
+    //
     private ChiTietSanPhamDtoResponse chiTietSanPham;
     private Long daBan;
 

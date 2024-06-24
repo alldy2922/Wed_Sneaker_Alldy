@@ -9,6 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class SanPhamDaBanDto {
+    //
     private SanPhamBanChayDto sanPham;
     private List<ChiTietSanPhamThongKeDto> chiTietSanPham;
 }

@@ -43,6 +43,7 @@ public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> 
                 ORDER BY SUM(ctdh.soLuong) DESC 
             """)
     Page<SanPhamModel> getBanChay(Pageable pageable);
+    // Thống kê sản phẩm bán chạy
 
     @Query("""
                 SELECT s FROM SanPhamModel s WHERE s.mucGiam IS NOT null and s.hienThi = true and s.trangThai = true

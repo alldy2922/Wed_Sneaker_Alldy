@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/user/trangChu}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <style>
+
+        .coupon .kanan {
+            border-left: 1px dashed #717fe0;
+            width: 40% !important;
+            position: relative;
+        }
+
+        .coupon .kanan .info::after,
+        .coupon .kanan .info::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 15px;
+            background: #dedede;
+            border-radius: 100%;
+        }
+
+        .coupon .kanan .info::before {
+            top: -10px;
+            left: -10px;
+        }
+
+        .coupon .kanan .info::after {
+            bottom: -10px;
+            left: -10px;
+        }
+
+        .coupon .time {
+            font-size: 1.6rem;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="contentUser" class="bg0 m-t-10 p-b-140" ng-app="checkOut" ng-controller="checkOutCtrl"
+     style="background-color: #f9f9fa">
+
+    <div class="header-cart flex-col-l p-l-65 p-r-25">
+        <div class="header-cart-title flex-w flex-sb-m p-b-8">
+				<span class="mtext-103 cl2">
+					Giỏ hàng
+				</span>
+
+            <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+                <i class="zmdi zmdi-close"></i>
+            </div>
+        </div>
+
+        <div class="header-cart-content flex-w js-pscroll">
+            <ul class="header-cart-wrapitem w-full">
+                <li class="header-cart-item flex-w flex-t m-b-12" ng-repeat="c in cart">
+                    <div class="header-cart-item-img" ng-click="removeProductIncart(c.id)">
+                        <img src="/image/loadImage/product/{{c.anh}}"
+                             style="width: 60px; height: 80px" alt="IMG">
+                    </div>
+
+                    <div class="header-cart-item-txt p-t-8">
+                        <a href="/chi-tiet-san-pham/{{c.maSanPham}}"
+                           class="header-cart-item-info">
+                            {{c.tenSanPham}}
+                        </a>
+                        <span class="header-cart-item-info">
+								{{c.soLuong}} x {{c.donGiaSauGiam | currency: "" : 1}}đ
+							</span>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="w-full">
+                <div class="header-cart-total w-full p-tb-40">
+                    Tổng tiền: {{ getTotal() | currency: "" : 1}}đ
+                </div>
+
+                <div class="header-cart-buttons flex-w w-full">
+                    <a href="/gio-hang"
+                       class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+                        Xem giỏ hàng
+                    </a>
+
+                    <a href="/thanh-toan"
+                       class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+                        Thanh toán
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <div class="container"
+         style="margin-top: 40px;margin-bottom: 20px; box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff;">
+        <div class="row">
+            <div class="col-6 m-b-10" style="border-right: 1px solid silver;">
+                <div class="row">
+                    <div class="col-6">
+                        <h3 style="margin-bottom: 10px;">Thông tin vận chuyển</h3>
+                    </div>
+                    <div class="col-6 flex-r" ng-if="loginIn">
+                        <p style="margin-bottom: 10px;">
+                            <a href="/dang-nhap" data-bs-toggle="modal" data-bs-target="#myModalDiaChi">Chọn địa chỉ có
+                                sẵn</a>
+                        </p>
+                    </div>
+                    <div class="col-6 flex-r" ng-if="!loginIn">
+                        <p style="margin-bottom: 10px;">
+                            Bạn đã có tài khoản?
+                            <a ng-click="login()" href="/dang-nhap">Đăng nhập</a>
+                        </p>
+                    </div>
+                </div>
+                <form class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control rounded-4" name="boGoc"
+                               ng-model="nguoiNhan"
+                               placeholder="Người nhận" id="inputEmail4">
+                        <p class="form-text text-danger">{{errNguoiNhan}}</p>
+
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" placeholder="Số điện thoại"
+                               ng-model="soDienThoai"
+                               name="boGoc"
+
+                               class="form-control  rounded-4"
+                               id="inputPassword4">
+                        <p class="form-text text-danger">{{errSoDienThoai}}</p>
+                    </div>
+                    <div class="col-12">
+                        <input type="text"
+
+                               ng-model="email"
+                               name="boGoc"
+                               class="form-control  rounded-4"
+                               id="inputAddress" placeholder="Mail">
+                        <p class="form-text text-danger">{{errEmail}}</p>
+
+                    </div>
+                    <div class="col-12">
+                        <input type="text" ng-model="diaChiChiTiet" name="boGoc" class="form-control rounded-4"
+                               id="inputAddress2"
+                               placeholder="Địa chỉ: ví dụ(193 Phú Diễn)">
+                        <p class="form-text text-danger">{{errDiaChiChiTiet}}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <select title="Country" id="city" ng-model="thanhPhoCode"
+                                onchange="angular.element(this).scope().cityChange(this.value)"
+                                class="form-select  rounded-4">
+                            <option selected>Tỉnh/thành phố</option>
+                            <option ng-repeat="c in citys" value="{{c.ProvinceID}}">
+                                {{c.ProvinceName}}
+                            </option>
+                        </select>
+                        <p class="form-text text-danger">{{errThanhPhoCode}}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="district" data-placeholder="Quận huyện"
+                                ng-model="quanHuyenCode"
+                                onchange="angular.element(this).scope().districtChange(this.value)"
+                                title="Country"
+                                class="form-select rounded-4">
+                            <option selected>Quận/huyện</option>
+                            <option ng-repeat="d in districts"
+                                    value="{{d.DistrictID}}">{{d.DistrictName}}
+                            </option>
+                        </select>
+                        <p class="form-text text-danger">{{errQuanHuyenCode}}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <select title="Country" id="ward" ng-model="xaPhuongCode"
+                                onchange="angular.element(this).scope().getFeeShipped(getElementById('district').value,this.value)"
+                                class="form-select  rounded-4">
+                            <option selected>Xã/phường</option>
+                            <option ng-repeat="w in wards" value="{{w.WardCode}}">
+                                {{w.WardName}}
+                            </option>
+                        </select>
+                        <p class="form-text text-danger">{{errXaPhuongCode}}</p>
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="form-control rounded-4" placeholder="Ghi chú: ">
+                    </div>
+<!--                    <div class="col-md-12 ml-3">-->
+<!--                        <input type="checkbox" ng-model="isSelectSaveDC" class="form-check-input" id="exampleCheck1">-->
+<!--                        <label class="form-check-label" for="exampleCheck1">Lưu địa chỉ cho lần sau</label>-->
+<!--                    </div>-->
+                </form>
+
+                <h3 style="margin-bottom: 30px; margin-top: 30px;">Phương thức thanh toán</h3>
+                <div class="rounded-4 p-3 border" style="margin-bottom: 10px; margin-top: 30px; border-radius: 25px">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="khiNhanHang"
+                               value="0" ng-model="phuongThucThanhToan" ng-checked="true">
+                        <label class="form-check-label" for="khiNhanHang">
+                            Thanh toán khi nhận hàng
+                        </label>
+                    </div>
+                </div>
+                <div class="rounded-4 p-3 border" style="border-radius: 25px">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentMethod" id="online"
+                               value="1"
+                               ng-model="phuongThucThanhToan">
+                        <label class="form-check-label" for="online">
+                            <img alt="" style="width: 100px;" src="/userStyle/images/icons/Logo-VNPAY-QR-768x143.webp">
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <!--            giỏ hàng check out-->
+            <div class="col-6">
+                <h3 style="margin-bottom: 10px;">Đơn hàng</h3>
+                <table class="table table-striped mt-2">
+                    <tbody>
+                    <tr ng-repeat="i in cart">
+                        <th scope="row">
+                            <img style="width: 100px; height: 100px" src="/image/loadImage/product/{{i.anh}}"
+                                 alt="product-img"
+                                 title="product-img" class="avatar-md"/>
+                        </th>
+                        <td>{{i.tenSanPham}}
+                            <p>_size:{{i.size}}</p>
+                        </td>
+                        <td>
+                            <p>{{i.soLuong}}</p>
+                        </td>
+
+                        <td>{{i.donGiaSauGiam | currency: "" : 1}}đ</td>
+                        <td>{{i.donGiaSauGiam * i.soLuong | currency: "" : 1}}đ</td>
+                    </tr>
+                    </tbody>
+
+                </table>
+                <br>
+                <div class="container">
+                    <div class="row" style="background-color:#717fe0; height: 50px;">
+                        <div class="col-4" style="margin-top: 18px;">
+                            <h6 style="color: aliceblue;"><b>Voucher</b></h6>
+                        </div>
+                        <div class="col-4 " style="margin-top: 15px;">
+                            <!--                            <p class="blinking-text" style="color: aliceblue;">3 voucher có thể áp dụng</p>-->
+                        </div>
+                        <div class="col-4 flex-r" style="margin-top: 15px;color: aliceblue;">
+                            <a href="#"
+                               style="color: white"
+                               data-bs-toggle="modal"
+                               data-bs-target="#myModal">Chọn Voucher</a>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <h6><b>Tiền hàng:</b></h6>
+                        </div>
+                        <div class="col-6 flex-r">{{sumTotal | currency: "" : 1}}đ</div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-6">
+                            <h6><b>Tiền ship:</b></h6>
+                        </div>
+                        <div class="col-6 flex-r">{{feeShipped | currency: "" : 1}}đ</div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-6">
+                            <h6><b>Giảm giá:</b></h6>
+                        </div>
+                        <div class="col-2 flex-r"><a ng-if="giaGiam > 0" ng-click="huyVoucher()"
+                                                     style="color: blue; cursor: pointer">Bỏ
+                            voucher</a>
+                        </div>
+                        <div class="col-4 flex-r">{{giaGiam | currency: "" : 1}}đ</div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6">
+                            <h6><b>Tổng hóa đơn:</b></h6>
+                        </div>
+                        <div class="col-6 flex-r">{{totalpayment() | currency: "" : 1}}đ</div>
+                    </div>
+                    <br><br>
+                    <div class="row">
+                        <div class="col-6">
+                            <button
+                                    class="flex-c-m stext-80 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+                                <a href="/gio-hang"></a> Quay lại giỏ hàng
+                            </button>
+                        </div>
+                        <div class="col-6 flex-r">
+                            <button ng-click="create()"
+                                    class="flex-c-m stext-80 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+                                Thanh toán
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    modal diaChi-->
+    <div class="modal" id="myModalDiaChi">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header ">
+                    <h4 class="modal-title">Địa chỉ</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" style="height: 370px">
+                    <div class="container-fluid row" ng-repeat="dc in diaChiByTaiKhoan">
+                        <div class="col-9">
+                            <p>
+                                {{dc.diaChiChiTiet}} <br>
+                                {{dc.xaPhuongName}}, {{dc.quanHuyenName}}, {{dc.thanhPhoName}}
+                            </p>
+                        </div>
+                        <div class="col-3 flex-r">
+                            <a href="#" style="text-decoration: none; " data-bs-dismiss="modal"
+                               ng-click="getDiaChiById(dc.id)">Chọn</a>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--   modal voucher-->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <div class="col-12">
+                        <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#home1"
+                                   role="tab">
+                                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                    <span class="d-none d-sm-block">Voucher shop</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#profile1" role="tab">
+                                    <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                    <span class="d-none d-sm-block">Voucher của bạn</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tab panes -->
+                <div class="modal-body" style="height: 370px;">
+                    <div class="tab-content p-3 text-muted"
+                         style="background-color: #dedede; height: 370px; overflow: auto;">
+                        <!--Tất cả voucher của shop-->
+                        <div class="tab-pane active" id="home1" role="tabpanel">
+                            <div class="col-12 m-t-20" ng-repeat="v in vouchers">
+                                <div
+                                        class="coupon bg-white rounded mb-3 d-flex justify-content-between">
+                                    <div class="kiri p-3">
+                                        <div class="icon-container ">
+                                            <div class="icon-container_box">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tengah py-3 d-flex w-100 justify-content-start">
+                                        <div>
+                                            <span class="badge badge-danger" ng-if="v.giaTriDonHang > sumTotal">mua thêm {{v.giaTriDonHang - sumTotal | currency: "" : 1}}đ để sử dụng voucher</span>
+                                            <h3 class="lead">{{v.ma}}</h3>
+                                            <p class="text-muted mb-0" ng-if="v.loaiMucGiam == 'TIEN'">
+                                                Giảm giá {{v.mucGiam | currency: "" : 1}}đ
+                                                Cho đơn hàng trên
+                                                {{v.giaTriDonHang | currency: "" : 1}}đ
+                                                <span>{{v.hinhThucThanhToan}}</span>
+                                            </p>
+                                            <p class="text-muted mb-0" ng-if="v.loaiMucGiam == 'PHAN TRAM'">
+                                                Giảm giá {{v.mucGiam | currency: "" : 1}}%
+                                                Cho đơn hàng trên
+                                                {{v.giaTriDonHang | currency: "" : 1}}đ tối thiểu
+                                                {{v.mucGiamToiDa | currency: "" : 1}}đ
+                                                <span>{{v.hinhThucThanhToan}}</span>
+                                            </p>
+                                            <input ng-model="voucher" name="voucher" value="{{v.ma}}"
+                                                   class="form-check-input" type="hidden">
+                                            <p class="text-muted mb-0">
+                                                HSD: {{ v.ngayKetThuc | date:'yyyy-MM-dd HH:mm:ss' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="kanan">
+                                        <div class="info m-3 d-flex align-items-center">
+                                            <div class="w-100 m-t-10">
+                                                <div class="block">
+                                                    <span class="time font-weight-light">
+                                                        <span style="font-size: 10pt; text-align: center">Còn{{v.soLuong}}</span>
+                                                    </span>
+                                                </div>
+                                                <a target="_blank" ng-click="getDataAPI(v.ma)"
+                                                   ng-if="v.giaTriDonHang <= sumTotal"
+                                                   class="btn btn-sm btn-outline-danger btn-block"
+                                                   data-bs-dismiss="modal">
+                                                    Sử dụng
+                                                </a>
+                                                <a target="_blank" ng-click="getDataAPI(v.ma)"
+                                                   ng-if="v.giaTriDonHang > sumTotal"
+                                                   class="btn btn-sm btn-outline-danger btn-block disabled"
+                                                   data-bs-dismiss="modal">
+                                                    Sử dụng
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Voucher của khách-->
+                        <div class="tab-pane" id="profile1" role="tabpanel">
+                            <div class="col-12 m-t-20" ng-repeat="v in voucherInKhach">
+                                <div
+                                        class="coupon bg-white rounded mb-3 d-flex justify-content-between">
+                                    <div class="kiri p-3">
+                                        <div class="icon-container ">
+                                            <div class="icon-container_box">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tengah py-3 d-flex w-100 justify-content-start">
+                                        <div>
+                                            <span class="badge badge-danger" ng-if="v.giaTriDonHang > sumTotal">mua thêm {{v.giaTriDonHang - sumTotal | currency: "" : 1}}đ để sử dụng voucher</span>
+                                            <h3 class="lead">{{v.ma}}</h3>
+                                            <p class="text-muted mb-0" ng-if="v.loaiMucGiam == 'TIEN'">
+                                                Giảm giá {{v.mucGiam | currency: "" : 1}}đ
+                                                Cho đơn hàng trên
+                                                {{v.giaTriDonHang | currency: "" : 1}}đ
+                                                <span>{{v.hinhThucThanhToan}}</span>
+
+                                            </p>
+                                            <p class="text-muted mb-0" ng-if="v.loaiMucGiam == 'PHAN TRAM'">
+                                                Giảm giá {{v.mucGiam | currency: "" : 1}}%
+                                                Cho đơn hàng trên
+                                                {{v.giaTriDonHang | currency: "" : 1}}đ tối thiểu
+                                                {{v.mucGiamToiDa | currency: "" : 1}}đ
+                                                <span>{{v.hinhThucThanhToan}}</span>
+
+                                            </p>
+                                            <input ng-model="voucher" name="voucher" value="{{v.ma}}"
+                                                   class="form-check-input" type="hidden">
+                                            <p class="text-muted mb-0">
+                                                HSD:{{ v.ngayBatDau | date:'yyyy-MM-dd HH:mm:ss' }} đến
+                                                <br>{{ v.ngayKetThuc | date:'yyyy-MM-dd HH:mm:ss' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="kanan">
+                                        <div class="info m-3 d-flex align-items-center">
+                                            <div class="w-100 m-t-50">
+                                                <div class="block">
+
+                                                </div>
+                                                <a target="_blank" ng-click="getDataAPI(v.ma)"
+                                                   ng-if="v.giaTriDonHang <= sumTotal && v.trangThai == 0"
+                                                   class="btn btn-sm btn-outline-danger btn-block"
+                                                   data-bs-dismiss="modal">
+                                                    Sử dụng
+                                                </a>
+                                                <a target="_blank" ng-click="getDataAPI(v.ma)"
+                                                   ng-if="v.giaTriDonHang > sumTotal || v.trangThai == 1"
+                                                   class="btn btn-sm btn-outline-danger btn-block disabled"
+                                                   data-bs-dismiss="modal">
+                                                    Sử dụng
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+                <div class="modal-footer">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

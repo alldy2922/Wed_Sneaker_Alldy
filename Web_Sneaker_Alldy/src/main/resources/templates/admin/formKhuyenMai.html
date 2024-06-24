@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/index}">
+
+<body data-topbar="dark">
+
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content" layout:fragment="content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0 font-size-18"></h4>
+
+                        <!--                        <div class="page-title-right">-->
+                        <!--                            <ol class="breadcrumb m-0">-->
+                        <!--                                <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>-->
+                        <!--                                <li class="breadcrumb-item active">Add Product</li>-->
+                        <!--                            </ol>-->
+                        <!--                        </div>-->
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <form th:action="@{${action}}" th:object="${khuyenMai}" method="post">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <!-- <h4 class="card-title">Basic Information</h4>
+                                <p class="card-title-desc">Fill all information below</p> -->
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label for="productname">Tên Khuyến Mại</label>
+                                            <input th:field="*{ten}" id="productname" name="productname" type="text"
+                                                   class="form-control">
+                                            <div id="emailHelp" class="form-text" style="color: red"
+                                                 th:if="${#fields.hasErrors('ten')}"
+                                                 th:errors="*{ten}"></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="control-label">Loại Giảm</label>
+                                            <select th:field="*{loai}" class="form-control select2">
+                                                <!--                                                <option>Select</option>-->
+                                                <option value="PHAN TRAM">Phần Trăm</option>
+                                                <option value="TIEN">Tiền</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="manufacturername">Mức Giảm</label>
+                                            <input th:field="*{mucGiam}" id="manufacturername" name="manufacturername"
+                                                   type="text"
+                                                   class="form-control">
+                                            <div id="emailHelp" class="form-text" style="color: red"
+                                                 th:if="${#fields.hasErrors('mucGiam')}"
+                                                 th:errors="*{mucGiam}"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="control-label">Ngày Bắt Đầu</label>
+                                            <input th:field="*{ngayBatDau}" type="date" class="form-control">
+                                            <div id="emailHelp" class="form-text" style="color: red"
+                                                 th:if="${#fields.hasErrors('ngayBatDau')}"
+                                                 th:errors="*{ngayBatDau}"></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="control-label">Ngày Kết Thúc</label>
+                                            <input th:field="*{ngayKetThuc}" id="manufacturername"
+                                                   name="manufacturername" type="date"
+                                                   class="form-control">
+                                            <div id="emailHelp" class="form-text" style="color: red"
+                                                 th:if="${#fields.hasErrors('ngayKetThuc')}"
+                                                 th:errors="*{ngayKetThuc}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex flex-wrap gap-2">
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">Lưu khuyến
+                                        mại
+                                    </button>
+                                    <!--                                    <button th:attr="onclick='location.href=\''+@{/admin/khuyen-mai/kich-hoat/{id}(id=${id})}+'\''"-->
+                                    <!--                                            th:if="${ct == 'aaa' && tt == 1}" type="button"-->
+                                    <!--                                            class="btn btn-primary waves-effect waves-light">Kích hoạt-->
+                                    <!--                                    </button>-->
+                                    <button th:if="${ct == 'aaa' && tt == 1 && dis == 0}" th:disabled="${dis == 0}"
+                                            class="btn btn-primary waves-effect waves-light">Kích hoạt
+                                    </button>
+                                    <a th:if="${ct == 'aaa' && tt == 1 && dis == 1}"
+                                       th:href="@{/admin/khuyen-mai/kich-hoat/{id}(id=${id})}"
+                                       class="btn btn-primary waves-effect waves-light">Kích hoạt
+                                    </a>
+                                    <a th:href="@{/admin/khuyen-mai/dung-kich-hoat/{id}(id=${id})}"
+                                       th:if="${ct == 'aaa' && tt == 0}" type="button"
+                                       class="btn btn-danger waves-effect waves-light">Dừng kích hoạt
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4 class="card-title mb-0">Sản Phẩm Áp Dụng</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div style="max-height: 400px; overflow-y: auto">
+                                    <table id="datatable"
+                                           class="table table-striped table-hover dt-responsive  nowrap w-100">
+                                        <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Tên</th>
+                                            <th>Số lượng</th>
+                                            <th>Giá Bán</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="sp : ${sanPham}">
+
+                                            <td>
+                                                <input name="ids" th:value="${sp.ma}" type="checkbox"
+                                                       th:checked="${#lists.contains(sanPhamOn, sp.ma)}"
+                                                       th:disabled="${#lists.contains(sanPhamKhuyenMai, sp.ma)}">
+                                            </td>
+                                            <td>
+                                                <img th:if="${sp.anh.size >0}"
+                                                     th:src="@{'/image/loadImage/product/' + ${sp.anh[0]}}"
+                                                     class="imgProduct"
+                                                     style="border-radius: 15px; width: 100px; height: 100px">
+                                                <img th:if="${sp.anh.size <=0}"
+                                                     th:src="@{'/image/loadImage/product/envato.png'}"
+                                                     class="imgProduct"
+                                                     style="border-radius: 15px; width: 100px; height: 100px">
+                                            </td>
+                                            <td th:text="${sp.ten}"></td>
+                                            <td th:text="${sp.soLuong}"></td>
+                                            <td th:text="${sp.giaBan}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div> <!-- end card-->
+                    </div>
+                </form>
+            </div>
+            <!-- end row -->
+
+        </div>
+
+        <!-- container-fluid -->
+    </div>
+
+    <!-- End Page-content -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script>
+                    © Dason.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by <a href="#!" class="text-decoration-underline">Themesbrand</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>

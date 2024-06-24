@@ -41,6 +41,67 @@ public class NhanVienRestcontroller {
         return ResponseEntity.ok(nhanVienService.getAll(page,limit));
     }
 
+    @GetMapping("detail/{id}")
+    public ResponseEntity<NhanVienDtoResponse> getById(@PathVariable("id")String id){
+        if(nhanVienService.existsByUsername(id)==false){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(nhanVienService.findById(id));
+    }
+
+    @PostMapping("")
+    public ResponseEntity<?> add(@Valid @RequestBody NhanVienDtoRequest nhanVien,
+                                 BindingResult result) throws MessagingException {
+        if(nhanVien.getUsername()!=null && !nhanVien.getUsername().isBlank()){
+            if(nhanVienService.existsByUsername(nhanVien.getUsername())){
+                result.addError(new FieldError("username","username","Username đã tồn tại"));
+                if(!result.hasErrors()) return ValidateUtil.getErrors(result);
+            }
+        }
+        if(result.hasErrors()) return ValidateUtil.getErrors(result);
+        return ResponseEntity.ok(nhanVienService.add(nhanVien));
+    }
+    @PutMapping(value = "thong-tin-ca-nhan")
+    public ResponseEntity<?> updateUer(@Valid @RequestPart("nhanVien") NhanVienDtoRequest nhanVien,
+                                       BindingResult result,
+                                       @RequestPart(value = "img",required = false) MultipartFile img) throws IOException {
+        if(nhanVien.getUsername()!=null && !nhanVien.getUsername().isBlank()){
+            if(!nhanVienService.existsByUsername(nhanVien.getUsername())){
+                result.addError(new FieldError("username","username","Username Không tồn tại"));
+                if(!result.hasErrors()) return ValidateUtil.getErrors(result);
+            }
+        }
+        if(result.hasErrors()) return ValidateUtil.getErrors(result);
+        return ResponseEntity.ok(nhanVienService.update(nhanVien,img));
+    }
+    @PutMapping("update")
+    public ResponseEntity<?> updateNhanVien(@Valid @RequestBody NhanVienDtoRequest nhanVien,
+                                            BindingResult result){
+        if(nhanVien.getUsername()!=null && !nhanVien.getUsername().isBlank()){
+            if(!nhanVienService.existsByUsername(nhanVien.getUsername())){
+                result.addError(new FieldError("username","username","Username Không tồn tại"));
+                if(!result.hasErrors()) return ValidateUtil.getErrors(result);
+            }
+        }
+        if(result.hasErrors()) return ValidateUtil.getErrors(result);
+        return ResponseEntity.ok(nhanVienService.update(nhanVien));
+    }
+
+    @GetMapping("getUser")
+    public ResponseEntity<?> getUserAdmin(Authentication authentication){
+        String username = authentication.getName();
+        return ResponseEntity.ok(nhanVienService.findById(username));
+    }
+
+    @DeleteMapping("/{username}")
+    public ResponseEntity<?> deletByUsername(@PathVariable("username")String username){
+        if(!nhanVienService.existsByUsername(username)){
+            return ResponseEntity.notFound().build();
+        }
+
+        nhanVienService.deleteByUsername(username);
+        return ResponseEntity.ok().build();
+    }
 
 
 }

@@ -94,7 +94,7 @@ public class PdfService {
         title2.setAlignment(Element.ALIGN_CENTER);
         Paragraph title3 = new Paragraph("So dien thoai: 0388700177"+
                 "\nEmail: alldystoresneaker@gmail.com" +
-                "\nDia chi: So 136 Cầu Diễn, Ha Noi\n------------------------------------------",
+                "\nDia chi: So 136 Cau Dien, Ha Noi\n------------------------------------------",
                 new Font(Font.HELVETICA, 13));
         title3.setAlignment(Element.ALIGN_CENTER);
         Image image1 = Image.getInstance("src/main/resources/static/admin/images/logo.jpg");

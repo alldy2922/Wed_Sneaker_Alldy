@@ -117,6 +117,7 @@ public class GioHangRestController {
             return ResponseEntity.ok(service.laySpTrongGio());
         }
     }
+    
     @PutMapping("update-sl/{idCTSP}/{sl}")
     public ResponseEntity<?> updateSL(@PathVariable("idCTSP") String idCTSP, @PathVariable("sl") Integer sl, Authentication authentication) {
         Map<String, String> er = new HashMap<>();

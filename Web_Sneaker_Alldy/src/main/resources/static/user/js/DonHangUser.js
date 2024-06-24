@@ -30,5 +30,6 @@ $scope.cart = [];
         .catch(function(error) {
             console.log('Error checking login status:', error);
         });
+        
 
 })

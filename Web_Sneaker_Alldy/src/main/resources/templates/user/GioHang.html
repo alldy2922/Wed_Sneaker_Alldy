@@ -118,6 +118,7 @@
                     <div class="wrap-table-shopping-cart">
                         <table class="table-shopping-cart">
                             <tr class="table_head">
+                                <th class="column-1">Sản Phẩm muốn chọn</th>
                                 <th class="column-1">Sản Phẩm</th>
                                 <th class="column-2">Tên</th>
                                 <th class="column-3">Giá</th>
@@ -127,6 +128,17 @@
                             </tr>
 
                             <tr class="table_row" ng-repeat="c in cart">
+                                <td style="left: 100px">
+                                    <form action="/action_page.php">
+                                        <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+                                        <!--                                <label for="vehicle1"> I have a bike</label><br>-->
+                                        <!--                                <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">-->
+                                        <!--                                <label for="vehicle2"> I have a car</label><br>-->
+                                        <!--                                <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">-->
+                                        <!--                                <label for="vehicle3"> I have a boat</label><br><br>-->
+                                        <!--                                <input type="submit" value="Submit">-->
+                                    </form>
+                                </td>
                                 <td class="column-1" style="padding-left: 20px">
                                     <div class="how-itemcart1">
                                         <img src="/image/loadImage/product/{{c.anh}}"

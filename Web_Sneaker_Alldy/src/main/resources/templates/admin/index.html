@@ -1,69 +1,71 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-    <meta charset="utf-8"/
+    <meta charset="utf-8">
     <title>ALLDY SNEAKER</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
-    <meta content="Themesbrand" name="author"/>
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="/admin/images/LOGOALLDY.jpg">
     <!--    Bootstrap 5-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    
+
     <!-- plugin css -->
     <link th:href="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css}" rel="stylesheet"
-          type="text/css"/>
+        type="text/css" />
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- preloader css -->
-    <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css" />
 
     <!-- Bootstrap Css -->
-    <link th:href="@{/admin/assets/css/bootstrap.min.css}" id="bootstrap-style" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/admin/assets/css/bootstrap.min.css}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link th:href="@{/admin/assets/css/app.min.css}" id="app-style" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/admin/assets/css/app.min.css}" id="app-style" rel="stylesheet" type="text/css" />
 
 
     <!-- plugin css -->
     <link th:href="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.css}" rel="stylesheet"
-          type="text/css"/>
+        type="text/css" />
 
     <!-- preloader css -->
-    <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css" />
 
     <!-- Bootstrap Css -->
     <!-- Icons Css -->
-    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <!--  -->
     <!-- select2 css -->
-    <link th:href="@{/admin/assets/libs/select2/css/select2.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/admin/assets/libs/select2/css/select2.min.css}" rel="stylesheet" type="text/css" />
 
     <!-- dropzone css -->
-    <link th:href="@{/admin/assets/libs/dropzone/min/dropzone.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/admin/assets/libs/dropzone/min/dropzone.min.css}" rel="stylesheet" type="text/css" />
 
     <!-- preloader css -->
-    <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/admin/assets/css/preloader.min.css}" type="text/css" />
 
     <!-- Bootstrap Css -->
-    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/admin/assets/css/icons.min.css}" rel="stylesheet" type="text/css" />
 
     <!-- alertifyjs Css -->
-    <link href="/admin/assets/libs/alertifyjs/build/css/alertify.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/admin/assets/libs/alertifyjs/build/css/themes/default.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/admin/assets/libs/alertifyjs/build/css/alertify.min.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/libs/alertifyjs/build/css/themes/default.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"
-            crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     <br type="_moz">
 
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css'>
     <link rel='stylesheet'
-          href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css'/>
+        href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/css/fileinput.min.css' />
 
 
     <!--    toast-->
@@ -74,495 +76,510 @@
 
 <body data-topbar="dark">
 
-<!-- <body data-layout="horizontal"> -->
+    <!-- <body data-layout="horizontal"> -->
 
-<!-- Begin page -->
-<div id="layout-wrapper">
+    <!-- Begin page -->
+    <div id="layout-wrapper">
 
-    <header id="page-topbar">
-        <div class="navbar-header" style="background-color: #2ca67a">
-            <div class="d-flex">
-                <!-- LOGO -->
-                <div class="navbar-brand-box " style="background-color: #2ca67a">
-                    <a href="/admin/trang-chu" class="logo logo-dark">
+        <header id="page-topbar">
+            <div class="navbar-header" style="background-color: hsl(158, 58%, 41%)">
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box " style="background-color: #2ca67a">
+                        <a href="/admin/trang-chu" class="logo logo-dark">
                             <span class="logo-sm">
                                 <img th:src="@{/admin/images/LOGOALLDY.jpg}" alt="" height="30">
                             </span>
-                        <span class="logo-lg">
-                                <img th:src="@{/admin/images/LOGOALLDY.jpg}" alt="" height="24"> <span
-                                class="logo-txt" style="font-size: 17px">ALLDY Store</span>
+                            <span class="logo-lg">
+                                <img th:src="@{/admin/images/LOGOALLDY.jpg}" alt="" height="24"> <span class="logo-txt"
+                                    style="font-size: 17px">ALLDY Store</span>
                             </span>
-                    </a>
+                        </a>
 
-                    <a href="/admin/trang-chu" class="logo logo-light">
+                        <a href="/admin/trang-chu" class="logo logo-light">
 
-                        <span class="logo-lg">
-                                <img th:src="@{/admin/images/LOGOALLDY.jpg}" alt="" height="24"> <span
-                                class="logo-txt" style="font-size: 17px">ALLDY Store</span>
+                            <span class="logo-lg">
+                                <img th:src="@{/admin/images/LOGOALLDY.jpg}" alt="" height="24"> <span class="logo-txt"
+                                    style="font-size: 17px">ALLDY Store</span>
                             </span>
-                    </a>
-                </div>
-
-                <button type="button" class="btn btn-sm px-3 font-size-16 header-item " id="vertical-menu-btn">
-                    <i class="fa fa-fw fa-bars"></i>
-                </button>
-
-                <!-- App Search-->
-<!--                <form class="app-search d-none d-lg-block">-->
-<!--                    <div class="position-relative">-->
-<!--                        <input type="text" class="form-control text-white " placeholder="Tìm Kiếm...">-->
-<!--                        <button class="btn btn-success" type="button"><i-->
-<!--                                class="bx bx-search-alt align-middle"></i></button>-->
-<!--                    </div>-->
-<!--                </form>-->
-            </div>
-
-            <div class="d-flex">
-
-                <div class="dropdown d-inline-block d-lg-none ms-2">
-                    <button type="button" class="btn header-item" id="page-header-search-dropdown"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i data-feather="search" class="icon-lg"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
-                         aria-labelledby="page-header-search-dropdown">
-
-                        <form class="p-3">
-                            <div class="form-group m-0">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search ..."
-                                           aria-label="Search Result">
-
-                                    <button class="btn btn-success" type="submit"><i
-                                            class="mdi mdi-magnify"></i></button>
-                                </div>
-                            </div>
-                        </form>
+                        </a>
                     </div>
-                </div>
 
-                <div class="dropdown d-none d-sm-inline-block">
-                    <button type="button" class="btn header-item" id="mode-setting-btn">
-                        <i data-feather="moon" class="icon-lg layout-mode-dark"></i>
-                        <i data-feather="sun" class="icon-lg layout-mode-light"></i>
+                    <button type="button" class="btn btn-sm px-3 font-size-16 header-item " id="vertical-menu-btn">
+                        <i class="fa fa-fw fa-bars"></i>
                     </button>
+
+                    <!-- App Search-->
+                    <!--                <form class="app-search d-none d-lg-block">-->
+                    <!--                    <div class="position-relative">-->
+                    <!--                        <input type="text" class="form-control text-white " placeholder="Tìm Kiếm...">-->
+                    <!--                        <button class="btn btn-success" type="button"><i-->
+                    <!--                                class="bx bx-search-alt align-middle"></i></button>-->
+                    <!--                    </div>-->
+                    <!--                </form>-->
                 </div>
 
+                <div class="d-flex">
 
-                <div class="dropdown d-inline-block">
-                    <button type="button" class="btn header-item right-bar-toggle me-2">
-                        <i data-feather="settings" class="icon-lg"></i>
-                    </button>
-                </div>
+                    <div class="dropdown d-inline-block d-lg-none ms-2">
+                        <button type="button" class="btn header-item" id="page-header-search-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i data-feather="search" class="icon-lg"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                            aria-labelledby="page-header-search-dropdown">
 
-                <div class="dropdown d-inline-block">
-                    <button type="button" class="btn header-item bg-soft-light border-start border-end"
+                            <form class="p-3">
+                                <div class="form-group m-0">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search ..."
+                                            aria-label="Search Result">
+
+                                        <button class="btn btn-success" type="submit"><i
+                                                class="mdi mdi-magnify"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="dropdown d-none d-sm-inline-block">
+                        <button type="button" class="btn header-item" id="mode-setting-btn">
+                            <i data-feather="moon" class="icon-lg layout-mode-dark"></i>
+                            <i data-feather="sun" class="icon-lg layout-mode-light"></i>
+                        </button>
+                    </div>
+
+
+                    <!-- <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item right-bar-toggle me-2">
+                            <i data-feather="settings" class="icon-lg"></i>
+                        </button>
+                    </div> -->
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item bg-soft-light border-start border-end"
                             id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
-                        <img class="rounded-circle header-profile-user" id="imgUser"
-                             th:src="@{|/image/loadImageUser/${#authentication.name}|}"
-                             alt="Header Avatar">
-                        <span class="d-none d-xl-inline-block ms-1 fw-medium" th:text="${#authentication.name}"></span>
-                        <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <!-- item-->
-                        <a class="dropdown-item" th:href="@{|/admin/nhan-vien/thong-tin-ca-nhan|}"><i
-                                class="mdi mdi-face-profile font-size-16 align-middle me-1"></i> Thông tin cá nhân</a>
-                        <a class="dropdown-item" href="/admin/doi-mat-khau"><i
-                                class="mdi mdi-lock font-size-16 align-middle me-1"></i> Đổi mật khẩu</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/admin/logout"><i
-                                class="mdi mdi-logout font-size-16 align-middle me-1"></i>Đăng xuất</a>
+                            <img class="rounded-circle header-profile-user" id="imgUser"
+                                th:src="@{|/image/loadImageUser/${#authentication.name}|}" alt="Header Avatar">
+                            <span class="d-none d-xl-inline-block ms-1 fw-medium"
+                                th:text="${#authentication.name}"></span>
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a class="dropdown-item" th:href="@{|/admin/nhan-vien/thong-tin-ca-nhan|}"><i
+                                    class="mdi mdi-face-profile font-size-16 align-middle me-1"></i> Thông tin cá
+                                nhân</a>
+                            <a class="dropdown-item" href="/admin/doi-mat-khau">
+                                <i class="mdi mdi-lock font-size-16 align-middle me-1"></i> Đổi mật khẩu</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/admin/logout"><i
+                                    class="mdi mdi-logout font-size-16 align-middle me-1"></i>Đăng xuất</a>
+                        </div>
                     </div>
+
+                </div>
+            </div>
+        </header>
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu" style="background-color: #fff5de">
+
+            <div data-simplebar class="h-100">
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        <li class="menu-title" data-key="t-menu">Menu</li>
+
+                        <li>
+                            <a href="/admin/trang-chu">
+                                <i class="bi bi-cash"></i>
+                                <span data-key="t-dashboard">Thống Kê</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/don-hang/ban-hang}">
+                                <!-- <i data-feather="shopping-cart"></i> -->
+                                <i class="bi bi-shop"></i>
+                                <span data-key="t-chat">Bán Hàng Tại Quầy</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/hoa-don}">
+                                <i class="bi bi-receipt-cutoff"></i>
+                                <span data-key="t-chat">Hóa Đơn Tại Quầy</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/don-hang}">
+                                <i class="bi bi-bag-heart"></i>
+                                <span data-key="t-chat">Hóa Đơn Online</span>
+                            </a>
+                        </li>
+                        <li class="menu-title" data-key="t-apps">Sản phẩm</li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow">
+                                <i data-feather="list"></i>
+                                <span data-key="t-ecommerce">Thuộc tính/phân loại</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li th:if="${hasAdmin}"><a th:href="@{/admin/mau-sac}">Màu Sắc</a></li>
+                                <li th:if="${hasAdmin}"><a th:href="@{/admin/xuat-xu}">Xuất xứ</a></li>
+                                <li th:if="${hasAdmin}"><a th:href="@{/admin/dong-san-pham}"
+                                        data-key="t-product-detail">Dòng
+                                        Sản
+                                        Phẩm</a></li>
+                                <li th:if="${hasAdmin}"><a th:href="@{/admin/kieu-dang}" data-key="t-orders">Kiểu
+                                        Dáng</a>
+                                </li>
+                                <li th:if="${hasAdmin}"><a th:href="@{/admin/chat-lieu}" data-key="t-customers">Chất
+                                        Liệu</a></li>
+                                <li><a th:href="@{/admin/size}" data-key="t-cart">Size</a></li>
+                                <li th:if="${hasAdmin}"><a th:href="@{/admin/thuong-hieu}" data-key="t-cart">Thương
+                                        Hiệu</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a th:href="@{/admin/san-pham}">
+                                <i data-feather="slack"></i>
+                                <span data-key="t-chat">Sản phẩm</span>
+                            </a>
+                        </li>
+                        <!-- Người dùng -->
+                        <li class="menu-title" data-key="t-pages">Tài Khoản</li>
+
+                        <li th:if="${hasAdmin}">
+                            <a th:href="@{/admin/nhan-vien}">
+                                <i class="bi bi-person-workspace"></i>
+                                <span data-key="t-horizontal">Nhân Viên</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/admin/khach-hang}">
+                                <i data-feather="users"></i>
+                                <span data-key="t-horizontal">Khách Hàng</span>
+                            </a>
+                        </li>
+                        <!-- Ưu đãi -->
+                        <li th:if="${hasAdmin}" class="menu-title" data-key="t-pages">Ưu Đãi</li>
+
+                        <li th:if="${hasAdmin}">
+                            <a th:href="@{/admin/khuyen-mai}">
+                                <i data-feather="gift"></i>
+                                <span data-key="t-horizontal">Khuyến Mại</span>
+                            </a>
+                        </li>
+                        <li th:if="${hasAdmin}">
+                            <a th:href="@{/admin/voucher}">
+                                <i data-feather="gift"></i>
+                                <span data-key="t-horizontal">Voucher</span>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <!-- Sidebar -->
+            </div>
+        </div>
+
+        <div class="main-content" layout:fragment="content">
+            <h1>Trang Chủ</h1>
+        </div>
+        <!-- end main content-->
+
+    </div>
+    <!-- END layout-wrapper -->
+
+
+    <!-- Right Sidebar -->
+    <!-- <div class="right-bar">
+        <div data-simplebar class="h-100">
+            <div class="rightbar-title d-flex align-items-center bg-dark p-3">
+
+                <h5 class="m-0 me-2 text-white">Theme Customizer</h5>
+
+                <a href="javascript:void(0);" class="right-bar-toggle ms-auto">
+                    <i class="mdi mdi-close noti-icon"></i>
+                </a>
+            </div>
+
+             Settings 
+            <hr class="m-0" />
+
+            <div class="p-4">
+                <h6 class="mb-3">Layout</h6>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="layout" id="layout-vertical" value="vertical">
+                    <label class="form-check-label" for="layout-vertical">Vertical</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="layout" id="layout-horizontal"
+                        value="horizontal">
+                    <label class="form-check-label" for="layout-horizontal">Horizontal</label>
+                </div>
+
+                <h6 class="mt-4 mb-3 pt-2">Layout Mode</h6>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="layout-mode" id="layout-mode-light"
+                        value="light">
+                    <label class="form-check-label" for="layout-mode-light">Light</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="layout-mode" id="layout-mode-dark" value="dark">
+                    <label class="form-check-label" for="layout-mode-dark">Dark</label>
+                </div>
+
+                <h6 class="mt-4 mb-3 pt-2">Layout Width</h6>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="layout-width" id="layout-width-fuild"
+                        value="fuild" onchange="document.body.setAttribute('data-layout-size', 'fluid')">
+                    <label class="form-check-label" for="layout-width-fuild">Fluid</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="layout-width" id="layout-width-boxed"
+                        value="boxed"
+                        onchange="document.body.setAttribute('data-layout-size', 'boxed'),document.body.setAttribute('data-sidebar-size', 'sm')">
+                    <label class="form-check-label" for="layout-width-boxed">Boxed</label>
+                </div>
+
+                <h6 class="mt-4 mb-3 pt-2">Layout Position</h6>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="layout-position" id="layout-position-fixed"
+                        value="fixed" onchange="document.body.setAttribute('data-layout-scrollable', 'false')">
+                    <label class="form-check-label" for="layout-position-fixed">Fixed</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="layout-position" id="layout-position-scrollable"
+                        value="scrollable" onchange="document.body.setAttribute('data-layout-scrollable', 'true')">
+                    <label class="form-check-label" for="layout-position-scrollable">Scrollable</label>
+                </div>
+
+                <h6 class="mt-4 mb-3 pt-2">Topbar Color</h6>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="topbar-color" id="topbar-color-light"
+                        value="light" onchange="document.body.setAttribute('data-topbar', 'light')">
+                    <label class="form-check-label" for="topbar-color-light">Light</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="topbar-color" id="topbar-color-dark" value="dark"
+                        onchange="document.body.setAttribute('data-topbar', 'dark')">
+                    <label class="form-check-label" for="topbar-color-dark">Dark</label>
+                </div>
+
+                <h6 class="mt-4 mb-3 pt-2 sidebar-setting">Sidebar Size</h6>
+
+                <div class="form-check sidebar-setting">
+                    <input class="form-check-input" type="radio" name="sidebar-size" id="sidebar-size-default"
+                        value="default" onchange="document.body.setAttribute('data-sidebar-size', 'lg')">
+                    <label class="form-check-label" for="sidebar-size-default">Default</label>
+                </div>
+                <div class="form-check sidebar-setting">
+                    <input class="form-check-input" type="radio" name="sidebar-size" id="sidebar-size-compact"
+                        value="compact" onchange="document.body.setAttribute('data-sidebar-size', 'md')">
+                    <label class="form-check-label" for="sidebar-size-compact">Compact</label>
+                </div>
+                <div class="form-check sidebar-setting">
+                    <input class="form-check-input" type="radio" name="sidebar-size" id="sidebar-size-small"
+                        value="small" onchange="document.body.setAttribute('data-sidebar-size', 'sm')">
+                    <label class="form-check-label" for="sidebar-size-small">Small (Icon View)</label>
+                </div>
+
+                <h6 class="mt-4 mb-3 pt-2 sidebar-setting">Sidebar Color</h6>
+
+                <div class="form-check sidebar-setting">
+                    <input class="form-check-input" type="radio" name="sidebar-color" id="sidebar-color-light"
+                        value="light" onchange="document.body.setAttribute('data-sidebar', 'light')">
+                    <label class="form-check-label" for="sidebar-color-light">Light</label>
+                </div>
+                <div class="form-check sidebar-setting">
+                    <input class="form-check-input" type="radio" name="sidebar-color" id="sidebar-color-dark"
+                        value="dark" onchange="document.body.setAttribute('data-sidebar', 'dark')">
+                    <label class="form-check-label" for="sidebar-color-dark">Dark</label>
+                </div>
+                <div class="form-check sidebar-setting">
+                    <input class="form-check-input" type="radio" name="sidebar-color" id="sidebar-color-brand"
+                        value="brand" onchange="document.body.setAttribute('data-sidebar', 'brand')">
+                    <label class="form-check-label" for="sidebar-color-brand">Brand</label>
+                </div>
+
+                <h6 class="mt-4 mb-3 pt-2">Direction</h6>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="layout-direction" id="layout-direction-ltr"
+                        value="ltr">
+                    <label class="form-check-label" for="layout-direction-ltr">LTR</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="layout-direction" id="layout-direction-rtl"
+                        value="rtl">
+                    <label class="form-check-label" for="layout-direction-rtl">RTL</label>
                 </div>
 
             </div>
-        </div>
-    </header>
 
-    <!-- ========== Left Sidebar Start ========== -->
-    <div class="vertical-menu" style="background-color: #fff5de">
+        </div>  end slimscroll-menu
+    </div> -->
+    <!-- /Right-bar -->
 
-        <div data-simplebar class="h-100">
-            <!--- Sidemenu -->
-            <div id="sidebar-menu">
-                <!-- Left Menu Start -->
-                <ul class="metismenu list-unstyled" id="side-menu">
-                    <li class="menu-title" data-key="t-menu">Menu</li>
-
-                    <li>
-                        <a href="/admin/trang-chu">
-                            <i data-feather="home"></i>
-                            <span data-key="t-dashboard">Trang chủ</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/don-hang/ban-hang}">
-                            <i data-feather="layout"></i>
-                            <span data-key="t-chat">Bán Hàng</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/don-hang}">
-                            <i data-feather="layout"></i>
-                            <span data-key="t-chat">Đơn Hàng online</span>
-                        </a>
-                    </li>
-                    <li class="menu-title" data-key="t-apps">Sản phẩm</li>
-
-                    <li>
-                        <a href="javascript: void(0);" class="has-arrow">
-                            <i data-feather="layout"></i>
-                            <span data-key="t-ecommerce">Thuộc tính/phân loại</span>
-                        </a>
-                        <ul class="sub-menu" aria-expanded="false">
-                            <li th:if="${hasAdmin}"><a th:href="@{/admin/mau-sac}">Màu Sắc</a></li>
-                            <li th:if="${hasAdmin}"><a th:href="@{/admin/xuat-xu}">Xuất xứ</a></li>
-                            <li th:if="${hasAdmin}"><a th:href="@{/admin/dong-san-pham}" data-key="t-product-detail">Dòng
-                                Sản
-                                Phẩm</a></li>
-                            <li th:if="${hasAdmin}"><a th:href="@{/admin/kieu-dang}" data-key="t-orders">Kiểu Dáng</a>
-                            </li>
-                            <li th:if="${hasAdmin}"><a th:href="@{/admin/chat-lieu}" data-key="t-customers">Chất Liệu</a></li>
-                            <li><a th:href="@{/admin/size}" data-key="t-cart">Size</a></li>
-                            <li th:if="${hasAdmin}"><a th:href="@{/admin/thuong-hieu}" data-key="t-cart">Thương Hiệu</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/admin/san-pham}">
-                            <i data-feather="layout"></i>
-                            <span data-key="t-chat">Sản phẩm</span>
-                        </a>
-                    </li>
-                    <!-- Người dùng -->
-                    <li class="menu-title" data-key="t-pages">Tài Khoản</li>
-
-                    <li th:if="${hasAdmin}">
-                        <a th:href="@{/admin/nhan-vien}">
-                            <i data-feather="layout"></i>
-                            <span data-key="t-horizontal">Nhân Viên</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/khach-hang}">
-                            <i data-feather="layout"></i>
-                            <span data-key="t-horizontal">Khách Hàng</span>
-                        </a>
-                    </li>
-                    <!-- Ưu đãi -->
-                    <li th:if="${hasAdmin}" class="menu-title" data-key="t-pages">Ưu Đãi</li>
-
-                    <li th:if="${hasAdmin}">
-                        <a th:href="@{/admin/khuyen-mai}">
-                            <i data-feather="layout"></i>
-                            <span data-key="t-horizontal">Khuyến Mại</span>
-                        </a>
-                    </li>
-                    <li th:if="${hasAdmin}">
-                        <a th:href="@{/admin/voucher}">
-                            <i data-feather="layout"></i>
-                            <span data-key="t-horizontal">Voucher</span>
-                        </a>
-                    </li>
+    <!-- Right bar overlay-->
+    <div class="rightbar-overlay"></div>
 
 
-                </ul>
-            </div>
-            <!-- Sidebar -->
-        </div>
-    </div>
+    <!-- JAVASCRIPT -->
+    <script th:src="@{/admin/assets/libs/jquery/jquery.min.js}"></script>
+    <script th:src="@{/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/admin/assets/libs/metismenu/metisMenu.min.js}"></script>
+    <script th:src="@{/admin/assets/libs/simplebar/simplebar.min.js}"></script>
+    <script th:src="@{/admin/assets/libs/node-waves/waves.min.js}"></script>
+    <script th:src="@{/admin/assets/libs/feather-icons/feather.min.js}"></script>
+    <!-- pace js -->
+    <script th:src="@{/admin/assets/libs/pace-js/pace.min.js}"></script>
 
-    <div class="main-content" layout:fragment="content">
-        <h1>Trang Chủ</h1>
-    </div>
-    <!-- end main content-->
+    <!-- apexcharts -->
+    <script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>
 
-</div>
-<!-- END layout-wrapper -->
+    <!-- Plugins js-->
+    <script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>
+    <script
+        th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>
+    <!-- dashboard init -->
+    <script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>
 
+    <script th:src="@{/admin/assets/js/app.js}"></script>
 
-<!-- Right Sidebar -->
-<div class="right-bar">
-    <div data-simplebar class="h-100">
-        <div class="rightbar-title d-flex align-items-center bg-dark p-3">
+    <!-- JAVASCRIPT -->
+    <script th:src="@{/admin/assets/libs/jquery/jquery.min.js}"></script>
+    <script th:src="@{/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/admin/assets/libs/metismenu/metisMenu.min.js}"></script>
+    <script th:src="@{/admin/assets/libs/simplebar/simplebar.min.js}"></script>
+    <script th:src="@{/admin/assets/libs/node-waves/waves.min.js}"></script>
+    <script th:src="@{/admin/assets/libs/feather-icons/feather.min.js}"></script>
+    <!-- pace js} -->
+    <script th:src="@{/admin/assets/libs/pace-js/pace.min.js}"></script>
 
-            <h5 class="m-0 me-2 text-white">Theme Customizer</h5>
+    <!-- apexcharts -->
+    <script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>
 
-            <a href="javascript:void(0);" class="right-bar-toggle ms-auto">
-                <i class="mdi mdi-close noti-icon"></i>
-            </a>
-        </div>
+    <!-- Plugins js}-->
+    <script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>
+    <script
+        th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>
+    <!-- dashboard init -->
+    <script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>
 
-        <!-- Settings -->
-        <hr class="m-0"/>
+    <script th:src="@{/admin/assets/js/app.js}"></script>
 
-        <div class="p-4">
-            <h6 class="mb-3">Layout</h6>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="layout" id="layout-vertical" value="vertical">
-                <label class="form-check-label" for="layout-vertical">Vertical</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="layout" id="layout-horizontal"
-                       value="horizontal">
-                <label class="form-check-label" for="layout-horizontal">Horizontal</label>
-            </div>
+    <!-- select 2 plugin -->
+    <script th:src="@{/admin/assets/libs/select2/js/select2.min.js}"></script>
 
-            <h6 class="mt-4 mb-3 pt-2">Layout Mode</h6>
+    <!-- dropzone plugin -->
+    <script th:src="@{/admin/assets/libs/dropzone/min/dropzone.min.js}"></script>
 
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="layout-mode" id="layout-mode-light"
-                       value="light">
-                <label class="form-check-label" for="layout-mode-light">Light</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="layout-mode" id="layout-mode-dark" value="dark">
-                <label class="form-check-label" for="layout-mode-dark">Dark</label>
-            </div>
+    <!-- alertifyjs js -->
+    <script src="/admin/assets/libs/alertifyjs/build/alertify.min.js"></script>
 
-            <h6 class="mt-4 mb-3 pt-2">Layout Width</h6>
-
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="layout-width" id="layout-width-fuild"
-                       value="fuild" onchange="document.body.setAttribute('data-layout-size', 'fluid')">
-                <label class="form-check-label" for="layout-width-fuild">Fluid</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="layout-width" id="layout-width-boxed"
-                       value="boxed"
-                       onchange="document.body.setAttribute('data-layout-size', 'boxed'),document.body.setAttribute('data-sidebar-size', 'sm')">
-                <label class="form-check-label" for="layout-width-boxed">Boxed</label>
-            </div>
-
-            <h6 class="mt-4 mb-3 pt-2">Layout Position</h6>
-
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="layout-position" id="layout-position-fixed"
-                       value="fixed" onchange="document.body.setAttribute('data-layout-scrollable', 'false')">
-                <label class="form-check-label" for="layout-position-fixed">Fixed</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="layout-position" id="layout-position-scrollable"
-                       value="scrollable" onchange="document.body.setAttribute('data-layout-scrollable', 'true')">
-                <label class="form-check-label" for="layout-position-scrollable">Scrollable</label>
-            </div>
-
-            <h6 class="mt-4 mb-3 pt-2">Topbar Color</h6>
-
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="topbar-color" id="topbar-color-light"
-                       value="light" onchange="document.body.setAttribute('data-topbar', 'light')">
-                <label class="form-check-label" for="topbar-color-light">Light</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="topbar-color" id="topbar-color-dark" value="dark"
-                       onchange="document.body.setAttribute('data-topbar', 'dark')">
-                <label class="form-check-label" for="topbar-color-dark">Dark</label>
-            </div>
-
-            <h6 class="mt-4 mb-3 pt-2 sidebar-setting">Sidebar Size</h6>
-
-            <div class="form-check sidebar-setting">
-                <input class="form-check-input" type="radio" name="sidebar-size" id="sidebar-size-default"
-                       value="default" onchange="document.body.setAttribute('data-sidebar-size', 'lg')">
-                <label class="form-check-label" for="sidebar-size-default">Default</label>
-            </div>
-            <div class="form-check sidebar-setting">
-                <input class="form-check-input" type="radio" name="sidebar-size" id="sidebar-size-compact"
-                       value="compact" onchange="document.body.setAttribute('data-sidebar-size', 'md')">
-                <label class="form-check-label" for="sidebar-size-compact">Compact</label>
-            </div>
-            <div class="form-check sidebar-setting">
-                <input class="form-check-input" type="radio" name="sidebar-size" id="sidebar-size-small"
-                       value="small" onchange="document.body.setAttribute('data-sidebar-size', 'sm')">
-                <label class="form-check-label" for="sidebar-size-small">Small (Icon View)</label>
-            </div>
-
-            <h6 class="mt-4 mb-3 pt-2 sidebar-setting">Sidebar Color</h6>
-
-            <div class="form-check sidebar-setting">
-                <input class="form-check-input" type="radio" name="sidebar-color" id="sidebar-color-light"
-                       value="light" onchange="document.body.setAttribute('data-sidebar', 'light')">
-                <label class="form-check-label" for="sidebar-color-light">Light</label>
-            </div>
-            <div class="form-check sidebar-setting">
-                <input class="form-check-input" type="radio" name="sidebar-color" id="sidebar-color-dark"
-                       value="dark" onchange="document.body.setAttribute('data-sidebar', 'dark')">
-                <label class="form-check-label" for="sidebar-color-dark">Dark</label>
-            </div>
-            <div class="form-check sidebar-setting">
-                <input class="form-check-input" type="radio" name="sidebar-color" id="sidebar-color-brand"
-                       value="brand" onchange="document.body.setAttribute('data-sidebar', 'brand')">
-                <label class="form-check-label" for="sidebar-color-brand">Brand</label>
-            </div>
-
-            <h6 class="mt-4 mb-3 pt-2">Direction</h6>
-
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="layout-direction" id="layout-direction-ltr"
-                       value="ltr">
-                <label class="form-check-label" for="layout-direction-ltr">LTR</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="layout-direction" id="layout-direction-rtl"
-                       value="rtl">
-                <label class="form-check-label" for="layout-direction-rtl">RTL</label>
-            </div>
-
-        </div>
-
-    </div> <!-- end slimscroll-menu-->
-</div>
-<!-- /Right-bar -->
-
-<!-- Right bar overlay-->
-<div class="rightbar-overlay"></div>
+    <!-- init js} -->
+    <script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>
 
 
-<!-- JAVASCRIPT -->
-<script th:src="@{/admin/assets/libs/jquery/jquery.min.js}"></script>
-<script th:src="@{/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/admin/assets/libs/metismenu/metisMenu.min.js}"></script>
-<script th:src="@{/admin/assets/libs/simplebar/simplebar.min.js}"></script>
-<script th:src="@{/admin/assets/libs/node-waves/waves.min.js}"></script>
-<script th:src="@{/admin/assets/libs/feather-icons/feather.min.js}"></script>
-<!-- pace js -->
-<script th:src="@{/admin/assets/libs/pace-js/pace.min.js}"></script>
+    <script th:src="@{/admin/assets/js/app.js}"></script>
+    <script th:src="@{/admin/js/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular.min.js}"></script>
+    <script src="/admin/js/SanPhamAdmin.js"></script>
+    <script src="/admin/js/chiTietSanPham.js"></script>
+    <script th:src="@{/admin/js/uploadfile.js}"></script>
+    <script src="/admin/js/thongBao.js"></script>
+    <script src="/admin/js/TaiKhoanNhanVien.js"></script>
+    <script src="/admin/js/TaiKhoanNguoiDung.js"></script>
+    <script th:src="@{/admin/AngularJS/formSP.js}"></script>
+    <script th:src="@{/admin/AngularJS/thongTinNhanVien.js}"></script>
+    <script th:src="@{/admin/AngularJS/thongke/tongQuat.js}"></script>
 
-<!-- apexcharts -->
-<script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>
+    <script src="/admin/AngularJS/MauSacJS.js"></script>
+    <script src="/admin/AngularJS/XuatXuJS.js"></script>
+    <script src="/admin/AngularJS/DongSanPhamJS.js"></script>
+    <script src="/admin/AngularJS/SizeJS.js"></script>
+    <script src="/admin/AngularJS/ChatLieuJS.js"></script>
+    <script src="/admin/AngularJS/KieuDangJS.js"></script>
+    <script src="/admin/AngularJS/ThuongHieuJS.js"></script>
+    <script src="/admin/AngularJS/DonHang.js"></script>
+    <script src="/admin/AngularJS/banHangTaiQuay.js"></script>
 
-<!-- Plugins js-->
-<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>
-<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>
-<!-- dashboard init -->
-<script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>
+    <script src="/admin/assets/libs/rater-js/index.js"></script>
+    <script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
+    <script th:src="@{/admin/AngularJS/ResetPassword.js}"></script>
+    <script th:src="@{/admin/AngularJS/nhanXet.js}"></script>
 
-<script th:src="@{/admin/assets/js/app.js}"></script>
-
-<!-- JAVASCRIPT -->
-<script th:src="@{/admin/assets/libs/jquery/jquery.min.js}"></script>
-<script th:src="@{/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/admin/assets/libs/metismenu/metisMenu.min.js}"></script>
-<script th:src="@{/admin/assets/libs/simplebar/simplebar.min.js}"></script>
-<script th:src="@{/admin/assets/libs/node-waves/waves.min.js}"></script>
-<script th:src="@{/admin/assets/libs/feather-icons/feather.min.js}"></script>
-<!-- pace js} -->
-<script th:src="@{/admin/assets/libs/pace-js/pace.min.js}"></script>
-
-<!-- apexcharts -->
-<script th:src="@{/admin/assets/libs/apexcharts/apexcharts.min.js}"></script>
-
-<!-- Plugins js}-->
-<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js}"></script>
-<script th:src="@{/admin/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js}"></script>
-<!-- dashboard init -->
-<script th:src="@{/admin/assets/js/pages/dashboard.init.js}"></script>
-
-<script th:src="@{/admin/assets/js/app.js}"></script>
-
-<!-- select 2 plugin -->
-<script th:src="@{/admin/assets/libs/select2/js/select2.min.js}"></script>
-
-<!-- dropzone plugin -->
-<script th:src="@{/admin/assets/libs/dropzone/min/dropzone.min.js}"></script>
-
-<!-- alertifyjs js -->
-<script src="/admin/assets/libs/alertifyjs/build/alertify.min.js"></script>
-
-<!-- init js} -->
-<script th:src="@{/admin/assets/js/pages/ecommerce-select2.init.js}"></script>
-
-
-<script th:src="@{/admin/assets/js/app.js}"></script>
-<script th:src="@{/admin/js/ajax.googleapis.com_ajax_libs_angularjs_1.6.9_angular.min.js}"></script>
-<script src="/admin/js/SanPhamAdmin.js"></script>
-<script src="/admin/js/chiTietSanPham.js"></script>
-<script th:src="@{/admin/js/uploadfile.js}"></script>
-<script src="/admin/js/thongBao.js"></script>
-<script src="/admin/js/TaiKhoanNhanVien.js"></script>
-<script src="/admin/js/TaiKhoanNguoiDung.js"></script>
-<script th:src="@{/admin/AngularJS/formSP.js}"></script>
-<script th:src="@{/admin/AngularJS/thongTinNhanVien.js}"></script>
-<script th:src="@{/admin/AngularJS/thongke/tongQuat.js}"></script>
-
-<script src="/admin/AngularJS/MauSacJS.js"></script>
-<script src="/admin/AngularJS/XuatXuJS.js"></script>
-<script src="/admin/AngularJS/DongSanPhamJS.js"></script>
-<script src="/admin/AngularJS/SizeJS.js"></script>
-<script src="/admin/AngularJS/ChatLieuJS.js"></script>
-<script src="/admin/AngularJS/KieuDangJS.js"></script>
-<script src="/admin/AngularJS/ThuongHieuJS.js"></script>
-<script src="/admin/AngularJS/DonHang.js"></script>
-<script src="/admin/AngularJS/banHangTaiQuay.js"></script>
-
-<script src="/admin/assets/libs/rater-js/index.js"></script>
-<script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
-<script th:src="@{/admin/AngularJS/ResetPassword.js}"></script>
-<script th:src="@{/admin/AngularJS/nhanXet.js}"></script>
-
-<script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
-<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/js/plugins/sortable.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/themes/fas/theme.min.js'></script>
-<script src="/admin/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
-<script src="/admin/assets/js/pages/form-advanced.init.js"></script>
-<!--<script type="text/javascript" src="https://unpkg.com/kd-shim-sockjs-client@0.3.4/sockjs-0.3.4.js"></script>-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"
+    <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/js/plugins/sortable.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/themes/fas/theme.min.js'></script>
+    <script src="/admin/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="/admin/assets/js/pages/form-advanced.init.js"></script>
+    <!--<script type="text/javascript" src="https://unpkg.com/kd-shim-sockjs-client@0.3.4/sockjs-0.3.4.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"
         integrity="sha512-tL4PIUsPy+Rks1go4kQG8M8/ItpRMvKnbBjQm4d2DQnFwgcBYRRN00QdyQnWSCwNMsoY/MfJY8nHp2CzlNdtZA=="
         crossorigin="anonymous"></script>
 
-<!-- datepicker js -->
-<!-- color picker js -->
-<script src="/admin/assets/libs/flatpickr/flatpickr.min.js"></script>
+    <!-- datepicker js -->
+    <!-- color picker js -->
+    <script src="/admin/assets/libs/flatpickr/flatpickr.min.js"></script>
 
-<!--chart-->
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!--chart-->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.8.6/apexcharts.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.8.6/apexcharts.min.js"></script>
 
-<!--date picker-->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
-<!--scip voucher-->
-<script>
-    function toggleDiv() {
-        var selectBox = document.getElementById('loai');
-        var divToShow = document.getElementById('mucGiamToiDa');
-        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+    <!--date picker-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!--scip voucher-->
+    <script>
+        function toggleDiv() {
+            var selectBox = document.getElementById('loai');
+            var divToShow = document.getElementById('mucGiamToiDa');
+            var selectedValue = selectBox.options[selectBox.selectedIndex].value;
 
 
-        if (selectedValue === 'PHAN TRAM') {
-            divToShow.style.display = 'block';
-        } else {
-            divToShow.style.display = 'none';
+            if (selectedValue === 'PHAN TRAM') {
+                divToShow.style.display = 'block';
+            } else {
+                divToShow.style.display = 'none';
+            }
         }
-    }
 
-    function toggleDiv2() {
-        var option1Radio = document.getElementById('tatCaKhachHang');
-        var soLuong = document.getElementById('soLuong');
-        var khachHang = document.getElementById('khach');
+        function toggleDiv2() {
+            var option1Radio = document.getElementById('tatCaKhachHang');
+            var soLuong = document.getElementById('soLuong');
+            var khachHang = document.getElementById('khach');
 
-        if (option1Radio.checked) {
-            soLuong.style.display = 'block';
-            khachHang.style.display = 'none';
-        } else {
-            soLuong.style.display = 'none';
-            khachHang.style.display = 'block';
+            if (option1Radio.checked) {
+                soLuong.style.display = 'block';
+                khachHang.style.display = 'none';
+            } else {
+                soLuong.style.display = 'none';
+                khachHang.style.display = 'block';
+            }
         }
-    }
-</script>
+    </script>
 
 </body>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- pace js -->
 <script src="/admin/assets/libs/pace-js/pace.min.js"></script>
+
 
 
 </html>

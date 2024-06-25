@@ -1,3 +1,4 @@
+//Thống kê
 var app = angular.module("thongke-tongquat", [])
 app.controller("ctrl", function ($scope, $http){
     $scope.tongQuat = {}

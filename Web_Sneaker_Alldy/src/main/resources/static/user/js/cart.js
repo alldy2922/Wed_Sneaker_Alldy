@@ -6,7 +6,8 @@ app.controller("cart-ctrl", function ($scope, $http) {
     $scope.cartUser = [];
     $scope.productDetails ={};
     $scope.datacheck = [];
-
+    $scope.sanPhamId = [];
+    $scope.selectedProducts = [];
 
         // Check if the user is logged in
     $http.get("/cart/check-login")
@@ -38,7 +39,10 @@ app.controller("cart-ctrl", function ($scope, $http) {
         .catch(function(error) {
             console.log('Error checking login status:', error);
         });
-
+    $scope.checkboxChanged = function() {
+        console.log('Checkbox value:', $scope.checkboxValue);
+        // Thực hiện xử lý dựa trên giá trị của checkbox
+    };
     $scope.checkThanhToan = function () {
         $http.get("/cart/find-all-sp")
             .then(function(r) {
@@ -51,17 +55,6 @@ app.controller("cart-ctrl", function ($scope, $http) {
             });
 
     }
-    // Call the function to check login status and fetch cart data
-
-    //
-    // $scope.getProductDetails = function(idCTSP) {
-    //         $http.get("/chi-tiet-san-pham/1/get-all-id?id=" + idCTSP).then(r => {
-    //             console.log("ctsp",r.data)
-    //             $scope.cartUser = r.data;
-    //
-    //     }).catch(e => console.log(e))
-    // };
-    // $scope.getProductDetails();
 
     $scope.updateSl = function (id, soLuong) {
         if (soLuong <= 0) {
@@ -96,6 +89,17 @@ app.controller("cart-ctrl", function ($scope, $http) {
             })
         }, function () {})
     }
+    $scope.toggleSelection = function(product) {
+        var index = $scope.selectedProducts.indexOf(product);
+        if (index > -1) {
+            $scope.selectedProducts.splice(index, 1); // Bỏ sản phẩm khỏi danh sách nếu đã chọn
+        } else {
+            $scope.selectedProducts.push(product); // Thêm sản phẩm vào danh sách nếu chưa chọn
+        }
+        localStorage.setItem('selectedProducts', JSON.stringify($scope.selectedProducts)); // Lưu cả mảng vào localStorage
+        console.log($scope.selectedProducts); 
+        console.log(product.id); // Hiển thị danh sách sản phẩm đã chọn trong console
+    };
     $scope.removeAllProductIncart = function () {
         alertify.confirm("Xóa hết giỏ hàng? ", function () {
             $http.delete("/cart/removeAll").then(function (response) {
@@ -105,12 +109,37 @@ app.controller("cart-ctrl", function ($scope, $http) {
             })
         }, function () {})
     }
+    // Function to checkout selected products
+
     $scope.getTotal = function () {
         var totalPrice = 0;
-        for (let i = 0; i < $scope.cart.length; i++) {
-            totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+        for (let i = 0; i < $scope.sanPhamId.length; i++) {
+            totalPrice += $scope.sanPhamId[i].soLuong * $scope.sanPhamId[i].donGiaSauGiam
         }
         return totalPrice;
+    }
+
+    $scope.getSanPhamId = function (id) {
+        $http.get("/cart/find-sp?id="+ id).then(resp => {
+            console.log(resp.data)
+            $scope.sanPhamId = resp.data;
+            console.log("data snapham í",$scope.sanPhamId)
+            localStorage.setItem('myData', JSON.stringify(resp.data));
+        }).catch(error => {
+            console.log(error)
+        })
+
+    }
+
+    $scope.getSanPhamIdNologin = function (id) {
+        $http.get("/cart/find-sp-id?id="+ id).then(resp => {
+            console.log(resp.data)
+            $scope.sanPhamId = resp.data;
+            localStorage.setItem('myData', JSON.stringify(resp.data));
+        }).catch(error => {
+            console.log(error)
+        })
+
     }
 
 //    show voucher

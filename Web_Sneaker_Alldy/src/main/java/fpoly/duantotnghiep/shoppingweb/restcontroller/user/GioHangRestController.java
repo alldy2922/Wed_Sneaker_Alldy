@@ -49,6 +49,22 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authenticati
 
 
 }
+    @GetMapping("/find-sp")
+    public ResponseEntity<List<GioHangDtoReponse>> getCartContentsUserProductId(Authentication authentication,@RequestParam(value = "id",required = false)String id) {
+
+        // Đã đăng nhập, lấy giỏ hàng từ database
+        if (authentication == null || !authentication.isAuthenticated()) {
+            // Nếu chưa đăng nhập, cập nhật trong session hoặc xử lý theo cách bạn muốn
+            return null;
+        } else {
+            Customer customer = (Customer) authentication.getPrincipal();
+            KhachHangModel khachHang = customer.getKhachHangModel();
+            List<GioHangDtoReponse> cartContents = service.findCartById(khachHang, id);
+            return new ResponseEntity<>(cartContents, HttpStatus.OK);
+        }
+
+
+    }
     @PostMapping("add-to-cart")
     public ResponseEntity<?> addToCart(@RequestParam(value = "idCTSP", required = false) String idCTSP,
                                        @RequestParam("sl") Integer sl, Authentication authentication) {
@@ -178,5 +194,29 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authenticati
         // Ghi log khi nhận được yêu cầu
         System.out.println("Received request to remove all products for logged in user.");
         return ResponseEntity.ok(service.laySpTrongGio());
+    }
+
+    @PostMapping("/add-to-session")
+    public ResponseEntity<?> addToSession(@RequestBody Map<String, String> request) {
+        String productId = request.get("productId");
+        // Thêm productId vào session
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/remove-from-session")
+    public ResponseEntity<?> removeFromSession(@RequestBody Map<String, String> request) {
+        String productId = request.get("productId");
+        // Xóa productId khỏi session
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("add-to-cart-sp")
+    public ResponseEntity<?> addToCartSp(@RequestParam(value = "idCTSP", required = false) String idCTSP,
+                                       @RequestParam("sl") Integer sl, Authentication authentication) {
+        Map<String, String> er = new HashMap<>();
+
+            // Nếu chưa đăng nhập, cập nhật trong session
+            service.addOrUpdateToCart(idCTSP, sl);
+            return ResponseEntity.ok(service.laySpTrongGio());
+
     }
 }

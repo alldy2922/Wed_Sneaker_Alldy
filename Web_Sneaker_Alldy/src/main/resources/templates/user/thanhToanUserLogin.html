@@ -56,7 +56,7 @@
 
         <div class="header-cart-content flex-w js-pscroll">
             <ul class="header-cart-wrapitem w-full">
-                <li class="header-cart-item flex-w flex-t m-b-12" ng-repeat="c in cartUser">
+                <li class="header-cart-item flex-w flex-t m-b-12" ng-repeat="c in cart">
                     <div class="header-cart-item-img" ng-click="removeProductIncart(c.id)">
                         <img src="/image/loadImage/product/{{c.anh}}"
                              style="width: 60px; height: 80px" alt="IMG">
@@ -224,7 +224,7 @@
                 <h3 style="margin-bottom: 10px;">Đơn hàng</h3>
                 <table class="table table-striped mt-2">
                     <tbody>
-                    <tr ng-repeat="i in cartUser">
+                    <tr ng-repeat="i in dataSession">
                         <th scope="row">
                             <img style="width: 100px; height: 100px" src="/image/loadImage/product/{{i.anh}}"
                                  alt="product-img"
@@ -244,7 +244,7 @@
 
                 </table>
                 <br>
-                <div class="container">
+                <div class="container" >
                     <div class="row" style="background-color:#717fe0; height: 50px;">
                         <div class="col-4" style="margin-top: 18px;">
                             <h6 style="color: aliceblue;"><b>Voucher</b></h6>

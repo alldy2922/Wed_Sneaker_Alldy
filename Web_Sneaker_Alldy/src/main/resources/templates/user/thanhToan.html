@@ -224,7 +224,7 @@
                 <h3 style="margin-bottom: 10px;">Đơn hàng</h3>
                 <table class="table table-striped mt-2">
                     <tbody>
-                    <tr ng-repeat="i in cart">
+                    <tr ng-repeat="i in dataSession">
                         <th scope="row">
                             <img style="width: 100px; height: 100px" src="/image/loadImage/product/{{i.anh}}"
                                  alt="product-img"
@@ -301,7 +301,7 @@
                             </button>
                         </div>
                         <div class="col-6 flex-r">
-                            <button ng-click="create()"
+                            <button ng-click="create(i.d)"
                                     class="flex-c-m stext-80 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                 Thanh toán
                             </button>

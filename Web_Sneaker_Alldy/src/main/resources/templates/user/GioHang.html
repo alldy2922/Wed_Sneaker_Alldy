@@ -118,20 +118,18 @@
                     <div class="wrap-table-shopping-cart">
                         <table class="table-shopping-cart">
                             <tr class="table_head">
-                                <th class="column-1">Sản Phẩm</th>
-                                <th class="column-2">Tên</th>
-                                <th class="column-3">Giá</th>
-                                <th class="column-4">Số Lượng</th>
-                                <th class="column-5">Tổng Tiền</th>
-                                <th class="column-5"></th>
+                                <th class="column-1">Chọn</th>
+                                <th class="column-2">Sản Phẩm</th>
+                                <th class="column-3">Tên</th>
+                                <th class="column-4">Giá</th>
+                                <th class="column-5">Số Lượng</th>
+                                <th class="column-6">Tổng Tiền</th>
+                                <th class="column-6"></th>
                             </tr>
 
-                            <tr class="table_row" ng-repeat="c in cart">
+                            <tr class="table_row" ng-repeat="c in cart track by c.id">
                                 <td class="column-1" style="padding-left: 20px">
-                                    <div class="how-itemcart1">
-                                        <img src="/image/loadImage/product/{{c.anh}}"
-                                             style="width: 100px; height: 100px" alt="IMG">
-                                    </div>
+                                    <input type="checkbox" ng-model="c.selected" ng-click="toggleSelection(c)">
                                 </td>
                                 <td class="column-2">
                                     <a href="/chi-tiet-san-pham/{{c.maSanPham}}"
@@ -198,7 +196,7 @@
 
                         <div class="size-209">
 								<span class="mtext-110 cl2">
-									{{ getTotal() | currency: "" : 1}} VNĐ
+<!--								{{ totalSelected | currency: "" : 0}} VNĐ-->
 								</span>
                         </div>
                     </div>

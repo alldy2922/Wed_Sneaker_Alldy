@@ -5,18 +5,131 @@
 <head>
     <meta charset="UTF-8">
     <title>Liên Hệ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        tr {
+            border-bottom: 1px solid #ccc;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .info-text {
+            font-style: italic;
+        }
+
+        .info-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .fanpage-container {
+            background-color: #bebebe;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgb(0, 0, 0);
+            /* Thêm một lớp bóng đổ nữa */
+            border-radius: 10px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+            transition: box-shadow 0.3s ease-in-out;
+            /* Thêm hiệu ứng chuyển tiếp */
+        }
+
+        .fanpage-container:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 40px rgb(0, 0, 0);
+            /* Thay đổi bóng đổ khi hover */
+        }
+
+        .fanpage-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #333;
+            font-style: italic;
+        }
+
+        .fanpage-link img {
+            width: 1705x;
+            height: 175px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .fanpage-link span {
+            font-size: 18px;
+        }
+
+        .email-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .email-link:hover {
+            color: #ff0000;
+        }
+
+        .email-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            transition: transform 0.3s;
+        }
+
+        .email-link:hover .email-icon {
+            transform: scale(1.2);
+        }
+
+        .email-text {
+            font-style: italic;
+        }
+    </style>
 </head>
 
 <body>
 
     <div layout:fragment="contentUser" class="bg0 p-b-140" ng-app="filter-app" ng-controller="filter-ctrl">
-
         <style>
             .header-cart-buttons {
                 display: flex;
                 justify-content: center;
             }
+
+            .page {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
         </style>
+
         <!--    cart-->
         <div class="wrap-header-cart js-panel-cart">
             <div class="s-full js-hide-cart"></div>
@@ -61,17 +174,13 @@
                                 class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
                                 Xem giỏ hàng
                             </a>
-
-                            <!-- <a href="/thanh-toan"
-                           class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-                            Thanh toán
-                        </a> -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <!--    cart end-->
+
         <!-- Product -->
         <section class="container d-flex justify-content-center mt-5">
             <div class="row col-12">
@@ -80,28 +189,37 @@
                     <div class="d-flex align-items-center">
                         <table>
                             <tr>
-                                <td style="width: 110px;"></td>
-                                <td></td>
+                                <td class="mr-2">
+                                    <img src="/admin/images/phone.png" alt="Phone Icon" class="info-icon">
+                                </td>
+                                <td><span class="info-text">0388700177</span></td>
                             </tr>
                             <tr>
-                                <td class="mr-2">Số điện thoại:</td>
-                                <td><span style="font-style: italic;">0388700177</span></td>
+                                <td>
+                                    <img src="/admin/images/address.png" alt="Address Icon" class="info-icon">
+                                </td>
+                                <td><span class="info-text">Số 136 Cau Dien, Hà Nội</span></td>
                             </tr>
                             <tr>
-                                <td>Email:</td>
-                                <td><span style="font-style: italic;">alldystoresneaker@gmail.com</span></td>
-                            </tr>
-                            <tr>
-                                <td>Facebook:</td>
-                                <td><a href="https://www.facebook.com/profile.php?id=61558997788101"
-                                        style="font-style: italic;color: #666666;">ALLDY STORE</a></td>
-                            </tr>
-                            <tr>
-                                <td>Địa chỉ:</td>
-                                <td><span style="font-style: italic;"> Số 136 Cau Dien, Hà Nội</span>
+                                <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Gmail_Icon.png/1024px-Gmail_Icon.png"
+                                        alt="Email Icon" class="info-icon"></td>
+                                <td>
+                                    <a href="mailto:alldystoresneaker@gmail.com" class="email-link">
+                                        <span class="email-text">alldystoresneaker@gmail.com</span>
+                                    </a>
                                 </td>
                             </tr>
+
+
                         </table>
+                    </div>
+                    <div class="parent-container">
+                        <div class="fanpage-container">
+                            <a href="https://www.facebook.com/profile.php?id=61560867682262" class="fanpage-link">
+                                <img src="/admin/images/LOGOALLDY.jpg" alt="ALLDY STORE">
+                                <h1>ALLDY STORE</h1>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="col-6">

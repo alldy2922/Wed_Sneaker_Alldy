@@ -69,6 +69,63 @@
     <!-- Header -->
     <header class="header-v3">
         <style>
+            .limiter-menu-desktop {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-left: 45px;
+                padding-right: 45px;
+            }
+
+            .menu-desktop {
+                flex: 1;
+                display: flex;
+                justify-content: flex-start;
+            }
+
+            .logo {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+            }
+
+            .wrap-icon-header {
+                flex: 1;
+                display: flex;
+                justify-content: flex-end;
+            }
+
+            .main-menu {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+            }
+
+            .main-menu li {
+                margin-right: 20px;
+            }
+
+            .main-menu li:last-child {
+                margin-right: 0;
+            }
+
+            .icon-header-item {
+                margin-right: 10px;
+            }
+
+            .dropdown-toggle {
+                text-decoration: none;
+                color: white;
+                display: flex;
+                align-items: center;
+            }
+
+            .dropdown-menu {
+                position: absolute;
+                right: 0;
+            }
+
             .dropdown-item {
                 display: flex;
                 align-items: center;
@@ -87,17 +144,30 @@
                 display: flex;
                 justify-content: center;
             }
+
+            .icon-header-item img {
+                transition: transform 0.3s ease;
+            }
+
+            .icon-header-item:hover img {
+                transform: scale(1.2);
+                /* Scale lớn hơn gốc khi hover */
+            }
+
+            .logo img {
+                transition: transform 0.5s ease, box-shadow 0.5s ease, opacity 0.5s ease;
+            }
+
+            .logo:hover img {
+                transform: scale(1.5) rotateX(360deg);
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+                opacity: 0.9;
+            }
         </style>
         <!-- Header desktop -->
         <div class="container-menu-desktop trans-03 fix-menu-desktop">
             <div class="wrap-menu-desktop">
                 <nav class="limiter-menu-desktop p-l-45">
-
-                    <!-- Logo desktop -->
-                    <a href="/trang-chu" class="logo">
-                        <img src="/admin/images/LOGOALLDY.jpg">
-                    </a>
-
                     <!-- Menu desktop -->
                     <div class="menu-desktop">
                         <ul class="main-menu">
@@ -117,15 +187,26 @@
                         </ul>
                     </div>
 
+
+                    <!-- Logo desktop -->
+                    <a href="/trang-chu" class="logo">
+                        <img src="/admin/images/LOGOALLDY.jpg">
+                    </a>
+
+
                     <!-- Icon header -->
                     <div class="wrap-icon-header flex-w flex-r-m">
                         <a href="/danh-sach-yeu-thich" th:if="${request.remoteUser}"
-                            class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 ">
-                            <i class="zmdi zmdi-favorite-outline" style="color: white"></i>
+                            class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                            <img src="/admin/images/yeuthich.png" alt="yeu thich icon"
+                                style="width: 50px; height: 50px;">
                         </a>
-                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11  js-show-cart">
-                            <i class="zmdi zmdi-shopping-cart" style="color: white"></i>
+
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-cart">
+                            <img src="/admin/images/giohang.png" alt="Shopping Cart Icon"
+                                style="width: 50px; height: 50px;">
                         </div>
+
 
                         <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 dropdown">
                             <a class="dropdown-toggle d-flex align-items-center" id="dropdownMenuButton"
@@ -135,12 +216,7 @@
                                     style="width: 40px;height: 40px"
                                     th:src="@{|/image/loadImageKhachHang/${#authentication.name}|}" alt="Header Avatar">
                             </a>
-                            <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" th:if="${request.remoteUser}">
-                            <a class="dropdown-item" href="/thong-tin-ca-nhan" >Tài khoản</a>
-                            <a class="dropdown-item" href="/lich-su-mua-hang1">Đơn hàng</a>
-                            <a class="dropdown-item" href="/doi-mat-khau">Đổi mật khẩu</a>
-                            <a class="dropdown-item" href="/logout">Đăng xuất</a>
-                        </div> -->
+
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
                                 th:if="${request.remoteUser}">
                                 <a class="dropdown-item" href="/thong-tin-ca-nhan">
@@ -159,8 +235,7 @@
 
                             <a style="color: white;font-weight: bold;font-size: 15px" href="/dang-nhap"
                                 th:unless="${request.remoteUser}">
-                                Đăng nhập
-                                <i class="fa-sharp fa-solid fa-right-to-bracket fa-flip-horizontal"></i>
+                                <img src="/admin/images/user.png" alt="user icon" style="width: 50px; height: 50px;">
                             </a>
                         </div>
                     </div>

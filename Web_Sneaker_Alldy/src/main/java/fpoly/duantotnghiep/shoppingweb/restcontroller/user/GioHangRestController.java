@@ -47,6 +47,22 @@ public class GioHangRestController {
         return new ResponseEntity<>(cartContents, HttpStatus.OK);
 
     }
+    @GetMapping("/find-sp")
+    public ResponseEntity<List<GioHangDtoReponse>> getCartContentsUserProductId(Authentication authentication,@RequestParam(value = "id",required = false)String id) {
+
+        // Đã đăng nhập, lấy giỏ hàng từ database
+        if (authentication == null || !authentication.isAuthenticated()) {
+            // Nếu chưa đăng nhập, cập nhật trong session hoặc xử lý theo cách bạn muốn
+            return null;
+        } else {
+            Customer customer = (Customer) authentication.getPrincipal();
+            KhachHangModel khachHang = customer.getKhachHangModel();
+            List<GioHangDtoReponse> cartContents = service.findCartById(khachHang, id);
+            return new ResponseEntity<>(cartContents, HttpStatus.OK);
+        }
+
+
+    }
     @PostMapping("add-to-cart")
     public ResponseEntity<?> addToCart(@RequestParam(value = "idCTSP", required = false) String idCTSP,
                                        @RequestParam("sl") Integer sl, Authentication authentication) {
@@ -72,15 +88,20 @@ public class GioHangRestController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
         }
 
+
         if (authentication == null || !authentication.isAuthenticated()) {
-            service.addOrUpdateToCart(idCTSP,sl);
+            // Nếu chưa đăng nhập, cập nhật trong session
+            service.addOrUpdateToCart(idCTSP, sl);
             return ResponseEntity.ok(service.laySpTrongGio());
         } else {
+            // Nếu đã đăng nhập, cập nhật trong cơ sở dữ liệu
             Customer customer = (Customer) authentication.getPrincipal();
             KhachHangModel khachHang = customer.getKhachHangModel();
-            service.addProductToCart(khachHang, idCTSP, sl);
+            service.addProductToCart(khachHang,idCTSP,sl);
+            service.removeAllProdcutInCart();
             return ResponseEntity.ok(service.getCartFromDatabase(khachHang));
         }
+
     }
     @PostMapping("mua-ngay")
     public ResponseEntity<?> muaNgay(@RequestParam(value = "idCTSP",required = false)String idCTSP,
@@ -117,7 +138,6 @@ public class GioHangRestController {
             return ResponseEntity.ok(service.laySpTrongGio());
         }
     }
-    
     @PutMapping("update-sl/{idCTSP}/{sl}")
     public ResponseEntity<?> updateSL(@PathVariable("idCTSP") String idCTSP, @PathVariable("sl") Integer sl, Authentication authentication) {
         Map<String, String> er = new HashMap<>();
@@ -173,4 +193,32 @@ public class GioHangRestController {
         System.out.println("Received request to remove all products for logged in user.");
         return ResponseEntity.ok(service.laySpTrongGio());
     }
+//trường hợp ban đầu không chọn vẫn chuyển sang trang thanh toán
+    @PostMapping("add-to-cart-sp")
+    public ResponseEntity<?> addToCartSp(@RequestBody List<GioHangDtoReponse> gioHangDtoReponses) {
+        Map<String, String> er = new HashMap<>();
+
+        for (int i = 0; i < gioHangDtoReponses.size(); i++) {
+            service.addToHoaDon(gioHangDtoReponses.get(i).getId(),gioHangDtoReponses.get(i).getSoLuong());
+        }
+        return ResponseEntity.ok(service.laySpTrongGio());
+
+    }
+//@PostMapping("add-to-cart-sp")
+//public ResponseEntity<?> addToCartSp(@RequestBody List<GioHangDtoReponse> gioHangDtoReponses) {
+//    // Kiểm tra xem danh sách có trống hay không
+//    if (gioHangDtoReponses == null || gioHangDtoReponses.isEmpty()) {
+//        // Nếu trống, trả về phản hồi yêu cầu người dùng chọn sản phẩm
+//        return ResponseEntity.badRequest().body("Bạn cần chọn ít nhất một sản phẩm trước khi thanh toán.");
+//    }
+//
+//    // Nếu không trống, xử lý các sản phẩm trong giỏ hàng
+//    for (GioHangDtoReponse gioHangDto : gioHangDtoReponses) {
+//        service.addToHoaDon(gioHangDto.getId(), gioHangDto.getSoLuong());
+//    }
+//
+//    // Sau khi xử lý xong, chuyển hướng tới trang thanh toán
+//    return ResponseEntity.ok(service.laySpTrongGio());
+//}
+
 }

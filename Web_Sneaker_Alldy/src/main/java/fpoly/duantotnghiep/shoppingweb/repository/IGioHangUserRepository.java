@@ -13,4 +13,7 @@ public interface IGioHangUserRepository extends JpaRepository<GioHangModel,Strin
     List<GioHangModel> findByKhachHang(KhachHangModel khachHang);
     void deleteAllByKhachHang(KhachHangModel khachHang);
     GioHangModel findByKhachHangAndChiTietSanPham(KhachHangModel khachHang, ChiTietSanPhamModel chiTietSanPham);
+
+    List<GioHangModel> findListByKhachHangAndChiTietSanPham(KhachHangModel khachHang, ChiTietSanPhamModel chiTietSanPham);
+
 }

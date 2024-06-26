@@ -1,114 +1,238 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/user/trangChu}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{/user/trangChu}">
 <head>
     <meta charset="UTF-8">
     <title>Liên Hệ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        tr {
+            border-bottom: 1px solid #ccc;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .info-text {
+            font-style: italic;
+        }
+
+        .info-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .fanpage-container {
+            background-color: #bebebe;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgb(0, 0, 0);
+            /* Thêm một lớp bóng đổ nữa */
+            border-radius: 10px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+            transition: box-shadow 0.3s ease-in-out;
+            /* Thêm hiệu ứng chuyển tiếp */
+        }
+
+        .fanpage-container:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 40px rgb(0, 0, 0);
+            /* Thay đổi bóng đổ khi hover */
+        }
+
+        .fanpage-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #333;
+            font-style: italic;
+        }
+
+        .fanpage-link img {
+            width: 1705x;
+            height: 175px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .fanpage-link span {
+            font-size: 18px;
+        }
+
+        .email-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .email-link:hover {
+            color: #ff0000;
+        }
+
+        .email-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            transition: transform 0.3s;
+        }
+
+        .email-link:hover .email-icon {
+            transform: scale(1.2);
+        }
+
+        .email-text {
+            font-style: italic;
+        }
+    </style>
 </head>
+
 <body>
 
-<div layout:fragment="contentUser" class="bg0 p-b-140" ng-app="filter-app" ng-controller="filter-ctrl">
+    <div layout:fragment="contentUser" class="bg0 p-b-140" ng-app="filter-app" ng-controller="filter-ctrl">
+        <style>
+            .header-cart-buttons {
+                display: flex;
+                justify-content: center;
+            }
 
-    <!--    cart-->
-    <div class="wrap-header-cart js-panel-cart">
-        <div class="s-full js-hide-cart"></div>
+            .page {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+        </style>
 
-        <div class="header-cart flex-col-l p-l-65 p-r-25">
-            <div class="header-cart-title flex-w flex-sb-m p-b-8">
-				<span class="mtext-103 cl2">
-					Giỏ hàng
-				</span>
+        <!--    cart-->
+        <div class="wrap-header-cart js-panel-cart">
+            <div class="s-full js-hide-cart"></div>
 
-                <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
-                    <i class="zmdi zmdi-close"></i>
-                </div>
-            </div>
+            <div class="header-cart flex-col-l p-l-65 p-r-25">
+                <div class="header-cart-title flex-w flex-sb-m p-b-8">
+                    <span class="mtext-103 cl2">
+                        Giỏ hàng
+                    </span>
 
-            <div class="header-cart-content flex-w js-pscroll">
-                <ul class="header-cart-wrapitem w-full">
-                    <li class="header-cart-item flex-w flex-t m-b-12" ng-repeat="c in cart">
-                        <div class="header-cart-item-img" ng-click="removeProductIncart(c.id)">
-                            <img src="/image/loadImage/product/{{c.anh}}"
-                                 style="width: 60px; height: 80px" alt="IMG">
-                        </div>
-
-                        <div class="header-cart-item-txt p-t-8">
-                            <a href="/chi-tiet-san-pham/{{c.maSanPham}}"
-                               class="header-cart-item-info">
-                                {{c.tenSanPham}}
-                            </a>
-                            <span class="header-cart-item-info">
-								{{c.soLuong}} x {{c.donGiaSauGiam | currency: "" : 1}}đ
-							</span>
-                        </div>
-                    </li>
-                </ul>
-
-                <div class="w-full">
-                    <div class="header-cart-total w-full p-tb-40">
-                        Tổng tiền: {{ getTotal() | currency: "" : 1}}đ
+                    <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
+                        <i class="zmdi zmdi-close"></i>
                     </div>
+                </div>
 
-                    <div class="header-cart-buttons flex-w w-full">
-                        <a href="/gio-hang"
-                           class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-                            Xem giỏ hàng
-                        </a>
+                <div class="header-cart-content flex-w js-pscroll">
+                    <ul class="header-cart-wrapitem w-full">
+                        <li class="header-cart-item flex-w flex-t m-b-12" ng-repeat="c in cart">
+                            <div class="header-cart-item-img" ng-click="removeProductIncart(c.id)">
+                                <img src="/image/loadImage/product/{{c.anh}}" style="width: 60px; height: 80px"
+                                    alt="IMG">
+                            </div>
 
-                        <a href="/thanh-toan"
-                           class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-                            Thanh toán
-                        </a>
+                            <div class="header-cart-item-txt p-t-8">
+                                <a href="/chi-tiet-san-pham/{{c.maSanPham}}" class="header-cart-item-info">
+                                    {{c.tenSanPham}}
+                                </a>
+                                <span class="header-cart-item-info">
+                                    {{c.soLuong}} x {{c.donGiaSauGiam | currency: "" : 1}}đ
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="w-full">
+                        <div class="header-cart-total w-full p-tb-40">
+                            Tổng tiền: {{ getTotal() | currency: "" : 1}}đ
+                        </div>
+
+                        <div class="header-cart-buttons flex-w w-full" style="justify-content: center;">
+                            <a href="/gio-hang"
+                                class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+                                Xem giỏ hàng
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!--    cart end-->
-    <!-- Product -->
-    <section class="container d-flex justify-content-center mt-5">
-        <div class="row col-12">
-            <div class="col-6">
-                <h3 class="mb-5">Liên hệ</h3>
-                <div class="d-flex align-items-center">
-                    <table>
-                        <tr>
-                            <td style="width: 110px;"></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="mr-2">Số điện thoại:</td>
-                            <td><span style="font-style: italic;">0388700177</span></td>
-                        </tr>
-                        <tr>
-                            <td>Email:</td>
-                            <td><span style="font-style: italic;">alldystoresneaker@gmail.com</span></td>
-                        </tr>
-                        <tr>
-                            <td>Facebook:</td>
-                            <td><a href="https://www.facebook.com/profile.php?id=61558997788101"
-                                   style="font-style: italic;color: #666666;">ALLDY STORE</a></td>
-                        </tr>
-                        <tr>
-                            <td>Địa chỉ:</td>
-                            <td><span
-                                    style="font-style: italic;"> Số 136 Cau Dien, Hà Nội</span>
-                            </td>
-                        </tr>
-                    </table>
+        <!--    cart end-->
+
+        <!-- Product -->
+        <section class="container d-flex justify-content-center mt-5">
+            <div class="row col-12">
+                <div class="col-6">
+                    <h3 class="mb-5">Liên hệ</h3>
+                    <div class="d-flex align-items-center">
+                        <table>
+                            <tr>
+                                <td class="mr-2">
+                                    <img src="/admin/images/phone.png" alt="Phone Icon" class="info-icon">
+                                </td>
+                                <td><span class="info-text">0388700177</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="/admin/images/address.png" alt="Address Icon" class="info-icon">
+                                </td>
+                                <td><span class="info-text">Số 136 Cau Dien, Hà Nội</span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Gmail_Icon.png/1024px-Gmail_Icon.png"
+                                        alt="Email Icon" class="info-icon"></td>
+                                <td>
+                                    <a href="mailto:alldystoresneaker@gmail.com" class="email-link">
+                                        <span class="email-text">alldystoresneaker@gmail.com</span>
+                                    </a>
+                                </td>
+                            </tr>
+
+
+                        </table>
+                    </div>
+                    <div class="parent-container">
+                        <div class="fanpage-container">
+                            <a href="https://www.facebook.com/profile.php?id=61560867682262" class="fanpage-link">
+                                <img src="/admin/images/LOGOALLDY.jpg" alt="ALLDY STORE">
+                                <h1>ALLDY STORE</h1>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="col-6">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1244.070015336087!2d105.89673851778412!3d20.87214034254588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135b198d71ec02f%3A0x8fbdd35bc4f58939!2zTuG7jyBC4bqhbiwgVGjGsOG7nW5nIFTDrW4sIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1714382731942!5m2!1svi!2s"
+                <div class="col-6">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1244.070015336087!2d105.89673851778412!3d20.87214034254588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135b198d71ec02f%3A0x8fbdd35bc4f58939!2zTuG7jyBC4bqhbiwgVGjGsOG7nW5nIFTDrW4sIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1714382731942!5m2!1svi!2s"
                         style="border:0;width: 100%;height: 400px;" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!--    /////////Modal đăng nhập///////////////-->
+        <!--    /////////Modal đăng nhập///////////////-->
 
-</div>
+    </div>
 </body>
+
 </html>

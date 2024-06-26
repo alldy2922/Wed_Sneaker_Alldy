@@ -23,6 +23,11 @@
         .voucher-container:hover .voucher-details {
             display: block;
         }
+
+        .header-cart-buttons {
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 
@@ -68,15 +73,10 @@
                             Tổng tiền: {{ getTotal() | currency: "" : 0}}đ
                         </div>
 
-                        <div class="header-cart-buttons flex-w w-full">
+                        <div class="header-cart-buttons flex-w w-full" style="justify-content: center;">
                             <a href="/gio-hang"
                                 class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
                                 Xem giỏ hàng
-                            </a>
-
-                            <a href="/thanh-toan"
-                                class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-                                Thanh toán
                             </a>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
         </div>
         <!--    cart end-->
         <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-            <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+            <a href="/trang-chu" class="stext-109 cl8 hov-cl1 trans-04">
                 Trang chủ
                 <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
             </a>
@@ -118,24 +118,27 @@
                         <div class="wrap-table-shopping-cart">
                             <table class="table-shopping-cart">
                                 <tr class="table_head">
-                                    <th class="column-1">Chọn</th>
+                                    <th class="column-6">Chọn</th>
                                     <th class="column-1">Sản Phẩm</th>
                                     <th class="column-2">Tên</th>
                                     <th class="column-3">Giá</th>
                                     <th class="column-4">Số Lượng</th>
                                     <th class="column-5">Tổng Tiền</th>
-                                    <th class="column-5"></th>
+                                    <th class="column-7"></th>
                                 </tr>
 
-                                <tr class="table_row" ng-repeat="c in cart track by $index">
+                                <tr class="table_row" ng-repeat="c in cart track by c.id">
                                     <!-- <td>checkbox</td> -->
-                                    <td class="column-1">
-                                        <input type="checkbox" ng-model="c.selected" ng-change="updateTotal()">
+                                    <style>
+                                        input[type="checkbox"] {
+                                            transform: scale(2);
+                                        }
+                                    </style>
+                                    <td class="column-6">
+                                        <input type="checkbox" ng-model="c.selected" ng-change="updateTotal()"
+                                            ng-click="toggleSelection(c)">
                                     </td>
-                                    <!-- Rest of your table columns -->
-
-
-                                    <td class="column-1" style="padding-left: 20px">
+                                    <td class="column-1">
                                         <div class="how-itemcart1">
                                             <img src="/image/loadImage/product/{{c.anh}}"
                                                 style="width: 100px; height: 100px" alt="IMG">
@@ -148,7 +151,7 @@
                                         </p>
                                     </td>
                                     <td class="column-3">
-                                        {{c.donGiaSauGiam | currency: "" : 1}}đ
+                                        {{c.donGiaSauGiam | currency: "" : 0}}đ
                                     </td>
                                     <td class="column-4">
                                         <div class="wrap-num-product flex-w m-l-auto m-r-0">
@@ -160,9 +163,6 @@
                                                 id="{{c.id}}" ng-model="c.soLuong" ng-change="updateSl(c.id, c.soLuong)"
                                                 ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }"
                                                 name="num-product2">
-
-
-
                                             <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m"
                                                 ng-click="updateSl(c.id, c.soLuong + 1)">
                                                 <i class="fs-16 zmdi zmdi-plus"></i>
@@ -175,7 +175,7 @@
                                     <td class="column-5">
                                         <div>{{c.donGiaSauGiam * c.soLuong | currency: "" : 1}}đ</div>
                                     </td>
-                                    <td>
+                                    <td class="column-7">
                                         <span style="cursor: pointer" ng-click="removeProductIncart(c.id)">
                                             <img src="/userStyle/images/icons/icon-close2.png">
                                         </span>
@@ -255,18 +255,12 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="flex-w flex-t p-t-27 p-b-33">
                         </div>
-                        <!-- <a href="/thanh-toan"
-                       class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-                        Thanh toán
-                    </a> -->
-                        <a href="/thanh-toan" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer"
-                            ng-click="paySelected()">
+                        <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer"
+                            ng-click="goToCheckout()">
                             Thanh toán
-                        </a>
+                        </button>
 
                     </div>
                 </div>

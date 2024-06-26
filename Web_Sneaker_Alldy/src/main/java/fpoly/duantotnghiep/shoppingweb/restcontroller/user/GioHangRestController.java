@@ -210,12 +210,12 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authenticati
         return ResponseEntity.ok().build();
     }
     @PostMapping("add-to-cart-sp")
-    public ResponseEntity<?> addToCartSp(@RequestParam(value = "idCTSP", required = false) String idCTSP,
-                                       @RequestParam("sl") Integer sl, Authentication authentication) {
+    public ResponseEntity<?> addToCartSp(@RequestBody List<GioHangDtoReponse> gioHangDtoReponses) {
         Map<String, String> er = new HashMap<>();
 
-            // Nếu chưa đăng nhập, cập nhật trong session
-            service.addOrUpdateToCart(idCTSP, sl);
+        for (int i = 0; i < gioHangDtoReponses.size(); i++) {
+            service.addToHoaDon(gioHangDtoReponses.get(i).getId(),gioHangDtoReponses.get(i).getSoLuong());
+        }
             return ResponseEntity.ok(service.laySpTrongGio());
 
     }

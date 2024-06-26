@@ -127,10 +127,13 @@
                                 <th class="column-6"></th>
                             </tr>
 
-                            <tr class="table_row" ng-repeat="c in cart track by c.id">
+                            <tr class="table_row" ng-repeat="c in cart">
                                 <td class="column-1" style="padding-left: 20px">
                                     <input type="checkbox" ng-model="c.selected" ng-click="toggleSelection(c)">
                                 </td>
+<!--                                <td class="column-1" style="padding-left: 20px">-->
+<!--                                    <input type="checkbox" ng-model="c.selected" ng-click="toggleSelection(c)">-->
+<!--                                </td>-->
                                 <td class="column-2">
                                     <a href="/chi-tiet-san-pham/{{c.maSanPham}}"
                                        class="text-dark">{{c.ten}}</a>

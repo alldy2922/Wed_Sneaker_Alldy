@@ -78,8 +78,8 @@
                 z-index: 1000;
                 background-color: #ffffff;
                 /* Màu nền trắng */
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-                /* Đổ bóng nhẹ */
+                box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+                /* Đổ bóng */
             }
 
             .container-menu-desktop.dark {
@@ -87,7 +87,7 @@
                 /* Giữ màu nền trắng */
                 color: #ffffff;
                 /* Màu chữ trắng khi chế độ tối */
-                box-shadow: none;
+                box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
                 /* Không có đổ bóng */
             }
 
@@ -310,27 +310,26 @@
                             </li>
                         </ul>
                     </div>
-
-
                     <!-- Logo desktop -->
                     <a href="/trang-chu" class="logo">
                         <img src="/admin/images/LOGOALLDY.jpg">
                     </a>
 
-
                     <!-- Icon header -->
                     <div class="wrap-icon-header flex-w flex-r-m">
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
+                            <img src="/admin/images/run4.gif" alt="Người chạy" style="width: auto; height: 50px;">
+                            <img src="/admin/images/row.gif" alt="Mũi tên" style="width: auto; height: 50px;">
+                        </div>
+                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-cart">
+                            <img src="/admin/images/giohang.png" alt="Shopping Cart Icon"
+                                style="width: 50px; height: 50px;">
+                        </div>
                         <a href="/danh-sach-yeu-thich" th:if="${request.remoteUser}"
                             class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11">
                             <img src="/admin/images/yeuthich.png" alt="yeu thich icon"
                                 style="width: 50px; height: 50px;">
                         </a>
-
-                        <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-cart">
-                            <img src="/admin/images/giohang.png" alt="Shopping Cart Icon"
-                                style="width: 50px; height: 50px;">
-                        </div>
-
 
                         <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 dropdown">
                             <a class="dropdown-toggle d-flex align-items-center" id="dropdownMenuButton"
@@ -364,10 +363,25 @@
                         </div>
                     </div>
                 </nav>
-                <div class="col-12 collapse" id="branchsSP" style="background-color: whitesmoke">
-                    <div class="col-12 d-flex justify-content-center">
-                        <div class="container row pt-4">
-                            <a class="col-4 mb-4" style="color: #666666;font-size: 20px;cursor: pointer"
+
+                <div class="col-12 collapse" id="branchsSP" style="background-color: rgba(255, 255, 255, 0)">
+                    <div class="col-12 d-flex justify-content-center" style="padding-top: 20px;padding-bottom: 20px;">
+
+                        <style>
+                            .containermenusp {
+                                position: relative;
+                                width: auto;
+                                height: 70%;
+                                background: #f5f5f5;
+                                overflow: hidden;
+                                box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+                                /* Đổ bóng */
+                                border-radius: 20px;
+                                /* Bo tròn các góc */
+                            }
+                        </style>
+                        <div class="containermenusp row pt-4">
+                            <a class="col-4 mb-4" style="color: #000000;font-size: 20px;cursor: pointer"
                                 href="/san-pham">Tất
                                 cả sản phẩm</a>
                             <div th:each="b : ${branches}" class="col-4 mb-4">
@@ -440,34 +454,353 @@
         </div>
     </header>
 
-    <!-- Slider -->
-    <section class="section-slide">
+
+    <!-- Slider 1-->
+    <!-- <section class="section-slide">
         <div class="wrap-slick1 rs2-slick1">
             <div class="slick1">
-                <!-- Banner 1 -->
+
                 <div class="item-slick1 bg-overlay1"
-                    style="background-image: url(/image/loadImage/product/banner1.png); height: 100vh"
+                    style="background-image: url(/image/loadImage/product/banner1.png); height: 55vh"
                     data-thumb="/image/loadImage/product/banner1.png" data-caption="ALLDY STORE">
                 </div>
 
-                <!-- Banner 2 -->
+
                 <div class="item-slick1 bg-overlay1"
-                    style="background-image: url(/image/loadImage/product/banner2.png); height: 100vh"
+                    style="background-image: url(/image/loadImage/product/banner2.png); height: 55vh"
                     data-thumb="/image/loadImage/product/banner2.png" data-caption="ALLDY STORE">
                 </div>
 
-                <!-- Banner 3 -->
+
                 <div class="item-slick1 bg-overlay1"
-                    style="background-image: url(/image/loadImage/product/banner3.png); height: 100vh"
+                    style="background-image: url(/image/loadImage/product/banner3.png); height: 55vh"
                     data-thumb="/image/loadImage/product/banner3.png" data-caption="ALLDY STORE">
                 </div>
             </div>
 
             <div class="wrap-slick1-dots p-lr-10"></div>
         </div>
-    </section>
+    </section> -->
+
+    <!-- Slider 2  -->
+
+    <style>
+        @font-face {
+            font-family: "H7GBK-Heavy";
+            src: url('https://hw-media-cdn-mingchao.kurogame.com/font/H7GBK-Heavy.ttf');
+        }
+
+        body {
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container2 {
+            position: relative;
+            width: auto;
+            height: 70%;
+            background: #f5f5f5;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+            border-radius: 20px;
+        }
+
+        .slide {
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .item {
+            width: 165px;
+            height: 250px;
+            position: absolute;
+            top: 50%;
+            transform: translate(0, -50%);
+            border-radius: 20px;
+            background-position: 50% 50%;
+            background-size: cover;
+            background-color: #151212;
+            display: inline-block;
+            transition: 0.5s;
+        }
+
+        .item:nth-child(1),
+        .item:nth-child(2) {
+            top: 0;
+            left: 0;
+            transform: translate(0, 0);
+            border-radius: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .item:nth-child(3) {
+            left: 70%;
+        }
+
+        .item:nth-child(4) {
+            left: calc(70% + 210px);
+        }
+
+        .item:nth-child(5) {
+            left: calc(80% + 430px);
+        }
+
+        .item:nth-child(n + 6) {
+            left: calc(80% + 650px);
+            opacity: 0;
+        }
+
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 60px;
+            width: 300px;
+            text-align: left;
+            color: #eee;
+            transform: translate(0, -50%);
+            font-family: "H7GBK-Heavy";
+            display: none;
+        }
+
+        .item:nth-child(2) .content {
+            display: block;
+        }
+
+        .content .name {
+            font-size: 70px;
+            text-transform: uppercase;
+            font-weight: 400;
+            opacity: 0;
+            animation: animate 1s ease-in-out 1 forwards;
+        }
+
+        @keyframes animate {
+            from {
+                opacity: 0;
+                transform: translate(0, 100px);
+                filter: blur(33px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(0);
+                filter: blur(0);
+            }
+        }
+
+        .prev,
+        .next {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        .prev::before,
+        .next::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background-size: contain;
+        }
+
+        .prev::before {
+            left: 10px;
+        }
+
+        .next::before {
+            right: 10px;
+        }
+    </style>
+    <!-- css -->
+
+    <div class="container2">
+        <div class="slide">
+            <div class="item" style="background-image: url(/image/loadImage/product/banner1.png);">
+                <!-- <div class="content">
+                    <div class="name">ALLDY STORE SALE 50%</div>
+                </div> -->
+            </div>
+
+            <div class="item" style="background-image: url(/image/loadImage/product/banner3.png);">
+                <!-- <div class="content">
+                    <div class="name">UY TÍN-CHẤT LƯỢNG</div>
+                </div> -->
+            </div>
+
+            <div class="item" style="background-image: url(/admin/images/anh2slidev2.jpg);">
+                <div class="content">
+                    <div class="name">ADIDAS</div>
+                </div>
+            </div>
+
+            <div class="item" style="background-image: url(/admin/images/anh3slidev2.jpg);">
+                <div class="content">
+                    <div class="name">NIKE</div>
+                </div>
+            </div>
+
+            <div class="item" style="background-image: url( /admin/images/anh6slidev2.jpg);">
+                <div class="content">
+                    <div class="name">DIOR</div>
+                </div>
+            </div>
+            <div class="item" style="background-image: url( /admin/images/anh4slidev2.jpg);">
+                <div class="content">
+                    <div class="name">PUMA</div>
+                </div>
+            </div>
+            <div class="item" style="background-image: url( /admin/images/anh7slidev2.jpg);">
+                <div class="content">
+                    <div class="name">LOUIS VUITTON</div>
+                </div>
+            </div>
+            <div class="item" style="background-image: url( /admin/images/anh8slidev2.jpg);">
+                <div class="content">
+                    <div class="name">BALENCIAGA</div>
+                </div>
+            </div>
+            <div class="item" style="background-image: url( /admin/images/anh9slidev2.jpg);">
+                <div class="content">
+                    <div class="name">CONVERSE </div>
+                </div>
+            </div>
+            <div class="item" style="background-image: url( /admin/images/anh5slidev2.jpg);">
+                <div class="content">
+                    <div class="name">VANS </div>
+                </div>
+            </div>
+        </div>
 
 
+        <div class="prev"></div>
+        <div class="next"></div>
+
+    </div>
+
+    <!-- html -->
+    <script>
+        const nextButton = document.querySelector('.next');
+        const prevButton = document.querySelector('.prev');
+        const slide = document.querySelector('.slide');
+
+        const nextSlide = () => {
+            const items = document.querySelectorAll('.item');
+            slide.appendChild(items[0]);
+        };
+
+        const prevSlide = () => {
+            const items = document.querySelectorAll('.item');
+            slide.prepend(items[items.length - 1]);
+        };
+
+        nextButton.addEventListener('click', nextSlide);
+        prevButton.addEventListener('click', prevSlide);
+
+        // Auto slide every 3 seconds
+        setInterval(nextSlide, 3000);
+    </script>
+    <!-- js -->
+    <br>
+
+    <!-- logo hãng giày -->
+    <div>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            .logo-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+                padding: 20px;
+                background-color: #f5f5f5;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .logo-item {
+                width: 200px;
+                height: 150px;
+                background-color: #fff;
+                border-radius: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+                position: relative;
+            }
+
+            .logo-item img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+                border-radius: 10px;
+                transition: transform 0.5s;
+            }
+
+            .logo-item:hover img {
+                transform: rotateY(360deg);
+                /* Rotate 180 degrees along the Y-axis */
+            }
+        </style>
+        <div class="logo-container">
+            <!-- Logo items -->
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/95d7f1c8-e27c-4681-b6ad-547b4054b54e">
+                    <img src="/admin/images/logoadidas.png" alt="Logo 1">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/6ce98e5a-d01b-412c-81a9-6cd0adfddc25">
+                    <img src="/admin/images/logonike.png" alt="Logo 2">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/b7bb2654-7f34-4a27-ac95-ac29bb3b14cb">
+                    <img src="/admin/images/logopuma.png" alt="Logo 3">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="">
+                    <img src="/admin/images/logolv.png" alt="Logo 4">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/27296473-9fb6-44ac-b61f-21ed97fa4b62">
+                    <img src="/admin/images/logodior.png" alt="Logo 5">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/ed4e0553-e93f-4490-af2b-4612537f43c0">
+                    <img src="/admin/images/logovans.png" alt="Logo 6">
+                </a>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <!-- cart -->
     <div class="container-fuild" ng-app="trangChu-app" ng-controller="ctrl" layout:fragment="contentUser">
         <!--    cart-->
         <div class="wrap-header-cart js-panel-cart">
@@ -663,7 +996,7 @@
                 </div>
             </div>
         </div>
-        <!-- blog1 -->
+        <!-- blog1 adiads-->
         <div class="row m-t-50 m-r-10 m-l-10"
             style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
             <div class="p-t-50 p-b-50">
@@ -802,7 +1135,7 @@
                 </div>
             </div>
         </div>
-<!-- Giay puma      -->
+        <!-- Giay puma      -->
         <div class="row m-t-50 m-r-10 m-l-10"
             style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
             <div class="p-b-50 p-t-50">
@@ -817,7 +1150,9 @@
                                 “không tuổi" sau hơn nửa thế kỷ? Tất cả điều đó sẽ được VHĐP giải bày trong bài viết
                                 ngày hôm nay. </p>
                             <h4 class="m-t-50 m-l-20">
-                                <a href="/http://localhost:8080/san-pham/thuong-hieu/b7bb2654-7f34-4a27-ac95-ac29bb3b14cb">XEM TẤT CẢ ></a>
+                                <a
+                                    href="/http://localhost:8080/san-pham/thuong-hieu/b7bb2654-7f34-4a27-ac95-ac29bb3b14cb">XEM
+                                    TẤT CẢ ></a>
                             </h4>
                         </div>
                         <div class="col-6 d-flex justify-content-center align-items-center">
@@ -918,10 +1253,21 @@
     </div>
     <!-- Footer -->
     <footer class="bg3 p-t-75 p-b-32">
-        <div class="container">
+        <style>
+            .container10 {
+                position: relative;
+                width: 100%;
+                height: 70%;
+                background: #222;
+                overflow: hidden;
+                border-radius: 20px;
+                /* Bo tròn các góc */
+            }
+        </style>
+        <div class="container10">
             <div class="row">
                 <div class="col-sm-6 col-lg-4 p-b-50">
-                    <h4 class="stext-301 cl0 p-b-30">
+                    <h4 class="stext-301 cl0 p-b-30" style="color: #fffcfc;">
                         THƯƠNG HIỆU
                     </h4>
 
@@ -961,11 +1307,11 @@
 
                     .email-link {
                         text-decoration: none;
-                        color: #000;
+                        color: #ffffff;
                     }
 
                     .email-link:hover {
-                        color: #00ccff;
+                        color: #ff0000;
                     }
 
                     .p-t-27 {
@@ -974,27 +1320,27 @@
                     }
                 </style>
                 <div class="col-sm-6 col-lg-4 p-b-50 contact-section">
-                    <h4 class="stext-301 cl0 p-b-30">LIÊN LẠC</h4>
+                    <h4 class="stext-301 cl0 p-b-30" style="color: #ffffff;">LIÊN LẠC</h4>
 
                     <table class="contact-table">
                         <tr>
                             <td>
                                 <img src="/admin/images/phone.png" alt="Phone Icon" class="info-icon">
                             </td>
-                            <td><span>0388700177</span></td>
+                            <td style="text-align: left;color: #ffffff;"><span>0388700177</span></td>
                         </tr>
                         <tr>
                             <td>
                                 <img src="/admin/images/address.png" alt="Address Icon" class="info-icon">
                             </td>
-                            <td><span>Số 136 Cau Dien, Hà Nội</span></td>
+                            <td style="text-align: left;color: #ffffff;"><span>Số 136 Cau Dien, Hà Nội</span></td>
                         </tr>
                         <tr>
                             <td>
                                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Gmail_Icon.png/1024px-Gmail_Icon.png"
                                     alt="Email Icon" class="info-icon">
                             </td>
-                            <td>
+                            <td style="text-align: left;">
                                 <a href="mailto:alldystoresneaker@gmail.com" class="email-link">
                                     <span>alldystoresneaker@gmail.com</span>
                                 </a>
@@ -1011,7 +1357,7 @@
                 </div>
 
 
-                <div class="col-6 col-lg-4 p-b-50">
+                <div class="col-6 col-lg-4 p-b-50" style="padding-right: 70px;">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1244.070015336087!2d105.89673851778412!3d20.87214034254588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135b198d71ec02f%3A0x8fbdd35bc4f58939!2zTuG7jyBC4bqhbiwgVGjGsOG7nW5nIFTDrW4sIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1714382731942!5m2!1svi!2s"
                         style="border:0;width: 100%;height: 400px;" allowfullscreen="" loading="lazy"
@@ -1150,6 +1496,8 @@
     <script th:src="@{/user/js/sanPhamKhuyenMai.js}"></script>
     <!--===============================================================================================-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
 </body>
+
 
 </html>

@@ -48,7 +48,6 @@ public class KhuyenMaiResponse {
         this.ngayTao = model.getNgayTao();
         this.trangThai = model.getTrangThai();
         this.ngayCapNhat = model.getNgayCapNhat();
-        this.ngayCapNhat = model.getNgayCapNhat();
         this.sanPham = model.getSanPham();
     }
 }

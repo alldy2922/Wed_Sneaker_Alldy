@@ -17,37 +17,43 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     $scope.loginIn = false;
     $scope.isSelectSaveDC = false;
     $scope.searchVoucher = false;
-
+    $scope.dataSession1 = []
     $scope.getValue = function () {
         $scope.textInner = "Thành Phố: " + $scope.city + "/ Quận huyện: " + $scope.district + " / Xã: " + $scope.xa
     }
 
     $scope.dataSession = [];
+    window.addEventListener('beforeunload', function () {
 
-    $scope.getDataSessions = function() {
-        $scope.dataSession = JSON.parse(localStorage.getItem('selectedProducts'));
-        console.log("test", $scope.dataSession);
-    };
-    
+        localStorage.removeItem('selectedProducts');
+        $scope.deleteoAll()
+    });
+
+$scope.getDataSessions = function() {
+    const storedData = localStorage.getItem('selectedProducts');
+    if (storedData) {
+        $scope.dataSession = JSON.parse(storedData);
+    } else {
+        $scope.dataSession = [];
+    }
+    console.log("test", $scope.dataSession);
+};
+
     $scope.getDataSessions();
 
-    $scope.getDataSessions1 = function() {
-        for (let i = 0; i < $scope.dataSession.length; i++) {
-            $http.post("/cart/add-to-cart-sp?idCTSP=" + $scope.dataSession[i].id + "&sl=" + $scope.dataSession[i].soLuong).then(function (response) {
-                console.log('data-sp',response.data)
-            }).catch(e => {
-                document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
-                console.log(e)
-            })
-        }
+    $http.post('/cart/add-to-cart-sp', $scope.dataSession)
+        .then(function(response) {
+            console.log("tata",response.data)
+        })
+        .catch(function(error) {
+            // Handle error
+        });
 
-    };
-    $scope.getDataSessions1();
-    
 
     $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/province", headers).then(res => {
         $scope.citys = res.data.data
     }).catch(err => console.log(err))
+
 
 
     $scope.cityChange = function (id) {
@@ -154,8 +160,8 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
                 })
             }
-            for (var i = 0; i < $scope.dataSession.length; i++) {
-                $http.post("http://localhost:8080/check-out?id="+ $scope.dataSession[i].id, donHang).then(r => {
+
+                $http.post("http://localhost:8080/check-out", donHang).then(r => {
                 if (r.data.vnPayUrl == undefined) {
                     Swal.fire({
                         title: 'Đặt hàng thành công',
@@ -188,7 +194,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 alertify.error(err.data.tienGiam)
             })
                 // Các thao tác khác
-            }
+
            
         }, function () {
         })
@@ -225,15 +231,25 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 $scope.sumTotal += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
             }
         }).catch(e => console.log(e))
-    $http.get("/cart/find-all-sp")
-        .then(function (r) {
-            console.log(r.data);
-            $scope.cartUser = r.data;
-            console.log("soLuong:", $scope.cart);
-            for (var i = 0; i < $scope.cartUser.length; i++) {
-                $scope.sumTotal += $scope.cartUser[i].soLuong * $scope.cartUser[i].donGiaSauGiam
+    $http.get("/cart/check-login")
+        .then(function(response) {
+            if (response.data) {
+                // User is logged in, fetch the cart data from the database
+                $http.get("/cart/find-all-sp")
+                    .then(function(r) {
+                        console.log(r.data);
+                        $scope.cart = r.data;
+                        console.log("soLuong:", $scope.cart);
+                        for (var i = 0; i < $scope.cartUser.length ; i++) {
+                            $scope.sumTotal += $scope.cartUser[i].soLuong * $scope.cartUser[i].donGiaSauGiam
+                        }
+                    })
+                    .catch(function(e) {
+                        console.log(e);
+                    });
             }
-        }).catch(e => console.log(e))
+        })
+
 
     $scope.totalpayment = function () {
         var tien = 0;
@@ -265,10 +281,6 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     };
 
 
-
-
-
-
     $scope.deleteoAll = function () {
         $http.delete("/cart/removeLogin").then(function (response) {
             $scope.cart = response.data;
@@ -277,6 +289,13 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             console.error('Lỗi khi xóa giỏ hàng:', error);
         });
     };
+
+$scope.clearDataSession = function() {
+    localStorage.removeItem('selectedProducts');
+    console.log("Data session cleared");
+};
+
+
     $scope.getDiaChiById = function (idDiaChi) {
         var data = {
             id: idDiaChi
@@ -335,22 +354,5 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         return totalPrice;
     }
 
-    $http.get("/cart/find-all-sp")
-        .then(function(r) {
-            console.log(r.data);
-            $scope.cartUser = r.data;
-            console.log("soLuong: chi tiet sp", $scope.cart);
-        })
-        .catch(function(e) {
-            console.log(e);
-        });
-    $http.get("/cart/find-all")
-        .then(function(r) {
-            console.log(r.data);
-            $scope.cart = r.data;
-            console.log("soLuong:", $scope.cart);
-        })
-        .catch(function(e) {
-            console.log(e);
-        });
+
 });

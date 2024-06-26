@@ -89,16 +89,23 @@ app.controller("cart-ctrl", function ($scope, $http) {
             })
         }, function () {})
     }
+    $scope.selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
+
     $scope.toggleSelection = function(product) {
-        var index = $scope.selectedProducts.indexOf(product);
+        var index = $scope.selectedProducts.findIndex(p => p.id === product.id);
         if (index > -1) {
-            $scope.selectedProducts.splice(index, 1); // Bỏ sản phẩm khỏi danh sách nếu đã chọn
+            $scope.selectedProducts.splice(index, 1); // Remove product if already selected
         } else {
-            $scope.selectedProducts.push(product); // Thêm sản phẩm vào danh sách nếu chưa chọn
+            $scope.selectedProducts.push(product); // Add product if not selected
         }
-        localStorage.setItem('selectedProducts', JSON.stringify($scope.selectedProducts)); // Lưu cả mảng vào localStorage
-        console.log($scope.selectedProducts); 
-        console.log(product.id); // Hiển thị danh sách sản phẩm đã chọn trong console
+
+        // Remove duplicates by converting the array to a Set and back to an array
+        $scope.selectedProducts = Array.from(new Set($scope.selectedProducts.map(p => p.id)))
+            .map(id => $scope.selectedProducts.find(p => p.id === id));
+
+        localStorage.setItem('selectedProducts', JSON.stringify($scope.selectedProducts)); // Store the selected products in localStorage
+        console.log($scope.selectedProducts);
+        console.log(product.id); // Display the selected products in the console
     };
     $scope.removeAllProductIncart = function () {
         alertify.confirm("Xóa hết giỏ hàng? ", function () {

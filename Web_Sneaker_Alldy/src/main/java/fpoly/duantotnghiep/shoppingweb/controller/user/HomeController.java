@@ -67,7 +67,7 @@ public class HomeController {
                 if (giohang.size() >= 1) {
                     return "/user/thanhToanUserLogin";
                 } else {
-                    return "redirect:/gio-hang";
+                    return "redirect:/lich-su-mua-hang1";
                 }
 
             }

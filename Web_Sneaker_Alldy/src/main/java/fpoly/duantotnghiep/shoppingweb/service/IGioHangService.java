@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.model.Cart;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IGioHangService {
 
@@ -14,10 +15,20 @@ public interface IGioHangService {
 
     void removeAllProductFromCart(KhachHangModel user);
 
+    Boolean checkSoLuongLogin(KhachHangModel khachHang);
+
+    void addToHoaDon(String idCTSP,Integer sl);
+
+    List<GioHangDtoReponse> findCartById(KhachHangModel user, String productId);
+
+    List<GioHangDtoReponse>  findCartByIdNoLogin(String productId);
+
     void syncCartFromSessionToDatabase(Cart sessionCart, KhachHangModel user);
 
     void removeProductFromCart(KhachHangModel user, String productId);
+
     void updateProductQuantityInDatabase(KhachHangModel user, String productId, Integer newQuantity);
+
     void addOrUpdateToCart(String idCTSP, Integer sl);
 
     void addProductToCart(Cart sessionCart, String productId, Integer quantity);

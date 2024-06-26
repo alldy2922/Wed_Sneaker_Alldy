@@ -16,8 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,6 +50,27 @@ public class GioHangServiceImpl implements IGioHangService {
         }
         System.out.println(sanPhamTrongGio.toString());
         cart.setProductInCart(sanPhamTrongGio);
+    }
+    //find sanPham by id in login
+    @Override
+    public List<GioHangDtoReponse> findCartById(KhachHangModel user, String productId) {
+        ChiTietSanPhamModel chiTietSanPham = chiTietSanPhamRepository.findById(productId).orElse(null);
+        if (chiTietSanPham == null) {
+            return Collections.emptyList(); // Return an empty list if the product is not found
+        }
+
+        GioHangModel gioHang = gioHangUserRepository.findByKhachHangAndChiTietSanPham(user, chiTietSanPham);
+        if (gioHang == null) {
+            return Collections.emptyList(); // Return an empty list if the cart is not found
+        }
+
+        GioHangDtoReponse cartContent = new GioHangDtoReponse(gioHang.getChiTietSanPham(), gioHang.getSoLuong());
+        return Collections.singletonList(cartContent); // Return a list with a single item
+    }
+
+    @Override
+    public  List<GioHangDtoReponse> findCartByIdNoLogin(String productId) {
+        return null;
     }
 
     @Override
@@ -88,6 +108,30 @@ public class GioHangServiceImpl implements IGioHangService {
     public void removeAllProductFromCart(KhachHangModel user) {
         gioHangUserRepository.deleteAllByKhachHang(user);
     }
+
+    @Override
+    public Boolean checkSoLuongLogin(KhachHangModel khachHang) {
+        Boolean rs = true;
+        List<GioHangDtoReponse> giohang = this.getCartFromDatabase(khachHang);
+
+        for (var item: giohang) {
+            int sl = item.getSoLuong();
+            if(item.getSoLuongSanPham() < sl){
+                rs = false;
+            }
+        }
+
+        return rs;
+    }
+
+    @Override
+    public void addToHoaDon(String idCTSP, Integer sl) {
+        Map<String,Integer> sanPhamTrongGio  = cart.getProductInCart();
+        sanPhamTrongGio.put(idCTSP,sl);
+        System.out.println(sanPhamTrongGio.toString());
+        cart.setProductInCart(sanPhamTrongGio);
+    }
+
     @Override
     public void removeAllProdcutInCart(){
         Map<String,Integer> productInCart = cart.getProductInCart();

@@ -36,4 +36,6 @@ app.controller('ctrl', function ($scope, $http){
     $scope.removeErrors = function (id) {
         document.getElementById(id).innerText = "";
     }
+       
+   
 })

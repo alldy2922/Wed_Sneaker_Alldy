@@ -17,10 +17,37 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     $scope.loginIn = false;
     $scope.isSelectSaveDC = false;
     $scope.searchVoucher = false;
+
     $scope.getValue = function () {
         $scope.textInner = "Thành Phố: " + $scope.city + "/ Quận huyện: " + $scope.district + " / Xã: " + $scope.xa
     }
 
+    $scope.dataSession = [];
+    window.addEventListener('beforeunload', function () {
+
+        localStorage.removeItem('selectedProducts');
+        $scope.deleteoAll();
+    });
+
+    $scope.getDataSessions = function() {
+        const storedData = localStorage.getItem('selectedProducts');
+        if (storedData) {
+            $scope.dataSession = JSON.parse(storedData);
+        } else {
+            $scope.dataSession = [];
+        }
+        console.log("test", $scope.dataSession);
+    };
+
+    $scope.getDataSessions();
+
+    $http.post('/cart/add-to-cart-sp', $scope.dataSession)
+        .then(function(response) {
+            console.log("tata",response.data)
+        })
+        .catch(function(error) {
+            // Handle error
+        });
 
     $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/province", headers).then(res => {
         $scope.citys = res.data.data
@@ -131,62 +158,46 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
                 })
             }
-            $http.post("http://localhost:8080/check-out", donHang).then(r => {
-                if (r.data.vnPayUrl == undefined) {
-                    Swal.fire({
-                        title: 'Đặt hàng thành công',
-                        text: 'Cảm ơn bạn đã mua hàng tại Alldy Store!!!',
-                        icon: 'success',
-                        timer: 1200,
-                        showConfirmButton: false
-                    }).then(() => {
-                        if ($scope.loginIn == false) {
-                            window.location.href = "http://localhost:8080/gio-hang";
-                        } else {
-                            window.location.href = "http://localhost:8080/lich-su-mua-hang1";
-                        }
-                    });
-                } else {
-                    location.href = r.data.vnPayUrl
-                }
 
-            }).catch(err => {
-                console.log(err)
-                if(err.data.erSoLuong != undefined) window.location.href = "http://localhost:8080/gio-hang";
-                $scope.errNguoiNhan = err.data.tenNguoiNhan
-                $scope.errTienGiam = err.data.tienGiam
-                $scope.errSoDienThoai = err.data.soDienThoai
-                $scope.errEmail = err.data.email
-                $scope.errThanhPhoCode = err.data.thanhPhoCode
-                $scope.errQuanHuyenCode = err.data.quanHuyenCode
-                $scope.errXaPhuongCode = err.data.xaPhuongCode
-                $scope.errDiaChiChiTiet = err.data.diaChiChiTiet
-                alertify.error(err.data.tienGiam)
-            })
+                $http.post("http://localhost:8080/check-out", donHang).then(r => {
+                    if (r.data.vnPayUrl == undefined) {
+                        Swal.fire({
+                            title: 'Đặt hàng thành công',
+                            text: 'Cảm ơn bạn đã mua hàng tại Alldy Store!!!',
+                            icon: 'success',
+                            timer: 1200,
+                            showConfirmButton: false
+                        }).then(() => {
+                            if ($scope.loginIn == false) {
+                                window.location.href = "/gio-hang";
+                            } else {
+                                window.location.href = "/lich-su-mua-hang1";
+                            }
+                        });
+                    } else {
+                        location.href = r.data.vnPayUrl
+                    }
+
+                }).catch(err => {
+                    console.log(err)
+                    if (err.data.erSoLuong != undefined) window.location.href = "http://localhost:8080/gio-hang";
+                    $scope.errNguoiNhan = err.data.tenNguoiNhan
+                    $scope.errTienGiam = err.data.tienGiam
+                    $scope.errSoDienThoai = err.data.soDienThoai
+                    $scope.errEmail = err.data.email
+                    $scope.errThanhPhoCode = err.data.thanhPhoCode
+                    $scope.errQuanHuyenCode = err.data.quanHuyenCode
+                    $scope.errXaPhuongCode = err.data.xaPhuongCode
+                    $scope.errDiaChiChiTiet = err.data.diaChiChiTiet
+                    alertify.error(err.data.tienGiam)
+                })
+                // Các thao tác khác
+
+
         }, function () {
         })
     }
-    window.addEventListener('beforeunload', function(event) {
-        // Thực hiện các hành động cần thiết trước khi người dùng rời khỏi trang
 
-        $scope.deleteoAll();
-
-    });
-
-    window.addEventListener('load', function(event) {
-        // Thực hiện các hành động cần thiết sau khi trang được tải lại từ máy chủ
-        console.log('Page is fully loaded');
-        // Ví dụ: Cập nhật dữ liệu trang sau khi tải lại
-    });
-    $scope.deleteoAll = function () {
-        // Ghi log đơn giản khi sự kiện unload xảy ra
-        console.log('response.data()')
-        $http.delete("/cart/removeLogin").then(function (response) {
-            // alert("Success")
-            $scope.cart = response.data;
-            console.log(response.data())
-        })
-    };
     $scope.getDataAPI = function (maVC) {
         if ($scope.sumTotal == 0) {
             console.log("không có tiền")
@@ -210,7 +221,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         $scope.voucherDH = "";
     }
     $http.get("/cart/find-all")
-        .then(function(r) {
+        .then(function (r) {
             console.log(r.data);
             $scope.cart = r.data;
             console.log("soLuong:", $scope.cart);
@@ -218,15 +229,29 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 $scope.sumTotal += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
             }
         }).catch(e => console.log(e))
-    $http.get("/cart/find-all-sp")
-        .then(function(r) {
-            console.log(r.data);
-            $scope.cartUser = r.data;
-            console.log("soLuong:", $scope.cart);
-            for (var i = 0; i < $scope.cartUser.length; i++) {
-                $scope.sumTotal += $scope.cartUser[i].soLuong * $scope.cartUser[i].donGiaSauGiam
+    $http.get("/cart/check-login")
+        .then(function(response) {
+            if (response.data) {
+                // User is logged in, fetch the cart data from the database
+                $http.get("/cart/find-all-sp")
+                    .then(function(r) {
+                        console.log(r.data);
+                        $scope.cart = r.data;
+                        console.log("soLuong:", $scope.cart);
+                        for (var i = 0; i < $scope.cartUser.length ; i++) {
+                            $scope.sumTotal += $scope.cartUser[i].soLuong * $scope.cartUser[i].donGiaSauGiam
+                        }
+                    })
+                    .catch(function(e) {
+                        console.log(e);
+                    });
             }
-        }).catch(e => console.log(e))
+        })
+
+    $scope.clearDataSession = function() {
+        localStorage.removeItem('selectedProducts');
+        console.log("Data session cleared");
+    };
 
     $scope.totalpayment = function () {
         var tien = 0;
@@ -235,6 +260,41 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     }
 //    disabledVoucher
 
+    // Gửi một yêu cầu đến máy chủ trước khi người dùng tải lại trang
+    // Ngăn trình duyệt thực hiện hành động mặc định (rời khỏi trang)
+    $http.get("/cart/check-login")
+        .then(function(response) {
+            if (response.data) {
+                // User is logged in, fetch the cart data from the database
+                window.addEventListener("unload", function (event) {
+
+                    $scope.deleteoAll();
+
+                });
+            }
+        })
+        .catch(function(error) {
+            console.log('Error checking login status:', error);
+        });
+    window.onbeforeunload = function (event) {
+        var message = "Bạn có chắc chắn muốn rời khỏi trang này? Dữ liệu chưa lưu sẽ bị mất.";
+        event.returnValue = message; // Hiển thị thông báo trên các trình duyệt cũ
+        return message; // Hiển thị thông báo trên các trình duyệt mới hơn
+    };
+
+
+
+
+
+
+    $scope.deleteoAll = function () {
+        $http.delete("/cart/removeLogin").then(function (response) {
+            $scope.cart = response.data;
+            console.log('Giỏ hàng đã được xóa:', response.data);
+        }, function(error) {
+            console.error('Lỗi khi xóa giỏ hàng:', error);
+        });
+    };
     $http.get("/dia-chi-khach-hang")
         .then(function (response) {
             // Nếu API trả về tên tài khoản, hiển thị tên tài khoản
@@ -295,7 +355,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     };
 
     //    show giỏ hàng
-    $scope.cart = []
+
     $scope.getTotal = function () {
         var totalPrice = 0;
         for (let i = 0; i < $scope.cart.length; i++) {
@@ -303,11 +363,6 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         }
         return totalPrice;
     }
-    $http.get("/cart/find-all").then(r => {
-        console.log(r.data)
-        $scope.cart = r.data;
-        console.log("soLuong:")
-    }).catch(e => console.log(e))
 
 
 });

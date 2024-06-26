@@ -19,6 +19,8 @@
     <!--===============================================================================================-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <!--===============================================================================================-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <!--    <link rel="icon" type="image/png" th:href="@{/userStyle/images/icons/favicon.png}"/>-->
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" th:href="@{/userStyle/vendor/bootstrap/css/bootstrap.min.css}">
@@ -69,6 +71,44 @@
     <!-- Header -->
     <header class="header-v3">
         <style>
+            .container-menu-desktop {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+                background-color: #ffffff;
+                /* Màu nền trắng */
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                /* Đổ bóng nhẹ */
+            }
+
+            .container-menu-desktop.dark {
+                background-color: #ffffff;
+                /* Giữ màu nền trắng */
+                color: #ffffff;
+                /* Màu chữ trắng khi chế độ tối */
+                box-shadow: none;
+                /* Không có đổ bóng */
+            }
+
+            .main-menu li a {
+                color: #000000;
+                /* Màu chữ đen */
+                font-family: Arial, sans-serif;
+                /* Font chữ đơn giản */
+                font-size: 15px;
+                /* Cỡ chữ */
+                text-decoration: none;
+                /* Bỏ gạch chân */
+
+                /* Điều chỉnh khoảng cách giữa các mục menu */
+            }
+
+            .main-menu li a:hover {
+                color: #00ccff;
+                /* Màu chữ khi hover */
+            }
+
             .limiter-menu-desktop {
                 display: flex;
                 justify-content: space-between;
@@ -110,8 +150,39 @@
                 margin-right: 0;
             }
 
+            .main-menu li a {
+                color: #000000;
+                /* Màu chữ đen */
+                font-family: Arial, sans-serif;
+                /* Font chữ đơn giản */
+                font-size: 15px;
+                /* Cỡ chữ */
+                text-decoration: none;
+                /* Bỏ gạch chân */
+                font-weight: bold;
+                /* Độ đậm của chữ */
+                transition: color 0.3s ease, transform 0.3s ease;
+                /* Hiệu ứng chuyển đổi */
+                display: inline-block;
+                /* Đảm bảo chữ nằm trong phạm vi của menu */
+            }
+
+            .main-menu li a:hover {
+                color: #00ccff;
+                /* Màu chữ khi hover */
+                transform: scale(1.3);
+                /* Phóng to chữ khi hover */
+            }
+
             .icon-header-item {
                 margin-right: 10px;
+            }
+
+
+
+            .dropdown-menu {
+                position: absolute;
+                right: 0;
             }
 
             .dropdown-toggle {
@@ -119,11 +190,6 @@
                 color: white;
                 display: flex;
                 align-items: center;
-            }
-
-            .dropdown-menu {
-                position: absolute;
-                right: 0;
             }
 
             .dropdown-item {
@@ -150,7 +216,7 @@
             }
 
             .icon-header-item:hover img {
-                transform: scale(1.2);
+                transform: scale(1.5);
                 /* Scale lớn hơn gốc khi hover */
             }
 
@@ -162,6 +228,64 @@
                 transform: scale(1.5) rotateX(360deg);
                 box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
                 opacity: 0.9;
+            }
+
+            .label1 {
+                position: relative;
+                /* Để có thể điều chỉnh vị trí của ::after */
+            }
+
+            .label1::after {
+                content: attr(data-label1);
+                font-family: Poppins-Regular;
+                font-size: 10px;
+                line-height: 15px;
+                color: #fff;
+                text-transform: uppercase;
+                text-align: center;
+                display: block;
+                position: absolute;
+                top: -18px;
+                /* Điều chỉnh khoảng cách từ top xuống */
+                right: -15px;
+                /* Điều chỉnh khoảng cách từ right sang trái */
+                height: 15px;
+                min-width: 32px;
+                border-radius: 7px;
+                padding: 0 4px;
+                background-color: #ff0000;
+                /* Màu nền */
+                z-index: 1;
+                /* Đảm bảo nằm trên các mục menu */
+                transition: transform 0.3s ease;
+                /* Hiệu ứng phóng to */
+            }
+
+            .label1:hover::after {
+                transform: scale(1.2);
+                /* Phóng to khi hover */
+            }
+
+            .label1 a {
+                color: #000000;
+                /* Màu chữ đen */
+                font-family: Arial, sans-serif;
+                /* Font chữ đơn giản */
+                font-size: 15px;
+                /* Cỡ chữ */
+                text-decoration: none;
+                /* Bỏ gạch chân */
+                font-weight: bold;
+                /* Độ đậm của chữ */
+                transition: color 0.3s ease;
+                /* Hiệu ứng chuyển đổi */
+                display: inline-block;
+                /* Đảm bảo chữ nằm trong phạm vi của menu */
+            }
+
+            .label1 a:hover {
+                color: #00ccff;
+                /* Màu chữ khi hover */
             }
         </style>
         <!-- Header desktop -->
@@ -308,12 +432,9 @@
                     <a href="/san-pham-khuyen-mai">Khuyến mãi</a>
                 </li>
 
-                <li class="label1" data-label1="new">
-                    <a href="shoping-cart.html">Hàng mới</a>
-                </li>
-
-                <li>
-                    <a href="blog.html">Tin tức</a>
+                <li class="nav-item p-b-10">
+                    <a class="nav-link" data-toggle="tab" role="tab" ng-click="getSanPham(2)"
+                        style="cursor: pointer">Hàng mới</a>
                 </li>
             </ul>
         </div>
@@ -405,6 +526,41 @@
                 <section class="sec-product bg0 p-b-50 mt-5">
                     <div class="container">
                         <div class="p-b-32">
+                            <style>
+                                /* Định nghĩa hiệu ứng phóng to */
+                                @keyframes zoomInOut {
+
+                                    0%,
+                                    100% {
+                                        transform: scale(1);
+                                    }
+
+                                    50% {
+                                        transform: scale(1.5);
+                                    }
+                                }
+
+                                .ltext-105 {
+                                    display: inline-block;
+                                    transition: color 0.3s ease;
+                                }
+
+                                /* Hiệu ứng khi hover */
+                                .ltext-105:hover {
+                                    animation: zoomInOut 1s infinite;
+                                    /* Hiệu ứng phóng to */
+                                    color: #00ccff;
+                                    /* Màu chuyển đổi khi hover */
+                                }
+
+                                .p-b-32 {
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    text-align: center;
+                                    /* Căn giữa văn bản */
+                                }
+                            </style>
                             <h3 class="ltext-105 cl5 txt-center respon1">
                                 ALLDY STORE
                             </h3>
@@ -507,17 +663,22 @@
                 </div>
             </div>
         </div>
-        <!-- blog3 -->
+        <!-- blog1 -->
         <div class="row m-t-50 m-r-10 m-l-10"
             style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
             <div class="p-t-50 p-b-50">
                 <div class="container-fuild">
                     <div class="row">
-                        <div class="col-8">
-                            <img style="width: 100%; height: 100%" src="/userStyle/images/Ultraboost-1896x800.jpg"
-                                alt="">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                            <div style="width: 800px; height: 600px; position: relative;">
+                                <iframe style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;"
+                                    src="https://sketchfab.com/3d-models/adidas-yeezy-700-mauve-0842b1666c5d45038ba0250b521819e6/embed"
+                                    frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true"
+                                    webkitallowfullscreen="true"></iframe>
+                            </div>
                         </div>
-                        <div class="col-4">
+
+                        <div class="col-6">
                             <h1 class="m-b-30">GIÀY ADIDAS</h1>
                             Thể thao giúp chúng ta khỏe mạnh. Giữ cho bạn chánh niệm. Đưa chúng ta đến với
                             nhau. Thông qua
@@ -531,88 +692,12 @@
                             dục. Người đi bộ
                             đường dài cuối tuần thích trốn khỏi thành phố.
                             <h4 class="m-t-30">
-                                <a href="/san-pham">XEM TẤT CẢ ></a>
+                                <a href="/san-pham/thuong-hieu/95d7f1c8-e27c-4681-b6ad-547b4054b54e">XEM TẤT CẢ ></a>
                             </h4>
                         </div>
                     </div>
-                    <div class="tab-content p-t-50">
-                        <!-- - -->
-                        <section class="sec-product bg0 p-b-50 mt-5">
-                            <div class="container">
-                                <!-- Tab01 -->
-                                <div class="tab01">
-                                    <!-- Tab panes -->
-                                    <div class="tab-content p-t-50">
-                                        <!-- - -->
-                                        <div>
-                                            <!-- Slide2 -->
-                                            <div>
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="col-3" style="padding: 20px"
-                                                        ng-repeat="p in productAdidas">
-                                                        <!-- Block2 -->
-                                                        <div>
-                                                            <div class="block2-pic hov-img0" style="border-radius: 5px">
-                                                                <div ng-if="p.loaiGiam!=null"
-                                                                    style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
-                                                                    <p style="color: white;font-weight: bold;padding: 5px"
-                                                                        ng-if="p.loaiGiam=='TIEN'">
-                                                                        -{{p.mucGiam | currency: "" : 1}}đ</p>
-                                                                    <p style="color: white;font-weight: bold;padding: 5px"
-                                                                        ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
-                                                                </div>
-                                                                <img src="/image/loadImage/product/{{p.anh[0]}}"
-                                                                    style="width: 100%;height: 273px"
-                                                                    ng-if="p.anh.length>0">
-                                                                <img src="/image/loadImage/product/default.png"
-                                                                    style="width: 100%;height: 273px"
-                                                                    ng-if="p.anh.length==0">
-                                                                <a href="/chi-tiet-san-pham/{{p.ma}}"
-                                                                    class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                                    Xem chi tiết
-                                                                </a>
-                                                            </div>
-
-                                                            <div class="block2-txt flex-w flex-t p-t-14">
-                                                                <div class="block2-txt-child1 flex-col-l ">
-                                                                    <a href="/chi-tiet-san-pham/{{p.ma}}" style="font-weight: bold; font-size: 17px; width:200px;
-                                                                                white-space: nowrap;
-                                                                                overflow: hidden;
-                                                                                text-overflow: ellipsis;"
-                                                                        class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                                        {{p.ten}}
-                                                                    </a>
-                                                                    <span class=" cl3">
-                                                                        <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
-                                                                            <del>{{p.giaBan | currency: "" : 1}}đ</del>
-                                                                        </span>
-                                                                        <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet
-                                                                            | currency: "" : 1}}đ</b>
-                                                                    </span>
-                                                                </div>
-
-                                                                <div class="block2-txt-child2 flex-r p-t-3">
-                                                                    <i ng-if="maSpInDSYT.includes(p.ma) == false"
-                                                                        id="{{p.ma}}" class="far fa-heart"
-                                                                        ng-click="addDSYT(p.ma)"></i>
-                                                                    <i ng-if="maSpInDSYT.includes(p.ma) == true"
-                                                                        id="{{p.ma}}" class="fas fa-heart"
-                                                                        ng-click="addDSYT(p.ma)"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                    </div>
                 </div>
+                <br>
                 <div class="flex-c-m flex-w w-full p-t-5">
                     <a href="/san-pham" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
                         Xem tất cả
@@ -627,7 +712,7 @@
             <div class="p-b-50 p-t-50">
                 <div class="container-fuild">
                     <div class="row">
-                        <div class="col-7">
+                        <div class="col-6">
                             <h1 class="m-b-30 m-l-20">GIÀY NIKE</h1>
                             <p class="m-l-20">"Dòng Nike" thường được đề cập đến một loạt sản phẩm và thương hiệu của
                                 công ty
@@ -647,92 +732,20 @@
                                 thị
                                 mạnh mẽ và hợp tác với các ngôi sao thể thao và nghệ sĩ nổi tiếng.</p>
                             <h4 class="m-t-50 m-l-20">
-                                <a href="/san-pham">XEM TẤT CẢ ></a>
+                                <a href="/san-pham/thuong-hieu/6ce98e5a-d01b-412c-81a9-6cd0adfddc25">XEM TẤT CẢ ></a>
                             </h4>
                         </div>
-                        <div class="col-5 flex-r">
-                            <img style="width: 100%; height: 100%"
-                                src="/userStyle/images/a94090a74963e3d2f50c58f245786e70.jpg" alt="">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                            <div style="width: 800px; height: 600px; position: relative;">
+                                <iframe style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;"
+                                    src="https://sketchfab.com/3d-models/off-white-x-nike-air-force-1-one-sneaker-3bf811dc48af4d73baf66641ddeafd23/embed"
+                                    frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true"
+                                    webkitallowfullscreen="true"></iframe>
+                            </div>
                         </div>
                     </div>
-                    <div class="tab-content p-t-50">
-                        <!-- - -->
-                        <section class="sec-product bg0 p-b-50 mt-5">
-                            <div class="container">
-                                <!-- Tab01 -->
-                                <div class="tab01">
-                                    <!-- Tab panes -->
-                                    <div class="tab-content p-t-50">
-                                        <!-- - -->
-                                        <div>
-                                            <!-- Slide2 -->
-                                            <div>
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="col-3" style="padding: 20px"
-                                                        ng-repeat="p in productNikes">
-                                                        <!-- Block2 -->
-                                                        <div>
-                                                            <div class="block2-pic hov-img0" style="border-radius: 5px">
-                                                                <div ng-if="p.loaiGiam!=null"
-                                                                    style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
-                                                                    <p style="color: white;font-weight: bold;padding: 5px"
-                                                                        ng-if="p.loaiGiam=='TIEN'">
-                                                                        -{{p.mucGiam | currency: "" : 1}}đ</p>
-                                                                    <p style="color: white;font-weight: bold;padding: 5px"
-                                                                        ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
-                                                                </div>
-                                                                <img src="/image/loadImage/product/{{p.anh[0]}}"
-                                                                    style="width: 100%;height: 273px"
-                                                                    ng-if="p.anh.length>0">
-                                                                <img src="/image/loadImage/product/default.png"
-                                                                    style="width: 100%;height: 273px"
-                                                                    ng-if="p.anh.length==0">
-                                                                <a href="/chi-tiet-san-pham/{{p.ma}}"
-                                                                    class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                                    Xem chi tiết
-                                                                </a>
-                                                            </div>
-
-                                                            <div class="block2-txt flex-w flex-t p-t-14">
-                                                                <div class="block2-txt-child1 flex-col-l ">
-                                                                    <a href="/chi-tiet-san-pham/{{p.ma}}" style="font-weight: bold; font-size: 17px; width:200px;
-                                                                                white-space: nowrap;
-                                                                                overflow: hidden;
-                                                                                text-overflow: ellipsis;"
-                                                                        class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                                        {{p.ten}}
-                                                                    </a>
-                                                                    <span class=" cl3">
-                                                                        <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
-                                                                            <del>{{p.giaBan | currency: "" : 1}}đ</del>
-                                                                        </span>
-                                                                        <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet
-                                                                            | currency: "" : 1}}đ</b>
-                                                                    </span>
-                                                                </div>
-
-                                                                <div class="block2-txt-child2 flex-r p-t-3">
-                                                                    <i ng-if="maSpInDSYT.includes(p.ma) == false"
-                                                                        id="{{p.ma}}" class="far fa-heart"
-                                                                        ng-click="addDSYT(p.ma)"></i>
-                                                                    <i ng-if="maSpInDSYT.includes(p.ma) == true"
-                                                                        id="{{p.ma}}" class="fas fa-heart"
-                                                                        ng-click="addDSYT(p.ma)"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                    </div>
                 </div>
+                <br>
                 <div class="flex-c-m flex-w w-full p-t-5">
                     <a href="/san-pham" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
                         Xem tất cả
@@ -741,15 +754,19 @@
             </div>
 
         </div>
-        <!-- blog 1 -->
+        <!-- blog 3 -->
         <div class="row m-t-50 m-r-10 m-l-10"
             style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
             <div class="p-t-50 p-b-50">
                 <div class="container-fuild">
                     <div class="row">
-                        <div class="col-8">
-                            <img style="width: 100%; height: 100%" src="/userStyle/images/vans-section-banner.jpg"
-                                alt="">
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                            <div style="width: 800px; height: 600px; position: relative;">
+                                <iframe style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;"
+                                    src="https://sketchfab.com/3d-models/vans-mid-classic-sneakers-skater-shoes-d47a815a807a49bc954a29cdfc1dc24d/embed"
+                                    frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true"
+                                    webkitallowfullscreen="true"></iframe>
+                            </div>
                         </div>
                         <div class="col-4">
                             <h1 class="m-b-30">VANS</h1>
@@ -772,88 +789,12 @@
                             bền
                             bỉ.
                             <h4 class="m-t-50">
-                                <a href="/san-pham">XEM TẤT CẢ ></a>
+                                <a href="/san-pham/thuong-hieu/ed4e0553-e93f-4490-af2b-4612537f43c0">XEM TẤT CẢ ></a>
                             </h4>
                         </div>
                     </div>
-                    <div class="tab-content p-t-50">
-                        <!-- - -->
-                        <section class="sec-product bg0 p-b-50 mt-5">
-                            <div class="container">
-                                <!-- Tab01 -->
-                                <div class="tab01">
-                                    <!-- Tab panes -->
-                                    <div class="tab-content p-t-50">
-                                        <!-- - -->
-                                        <div>
-                                            <!-- Slide2 -->
-                                            <div>
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="col-3" style="padding: 20px"
-                                                        ng-repeat="p in productVans">
-                                                        <!-- Block2 -->
-                                                        <div>
-                                                            <div class="block2-pic hov-img0" style="border-radius: 5px">
-                                                                <div ng-if="p.loaiGiam!=null"
-                                                                    style="width: 130px;background-color: #666666;top: 0;right: 0;position: absolute;border-bottom-left-radius: 40px;text-align: center">
-                                                                    <p style="color: white;font-weight: bold;padding: 5px"
-                                                                        ng-if="p.loaiGiam=='TIEN'">
-                                                                        -{{p.mucGiam | currency: "" : 1}}đ</p>
-                                                                    <p style="color: white;font-weight: bold;padding: 5px"
-                                                                        ng-if="p.loaiGiam!='TIEN'">-{{p.mucGiam}}%</p>
-                                                                </div>
-                                                                <img src="/image/loadImage/product/{{p.anh[0]}}"
-                                                                    style="width: 100%;height: 273px"
-                                                                    ng-if="p.anh.length>0">
-                                                                <img src="/image/loadImage/product/default.png"
-                                                                    style="width: 100%;height: 273px"
-                                                                    ng-if="p.anh.length==0">
-                                                                <a href="/chi-tiet-san-pham/{{p.ma}}" style="font-weight: bold; font-size: 17px; width:200px;
-                                                                              white-space: nowrap;
-                                                                              overflow: hidden;
-                                                                              text-overflow: ellipsis;"
-                                                                    class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
-                                                                    Xem chi tiết
-                                                                </a>
-                                                            </div>
-
-                                                            <div class="block2-txt flex-w flex-t p-t-14">
-                                                                <div class="block2-txt-child1 flex-col-l ">
-                                                                    <a href="/chi-tiet-san-pham/{{p.ma}}"
-                                                                        class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-                                                                        {{p.ten}}
-                                                                    </a>
-                                                                    <span class=" cl3">
-                                                                        <span class="cl3" ng-if="p.giaBan>p.giaNiemYet">
-                                                                            <del>{{p.giaBan | currency: "" : 1}}đ</del>
-                                                                        </span>
-                                                                        <b style="font-weight: bold;font-size: 15px;">{{p.giaNiemYet
-                                                                            | currency: "" : 1}}đ</b>
-                                                                    </span>
-                                                                </div>
-
-                                                                <div class="block2-txt-child2 flex-r p-t-3">
-                                                                    <i ng-if="maSpInDSYT.includes(p.ma) == false"
-                                                                        id="{{p.ma}}" class="far fa-heart"
-                                                                        ng-click="addDSYT(p.ma)"></i>
-                                                                    <i ng-if="maSpInDSYT.includes(p.ma) == true"
-                                                                        id="{{p.ma}}" class="fas fa-heart"
-                                                                        ng-click="addDSYT(p.ma)"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                    </div>
                 </div>
+                <br>
                 <div class="flex-c-m flex-w w-full p-t-5">
                     <a href="/san-pham" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
                         Xem tất cả
@@ -861,6 +802,45 @@
                 </div>
             </div>
         </div>
+<!-- Giay puma      -->
+        <div class="row m-t-50 m-r-10 m-l-10"
+            style="box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);border: 2px solid transparent; background-color: #fff none repeat scroll 0 0;">
+            <div class="p-b-50 p-t-50">
+                <div class="container-fuild">
+                    <div class="row">
+                        <div class="col-6">
+                            <h1 class="m-b-30 m-l-20">GIÀY PUMA</h1>
+                            <p class="m-l-20">PUMA Suede - Một đôi giày trường tồn với thời gian. Nó đã trải qua biết
+                                bao năm lăn lộn trong Shoe Game, giữa hàng trăm những đối thủ đáng gờm, nhưng PUMA Suede
+                                vẫn giữ cho mình cái chất riêng sau nhiều năm tháng. Nhưng chính xác thì nguồn gốc của
+                                PUMA Suede đến từ đâu? Đôi giày này có điều gì thú vị, khiến cho nó vẫn mà một món đồ
+                                “không tuổi" sau hơn nửa thế kỷ? Tất cả điều đó sẽ được VHĐP giải bày trong bài viết
+                                ngày hôm nay. </p>
+                            <h4 class="m-t-50 m-l-20">
+                                <a href="/http://localhost:8080/san-pham/thuong-hieu/b7bb2654-7f34-4a27-ac95-ac29bb3b14cb">XEM TẤT CẢ ></a>
+                            </h4>
+                        </div>
+                        <div class="col-6 d-flex justify-content-center align-items-center">
+                            <div style="width: 800px; height: 600px; position: relative;">
+                                <iframe style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;"
+                                    src="https://sketchfab.com/3d-models/puma-rs-cream-26983427de714a8ab9a1397bf3a84bae/embed"
+                                    frameborder="0" allow="autoplay; fullscreen; vr" mozallowfullscreen="true"
+                                    webkitallowfullscreen="true"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="flex-c-m flex-w w-full p-t-5">
+                    <a href="/san-pham" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+                        Xem tất cả
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+        <br>
         <!--    /////////Modal đăng nhập-->
         <div class="modal fade" id="dangNhap" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
             aria-hidden="true">
@@ -887,6 +867,55 @@
 
     </div>
 
+    <style>
+        .floating-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .btn-floating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #25d366;
+            /* Màu xanh lá cho nút gọi điện */
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-floating.fb {
+            background-color: #3b5998;
+            /* Màu xanh dương cho nút Facebook */
+        }
+
+        .btn-floating:hover {
+            transform: scale(1.1);
+        }
+
+        .btn-floating i {
+            pointer-events: none;
+        }
+    </style>
+    <div class="floating-buttons">
+        <a href="https://www.facebook.com/profile.php?id=61560867682262" target="_blank" class="btn-floating fb">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="tel:+84388700177" class="btn-floating phone">
+            <i class="fas fa-phone"></i>
+        </a>
+    </div>
     <!-- Footer -->
     <footer class="bg3 p-t-75 p-b-32">
         <div class="container">
@@ -905,42 +934,88 @@
                     </ul>
                 </div>
 
+                <style>
+                    .contact-section {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
 
+                    .contact-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
 
-                <div class="col-sm-6 col-lg-4 p-b-50">
-                    <h4 class="stext-301 cl0 p-b-30">
-                        LIÊN LẠC
-                    </h4>
+                    .contact-table td {
+                        padding: 8px 0;
+                    }
 
-                    <p class="stext-107 cl7 size-201">
-                        Số 136 Cau Dien,Hà Nội.
-                        <br>
-                        Số điện thoại: 0388700177
-                        <br>
-                        Email: quocthanh2929@gmail.com
-                        <br>
-                        Thời Gian Mở Cửa: 7h - 18h
-                    </p>
+                    .info-icon {
+                        width: 20px;
+                        /* Điều chỉnh kích thước icon nếu cần */
+                        height: auto;
+                        /* Điều chỉnh kích thước icon nếu cần */
+                        margin-right: 10px;
+                        /* Khoảng cách giữa icon và text */
+                    }
 
+                    .email-link {
+                        text-decoration: none;
+                        color: #000;
+                    }
 
+                    .email-link:hover {
+                        color: #00ccff;
+                    }
+
+                    .p-t-27 {
+                        margin-top: 27px;
+                        /* Khoảng cách từ phần div trên xuống phần dưới */
+                    }
+                </style>
+                <div class="col-sm-6 col-lg-4 p-b-50 contact-section">
+                    <h4 class="stext-301 cl0 p-b-30">LIÊN LẠC</h4>
+
+                    <table class="contact-table">
+                        <tr>
+                            <td>
+                                <img src="/admin/images/phone.png" alt="Phone Icon" class="info-icon">
+                            </td>
+                            <td><span>0388700177</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="/admin/images/address.png" alt="Address Icon" class="info-icon">
+                            </td>
+                            <td><span>Số 136 Cau Dien, Hà Nội</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Gmail_Icon.png/1024px-Gmail_Icon.png"
+                                    alt="Email Icon" class="info-icon">
+                            </td>
+                            <td>
+                                <a href="mailto:alldystoresneaker@gmail.com" class="email-link">
+                                    <span>alldystoresneaker@gmail.com</span>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
 
                     <div class="p-t-27">
                         <a href="https://www.facebook.com/profile.php?id=61560867682262&mibextid=LQQJ4d"
                             class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                            <i class="fa fa-facebook"></i>
-                            FanPage: ALLDY STORE
+                            <i class="fa fa-facebook"></i> FanPage: ALLDY STORE
                         </a>
                     </div>
-
                 </div>
 
-                <div class="col-sm-6 col-lg-4 p-b-50">
-                    < src=<iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.584513491068!2d105.73923527613823!3d21.04930438060515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454f1260d2b25%3A0x16081a541261e593!2zMTM2IMSQLiBD4bqndSBEaeG7hW4sIE1pbmggS2hhaSwgQuG6r2MgVOG7qyBMacOqbSwgSMOgIE7hu5lpLCBWaWV0bmFt!5e0!3m2!1sen!2s!4v1717585986745!5m2!1sen!2s"
-                        style="border:0;width: 100%;height: 100%;" allowfullscreen="" loading="lazy"
+
+                <div class="col-6 col-lg-4 p-b-50">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1244.070015336087!2d105.89673851778412!3d20.87214034254588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135b198d71ec02f%3A0x8fbdd35bc4f58939!2zTuG7jyBC4bqhbiwgVGjGsOG7nW5nIFTDrW4sIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1714382731942!5m2!1svi!2s"
+                        style="border:0;width: 100%;height: 400px;" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
-
-
                 </div>
             </div>
 

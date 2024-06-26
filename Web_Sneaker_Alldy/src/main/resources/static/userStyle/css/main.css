@@ -320,7 +320,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
   display: -ms-flexbox;
   display: flex;
   align-items: center;
-  background-color: transparent;
+  background-color: #fff;
 }
 
 
@@ -348,7 +348,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 /*------------------------------------------------------------------
 [ Menu ]*/
 
-.menu-desktop {
+/* .menu-desktop {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -390,7 +390,7 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 
 .header-v3 .main-menu>li>a {
   color: #fff;
-}
+} */
 
 /*---------------------------------------------*/
 .sub-menu {

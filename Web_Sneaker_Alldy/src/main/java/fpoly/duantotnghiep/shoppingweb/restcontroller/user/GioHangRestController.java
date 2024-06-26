@@ -204,4 +204,21 @@ public class GioHangRestController {
         return ResponseEntity.ok(service.laySpTrongGio());
 
     }
+//@PostMapping("add-to-cart-sp")
+//public ResponseEntity<?> addToCartSp(@RequestBody List<GioHangDtoReponse> gioHangDtoReponses) {
+//    // Kiểm tra xem danh sách có trống hay không
+//    if (gioHangDtoReponses == null || gioHangDtoReponses.isEmpty()) {
+//        // Nếu trống, trả về phản hồi yêu cầu người dùng chọn sản phẩm
+//        return ResponseEntity.badRequest().body("Bạn cần chọn ít nhất một sản phẩm trước khi thanh toán.");
+//    }
+//
+//    // Nếu không trống, xử lý các sản phẩm trong giỏ hàng
+//    for (GioHangDtoReponse gioHangDto : gioHangDtoReponses) {
+//        service.addToHoaDon(gioHangDto.getId(), gioHangDto.getSoLuong());
+//    }
+//
+//    // Sau khi xử lý xong, chuyển hướng tới trang thanh toán
+//    return ResponseEntity.ok(service.laySpTrongGio());
+//}
+
 }

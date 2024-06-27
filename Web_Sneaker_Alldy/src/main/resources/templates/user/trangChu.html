@@ -739,8 +739,8 @@
             }
 
             .logo-item {
-                width: 200px;
-                height: 150px;
+                width: calc(20% - 20px);
+                /* 20% width for each item minus the gap */
                 background-color: #fff;
                 border-radius: 10px;
                 display: flex;
@@ -749,19 +749,22 @@
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
                 overflow: hidden;
                 position: relative;
+                aspect-ratio: 1;
+                /* Maintain square shape */
             }
 
             .logo-item img {
-                max-width: 100%;
-                max-height: 100%;
-                object-fit: contain;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                /* Cover the entire container */
                 border-radius: 10px;
                 transition: transform 0.5s;
             }
 
             .logo-item:hover img {
                 transform: rotateY(360deg);
-                /* Rotate 180 degrees along the Y-axis */
+                /* Xoay 360 độ theo trục Y */
             }
         </style>
         <div class="logo-container">
@@ -782,7 +785,7 @@
                 </a>
             </div>
             <div class="logo-item">
-                <a href="">
+                <a href="/san-pham/thuong-hieu/2066d25f-d081-4018-a432-bf50157df6f4">
                     <img src="/admin/images/logolv.png" alt="Logo 4">
                 </a>
             </div>
@@ -794,6 +797,26 @@
             <div class="logo-item">
                 <a href="/san-pham/thuong-hieu/ed4e0553-e93f-4490-af2b-4612537f43c0">
                     <img src="/admin/images/logovans.png" alt="Logo 6">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/8c56dc79-4d9e-4716-a425-8d7ccedd8832">
+                    <img src="/admin/images/logocv.png" alt="Logo 7">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/a0caa4a1-d76c-411e-8d73-fd345c9fad80">
+                    <img src="/admin/images/logobalen.png" alt="Logo 8">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/a090693c-4ba3-4c22-9926-990423c9f7b9">
+                    <img src="/admin/images/logoniling.png" alt="Logo 9">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/95fecd94-e995-4da5-b472-bf35ae4961b7">
+                    <img src="/admin/images/logobitis.png" alt="Logo 10">
                 </a>
             </div>
         </div>

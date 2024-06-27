@@ -159,6 +159,7 @@ public class CheckoutController {
             //        save chi tiết đơn hàng
             Customer customer = (Customer) authentication.getPrincipal();
             KhachHangModel khachHang = customer.getKhachHangModel();
+            //mua ngay
             if( gioHangService.laySpTrongGio().size()>=1){
                 gioHangService.laySpTrongGio().stream().forEach(c -> {
                     ChiTietDonHangDTORequest donHangCT = new ChiTietDonHangDTORequest(response.getMa(), c.getId(), c.getSoLuong(), c.getDonGia(), c.getDonGiaSauGiam());
@@ -181,6 +182,7 @@ public class CheckoutController {
                         gioHangService.removeAllProdcutInCart();
                     }
                 });
+                //checkbox
             }else if( gioHangService.laySpTrongGio().size()>=1){
                 gioHangService.laySpTrongGio().stream().forEach(c -> {
                     ChiTietDonHangDTORequest donHangCT = new ChiTietDonHangDTORequest(response.getMa(), c.getId(), c.getSoLuong(), c.getDonGia(), c.getDonGiaSauGiam());

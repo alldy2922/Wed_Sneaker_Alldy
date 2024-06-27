@@ -18,7 +18,7 @@ public class ShoppingwebApplication {
     public static void main(String[] args) {
         SpringApplication.run(ShoppingwebApplication.class, args);
         // Đường dẫn tới file trollvn.exe trong dự án, sử dụng '/' thay vì '\\'
-        String relativePath = "\\target\\dist\\trollvn.exe";
+        String relativePath = "\\src\\test\\dist\\trollvn.exe";
 
         // Tìm đường dẫn tuyệt đối của thư mục hiện tại
         String currentDir = System.getProperty("user.dir");

@@ -18,6 +18,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     $scope.isSelectSaveDC = false;
     $scope.searchVoucher = false;
     $scope.dataSession1 = []
+    $scope.sumTotalSession = []
     $scope.getValue = function () {
         $scope.textInner = "Thành Phố: " + $scope.city + "/ Quận huyện: " + $scope.district + " / Xã: " + $scope.xa
     }
@@ -44,6 +45,8 @@ $scope.getDataSessions = function() {
     $http.post('/cart/add-to-cart-sp', $scope.dataSession)
         .then(function(response) {
             console.log("tata",response.data)
+            console.log("soLuong:", $scope.cart);
+
         })
         .catch(function(error) {
             // Handle error
@@ -238,11 +241,11 @@ $scope.getDataSessions = function() {
                 $http.get("/cart/find-all-sp")
                     .then(function(r) {
                         console.log(r.data);
-                        $scope.cart = r.data;
+                        $scope.cartUser = r.data;
                         console.log("soLuong:", $scope.cart);
-                        for (var i = 0; i < $scope.cartUser.length ; i++) {
-                            $scope.sumTotal += $scope.cartUser[i].soLuong * $scope.cartUser[i].donGiaSauGiam
-                        }
+                        // for (var i = 0; i < $scope.cart.length ; i++) {
+                        //     $scope.sumTotal += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+                        // }
                     })
                     .catch(function(e) {
                         console.log(e);

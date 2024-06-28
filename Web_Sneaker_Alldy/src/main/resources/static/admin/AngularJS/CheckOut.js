@@ -236,11 +236,9 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 $http.get("/cart/find-all-sp")
                     .then(function(r) {
                         console.log(r.data);
-                        $scope.cart = r.data;
+                        $scope.cartUser = r.data;
                         console.log("soLuong:", $scope.cart);
-                        for (var i = 0; i < $scope.cartUser.length ; i++) {
-                            $scope.sumTotal += $scope.cartUser[i].soLuong * $scope.cartUser[i].donGiaSauGiam
-                        }
+
                     })
                     .catch(function(e) {
                         console.log(e);

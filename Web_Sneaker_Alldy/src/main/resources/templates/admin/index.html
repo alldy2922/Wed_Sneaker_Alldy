@@ -258,30 +258,33 @@
                         position: relative;
                         width: 200px;
                         height: 200px;
-                        margin: 80px auto; 
+                        margin: 80px auto;
                     }
 
-                    .rotate-continuous {
-                        animation: rotateAnimation 10s linear infinite;
+                    .scale-continuous {
+                        animation: scaleAnimation 10s linear infinite;
                         width: 100%;
                         height: auto;
-                        transform-origin: 50% 50%; /* Đặt gốc xoay ở giữa hình ảnh */
-                       
+                        transform-origin: 50% 50%;
+                        /* Keep the origin at the center for scaling */
                     }
 
-                    @keyframes rotateAnimation {
-                        from {
-                            transform: rotate(0deg);
+                    @keyframes scaleAnimation {
+
+                        0%,
+                        100% {
+                            transform: scale(1);
                         }
 
-                        to {
-                            transform: rotate(360deg);
+                        50% {
+                            transform: scale(0.8);
                         }
                     }
                 </style>
                 <div class="shoemenu">
-                    <img src="/admin/images/shoemenu4.png" alt="Shoe Menu" class="rotate-continuous">
+                    <img src="/admin/images/shoemenu4.png" alt="Shoe Menu" class="scale-continuous">
                 </div>
+
             </div>
         </div>
 

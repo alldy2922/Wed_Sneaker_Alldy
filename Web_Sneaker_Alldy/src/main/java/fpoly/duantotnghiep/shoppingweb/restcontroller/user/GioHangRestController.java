@@ -23,21 +23,22 @@ public class GioHangRestController {
     @Autowired
     private IChiTietSanPhamService chiTietSanPhamService;
 
-@GetMapping("/find-all")
-public ResponseEntity<List<GioHangDtoReponse>> getCartContents() {
+    @GetMapping("/find-all")
+    public ResponseEntity<List<GioHangDtoReponse>> getCartContents() {
+
         // Chưa đăng nhập, lấy giỏ hàng từ session
         List<GioHangDtoReponse> cartContents = service.laySpTrongGio();
         return new ResponseEntity<>(cartContents, HttpStatus.OK);
-
-}
+    }
     @GetMapping("/check-login")
     public ResponseEntity<Boolean> checkLoginStatus(Authentication authentication) {
         boolean isLoggedIn = authentication != null && authentication.isAuthenticated();
         return ResponseEntity.ok(isLoggedIn);
     }
 
-@GetMapping("/find-all-sp")
-public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authentication authentication) {
+
+    @GetMapping("/find-all-sp")
+    public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authentication authentication) {
 
         // Đã đăng nhập, lấy giỏ hàng từ database
 
@@ -46,9 +47,7 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authenticati
         List<GioHangDtoReponse> cartContents = service.getCartFromDatabase(khachHang);
         return new ResponseEntity<>(cartContents, HttpStatus.OK);
 
-
-
-}
+    }
     @GetMapping("/find-sp")
     public ResponseEntity<List<GioHangDtoReponse>> getCartContentsUserProductId(Authentication authentication,@RequestParam(value = "id",required = false)String id) {
 
@@ -107,7 +106,7 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authenticati
     }
     @PostMapping("mua-ngay")
     public ResponseEntity<?> muaNgay(@RequestParam(value = "idCTSP",required = false)String idCTSP,
-                                       @RequestParam("sl")Integer sl, Authentication authentication){
+                                     @RequestParam("sl")Integer sl, Authentication authentication){
         Map<String,String> er = new HashMap<>();
         Integer soLuongCheck = sl;
 
@@ -195,7 +194,34 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authenticati
         System.out.println("Received request to remove all products for logged in user.");
         return ResponseEntity.ok(service.laySpTrongGio());
     }
+//trường hợp ban đầu không chọn vẫn chuyển sang trang thanh toán
+    @PostMapping("add-to-cart-sp")
+    public ResponseEntity<?> addToCartSp(@RequestBody List<GioHangDtoReponse> gioHangDtoReponses) {
+        Map<String, String> er = new HashMap<>();
 
+        for (int i = 0; i < gioHangDtoReponses.size(); i++) {
+            service.addToHoaDon(gioHangDtoReponses.get(i).getId(),gioHangDtoReponses.get(i).getSoLuong());
+        }
+        return ResponseEntity.ok(service.laySpTrongGio());
+
+    }
+
+//@PostMapping("add-to-cart-sp")
+//public ResponseEntity<?> addToCartSp(@RequestBody List<GioHangDtoReponse> gioHangDtoReponses) {
+//    // Kiểm tra xem danh sách có trống hay không
+//    if (gioHangDtoReponses == null || gioHangDtoReponses.isEmpty()) {
+//        // Nếu trống, trả về phản hồi yêu cầu người dùng chọn sản phẩm
+//        return ResponseEntity.badRequest().body("Bạn cần chọn ít nhất một sản phẩm trước khi thanh toán.");
+//    }
+//
+//    // Nếu không trống, xử lý các sản phẩm trong giỏ hàng
+//    for (GioHangDtoReponse gioHangDto : gioHangDtoReponses) {
+//        service.addToHoaDon(gioHangDto.getId(), gioHangDto.getSoLuong());
+//    }
+//
+//    // Sau khi xử lý xong, chuyển hướng tới trang thanh toán
+//    return ResponseEntity.ok(service.laySpTrongGio());
+//}
     @PostMapping("/add-to-session")
     public ResponseEntity<?> addToSession(@RequestBody Map<String, String> request) {
         String productId = request.get("productId");
@@ -209,14 +235,5 @@ public ResponseEntity<List<GioHangDtoReponse>> getCartContentsLogin(Authenticati
         // Xóa productId khỏi session
         return ResponseEntity.ok().build();
     }
-    @PostMapping("add-to-cart-sp")
-    public ResponseEntity<?> addToCartSp(@RequestBody List<GioHangDtoReponse> gioHangDtoReponses) {
-        Map<String, String> er = new HashMap<>();
 
-        for (int i = 0; i < gioHangDtoReponses.size(); i++) {
-            service.addToHoaDon(gioHangDtoReponses.get(i).getId(),gioHangDtoReponses.get(i).getSoLuong());
-        }
-            return ResponseEntity.ok(service.laySpTrongGio());
-
-    }
 }

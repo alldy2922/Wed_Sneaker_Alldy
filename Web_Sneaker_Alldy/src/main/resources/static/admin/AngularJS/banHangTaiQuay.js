@@ -7,13 +7,15 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         soDienThoai : "0000000000"
     }
     $scope.chiTietDonHang = []
-     $scope.sanPhamCT = [];
+    $scope.sanPhamCT = [];
     $scope.soLuong = ""
     $scope.selectedProduct = [];
     $scope.selectedSize =[];
-    const limit = 10;
-    $scope.productDetails = [];
+    $scope.sanPham = [];
     $scope.products = [];
+    $scope.productDetails = [];
+
+    const limit = 10;
     $scope.er = {}
     $scope.dateNow = new Date().getTime();
     $scope.khachHang = []
@@ -149,6 +151,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         $scope.closeModel = function() {
         $('#productModal').modal('hide');  // Close the modal programmatically
     };
+
     $scope.checkSanPhamInDonHang = function (idCTSP) {
         let result = false;
         $scope.chiTietDonHang.forEach(d => {
@@ -222,8 +225,90 @@ app.controller("banhang-ctrl", function ($scope, $http) {
     //     $scope.selectedProduct.size = size; // Cập nhật kích thước cho sản phẩm
     //     $('#sizeModal').modal('hide'); // Đóng modal
     // };
+    /////////////////////////////////////// test
+$scope.selectedSize = {}; // Để lưu trữ size đã chọn cho từng sản phẩm
+$scope.productDetails = {}; // Để lưu trữ chi tiết sản phẩm và số lượng còn lại của từng size
 
-    ////////////////////////
+
+// Hàm để lấy tất cả sản phẩm
+$scope.getSanPham = function () {
+    $http.get("/admin/san-pham/get-sphoadon")
+        .then(r => {
+            $scope.products = r.data;
+            // Lấy chi tiết cho tất cả sản phẩm
+            $scope.products.forEach(product => {
+                $scope.getProductDetails(product.ma);
+            });
+        })
+        .catch(e => console.log(e));
+};
+
+$scope.getSanPham();
+
+$scope.getProductDetails = function(maSP) {
+    $http.get("/chi-tiet-san-pham/" + maSP + "/get-all").then(r => {
+        $scope.productDetails[maSP] = r.data;
+    }).catch(e => console.log(e));
+};
+
+// Hàm để lấy số lượng sản phẩm còn lại theo size đã chọn
+$scope.getSoLuong = function (maSP, idCTSP) {
+    $http.get("/chi-tiet-san-pham/" + maSP + "/" + idCTSP).then(r => {
+        $scope.selectedSize[maSP].soLuong = r.data;
+    }).catch(e => console.log(e));
+};
+
+
+
+$scope.addChiTietDonHang = function (item, selectedSize) {
+      // Kiểm tra xem đã chọn size cho sản phẩm này chưa
+    //   console.log("data",item)
+      if (!$scope.selectedSize[item.ma]) {
+        alert("Vui lòng chọn size trước khi thêm vào đơn hàng.");
+        return;
+    }
+
+    // Tạo một bản sao của sản phẩm để tránh thay đổi trực tiếp dữ liệu nguồn
+    let selectedSizeItem = angular.copy($scope.selectedSize[item.ma]);
+
+    // Tìm sản phẩm đã có trong đơn hàng chưa
+    let existingItemIndex = $scope.chiTietDonHang.findIndex(d => d.idChiTietSanPham === selectedSizeItem.id);
+
+    if (existingItemIndex !== -1) {
+        // Nếu sản phẩm đã có trong đơn hàng, kiểm tra số lượng
+        if ($scope.chiTietDonHang[existingItemIndex].soLuong < selectedSizeItem.soLuong) {
+            // Nếu số lượng hiện tại nhỏ hơn số lượng tối đa, tăng số lượng lên 1
+            $scope.chiTietDonHang[existingItemIndex].soLuong += 1;
+        } else {
+            // Nếu đã đạt số lượng tối đa, thông báo không đủ số lượng
+            alert("Không đủ số lượng sản phẩm.");
+        }
+    } else {
+        // Nếu sản phẩm chưa có trong đơn hàng, thêm mới vào chiTietDonHang
+        if (selectedSizeItem.soLuong > 0) {
+            $scope.chiTietDonHang.push({
+                sanPham: item.ten,
+                anh: item.anh.length === 0 ? "default.png" : item.anh[0],
+                mauSac: item.mauSac,
+                size: selectedSizeItem.size,
+                soLuong: 1, // Mặc định số lượng là 1 khi thêm mới
+                donGia: item.giaBan,
+                donGiaSauGiam: item.giaNiemYet,
+                idChiTietSanPham: selectedSizeItem.id
+            });
+        } else {
+            // Nếu size đã hết hàng, thông báo lỗi
+            alert("Size đã hết hàng.");
+        }
+    }
+
+    // Đặt lại giá trị nhập liệu số lượng sản phẩm thành rỗng sau khi thêm
+    $scope.erAdd.soLuongSP = "";
+};
+
+
+
+    ////////////////////////end test
     $scope.themDonHang = function (trangThai){
         alertify.confirm("Tạo đơn hàng?", function () {
             let chiTietDonHang = [];

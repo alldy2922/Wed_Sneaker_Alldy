@@ -27,7 +27,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     window.addEventListener('beforeunload', function () {
 
         localStorage.removeItem('selectedProducts');
-        $scope.deleteoAll()
+        $scope.deleteoAll();
     });
 
 $scope.getDataSessions = function() {
@@ -44,20 +44,16 @@ $scope.getDataSessions = function() {
 
     $http.post('/cart/add-to-cart-sp', $scope.dataSession)
         .then(function(response) {
-            console.log("tata",response.data)
+            console.log("tata",response.data);
             console.log("soLuong:", $scope.cart);
-
         })
         .catch(function(error) {
             // Handle error
         });
 
-
     $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/province", headers).then(res => {
         $scope.citys = res.data.data
     }).catch(err => console.log(err))
-
-
 
     $scope.cityChange = function (id) {
         if (id.length == 0) {
@@ -89,7 +85,6 @@ $scope.getDataSessions = function() {
             "length": 10,
             "weight": 200,
             "width": 10,
-
         }
 
         $http.post("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee", data, headersShop).then(res => {
@@ -123,7 +118,6 @@ $scope.getDataSessions = function() {
 
 
 //    check-out
-
     $scope.create = function () {
         alertify.confirm("Xác nhận thanh toán", function () {
             // let tongTien = document.getElementById("tongTien").value
@@ -163,7 +157,6 @@ $scope.getDataSessions = function() {
                 $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
                 })
             }
-
                 $http.post("http://localhost:8080/check-out", donHang).then(r => {
                 if (r.data.vnPayUrl == undefined) {
                     Swal.fire({
@@ -197,8 +190,6 @@ $scope.getDataSessions = function() {
                 alertify.error(err.data.tienGiam)
             })
                 // Các thao tác khác
-
-           
         }, function () {
         })
     }
@@ -243,9 +234,6 @@ $scope.getDataSessions = function() {
                         console.log(r.data);
                         $scope.cartUser = r.data;
                         console.log("soLuong:", $scope.cart);
-                        // for (var i = 0; i < $scope.cart.length ; i++) {
-                        //     $scope.sumTotal += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
-                        // }
                     })
                     .catch(function(e) {
                         console.log(e);
@@ -253,6 +241,10 @@ $scope.getDataSessions = function() {
             }
         })
 
+    $scope.clearDataSession = function() {
+        localStorage.removeItem('selectedProducts');
+        console.log("Data session cleared");
+    };
 
     $scope.totalpayment = function () {
         var tien = 0;
@@ -273,6 +265,35 @@ $scope.getDataSessions = function() {
 
                 });
             }
+        })
+        .catch(function(error) {
+            console.log('Error checking login status:', error);
+        });
+    window.onbeforeunload = function (event) {
+        var message = "Bạn có chắc chắn muốn rời khỏi trang này? Dữ liệu chưa lưu sẽ bị mất.";
+        event.returnValue = message; // Hiển thị thông báo trên các trình duyệt cũ
+        return message; // Hiển thị thông báo trên các trình duyệt mới hơn
+    };
+
+
+
+
+
+
+    $scope.deleteoAll = function () {
+        $http.delete("/cart/removeLogin").then(function (response) {
+            $scope.cart = response.data;
+            console.log('Giỏ hàng đã được xóa:', response.data);
+        }, function(error) {
+            console.error('Lỗi khi xóa giỏ hàng:', error);
+        });
+    };
+    $http.get("/dia-chi-khach-hang")
+        .then(function (response) {
+            // Nếu API trả về tên tài khoản, hiển thị tên tài khoản
+            $scope.loginIn = true;
+            console.log(response.data)
+            $scope.diaChiByTaiKhoan = response.data;
         })
         .catch(function(error) {
             console.log('Error checking login status:', error);
@@ -356,6 +377,5 @@ $scope.clearDataSession = function() {
         }
         return totalPrice;
     }
-
 
 });

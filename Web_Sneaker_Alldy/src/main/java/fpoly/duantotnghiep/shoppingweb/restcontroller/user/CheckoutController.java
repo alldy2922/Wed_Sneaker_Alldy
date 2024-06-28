@@ -83,25 +83,16 @@ public class CheckoutController {
 
     @GetMapping("thanh-toan/{ma}")
     public Object ThanhToanHoaDon(HttpServletRequest request, @PathVariable("ma") String ma) throws MessagingException {
-//        DonHangDtoResponse response = donHangService.checkOut(donHangDTORequest);
         DonHangDtoResponse response = donHangService.findByMa(ma);
         String diachi = response.getDiaChiChiTiet();
         DonHangReponseUser donHangReponseUser = donHangService.findByMaUser(ma);
         String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
         String vnpayUrl = vnPayService.createOrder(ma, baseUrl, (response.getTongTien().intValue() * 100) + "");
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.add("Location", vnpayUrl);
-//            return new ResponseEntity<String>(headers,HttpStatus.FOUND);
         Map<String, String> vnPayUrl = new HashMap<>();
         vnPayUrl.put("vnPayUrl", vnpayUrl);
         int paymentStatus = vnPayService.orderReturn(request, diachi);
         System.out.println(paymentStatus);
         System.out.println(vnpayUrl);
-//            if (paymentStatus == 1){
-//                donHangService.updateTrangThai1(response.getMa(), 2);
-//            } else {
-//                donHangService.updateTrangThai1(response.getMa(), 5);
-//            }
         return ResponseEntity.ok(vnPayUrl);
     }
 
@@ -284,5 +275,6 @@ public class CheckoutController {
 
         return code.toString();
     }
+
 
 }

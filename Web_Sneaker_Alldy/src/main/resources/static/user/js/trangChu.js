@@ -96,7 +96,6 @@ app.controller("ctrl", function ($scope, $http) {
         }
         return totalPrice;
     }
-
     $http.get("/cart/check-login")
         .then(function(response) {
             if (response.data) {
@@ -104,7 +103,7 @@ app.controller("ctrl", function ($scope, $http) {
                 $http.get("/cart/find-all-sp")
                     .then(function(r) {
                         console.log(r.data);
-                        $scope.cart = r.data;
+                        $scope.cart = r.data;-
                         console.log("soLuong trang chu:", $scope.cart);
                     })
                     .catch(function(e) {

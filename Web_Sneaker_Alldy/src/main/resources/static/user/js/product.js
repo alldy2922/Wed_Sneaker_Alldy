@@ -227,7 +227,6 @@ app.controller("index-ctrl", function ($scope, $http) {
     }
 
     //    cart show
-
     $http.get("/cart/check-login")
         .then(function(response) {
             if (response.data) {
@@ -242,6 +241,7 @@ app.controller("index-ctrl", function ($scope, $http) {
                         console.log(e);
                     });
             } else {
+                // User is not logged in, fetch the cart data from the session
                 $http.get("/cart/find-all")
                     .then(function(r) {
                         console.log(r.data);

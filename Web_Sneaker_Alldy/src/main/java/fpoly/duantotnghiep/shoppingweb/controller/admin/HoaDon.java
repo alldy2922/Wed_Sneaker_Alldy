@@ -10,7 +10,7 @@ public class HoaDon {
 
     @GetMapping("")
     public String hoaDon() {
-        return "admin/HoaDon";
+        return "admin/hoaDon";
     }
 
 }

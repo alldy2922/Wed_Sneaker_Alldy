@@ -110,7 +110,6 @@ app.controller("filter-ctrl", function ($scope, $http) {
     }
 
     //    cart show
-
     $http.get("/cart/check-login")
         .then(function(response) {
             if (response.data) {
@@ -125,6 +124,7 @@ app.controller("filter-ctrl", function ($scope, $http) {
                         console.log(e);
                     });
             } else {
+                // User is not logged in, fetch the cart data from the session
                 $http.get("/cart/find-all")
                     .then(function(r) {
                         console.log(r.data);
@@ -136,6 +136,17 @@ app.controller("filter-ctrl", function ($scope, $http) {
                     });
             }
         })
+        .catch(function(error) {
+            console.log('Error checking login status:', error);
+        });
+
+    $scope.getTotal = function () {
+        var totalPrice = 0;
+        for (let i = 0; i < $scope.cart.length; i++) {
+            totalPrice += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+        }
+        return totalPrice;
+    }
 
     //dang nhap
     $scope.login = function () {

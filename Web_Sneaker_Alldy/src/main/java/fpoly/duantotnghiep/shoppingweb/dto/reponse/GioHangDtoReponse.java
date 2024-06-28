@@ -38,5 +38,13 @@ public class GioHangDtoReponse {
         soLuong = sl;
     }
 
+    private boolean selected; // Thuộc tính để xác định sản phẩm có được chọn hay không
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }

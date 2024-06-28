@@ -24,6 +24,12 @@ public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> 
     Integer updateTrangThaiHIenThi(Boolean trangThai, String ma);
 
     @Query("""
+    SELECT s FROM SanPhamModel s 
+    WHERE s.ten LIKE concat('%',?1,'%')
+""")
+    List<SanPhamModel> findByTenStartsWith(String ten);
+
+    @Query("""
             update SanPhamModel s SET s.giaBan = ?1 where s.ma = ?2
             """)
     Integer updateGiaBan(BigDecimal giaBan, String ma);
@@ -36,12 +42,6 @@ public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> 
 
     @Query("SELECT km.sanPham  FROM KhuyenMaiModel km where km.ngayBatDau > current_date")
     List<SanPhamModel> findAllSanPhamWithKmWhereNgayBatDau();
-
-    @Query("""
-    SELECT s FROM SanPhamModel s 
-    WHERE s.ten LIKE concat('%',?1,'%')
-""")
-    List<SanPhamModel> findByTenStartsWith(String ten);
 
     @Query("""
                 SELECT s FROM SanPhamModel s JOIN ChiTietSanPhamModel c ON s.ma = c.sanPham.ma

@@ -82,60 +82,7 @@
 <div layout:fragment="contentUser" class="page-content" ng-app="donhang-app" ng-controller="donhang-ctrl">
 
     <div class="container-fulid" style="background-color:#f9f9fa;">
-        <div class="wrap-header-cart js-panel-cart">
-            <div class="s-full js-hide-cart"></div>
-
-            <div class="header-cart flex-col-l p-l-65 p-r-25">
-                <div class="header-cart-title flex-w flex-sb-m p-b-8">
-				<span class="mtext-103 cl2">
-					Giỏ hàng
-				</span>
-
-                    <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
-                        <i class="zmdi zmdi-close"></i>
-                    </div>
-                </div>
-
-                <div class="header-cart-content flex-w js-pscroll">
-                    <ul class="header-cart-wrapitem w-full">
-                        <li class="header-cart-item flex-w flex-t m-b-12" ng-repeat="c in cart">
-                            <div class="header-cart-item-img" ng-click="removeProductIncart(c.id)">
-                                <img src="/image/loadImage/product/{{c.anh}}"
-                                     style="width: 60px; height: 80px" alt="IMG">
-                            </div>
-
-                            <div class="header-cart-item-txt p-t-8">
-                                <a href="/chi-tiet-san-pham/{{c.maSanPham}}"
-                                   class="header-cart-item-info">
-                                    {{c.tenSanPham}}
-                                </a>
-                                <span class="header-cart-item-info">
-								{{c.soLuong}} x {{c.donGiaSauGiam | currency: "" : 1}}đ
-							</span>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <div class="w-full">
-                        <div class="header-cart-total w-full p-tb-40">
-                            Tổng tiền: {{ getTotal() | currency: "" : 1}}đ
-                        </div>
-
-                        <div class="header-cart-buttons flex-w w-full">
-                            <a href="/gio-hang"
-                               class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-                                Xem giỏ hàng
-                            </a>
-
-                            <a href="/thanh-toan"
-                               class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-                                Thanh toán
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- Tab01 -->
         <div class="tab01 container">
             <!-- Nav tabs -->
@@ -158,7 +105,7 @@
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" ng-click="donHangUser(1)" href="#daXacNhan" role="tab">
                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                        <span class="d-none d-sm-block">Đã xác nhận</span>
+                        <span class="d-none d-sm-block">Chờ lấy hàng</span>
                     </a>
                 </li>
                 <li class="nav-item">

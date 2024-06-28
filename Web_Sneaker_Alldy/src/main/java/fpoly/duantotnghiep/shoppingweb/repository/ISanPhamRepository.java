@@ -22,6 +22,12 @@ public interface ISanPhamRepository extends JpaRepository<SanPhamModel, String> 
     Integer updateTrangThaiHIenThi(Boolean trangThai, String ma);
 
     @Query("""
+    SELECT s FROM SanPhamModel s 
+    WHERE s.ten LIKE concat('%',?1,'%')
+""")
+    List<SanPhamModel> findByTenStartsWith(String ten);
+
+    @Query("""
             update SanPhamModel s SET s.giaBan = ?1 where s.ma = ?2
             """)
     Integer updateGiaBan(BigDecimal giaBan, String ma);

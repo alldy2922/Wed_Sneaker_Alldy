@@ -78,18 +78,10 @@
                 z-index: 1000;
                 background-color: #ffffff;
                 /* Màu nền trắng */
-                box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+                box-shadow: 0 0 40px rgba(0, 0, 0, 1.1);
                 /* Đổ bóng */
             }
 
-            .container-menu-desktop.dark {
-                background-color: #ffffff;
-                /* Giữ màu nền trắng */
-                color: #ffffff;
-                /* Màu chữ trắng khi chế độ tối */
-                box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
-                /* Không có đổ bóng */
-            }
 
             .main-menu li a {
                 color: #000000;
@@ -100,8 +92,6 @@
                 /* Cỡ chữ */
                 text-decoration: none;
                 /* Bỏ gạch chân */
-
-                /* Điều chỉnh khoảng cách giữa các mục menu */
             }
 
             .main-menu li a:hover {
@@ -115,6 +105,12 @@
                 align-items: center;
                 padding-left: 45px;
                 padding-right: 45px;
+                box-shadow: 0 0 40px rgba(0, 0, 0, 1.1);
+                /* Đổ bóng */
+                border-bottom-left-radius: 20px;
+                /* Độ bo tròn góc trái dưới */
+                border-bottom-right-radius: 20px;
+                /* Độ bo tròn góc phải dưới */
             }
 
             .menu-desktop {
@@ -737,7 +733,7 @@
                 gap: 20px;
                 padding: 20px;
                 background-color: #f5f5f5;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             }
 
             .logo-item {
@@ -748,7 +744,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
                 overflow: hidden;
                 position: relative;
                 aspect-ratio: 1;

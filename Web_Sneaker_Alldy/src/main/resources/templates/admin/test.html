@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/admin/index}">
+
+<head>
+    <title>ALLDY SNAEKER | Bán Hàng</title>
+</head>
+
+<body>
+
+<div class="main-content" layout:fragment="content">
+    <style>
+        .modal-Big {
+            width: 80%;
+        }
+
+        .er {
+            color: red;
+            font-size: 13px;
+        }
+
+        .table-responsive {
+            max-height: 400px;
+            /* Chiều cao tối đa của bảng */
+            overflow-y: auto;
+            /* Cho phép cuộn dọc */
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            /* Điều chỉnh khoảng cách giữa các ô */
+            vertical-align: middle;
+            /* Căn giữa theo chiều dọc */
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            /* Màu nền cho tiêu đề cột */
+            position: sticky;
+            /* Giữ tiêu đề cố định khi cuộn */
+            top: 0;
+            /* Vị trí của tiêu đề */
+            z-index: 1;
+            /* Đảm bảo tiêu đề nằm trên cùng */
+        }
+
+        .btn-check {
+            position: absolute;
+            clip: rect(0, 0, 0, 0);
+            pointer-events: none;
+        }
+
+        .btn-outline-primary.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .modal-lg-custom {
+            max-width: 65%; /* Adjust this value as needed */
+            max-height: 20%;
+        }
+
+    </style>
+    <div class="page-content" ng-app="banhang-app" ng-controller="banhang-ctrl">
+        <div class="container-fluid">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                            <div class="card-body">
+                                <input data-toggle="dropdown" ng-keyup="searchSanPham()"
+                                       ng-model="inputProduct" ng-focus="erAdd.soLuongSP=''"
+                                       placeholder="Tìm sản phẩm" class="form-control"
+                                       style="width: 300px; text-align: left;">
+
+                            </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Modal thêm đơn hàng-->
+                        <div>
+                            <div>
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="adDonHang">Thêm đơn hàng</h5>
+                                    </div>
+
+                                    <div class="row">
+                                        <!-- ben trai -->
+                                        <div class="col-7">
+
+                                            <div>
+
+                                                <div class="card-body">
+                                                    <div >
+                                                        <table class="table"style="max-height: calc(100vh - 400px); overflow-y: auto;">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>STT</th>
+                                                                <th>Hình ảnh</th>
+                                                                <th>Tên sản phẩm</th>
+                                                                <th>Màu Sắc</th>
+                                                                <th>Giá</th>
+                                                                <th>Số Lượng</th>
+
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            <tr ng-repeat="s in products">
+                                                                <td>{{$index + 1}}</td>
+                                                                <!-- <td>
+
+                                                                    <input type="checkbox"
+
+                                                                        id="{{'productCheckbox' + $index}}"
+                                                                        ng-model="s.selected"
+                                                                        ng-change="toggleSelection(s)"
+                                                                        ng-disabled="s.sanPhamDTO.soLuong <= 0"
+                                                                        >
+                                                                </td> -->
+                                                                <td>
+                                                                    <label for="{{'productCheckbox' + $index}}"
+                                                                           ng-click="openModal(s)">
+                                                                        <div
+                                                                                class="row d-flex justify-content-start align-items-center">
+                                                                            <div class="col-sm-2"
+                                                                                 ng-if="s.anh.length > 0">
+                                                                                <img src="/image/loadImage/product/{{s.anh[0]}}"
+                                                                                     style="height: 50px; border-radius: 15px; margin-left: 10px; width: 70px;">
+                                                                            </div>
+                                                                            <div class="col-sm-2"
+                                                                                 ng-if="s.length == 0">
+                                                                                <img src="/image/loadImage/product/default.png"
+                                                                                     style="height: 50px; border-radius: 15px; margin-left: 10px; width: 70px;">
+                                                                            </div>
+
+
+                                                                        </div>
+                                                                    </label>
+                                                                </td>
+                                                                <td>
+
+                                                                    <div
+                                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold;">
+                                                                        {{s.ten}}
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <i
+                                                                            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: bold;">
+                                                                        Còn lại: {{s.soLuong}}</i>
+                                                                </td>
+
+                                                                <td>
+                                                                    <div>
+                                                                        {{s.giaBan |
+                                                                    currency:"":0}} đ
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button" class="btn"
+                                                                            ng-class="{'btn-success': s.soLuong > 0, 'btn-outline-danger': s.soLuong <= 0}"
+                                                                            ng-click="openModal(s)">
+                                                                        {{s.soLuong > 0 ? "Chọn" : "Hết hàng"}}
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <div class="card-footer">
+                                                            <div class="row">
+                                                                <div class="col-6">
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <nav aria-label="Page navigation example">
+                                                                        <ul class="pagination">
+                                                                            <li class="page-item"
+                                                                                ng-class="{disabled: pageNumber === 0}">
+                                                                                <a class="page-link" href="#"
+                                                                                   aria-label="Previous"
+                                                                                   ng-click="getAll(pageNumber - 1)">
+                                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="page-item"
+                                                                                ng-repeat="page in pageNumbers"
+                                                                                ng-class="{active: pageNumber === page}">
+                                                                                <a class="page-link" href="#"
+                                                                                   ng-click="getAll(page)">{{ page + 1
+                                                                                    }}</a>
+                                                                            </li>
+                                                                            <li class="page-item"
+                                                                                ng-class="{disabled: pageNumber === totalPages - 1}">
+                                                                                <a class="page-link" href="#"
+                                                                                   aria-label="Next"
+                                                                                   ng-click="getAll(pageNumber + 1)">
+                                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </nav>
+                                                                    </nav>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="productModal" tabindex="-1" role="dialog"
+                                                     aria-labelledby="productModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg modal-lg-custom" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="productModalLabel">
+                                                                    {{selectedProduct.ten}}</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close" ng-click="closeModel()">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <img src="/image/loadImage/product/{{selectedProduct.anh[0]}}"
+                                                                             class="img-fluid"
+                                                                             alt="{{selectedProduct.ten}}">
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <p><s>{{selectedProduct.giaBan | currency}}</s>
+                                                                            <strong class="text-danger">{{selectedProduct.giaGiam | currency}}</strong>
+                                                                        </p>
+                                                                        <p>Thương hiệu:
+                                                                            {{selectedProduct.thuongHieu}}</p>
+                                                                        <p>Dòng sản phẩm:
+                                                                            {{selectedProduct.dongSanPham}}</p>
+                                                                        <p>Màu sắc: {{selectedProduct.mauSac}}</p>
+                                                                        <label>Kích thước</label>
+                                                                        <div class="form-group">
+
+                                                                            <div class="btn-group btn-group-toggle"
+                                                                                 data-toggle="buttons"
+                                                                            >
+                                                                                <label class="btn btn-outline-primary"
+                                                                                       ng-repeat="size in productDetails" >
+                                                                                    <input type="radio"
+                                                                                           class="btn-check"
+                                                                                           autocomplete="off"
+                                                                                           ng-model="selectedSize"
+                                                                                           ng-change="getData(size)"
+                                                                                           ng-value="size"
+                                                                                           ng-click="getSoLuong(size.id)" >
+                                                                                    {{size.size}}
+                                                                                </label>
+                                                                            </div>
+
+
+                                                                        </div>
+                                                                        <p>{{soLuong}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-success"
+                                                                        ng-click="addChiTietDonHang()">
+                                                                    Chọn
+                                                                </button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <table>
+                                                    </tr>
+                                                <tr>
+                                                    <td>Tổng</td>
+                                                    <td colspan="4">
+                                                        <div class="d-flex justify-content-end">
+                                                            {{getTotalPrice() | currency: "" : 1}} đ
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                                </div>
+
+                                            </div>
+
+
+
+
+
+                                </div>
+
+                                <!-- ben phai -->
+
+                                <div class="col-5">
+
+                                    <div class="me-2" style="width: 80%">
+                                        <div class="row">
+                                            <div><h3>Thông Tin Thanh Toán</h3></div>
+                                            <div class="mb-3">
+                                                <label class="control-label">Khách hàng</label>
+                                                <!--                                                <select class="form-control " id="khachHangSL" style="width: 100%"-->
+                                                <!--                                                        onchange="angular.element(this).scope().addKhachHangToDonHang()">-->
+                                                <!--                                                    <option selected value="null">Khách lẻ</option>-->
+                                                <!--                                                    <option ng-repeat="k in khachHang" value="{{k.username}}">-->
+                                                <!--                                                        {{k.hoVaTen + ' - ' + k.soDienThoai}}</option>-->
+                                                <!--                                                </select>-->
+                                                <div>
+                                                    <input type="text" class="form-control" ng-model="searchText"
+                                                           placeholder="Nhập Tên Hoặc SDT KH" id="khachHangSL"
+                                                           style="width: 100%" ng-focus="filterCustomers()"
+                                                           ng-keyup="filterCustomers()">
+                                                    <ul class="list-group" ng-show="filteredCustomers.length > 0">
+                                                        <li class="list-group-item"
+                                                            ng-repeat="customer in filteredCustomers | limitTo: 3"
+                                                            ng-click="selectCustomer(customer)">
+                                                            {{ customer.hoVaTen + ' - ' + customer.soDienThoai}}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="mb-3 col-12">
+                                                <label>Phương thức thanh toán</label>
+                                                <select class="form-control" ng-model="donHangAdd.phuongThucThanhToan">
+                                                    <option value="0">Tiền mặt</option>
+                                                    <option value="1">Thanh toán VNPAY</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label>Tên khách hàng</label>
+                                                    <input class="form-control" ng-focus="erAdd.tenNguoiNhan=''"
+                                                           ng-model="donHangAdd.tenNguoiNhan">
+                                                    <i class="er">{{erAdd.tenNguoiNhan == undefined ? '' :
+                                                            erAdd.tenNguoiNhan}}</i>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="mb-3">
+                                                    <label>Số điện thoại</label>
+                                                    <input class="form-control" ng-focus="erAdd.soDienThoai=''"
+                                                           ng-model="donHangAdd.soDienThoai">
+                                                    <i class="er">{{erAdd.soDienThoai == undefined ? '' :
+                                                            erAdd.soDienThoai}}</i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-flex justify-content-center">
+                                            <button class="btn btn-primary col-10" style="display: block"
+                                                    ng-click="addKhachHang()" id="btnAddKh">Lưu khách hàng
+                                            </button>
+                                        </div>
+                                        <hr>
+
+                                        <table class="table">
+                                            <tbody>
+
+                                                    <table class="table table-hover dt-responsive  nowrap w-100">
+                                                        <thead>
+                                                        <tr style="position: sticky;
+                                                top: 0;
+                                                z-index: 1;
+                                                background: white;">
+                                                            <th style="width: 70px;">Ảnh Sản phẩm</th>
+                                                            <th style="width: 100px;">TênSản phẩm</th>
+                                                            <th style="width: 50px;">Size</th>
+                                                            <th style="width: 50px;">Số lượng</th>
+                                                            <th style="width: 50px;"></th>
+                                                            <th style="width: 100px;">Đơn giá</th>
+                                                            <th style="width: 100px;">Đơn giá<br> sau giảm</th>
+                                                            <th style="width: 100px;">Thành tiền</th>
+                                                            <th style="width: 15px"></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <i class="er">{{erAdd.soLuongSP == undefined ? '' :
+                                                                erAdd.soLuongSP}}</i>
+                                                        <tr ng-repeat="d in chiTietDonHang"
+                                                            style="vertical-align: middle">
+                                                            <!-- ảnh -->
+                                                            <td style="width: 70px;">
+                                                                <div class="d-flex justify-content-start">
+                                                                    <div style="width: 70px;">
+                                                                        <img src="/image/loadImage/product/{{d.anh}}"
+                                                                             style="width: 70px; height: 70px; border-radius: 10px">
+                                                                    </div>
+
+                                                                </div>
+                                                            </td>
+                                                            <!-- tên -->
+                                                            <td style="width: 50px;">
+                                                                <div class="d-flex justify-content-start">
+
+                                                                    <div>
+                                                                        <p
+                                                                                style="font-weight: bold;padding-left: 10px; ">
+                                                                            {{d.sanPham}}</p>
+
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <!-- size -->
+                                                            <td>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <p
+                                                                            style="font-weight: bold;padding-left: 10px; ">
+                                                                        {{d.size}}</p>
+
+                                                                </div>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <p
+                                                                            style="font-weight: bold;padding-left: 10px; ">
+                                                                    </p>
+
+                                                                </div>
+                                                            </td>
+
+                                                            <!-- soluong -->
+                                                            <td>
+                                                                <input type="text" style="text-align: center;"
+                                                                       id="{{d.idChiTietSanPham}}"
+                                                                       ng-model="d.soLuong"
+                                                                       ng-change="validateSoLuong(d)"
+                                                                       class="form-control me-1"
+                                                                       ng-class="{'is-invalid': d.invalid}">
+                                                                <div class="invalid-feedback" ng-show="d.invalid">
+                                                                    Số lượng không thể nhỏ hơn 0.
+                                                                </div>
+                                                            </td>
+                                                            <td>
+
+                                                                <div>
+                                                                            <span class="rounded-circle mb-1"
+                                                                                  style="cursor: pointer; border: 1px solid #ced4da;padding: 1px;"
+                                                                                  ng-click="chuaXacNhan.addSoLuong(d.idChiTietSanPham)">+</span>
+                                                                    <span class="rounded-circle"
+                                                                          style="cursor: pointer;border: 1px solid #ced4da;padding: 1px;"
+                                                                          ng-click="chuaXacNhan.subtractSoLuong(d.idChiTietSanPham)">-</span>
+                                                                </div>
+
+
+                                                            </td>
+                                                            <td>{{d.donGia | currency: "" : 0}} đ</td>
+                                                            <td>
+
+                                                                {{d.donGiaSauGiam | currency: "" : 0}}đ
+                                                </div>
+                                                </td>
+                                                <td>
+
+                                                    {{d.donGiaSauGiam * d.soLuong | currency: "": 0}}đ
+                                            </div>
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 13px;color:red;cursor: pointer"
+                                                      ng-click="chuaXacNhan.removeSanPham(d.id)">
+                                                    <i class=" bx bx-trash"></i>
+                                                </span>
+                                            </td>
+                                            </tr>
+                                            </tbody>
+                                            </table>
+
+                                    </div>
+
+
+
+                                </div>
+                                <table>
+                                </tr>
+                            <tr>
+                              <td></td>
+                                <td>
+
+                                    <div class="d-flex justify-content-end fs-3" >
+                                        <div class="text-success fs-2 fw-bold" style="width : 550px" >Tổng</div>
+                                        {{getTotalPrice() | currency: "" : 1}} đ
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" ng-click="clearFormAdd()">Làm mới</button>
+<!--                                {% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal"-->
+<!--                                        ng-click="closeModal('#add')">Đóng-->
+<!--                                </button> {% endcomment %}-->
+                                <button type="button" class="btn btn-danger" ng-click="themDonHang(5)">Lưu hóa
+                                    đơn chờ
+                                </button>
+                                <button type="button" class="btn btn-primary" ng-click="themDonHang(4)">Thanh
+                                    toán
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal-->
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

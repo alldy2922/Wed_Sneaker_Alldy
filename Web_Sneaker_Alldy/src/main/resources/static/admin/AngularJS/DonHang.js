@@ -458,7 +458,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 return;
             }
 
-            alertify.confirm("Cập nhật đơn hàng?", function () {
                 // if($scope.chuaXacNhan.detail.phiGiaoHang<0){
                 //     alertify.error("Phí giao hàng phải >= 0")
                 //     return
@@ -534,9 +533,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     console.log("Server error response:", e.data);
                     alertify.error("Cập nhật thất bại2")
                 })
-            }, function () {
-                alertify.error("Cập nhật thất bại1")
-            })
         },
         huyDH() {
 

@@ -228,9 +228,10 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
-    public DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products) {
+    public DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoThayDoi) {
         DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElse(null);
         DonHangModel model = request.mapModel();
+        model.setLyDoThayDoi(lyDoThayDoi); // Luu ly do thay  doi
         if (donHangOld.getLoai() == 1) {
             model.setEmail(null);
         }
@@ -250,6 +251,7 @@ public class DonHangService implements IDonHangService {
 
         List<String> maCTSPNew = products.stream().map(c -> c.getId()).collect(Collectors.toList());
         List<ChiTietDonHangModel> ctdhModelOld = chiTietDonHangRepository.findAllByDonHang(model);
+
         ctdhModelOld.forEach(c -> {
             if (!maCTSPNew.contains(c.getId())) {
                 //Thêm lại số lượng khi xóa sản phẩm khỏi đơn hàng
@@ -318,6 +320,8 @@ public class DonHangService implements IDonHangService {
         context.setVariable("totalPrice", tongTien);
         context.setVariable("mess", messeger);
         context.setVariable("title", subject);
+        context.setVariable("lyDoThayDoi", lyDoThayDoi);
+
         new Thread(() -> {
             try {
                 sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
@@ -353,7 +357,7 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
-    public Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate) {
+    public Long getTotalQuantityInOrdersWithDate(Date firstDate, Date lastDate) {
         return donHangResponsitory.getTotalQauntityInOrdersWithDate(firstDate, lastDate) == null ? 0L : donHangResponsitory.getTotalQauntityInOrdersWithDate(firstDate, lastDate);
     }
 

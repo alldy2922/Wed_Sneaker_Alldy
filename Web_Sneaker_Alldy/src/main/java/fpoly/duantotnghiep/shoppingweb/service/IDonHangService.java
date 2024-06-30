@@ -38,13 +38,14 @@ public interface IDonHangService {
 
     void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException;
 
-    DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products);
+    DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoThayDoi);
+
 
     @Query("""
                 SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
                 WHERE c.donHang.ngayDatHang in (?1,?2)
             """)
-    Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
+    Long getTotalQuantityInOrdersWithDate(Date firstDate, Date lastDate);
 
     Long getQuantityOrdersWithDate(Date firstDate, Date lastDate);
 

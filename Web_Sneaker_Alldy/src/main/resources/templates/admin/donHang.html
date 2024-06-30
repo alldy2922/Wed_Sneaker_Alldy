@@ -998,6 +998,7 @@
             </div><!-- end col -->
         </div> <!-- container-fluid -->
 
+
         <!--        Modal lý do hủy đơn-->
         <div class="modal fade" id="lyDo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
@@ -1025,6 +1026,7 @@
         <!-- Modal Chưa xác nhận-->
         <div class="modal fade bd-example-modal-lg" id="chuaXacNhanDetail" tabindex="-1" role="dialog"
              aria-labelledby="myLargeModalLabel" aria-hidden="true">
+
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -1344,11 +1346,37 @@
                         </div>
 
                     </div>
+                    <!--        Modal lý do thay đổi thông tin đơn-->
+                    <div class="modal fade" id="lyDoThayDoi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Lý do thay đổi thông tin</h5>
+                                    <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input ng-model="chuaXacNhan.detail.lyDoThayDoi" class="form-control">
+                                    <i style="color: red">{{messLyDoThayDoi}}</i>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" id="closeThayDoiDH" data-dismiss="modal">Trở về
+                                    </button>
+                                    <button type="button" class="btn btn-primary" ng-click="chuaXacNhan.lyDoThayDoiDH()">Cập nhật đơn hàng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                    Đóng modal lý do thay doi-->
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                 ng-click="closeModal('#chuaXacNhanDetail')">Đóng
                         </button>
-                        <button type="button" class="btn btn-primary" ng-click="chuaXacNhan.capNhat()">Cập nhật
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#lyDoThayDoi">Cập nhật
                         </button>
                     </div>
                 </div>

@@ -110,7 +110,8 @@ public class DonHangRescontroller {
     @Transactional(rollbackFor = {Exception.class, Throwable.class})
     public ResponseEntity<?> updateDonHang(@Valid @RequestPart("donHang") DonHangDTORequest request,
                                            BindingResult result,
-                                           @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products) {
+                                           @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products,
+                                           @RequestParam("lyDoThayDoi") String lyDoThayDoi) {
         if(products.size()<=0){
             result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
         }else{
@@ -134,7 +135,7 @@ public class DonHangRescontroller {
         if (!donHangService.existsByMa(request.getMa())) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(donHangService.updateDonHang(request, products));
+        return ResponseEntity.ok(donHangService.updateDonHang(request, products, lyDoThayDoi));
     }
     @PostMapping("")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})

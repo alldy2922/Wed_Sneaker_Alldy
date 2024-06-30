@@ -32,6 +32,7 @@ public class DonHangDtoResponse {
     private String trangThaiDetail;
     private String phuongThucThanhToan;
     private String lyDoHuy;
+    private String lyDoThayDoi;
     private String voucherCode;
     private String voucherName;
     private Date ngayXacNhan;
@@ -63,6 +64,7 @@ public class DonHangDtoResponse {
         this.trangThaiDetail = model.trangThaiDetail();
         this.phuongThucThanhToan = model.getPhuongThucThanhToan()+"";
         this.lyDoHuy = model.getLyDoHuy();
+        this.lyDoThayDoi = model.getLyDoThayDoi();
 
         if(model.getNgayXacNhan()!=null) this.ngayXacNhan = model.getNgayXacNhan();
         if(model.getNgayGiaoHang()!=null) this.ngayGiaoHang = model.getNgayGiaoHang();

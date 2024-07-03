@@ -303,7 +303,6 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 .header-v3 .wrap-menu-desktop {
   background-color: transparent;
   top: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .header-v4 .wrap-menu-desktop {
@@ -641,8 +640,8 @@ Input, textarea : 14px/1.6 '', Arial, sans-serif;
 }
 
 .header-v3 .fix-menu-desktop .wrap-menu-desktop {
-  background-color: #222;
-  border-color: #222;
+  background-color: #22222200;
+  border-color: #22222200;
 }
 
 .header-v4 .fix-menu-desktop.container-menu-desktop {

@@ -254,33 +254,37 @@
             <!-- ảnh chan trang -->
             <style>
                 .shoemenu {
-                    overflow: hidden;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     position: relative;
                     width: 200px;
                     height: 200px;
-                    margin: 80px auto;
+                    padding-left: 20px;
                 }
 
-                .rotate-continuous {
-                    animation: rotateAnimation 10s linear infinite;
-                    width: 100%;
-                    height: auto;
-                    transform-origin: 50% 50%; /* Đặt gốc xoay ở giữa hình ảnh */
-
+                .scale-continuous {
+                    animation: rotateAnimation 5s linear infinite;
+                    width: 150px;
+                    height: 150px;
+                    transform-origin: 50% 50%;
+                    /* Tâm xoay tại trung tâm ảnh */
                 }
 
                 @keyframes rotateAnimation {
-                    from {
+                    0% {
                         transform: rotate(0deg);
+                        /* Bắt đầu từ góc 0 độ */
                     }
 
-                    to {
+                    100% {
                         transform: rotate(360deg);
+                        /* Kết thúc tại góc 360 độ */
                     }
                 }
             </style>
             <div class="shoemenu">
-                <img src="/admin/images/shoemenu4.png" alt="Shoe Menu" class="rotate-continuous">
+                <img src="/admin/images/shoemenu4.png" alt="Shoe Menu" class="scale-continuous">
             </div>
         </div>
     </div>

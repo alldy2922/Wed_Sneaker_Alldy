@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Login ADMIN | ALLDY SNEAKER</title>
+    <title>Login | ALLDY STORE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -20,13 +20,12 @@
     <link href="/admin/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="/admin/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
-
     <style>
-        html,
-        body {
-            height: 100%;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+
         }
 
         .auth-page {
@@ -38,97 +37,189 @@
             min-height: 100vh;
             width: 100%;
         }
+
+        .auth-full-page-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 3rem;
+            min-height: 650px;
+            border-radius: 40px;
+            background-color: rgba(255, 255, 255, 0);
+            background-color: rgba(255, 255, 255, 0.05);
+            /* Nền trong suốt */
+            backdrop-filter: blur(10px);
+            /* Hiệu ứng nhòe */
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+            /* Bóng mờ xung quanh khung */
+            
+        }
+
+        .auth-logo .logo-txt {
+            font-size: 30px;
+        }
+
+        /* nút đăng nhập */
+        .btn-outline-success {
+            width: 100%;
+            background: linear-gradient(45deg, #35ff3f, #a8a8a8);
+            border: none;
+            cursor: pointer;
+            padding: 12px 20px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            color: #fff;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .btn-outline-success:hover {
+            box-shadow: 0 0 15px rgb(0, 255, 34), 0 0 25px rgba(255, 241, 114, 0.5), 0 0 35px rgb(0, 255, 34);
+        }
+
+        .btn-outline-success:active {
+            box-shadow: 0 0 20px rgb(0, 255, 34), 0 0 30px rgba(255, 241, 114, 0.6), 0 0 40px rgb(0, 255, 34);
+        }
+
+        form {
+            position: relative;
+            z-index: 2;
+            /* Thêm thuộc tính này để đảm bảo form hiển thị trên thẻ ring */
+        }
+
+        /* Vòng màu */
+        .ring {
+            position: relative;
+            width: 580px;
+            height: 580px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            /* Đặt z-index thấp hơn để xếp sau logo */
+        }
+
+        .ring span {
+            position: absolute;
+            inset: 0;
+            border: 2px solid #fff;
+            transition: 0.5s;
+        }
+
+        .ring span:nth-child(1) {
+            border-radius: 38% 62% 63% 37% / 41% 44% 56% 59%;
+            animation: animate 6s linear infinite;
+        }
+
+        .ring span:nth-child(2) {
+            border-radius: 41% 44% 56% 59%/38% 62% 63% 37%;
+            animation: animate 4s linear infinite;
+        }
+
+        .ring span:nth-child(3) {
+            border-radius: 41% 44% 56% 59%/38% 62% 63% 37%;
+            animation: animate2 10s linear infinite;
+        }
+
+        .ring:hover span {
+            border: 6px solid var(--clr);
+            filter: drop-shadow(0 0 20px var(--clr));
+        }
+
+        @keyframes animate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes animate2 {
+            0% {
+                transform: rotate(360deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
     </style>
+
 </head>
 
 <body data-topbar="dark">
 
-    <!-- <body data-layout="horizontal"> -->
     <div class="auth-page">
-        <div class="container-fluid p-0">
-            <div class="row g-0 d-flex justify-content-center">
-                <div class="col-xxl-4 col-lg-4 col-md-5 mt-5">
-                    <div class="auth-full-page-content d-flex p-sm-5 p-4 mt-5" style="min-height: 550px;
-                            border-radius: 40px;
-                            box-shadow: 2px 2px 2px 2px gainsboro;
-                            background-color: hsl(158, 58%, 41%, 0.9);">
-                        <div class="w-100">
-                            <div class="d-flex flex-column h-100">
-                                <div class="auth-content my-auto">
-                                    <div class="mb-4 mb-md-5 text-center">
-                                        <a class="d-block auth-logo">
-                                            <img src="/admin/images/LOGOALLDY.png" alt="" height="100">
-                                            <br>
-                                            <span class="logo-txt" style="font-size: 30px">
-                                                ALLDY STORE SNEAKER
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <form class="mt-4 pt-2" action="/admin/login" method="post">
-                                        <div class="form-floating form-floating-custom mb-4">
-                                            <input type="text" class="form-control" id="input-username" name="username"
-                                                placeholder="Enter User Name">
-                                            <label for="input-username">Tài khoản</label>
-                                            <div class="form-floating-icon">
-                                                <i data-feather="users"></i>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-floating form-floating-custom mb-4 auth-pass-inputgroup">
-                                            <input type="password" class="form-control pe-5" id="password-input"
-                                                name="password" placeholder="Enter Password">
-
-                                            <button type="button"
-                                                class="btn btn-link position-absolute h-100 end-0 top-0"
-                                                id="password-addon">
-                                                <i class="mdi mdi-eye-outline font-size-18 text-muted"></i>
-                                            </button>
-                                            <label for="password-input">Mật khẩu</label>
-                                            <div class="form-floating-icon">
-                                                <i data-feather="lock"></i>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-4">
-                                            <div class="col">
-                                                <div class="form-check font-size-15">
-                                                    <!--                                                <input class="form-check-input" type="checkbox" id="remember-check">-->
-                                                    <!--                                                <label class="form-check-label font-size-13" for="remember-check">-->
-                                                    <!--                                                    Remember me-->
-                                                    <!--                                                </label>-->
-                                                    <div style="float: right">
-                                                        <a href="/admin/quen-mat-khau" class="text-danger fw-semibold">
-                                                            Quên mật khẩu </a>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="mb-2">
-                                            <span class="text-danger"> [[${mess}]]</span>
-                                        </div>
-                                        <div class="mb-3">
-                                            <button class="btn btn-outline-light w-100 waves-effect waves-light"
-                                                type="submit">
-                                                <div class="form-floating-icon">
-                                                    <i data-feather="power"></i>
-                                                    </div>
-                                            </button>
-
-                                        </div>
-                                    </form>
-                                </div>
+        <div class="auth-full-page-content">
+            <div class="ring">
+                <span style="--clr:#00ff0a; "></span>
+                <span style="--clr:#00f7ff;"></span>
+                <span style="--clr:#fffd44;"></span>
+                <div class="w-100">
+                    <div class="d-flex flex-column h-100">
+                        <div class="auth-content my-auto">
+                            <div class="mb-4 mb-md-5 text-center">
+                                <a class="d-block auth-logo">
+                                    <img src="/admin/images/LOGOALLDY.png" alt="" height="200px" width="200px">
+                                    <BR></BR>
+                                    <i class="logo-txt">ALLDY SNEAKER STORE</i>
+                                </a>
                             </div>
+                            <form class="mt-4 pt-2" action="/admin/login" method="post">
+                                <div class="form-floating form-floating-custom mb-4">
+                                    <input type="text" class="form-control" id="input-username" name="username"
+                                        placeholder="Enter User Name">
+                                    <label for="input-username">Tài khoản</label>
+                                    <div class="form-floating-icon">
+                                        <i data-feather="user-check"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-floating form-floating-custom mb-4 auth-pass-inputgroup">
+                                    <input type="password" class="form-control pe-5" id="password-input" name="password"
+                                        placeholder="Enter Password">
+                                    <button type="button" class="btn btn-link position-absolute h-100 end-0 top-0"
+                                        id="password-addon">
+                                        <i class="mdi mdi-eye-outline font-size-18 text-muted"></i>
+                                    </button>
+                                    <label for="password-input">Mật khẩu</label>
+                                    <div class="form-floating-icon">
+                                        <i data-feather="lock"></i>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="col">
+                                        <div class="form-check font-size-15">
+                                            <div style="float: right">
+                                                <a href="/admin/quen-mat-khau" class="text-danger fw-semibold"> Quên mật
+                                                    khẩu
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <i class="text-danger"> [[${mess}]]</i>
+                                </div>
+                                <div class="mb-3">
+                                    <button class="btn btn-outline-success w-100 waves-effect waves-light"
+                                        type="submit">
+                                        Đăng Nhập
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <!-- end auth full page content -->
                 </div>
             </div>
-            <!-- end row -->
-        </div>
-        <!-- end container fluid -->
-    </div>
 
+        </div>
+        <!-- end auth full page content -->
+    </div>
 
     <!-- JAVASCRIPT -->
     <script src="/admin/assets/libs/jquery/jquery.min.js"></script>
@@ -141,7 +232,6 @@
     <script src="/admin/assets/libs/pace-js/pace.min.js"></script>
 
     <script src="/admin/assets/js/pages/pass-addon.init.js"></script>
-
     <script src="/admin/assets/js/pages/feather-icon.init.js"></script>
 
 </body>

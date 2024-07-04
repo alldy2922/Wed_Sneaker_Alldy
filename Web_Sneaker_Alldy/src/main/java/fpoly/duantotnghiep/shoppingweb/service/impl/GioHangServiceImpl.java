@@ -1,10 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.GioHangDtoReponse;
-import fpoly.duantotnghiep.shoppingweb.model.Cart;
-import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
-import fpoly.duantotnghiep.shoppingweb.model.GioHangModel;
-import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.*;
 import fpoly.duantotnghiep.shoppingweb.repository.GioHangUserRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.IGioHangRepository;
@@ -30,6 +27,7 @@ public class GioHangServiceImpl implements IGioHangService {
     @Autowired
     private GioHangUserRepository gioHangUserRepository;
     private final Cart cart = new Cart();
+
 
 
     // update
@@ -146,6 +144,8 @@ public class GioHangServiceImpl implements IGioHangService {
         return cart.getProductInCart().entrySet().stream().map(m -> new GioHangDtoReponse(repository.findById(m.getKey()).get(),m.getValue()))
                 .collect(Collectors.toList());
     }
+
+
 
     @Override
     public void syncCartFromSessionToDatabase(Cart sessionCart, KhachHangModel user) {

@@ -234,24 +234,24 @@ $scope.getDataSessions = function() {
                 $scope.sumTotal += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
             }
         }).catch(e => console.log(e))
-    $http.get("/cart/check-login")
-        .then(function(response) {
-            if (response.data) {
-                // User is logged in, fetch the cart data from the database
-                $http.get("/cart/find-all-sp")
-                    .then(function(r) {
-                        console.log(r.data);
-                        $scope.cartUser = r.data;
-                        console.log("soLuong:", $scope.cart);
-                        // for (var i = 0; i < $scope.cart.length ; i++) {
-                        //     $scope.sumTotal += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
-                        // }
-                    })
-                    .catch(function(e) {
-                        console.log(e);
-                    });
-            }
-        })
+    // $http.get("/cart/check-login")
+    //     .then(function(response) {
+    //         if (response.data) {
+    //             // User is logged in, fetch the cart data from the database
+    //             $http.get("/cart/find-all-sp")
+    //                 .then(function(r) {
+    //                     console.log(r.data);
+    //                     $scope.cartUser = r.data;
+    //                     console.log("soLuong:", $scope.cart);
+    //                     // for (var i = 0; i < $scope.cart.length ; i++) {
+    //                     //     $scope.sumTotal += $scope.cart[i].soLuong * $scope.cart[i].donGiaSauGiam
+    //                     // }
+    //                 })
+    //                 .catch(function(e) {
+    //                     console.log(e);
+    //                 });
+    //         }
+    //     })
 
 
     $scope.totalpayment = function () {

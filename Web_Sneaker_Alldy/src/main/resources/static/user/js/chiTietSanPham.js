@@ -9,12 +9,21 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.size = null
     $scope.lengthFoot = 26
     $scope.cart =[];
+    $scope.loginIn = false;
     // const idSP = pathName[pathName.length - 1]
     // $scope.form ={
     //     sanPham : idSP
     // };
     // $scope.sizes = [];
-
+    $http.get("/cart/check-login")
+        .then(function(response) {
+            if (response.data) {
+                $scope.loginIn=true;
+            }
+        })
+        .catch(function(error) {
+            console.log('Error checking login status:', error);
+        });
     var heartButton = document.getElementById("heart")
     const sizeZone = $("#sizes-zone")
     const pathName = location.pathname;
@@ -129,58 +138,75 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     }
     //add to cart
     $scope.addToCart = function () {
-        let idCtsp = form.elements["ctsp"].value
-        // if (idCtsp == null) {
-        //     return;
-        // }
-        let sl = parseInt(document.getElementById("soLuong").value)
-        console.log("sốluong: " + sl)
-        alertify.confirm("Thêm sản phẩm vào giỏ hàng?", function () {
-            $http.post("/cart/add-to-cart?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
-                console.log(response.data)
+        if(!$scope.loginIn){
+            $('#dangNhap').modal('show') // hiển thị moda
+            alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
+        }else{
+            let idCtsp = form.elements["ctsp"].value
+            // if (idCtsp == null) {
+            //     return;
+            // }
+            let sl = parseInt(document.getElementById("soLuong").value)
+            console.log("sốluong: " + sl)
+            alertify.confirm("Thêm sản phẩm vào giỏ hàng?", function () {
+                $http.post("/cart/add-to-cart?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
+                    console.log(response.data)
 
 
-                if (response.data == null || response.data.length == 0) {
-                    alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
-                } else {
-                    alertify.success("Thêm thành công vào giỏ hàng")
-                    $scope.cartShow()
-                }
-            }).catch(e => {
-                document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
-                alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
-                console.log(e)
-            })
-        },function (){})
+                    if (response.data == null || response.data.length == 0) {
+                        alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
+                    } else {
+                        alertify.success("Thêm thành công vào giỏ hàng")
+                        $scope.cartShow()
+                    }
+                }).catch(e => {
+                    document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
+                    alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
+                    console.log(e)
+
+                })
+            },function (){})
+        }
+
     }
     //Mua Ngay
     $scope.muaNgay = function () {
-        let idCtsp = form.elements["ctsp"].value
-        // if (idCtsp == null) {
-        //     return;
-        // }
-        let sl = parseInt(document.getElementById("soLuong").value)
-        console.log("sốluong: " + sl)
-        // let alertify;
-        alertify.confirm("Bạn Có Muốn Mua Ngay Không ?", function () {
-            $http.post("/cart/mua-ngay?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
-                console.log(response.data)
-                if (response.data == null || response.data.length == 0) {
-                    alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
-                } else {
-                    alertify.success("Thêm thành công vào giỏ hàng")
-                    $scope.cartShow()
-                    location.href = "/thanh-toan";
-                }
+        if(!$scope.loginIn){
+            $('#dangNhap').modal('show') // hiển thị moda
+            alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
+        }else {
+            let idCtsp = form.elements["ctsp"].value
+            // if (idCtsp == null) {
+            //     return;
+            // }
+            let sl = parseInt(document.getElementById("soLuong").value)
+            console.log("sốluong: " + sl)
+            // let alertify;
+            alertify.confirm("Bạn Có Muốn Mua Ngay Không ?", function () {
+                $http.post("/cart/mua-ngay?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
+                    console.log(response.data)
+                    if (response.data == null || response.data.length == 0) {
+                        alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
+                    } else {
+                        alertify.success("Thêm thành công vào giỏ hàng")
+                        $scope.cartShow()
+                        location.href = "/thanh-toan";
+                    }
 
-            }).catch(e => {
-                document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
-                alertify.error("Mua Ngay thất bại!!!")
-                console.log(e)
-            })
+                }).catch(e => {
+
+                    document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
+                    alertify.error("Mua Ngay thất bại!!!")
+                    console.log(e)
+                    if (e.status === "401") {//Bắt lỗi chưa đăng nhập
+                        $('#dangNhap').modal('show') // hiển thị modal
+                    }
+                })
 
 
-        },function (){})
+            },function (){})
+        }
+
     }
 
     $scope.getSoLuong = function (idCTSP) {

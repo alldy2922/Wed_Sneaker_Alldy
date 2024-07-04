@@ -17,7 +17,7 @@ app.controller("cart-ctrl", function ($scope, $http) {
                 $http.get("/cart/find-all-sp")
                     .then(function(r) {
                         console.log(r.data);
-                        $scope.cart = r.data;
+                        $scope.cartUser = r.data;
                         console.log("soLuong:", $scope.cart);
                     })
                     .catch(function(e) {
@@ -40,7 +40,11 @@ app.controller("cart-ctrl", function ($scope, $http) {
             console.log('Error checking login status:', error);
         });
     $scope.checkboxChanged = function() {
-        console.log('Checkbox value:', $scope.checkboxValue);
+        if(   $scope.selectedProducts.length==0){
+            alertify.error("Vui long chon san pham can mua")
+        }else {
+            location.href = "/thanh-toan";
+        }
         // Thực hiện xử lý dựa trên giá trị của checkbox
     };
     $scope.checkThanhToan = function () {
@@ -90,7 +94,7 @@ app.controller("cart-ctrl", function ($scope, $http) {
         }, function () {})
     }
     $scope.selectedProducts = JSON.parse(localStorage.getItem('selectedProducts')) || [];
-
+    $scope.checkBox = false;
     $scope.toggleSelection = function(product) {
         var index = $scope.selectedProducts.findIndex(p => p.id === product.id);
         if (index > -1) {
@@ -103,9 +107,10 @@ app.controller("cart-ctrl", function ($scope, $http) {
         $scope.selectedProducts = Array.from(new Set($scope.selectedProducts.map(p => p.id)))
             .map(id => $scope.selectedProducts.find(p => p.id === id));
 
-        localStorage.setItem('selectedProducts', JSON.stringify($scope.selectedProducts)); // Store the selected products in localStorage
-        console.log($scope.selectedProducts);
-        console.log(product.id); // Display the selected products in the console
+        localStorage.setItem('selectedProducts', JSON.stringify($scope.selectedProducts));
+        localStorage.setItem('selectedUser', JSON.stringify($scope.selectedProducts));
+        $scope.cartUser = $scope.selectedProducts// Store the selected products in localStorage
+        // Display the selected products in the console
     };
     $scope.removeAllProductIncart = function () {
         alertify.confirm("Xóa hết giỏ hàng? ", function () {

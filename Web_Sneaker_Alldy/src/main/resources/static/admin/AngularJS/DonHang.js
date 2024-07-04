@@ -497,6 +497,15 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             }).catch(e => console.log(e))
         },
         capNhat() {
+            if ($scope.chuaXacNhan.detail.lyDoThayDoi == null || $scope.chuaXacNhan.detail.lyDoThayDoi == 0 || $scope.chuaXacNhan.detail.lyDoThayDoi == undefined) {
+                $scope.messLyDoThayDoi = "Không để trống lý do thay đổi thông tin đơn hàng"
+                alertify.error("Cập nhật đơn hàng thất bại")
+                return
+            } else if ($scope.chuaXacNhan.detail.lyDoThayDoi.length >= 200) {
+                $scope.messLyDoThayDoi = "Lý do thay đổi thông tin đơn hàng tối đa 200 ký tự"
+                alertify.error("Cập nhật đơn hàng thất bại")
+                return;
+            }
             alertify.confirm("Cập nhật đơn hàng?", function () {
                 // if($scope.chuaXacNhan.detail.phiGiaoHang<0){
                 //     alertify.error("Phí giao hàng phải >= 0")
@@ -512,7 +521,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 let data = {
                     ma: $scope.chuaXacNhan.detail.ma,
                     nguoiSoHuu: {username: $scope.chuaXacNhan.detail.nguoiSoHuu},
-                    voucher: $scope.chuaXacNhan.detail.voucherCode,
+                    voucherCode: $scope.chuaXacNhan.detail.voucherCode,
                     tenNguoiNhan: $scope.chuaXacNhan.detail.tenNguoiNhan,
                     soDienThoai: $scope.chuaXacNhan.detail.soDienThoai,
                     email: $scope.chuaXacNhan.detail.email,
@@ -526,6 +535,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     ngayDatHang: $scope.chuaXacNhan.detail.ngayDatHang,
                     trangThai: $scope.chuaXacNhan.detail.trangThai,
                     ghiChu: $scope.chuaXacNhan.detail.ghiChu,
+                    lyDoThayDoi: $scope.chuaXacNhan.detail.lyDoThayDoi,
                     tienGiam: $scope.chuaXacNhan.detail.tienGiam,
                     phiGiaoHang: $scope.chuaXacNhan.detail.phiGiaoHang,
                     trangThaiDetail: $scope.chuaXacNhan.detail.trangThai,
@@ -549,6 +559,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
                     type: 'application/json'
                 }))
+                formData.append("lyDoThayDoi", $scope.chuaXacNhan.detail.lyDoThayDoi);
                 $http.put("/admin/don-hang", formData, {
                     transformRequest: angular.identity,
                     headers: {'Content-Type': undefined}

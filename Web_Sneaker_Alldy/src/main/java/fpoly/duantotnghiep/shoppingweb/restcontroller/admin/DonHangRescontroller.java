@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.config.security.AdminUser;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
@@ -7,6 +8,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VnPayServiceImpl;
@@ -111,7 +113,8 @@ public class DonHangRescontroller {
     public ResponseEntity<?> updateDonHang(@Valid @RequestPart("donHang") DonHangDTORequest request,
                                            BindingResult result,
                                            @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products,
-                                           @RequestParam("lyDoThayDoi") String lyDoThayDoi) {
+                                           @RequestParam("lyDoThayDoi") String lyDoThayDoi,
+                                           Authentication authentication) {
         if(products.size()<=0){
             result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
         }else{
@@ -135,6 +138,25 @@ public class DonHangRescontroller {
         if (!donHangService.existsByMa(request.getMa())) {
             return ResponseEntity.notFound().build();
         }
+        // Lấy tên nhân viên từ authentication và thiết lập vào request
+        if (authentication != null && authentication.getPrincipal() instanceof AdminUser) {
+            AdminUser adminUser = (AdminUser) authentication.getPrincipal();
+            NhanVienModel nhanVien = adminUser.getNhanVienModel();
+            System.out.println(authentication);
+            if (nhanVien != null && nhanVien.getUsername() != null) {
+            }
+                if (nhanVien.getVaiTro() != null) {
+                    request.setNhanVien(nhanVien.getUsername());
+            } else {
+                result.addError(new FieldError("authentication", "authentication", "Thông tin nhân viên không đầy đủ"));
+                return ValidateUtil.getErrors(result);
+            }
+        } else {
+            // Xử lý nếu authentication là null hoặc không phải là kiểu AdminUser
+            result.addError(new FieldError("authentication", "authentication", "Không thể xác thực người dùng"));
+            return ValidateUtil.getErrors(result);
+        }
+
         return ResponseEntity.ok(donHangService.updateDonHang(request, products, lyDoThayDoi));
     }
     @PostMapping("")

@@ -337,6 +337,8 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
             $scope.donHangAdd.loai = 1
             $scope.donHangAdd.trangThai = trangThai;
             $scope.donHangAdd.tongTien = $scope.getTotalPrice()*100
+
+            console.log("chi tiet don hang", chiTietDonHang);
             let formData = new FormData();
             formData.append("donHang", new Blob([JSON.stringify($scope.donHangAdd)], {
                 type: 'application/json'
@@ -344,6 +346,7 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
             formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
                 type: 'application/json'
             }))
+            console.log("abc", formData);
             $http.post("/admin/don-hang", formData, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
@@ -631,6 +634,7 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
                     quanHuyenCode: 1,
                     xaPhuongName: "a",
                     xaPhuongCode: "12",
+                    lyDoThayDoi: "update",
                     ngayDatHang: $scope.chuaXacNhan.detail.ngayDatHang,
                     trangThai: $scope.chuaXacNhan.detail.trangThai,
                     diaChiChiTiet : "a",
@@ -655,7 +659,8 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
                 formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
                     type: 'application/json'
                 }))
-                console.log(data)
+                formData.append("lyDoThayDoi", "update");
+                console.log("check data", data)
                 $http.put("/admin/don-hang", formData, {
                     transformRequest: angular.identity,
                     headers: {'Content-Type': undefined}

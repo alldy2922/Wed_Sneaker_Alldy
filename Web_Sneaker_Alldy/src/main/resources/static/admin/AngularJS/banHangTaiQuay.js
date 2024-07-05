@@ -39,12 +39,13 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         return total
     }
     ///////////////////////
-    // $scope.getSanPham = function () {
-    //     $http.get("/admin/san-pham/1/get-all-ctsp").then(r => {
-    //         $scope.sanPham = r.data
-    //     }).catch(e => console.log(e))
-    // }
-    // $scope.getSanPham()
+// Hàm lấy list sản phẩm trong cập nhập sản phẩm khi lưu hóa đơn chờ
+    $scope.getSanPham = function () {
+        $http.get("/admin/san-pham/1/get-all-ctsp").then(r => {
+            $scope.sanPham = r.data
+        }).catch(e => console.log(e))
+    }
+    $scope.getSanPham()
     // $scope.addChiTietDonHang = function (item) {
     //     $scope.chiTietDonHang.push({
     //         sanPham: item.sanPham,
@@ -153,7 +154,7 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
     }
 
     // Đặt lại giá trị nhập liệu số lượng sản phẩm thành rỗng sau khi thêm
-    $scope.erAdd.soLuongSP = "";
+    $scope.er.soLuongSP = '';
 };
 
 
@@ -190,6 +191,7 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
             formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
                 type: 'application/json'
             }))
+
             $http.post("/admin/don-hang", formData, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
@@ -441,6 +443,7 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
                     quanHuyenCode: 1,
                     xaPhuongName: "a",
                     xaPhuongCode: "12",
+                    lyDoThayDoi: "update",
                     ngayDatHang: $scope.chuaXacNhan.detail.ngayDatHang,
                     trangThai: $scope.chuaXacNhan.detail.trangThai,
                     diaChiChiTiet : "a",
@@ -465,6 +468,7 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
                 formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
                     type: 'application/json'
                 }))
+                formData.append("lyDoThayDoi", "update");
                 console.log(data)
                 $http.put("/admin/don-hang", formData, {
                     transformRequest: angular.identity,

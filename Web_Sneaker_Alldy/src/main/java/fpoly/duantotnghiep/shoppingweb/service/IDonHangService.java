@@ -38,7 +38,7 @@ public interface IDonHangService {
 
     void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException;
 
-    DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products);
+    DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoThayDoi);
 
     @Query("""
                 SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 

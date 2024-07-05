@@ -288,7 +288,7 @@ public class DonHangService implements IDonHangService {
             model.setNguoiSoHuu(null);
         }
 
-        if (model.getLoai() == 1) {
+        if (model.getLoai() == 1 || model.getLoai() == 0) {
             return new DonHangDtoResponse(donHangResponsitory.save(model));
         }
 

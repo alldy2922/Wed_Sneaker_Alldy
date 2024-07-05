@@ -3,7 +3,7 @@
     layout:decorate="~{/admin/index}">
 
 <head>
-    <title>ALLDY STORE | Quản lý đơn hàng</title>
+    <title>ALLDY STORE | Hóa Đơn Online</title>
 </head>
 
 <body data-topbar="dark">
@@ -214,7 +214,7 @@
                                                                             aria-label="Previous"
                                                                             ng-click="chuaXacNhan.getList(chuaXacNhan.page==0 ? 0 : chuaXacNhan.page-1)">
                                                                             <span>
-                                                                                << /span>
+                                                                                < </span>
                                                                                     <span
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
@@ -401,7 +401,7 @@
                                                                             aria-label="Previous"
                                                                             ng-click="chuaThanhToan.getList(chuaThanhToan.page==0 ? 0 : chuaThanhToan.page-1)">
                                                                             <span>
-                                                                                << /span>
+                                                                                < </span>
                                                                                     <span
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
@@ -573,7 +573,7 @@
                                                                             aria-label="Previous"
                                                                             ng-click="daXacNhan.getList(daXacNhan.page==0 ? 0 : daXacNhan.page-1)">
                                                                             <span>
-                                                                                << /span>
+                                                                                < </span>
                                                                                     <span
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
@@ -745,7 +745,7 @@
                                                                             aria-label="Previous"
                                                                             ng-click="dangGiao.getList(dangGiao.page==0 ? 0 : dangGiao.page-1)">
                                                                             <span>
-                                                                                << /span>
+                                                                                < </span>
                                                                                     <span
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
@@ -881,7 +881,7 @@
                                                                             aria-label="Previous"
                                                                             ng-click="hoanThanh.getList(hoanThanh.page==0 ? 0 : hoanThanh.page-1)">
                                                                             <span>
-                                                                                << /span>
+                                                                                < </span>
                                                                                     <span
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
@@ -1025,7 +1025,7 @@
                                                                             aria-label="Previous"
                                                                             ng-click="huy.getList(huy.page==0 ? 0 : huy.page-1)">
                                                                             <span>
-                                                                                << /span>
+                                                                                < </span>
                                                                                     <span
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
@@ -1084,7 +1084,8 @@
             </div> <!-- container-fluid -->
 
             <!--        Modal lý do hủy đơn-->
-            <div class="modal fade" id="lyDo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="lyDo" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -1446,6 +1447,17 @@
                                                     <input class="form-control" type="text"
                                                         ng-model="chuaXacNhan.detail.lyDoThayDoi">
                                                 </div>
+                                            </td>
+                                        <tr>
+                                            <td>
+                                                Ngiời Thay Đổi
+                                            </td>
+                                            <td colspan="4">
+                                                <div class="d-flex justify-content-end">
+                                                    <i>{{chuaXacNhan.detail.nhanVienDtoResponse.hoVaTen}}</i>
+                                                </div>
+                                            </td>
+                                        </tr>
 
                             </div>
                             </td>
@@ -1880,7 +1892,7 @@
                             </div>
                             <div class="mb-3 col-6">
                                 <label>Ghi chú</label>
-                                <span class="form-control">{{donHang.ghiChu}}</span>
+                                <span class="form-control" style="height: 40px;">{{donHang.ghiChu}}</span>
                             </div>
                         </div>
                         <div class="row" ng-if="donHang.trangThai==0">

@@ -47,7 +47,7 @@ public class ThongKeEntityManager {
                         )
                 );
     }
-
+    //Doanh thu sắp xếp theo năm
     public Map<Integer, BigDecimal> getRevenueInOrderByYear(String year){
 
         Map<Integer, BigDecimal> mapTongTien = new HashMap<>();
@@ -93,6 +93,7 @@ public class ThongKeEntityManager {
         return result;
     }
 
+    // Tổng sản phẩm theo năm
     public Map<Integer, Long> getTotalProductsByYear(String year){
         return entityManager.createQuery("""
                 SELECT MONTH(d.donHang.ngayDatHang) AS month, SUM(d.soLuong)  AS quantity
@@ -111,6 +112,7 @@ public class ThongKeEntityManager {
                 );
     }
 
+    // Đã bán
     public List<ChiTietSanPhamThongKeDto> getChiTietSanPhamDaBan(String maSanPham){
 
         return entityManager.createQuery("""
@@ -164,7 +166,7 @@ public class ThongKeEntityManager {
     }
 
 
-
+    // Lấy ctsp theo khoảng thời gian
     public List<ChiTietSanPhamThongKeDto> getChiTietSanPhamDaBanWithDate(String maSanPham,Date firstDate, Date lastDate){
 
         return entityManager.createQuery("""
@@ -186,6 +188,8 @@ public class ThongKeEntityManager {
 
 
     }
+
+    // Lấy sản phẩm theo khoảng thời gian
     public List<SanPhamDaBanDto> getSanPhamDaBanWithDate(Date firstDate, Date lastDate){
         List<SanPhamBanChayDto> listSanPham = entityManager.createQuery("""
                                                                  SELECT s.sanPham.ma AS sanPham, SUM(cd.soLuong) AS soLuong
@@ -210,6 +214,7 @@ public class ThongKeEntityManager {
         return result;
     }
 
+    // Doanh thu theo thời gian
     public Map<String,String> getDoanhThuDetailByDate(Date firstDate, Date lastDate,Integer loai){
         Map<String,String> result = new HashMap<>();
         BigDecimal tongTien = (BigDecimal) entityManager
@@ -235,6 +240,8 @@ public class ThongKeEntityManager {
         result.put("tienGiam",tienGiam == null ? "0" : tienGiam+"");
         return result;
     }
+
+    //Tổng doanh thu theo ngày
     public String getTotalDoanhThuByDate(Date firstDate, Date lastDate){
         BigDecimal tongTien = (BigDecimal) entityManager
                 .createQuery("""
@@ -246,6 +253,7 @@ public class ThongKeEntityManager {
                 .getSingleResult();
         return tongTien == null ? "0" : tongTien+"";
     }
+    // Trạng thái theo khoảng thời gian
     public Map<String, Long> getDetailOrdersByDate(Date firstDate, Date lastDate){
         return entityManager.createQuery("""
                 SELECT d.trangThai, COUNT(d)
@@ -264,6 +272,8 @@ public class ThongKeEntityManager {
                         )
                 );
     }
+
+    // Trạng thái bán hàng tại quầy theo thời gian
     public Map<String, Long> getDetailOrdersTaiQuayByDate(Date firstDate, Date lastDate){
         return entityManager.createQuery("""
                 SELECT d.trangThai, COUNT(d)

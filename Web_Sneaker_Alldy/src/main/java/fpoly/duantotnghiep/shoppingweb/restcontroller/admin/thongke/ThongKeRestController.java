@@ -57,6 +57,7 @@ public class ThongKeRestController {
         return ResponseEntity.ok(result);
     }
 
+    //Tổng all theo năm
     @GetMapping("tong-quat-nam")
     public ResponseEntity<?> getQuantityOrderByYear(@RequestParam(required = false)String year){
         if(year==null){

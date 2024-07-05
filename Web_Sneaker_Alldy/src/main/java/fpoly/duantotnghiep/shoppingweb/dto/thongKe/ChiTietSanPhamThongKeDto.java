@@ -10,10 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ChiTietSanPhamThongKeDto {
-    //
+    //Enntity chi tiết sản phẩm
     private ChiTietSanPhamDtoResponse chiTietSanPham;
     private Long daBan;
 
+    //Contructor
     public ChiTietSanPhamThongKeDto(ChiTietSanPhamModel chiTietSanPham, Long daBan) {
         this.chiTietSanPham = new ChiTietSanPhamDtoResponse(chiTietSanPham);
         this.daBan = daBan;

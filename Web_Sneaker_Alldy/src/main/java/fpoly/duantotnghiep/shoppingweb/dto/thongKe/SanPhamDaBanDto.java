@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class SanPhamDaBanDto {
-    //
+    //Entity sp đã bán
     private SanPhamBanChayDto sanPham;
     private List<ChiTietSanPhamThongKeDto> chiTietSanPham;
 }

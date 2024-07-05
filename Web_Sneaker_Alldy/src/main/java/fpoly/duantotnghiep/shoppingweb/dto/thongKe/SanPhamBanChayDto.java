@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class SanPhamBanChayDto {
-    //
+    //Entity sản phẩm bán chạy
     private SanPhamDtoResponse sanPham;
     private Long soLuong;
 }

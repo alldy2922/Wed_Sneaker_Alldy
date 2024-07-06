@@ -534,8 +534,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 tienGiam: $scope.chuaXacNhan.detail.tienGiam,
                 phiGiaoHang: $scope.chuaXacNhan.detail.phiGiaoHang,
                 trangThaiDetail: $scope.chuaXacNhan.detail.trangThai,
-                phuongThucThanhToan: $scope.chuaXacNhan.detail.phuongThucThanhToan == 'true' ? 0 : 1,
-                nhanVien : $scope.chuaXacNhan.detail.nhanVienDtoResponse == null ? null :  $scope.chuaXacNhan.detail.nhanVienDtoResponse.username
+                phuongThucThanhToan: $scope.chuaXacNhan.detail.phuongThucThanhToan == 'true' ? 0 : 1
             }
 
             console.log("check data", data);

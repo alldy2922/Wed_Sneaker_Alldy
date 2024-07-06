@@ -667,12 +667,12 @@
                                                              style="cursor: pointer"
                                                              class="row d-flex justify-content-start align-items-center"
                                                              ng-click="addChiTietDonHang(s)">
-                                                            <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0">
-                                                                <img src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
+                                                            <div class="col-sm-2" ng-if="s.anh.length>0">
+                                                                <img src="/image/loadImage/product/{{s.anh[0]}}"
                                                                      style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
                                                             </div>
                                                             <div class="col-sm-2"
-                                                                 ng-if="s.sanPhamDTO.anh.length==0"><img
+                                                                 ng-if="s.anh.length==0"><img
                                                                     src="/image/loadImage/product/default.png"
                                                                     style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
                                                             </div>
@@ -680,19 +680,19 @@
                                                                 <div style="white-space: nowrap;
                                                         overflow: hidden;
                                                         text-overflow: ellipsis;
-                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
+                                                        font-weight: bold;">{{s.ten}}
                                                                 </div>
                                                                 <i style="font-size: 12px;">Size: {{s.size}} - Còn
                                                                     lại: {{s.soLuong}}</i>
                                                             </div>
                                                             <div class="col-sm-3 d-flex justify-content-center">
                                                                 <i style="text-decoration: line-through;"
-                                                                   ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
+                                                                   ng-if="s.giaNiemYet < s.giaBan">{{s.giaBan}}</i>
                                                             </div>
                                                             <div class="col-sm-3 d-flex justify-content-center"
                                                                  style="margin-top: 15px">
                                                                 <p style="font-weight: bold;">
-                                                                    {{s.sanPhamDTO.giaNiemYet}}</p>
+                                                                    {{s.giaNiemYet}}</p>
                                                             </div>
                                                         </div>
                                                         <!--                                            /////////////////////////////////////////-->
@@ -703,12 +703,12 @@
                                                             <!--                                                    <span style="font-weight: bold;font-size: 20px;color: black;-->
                                                             <!--                                                                font-style: italic;">Đã có trong đơn hàng</span>-->
                                                             <!--                                                </div>-->
-                                                            <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0">
-                                                                <img src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
+                                                            <div class="col-sm-2" ng-if="s.anh.length>0">
+                                                                <img src="/image/loadImage/product/{{s.anh[0]}}"
                                                                      style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
                                                             </div>
                                                             <div class="col-sm-2"
-                                                                 ng-if="s.sanPhamDTO.anh.length==0"><img
+                                                                 ng-if="s.anh.length==0"><img
                                                                     src="/image/loadImage/product/default.png"
                                                                     style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
                                                             </div>
@@ -716,19 +716,19 @@
                                                                 <div style="white-space: nowrap;
                                                         overflow: hidden;
                                                         text-overflow: ellipsis;
-                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
+                                                        font-weight: bold;">{{s.ten}}
                                                                 </div>
                                                                 <i style="font-size: 12px;">Size: {{s.size}} - Còn
                                                                     lại: {{s.soLuong}}</i>
                                                             </div>
                                                             <div class="col-sm-3 d-flex justify-content-center">
                                                                 <i style="text-decoration: line-through;"
-                                                                   ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
+                                                                   ng-if="s.giaNiemYet < s.giaBan">{{s.giaBan}}</i>
                                                             </div>
                                                             <div class="col-sm-3 d-flex justify-content-center"
                                                                  style="margin-top: 15px">
                                                                 <p style="font-weight: bold;">
-                                                                    {{s.sanPhamDTO.giaNiemYet}}</p>
+                                                                    {{s.giaNiemYet}}</p>
                                                             </div>
                                                         </div>
                                                         <hr>

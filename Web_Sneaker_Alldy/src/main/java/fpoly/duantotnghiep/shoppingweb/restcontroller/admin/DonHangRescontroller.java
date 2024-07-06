@@ -138,24 +138,10 @@ public class DonHangRescontroller {
         if (!donHangService.existsByMa(request.getMa())) {
             return ResponseEntity.notFound().build();
         }
-        // Lấy tên nhân viên từ authentication và thiết lập vào request
-        if (authentication != null && authentication.getPrincipal() instanceof AdminUser) {
-            AdminUser adminUser = (AdminUser) authentication.getPrincipal();
-            NhanVienModel nhanVien = adminUser.getNhanVienModel();
-            System.out.println(authentication);
-            if (nhanVien != null && nhanVien.getUsername() != null) {
-            }
-                if (nhanVien.getVaiTro() != null) {
-                    request.setNhanVien(nhanVien.getUsername());
-            } else {
-                result.addError(new FieldError("authentication", "authentication", "Thông tin nhân viên không đầy đủ"));
-                return ValidateUtil.getErrors(result);
-            }
-        } else {
-            // Xử lý nếu authentication là null hoặc không phải là kiểu AdminUser
-            result.addError(new FieldError("authentication", "authentication", "Không thể xác thực người dùng"));
-            return ValidateUtil.getErrors(result);
-        }
+
+        System.out.println("authen " + authentication);
+        System.out.println("nhan vien" + authentication.getName());
+        request.setNhanVien(authentication.getName());
 
         return ResponseEntity.ok(donHangService.updateDonHang(request, products, lyDoThayDoi));
     }

@@ -288,10 +288,10 @@ public class DonHangService implements IDonHangService {
         } else {
             model.setNguoiSoHuu(null);
         }
-
-        if (model.getLoai() == 1) {
-            return new DonHangDtoResponse(donHangResponsitory.save(model));
-        }
+        //update
+       if(model.getLoai() == 1 || model.getLoai() == 0){
+           return new DonHangDtoResponse(donHangResponsitory.save(model));
+       }
 
         String subject = "Cập nhật thông tin đơn hàng!";
         String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn vừa cập nhật thông tin!";

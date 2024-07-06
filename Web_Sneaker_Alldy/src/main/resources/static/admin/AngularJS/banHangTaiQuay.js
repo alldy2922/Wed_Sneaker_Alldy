@@ -142,8 +142,12 @@ app.controller("banhang-ctrl", function ($scope, $http) {
         $scope.er.soLuongSP = null; // Hoặc giá trị khác thay vì chuỗi rỗng
     };
     $scope.searchSanPham = function () {
+        if (!$scope.inputProduct || $scope.inputProduct.trim() === "") {
+            console.log("Vui lòng nhập tên sản phẩm.");
+            return;
+        }
         $http.get("/admin/san-pham/search?ten=" + $scope.inputProduct).then(r => {
-            $scope.products = r.data
+            $scope.sanPham = r.data
             console.log("12", $scope.products)
         }).catch(e => console.log(e))
 

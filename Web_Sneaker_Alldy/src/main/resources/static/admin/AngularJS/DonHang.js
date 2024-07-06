@@ -495,7 +495,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 $scope.chiTietDonHang = r.data;
             }).catch(e => console.log(e))
         },
-        lyDoThayDoiDH() {
+        capNhatDH() {
 
             if ($scope.chuaXacNhan.detail.lyDoThayDoi == null || $scope.chuaXacNhan.detail.lyDoThayDoi == 0 || $scope.chuaXacNhan.detail.lyDoThayDoi == undefined) {
                 $scope.messLyDoThayDoi = "Không để trống lý do thay đổi thông tin đơn hàng"

@@ -88,8 +88,12 @@ public class DonHangModel {
     @Column(name = "lydohuy")
     private String lyDoHuy;
 
+    
     @Column(name = "lydothaydoi")
     private String lyDoThayDoi;
+
+    @Column(name = "lydotrahang")
+    private String lyDoTraHang;
 
     @Column(name = "ngayxacnhan")
     private Date ngayXacNhan;
@@ -102,6 +106,19 @@ public class DonHangModel {
 
     @Column(name = "ngayhuy")
     private Date ngayHuy;
+
+    @Column(name = "ngaytrahang")
+    private Date ngayTraHang;
+
+    // @Column(name = "ngaykiemtra")
+    // private Date ngayKiemTraTraHang;
+
+    // @Column(name = "ngayhoanthanhtrahang")
+    // private Date ngayHoanThanhTraHang;
+
+    // @Column(name = "ngayhuytrahang")
+    // private Date ngayHuyTraHang;
+
 
     @Column(name = "loai",columnDefinition = "INT default 0")
     private Integer loai;

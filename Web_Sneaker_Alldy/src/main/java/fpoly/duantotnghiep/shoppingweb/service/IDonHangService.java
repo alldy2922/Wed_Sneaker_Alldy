@@ -55,4 +55,6 @@ public interface IDonHangService {
     void themDonHangAdmin(DonHangDTORequest donHangDTORequest, List<ChiTietDonHangDTORequest> chiTietDonHang);
 
     Map<String,Long> getQuantityProductInOrderDetailWithDate(Date firstDate, Date lastDate);
+
+    void traDonHangUser(String ma, String lyDoTraHang)throws MessagingException;
 }

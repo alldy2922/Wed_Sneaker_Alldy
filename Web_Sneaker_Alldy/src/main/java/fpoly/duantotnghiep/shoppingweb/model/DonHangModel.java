@@ -110,15 +110,14 @@ public class DonHangModel {
     @Column(name = "ngaytrahang")
     private Date ngayTraHang;
 
-    // @Column(name = "ngaykiemtra")
-    // private Date ngayKiemTraTraHang;
+    @Column(name = "ngaykiemtratrahang")
+    private Date ngayKiemTraTraHang;
 
-    // @Column(name = "ngayhoanthanhtrahang")
-    // private Date ngayHoanThanhTraHang;
+    @Column(name = "ngayhoanthanhtrahang")
+    private Date ngayHoanThanhTraHang;
 
-    // @Column(name = "ngayhuytrahang")
-    // private Date ngayHuyTraHang;
-
+    @Column(name = "ngayhuytrahang")
+    private Date ngayHuyTraHang;
 
     @Column(name = "loai",columnDefinition = "INT default 0")
     private Integer loai;

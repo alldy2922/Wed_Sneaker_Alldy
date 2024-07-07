@@ -106,6 +106,13 @@ public class DonHangRescontroller {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/tra-don-hang")
+    public ResponseEntity<Integer> traDonHang(@RequestBody List<String> ma, @RequestParam("lyDoTraHang") String lyDoTraHang) throws MessagingException {
+        donHangService.huyTraHang(ma, lyDoTraHang);
+        return ResponseEntity.ok().build();
+    }
+
+
     @PutMapping("")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})
     public ResponseEntity<?> updateDonHang(@Valid @RequestPart("donHang") DonHangDTORequest request,

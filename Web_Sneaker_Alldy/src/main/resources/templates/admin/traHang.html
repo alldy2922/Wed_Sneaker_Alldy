@@ -20,7 +20,7 @@
 
             .nameProduct {
                 width: 200px;
-                white-space: nowrap; 
+                white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
@@ -39,7 +39,8 @@
                                 <li class="nav-item" ng-click="chuaXacNhanTraHang.getList(chuaXacNhanTraHang.page)">
                                     <a class="nav-link active" data-bs-toggle="tab" href="#xacnhan" role="tab">
                                         <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                        <span class="d-none d-sm-block">Chờ Xác Nhận Hoàn Hàng <span class="badge bg-danger ms-1"
+                                        <span class="d-none d-sm-block">Chờ Xác Nhận Hoàn Hàng <span
+                                                class="badge bg-danger ms-1"
                                                 style="font-size: 11px">{{chuaXacNhanTraHang.totalElement}}</span></span>
 
                                     </a>
@@ -47,7 +48,8 @@
                                 <li class="nav-item" ng-click="daXacNhanTraHang.getList(daXacNhanTraHang.page)">
                                     <a class="nav-link" data-bs-toggle="tab" href="#kiemtra" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block">Kiểm Tra Hàng Hoàn <span class="badge bg-danger ms-1"
+                                        <span class="d-none d-sm-block">Kiểm Tra Hàng Hoàn <span
+                                                class="badge bg-danger ms-1"
                                                 style="font-size: 11px">{{daXacNhanTraHang.totalElement}}</span></span>
                                     </a>
                                 </li>
@@ -57,7 +59,7 @@
                                         <span class="d-none d-sm-block">Hoàn Tiền</span>
                                     </a>
                                 </li>
-                                <li class="nav-item" ng-click="huy.getList(huy.page)">
+                                <li class="nav-item" ng-click="huyTraHang.getList(huyTraHang.page)">
                                     <a class="nav-link" data-bs-toggle="tab" href="#donhangHuy" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                         <span class="d-none d-sm-block">Hủy</span>
@@ -66,7 +68,7 @@
 
                             </ul>
                             <div class="tab-content p-3 text-muted">
-                                <!-- Chưa xác nhận -->
+                                <!-- Chưa xác nhận hoan hang-->
                                 <div class="tab-pane active" id="xacnhan" role="tabpanel">
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -97,15 +99,16 @@
                                                                     <th scope="col" style="width: 50px;">
                                                                         <div class="form-check font-size-16">
                                                                             <input type="checkbox"
-                                                                                ng-click="setCheckAll('checkAllChuaXacNhan','checkChuaXacNhan')"
+                                                                                ng-click="setCheckAll('checkAllChuaXacNhanTraHang','checkChuaXacNhanTraHang')"
                                                                                 class="form-check-input"
-                                                                                id="checkAllChuaXacNhan">
+                                                                                id="chuaXacNhanTraHang">
                                                                         </div>
                                                                     </th>
                                                                     <th scope="col">Mã</th>
                                                                     <th scope="col">Tên người nhận</th>
                                                                     <th scope="col">Số điện thoại</th>
                                                                     <th scope="col">Ngày hoàn</th>
+                                                                    <th scope="col">Lý do hoàn</th>
                                                                     <th style="width: 80px; min-width: 80px;"></th>
                                                                 </tr>
                                                             </thead>
@@ -120,38 +123,41 @@
                                                                     <th scope="row">
                                                                         <div class="form-check font-size-16">
                                                                             <input type="checkbox"
-                                                                                ng-click="checkAllChecked('checkChuaXacNhan','checkAllChuaXacNhan')"
+                                                                                ng-click="checkAllChecked('checkChuaXacNhanTraHang','checkAllChuaXacNhanTraHang')"
                                                                                 class="form-check-input"
-                                                                                name="checkChuaXacNhan"
+                                                                                name="chuaXacNhanTraHang"
                                                                                 value="{{d.ma}}">
                                                                         </div>
                                                                     </th>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="chuaXacNhan.getDetail(d.ma)">{{d.ma}}
+                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.ma)">{{d.ma}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="chuaXacNhan.getDetail(d.ma)">
+                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
                                                                         {{d.tenNguoiNhan}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="chuaXacNhan.getDetail(d.ma)">
+                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
                                                                         {{d.soDienThoai}}
                                                                     </td>
                                                                     <!-- ngày hoàn hàng -->
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="chuaXacNhan.getDetail(d.ma)">
+                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
                                                                         {{d.ngayTraHang | date:'yyyy-MM-dd HH:mm:ss'}}
                                                                     </td>
-                                                                    <td style="width: 200px" id="action{{d.ma}}">
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
+                                                                        {{d.lyDoTraHang}}
+                                                                    </td>
+                                                                    <td style="width: 200px" >
                                                                         <button class="btn btn-danger me-1"
-                                                                            data-toggle="modal" data-target="#lDo"
+                                                                            data-toggle="modal" data-target="#lyDoTraHang"
                                                                             ng-click="chuaXacNhanTraHang.setIdDonHang(d.ma)">Hủy
                                                                         </button>
                                                                         <button class="btn btn-primary"
                                                                             ng-click="chuaXacNhanTraHang.xacNhanDH(d.ma)">Xác
                                                                             nhận
                                                                         </button>
-
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -165,8 +171,8 @@
                                                 <div class="card-footer">
                                                     <div class="row d-flex justify-content-end me-1  mb-2">
                                                         <button class="btn btn-danger me-1 col-1" id="huyAll1" disabled
-                                                            ng-click="chuaXacNhanTraHang.setAllIdDonHang()" data-toggle="modal"
-                                                            data-target="#lyDo">Hủy
+                                                            ng-click="chuaXacNhanTraHang.setAllIdDonHang()"
+                                                            data-toggle="modal" data-target="#lyDoTraHang">Hủy
                                                         </button>
                                                         <button class="btn btn-primary col-2" disabled id="xacNhanAll1"
                                                             ng-click="chuaXacNhanTraHang.xacNhanDHAll()">Xác nhận
@@ -189,14 +195,15 @@
                                                                     <li class="page-item" ng-if="chuaXacNhan.page>0">
                                                                         <span class="page-link" style="cursor: pointer"
                                                                             aria-label="Previous"
-                                                                            ng-click="chuaXacNhanTraHang.getList(chuaXacNhan.page==0 ? 0 : chuaXacNhanTraHang.page-1)">
+                                                                            ng-click="chuaXacNhanTraHang.getList(chuaXacNhanTraHang.page==0 ? 0 : chuaXacNhanTraHang.page-1)">
                                                                             <span>
                                                                                 < </span>
                                                                                     <span
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
                                                                     </li>
-                                                                    <li class="page-item" ng-if="chuaXacNhanTraHang.page>2">
+                                                                    <li class="page-item"
+                                                                        ng-if="chuaXacNhanTraHang.page>2">
                                                                         <span class="page-link">
                                                                             <span>...</span>
                                                                         </span>
@@ -244,7 +251,7 @@
                                         </div>
                                     </div>
                                 </div>
-            
+
                                 <!--Đã xác nhận/Kiểm tra hàng hoàn-->
                                 <div class="tab-pane" id="kiemtra" role="tabpanel">
                                     <div class="row">
@@ -274,7 +281,7 @@
                                                                     <th scope="col" style="width: 50px;">
                                                                         <div class="form-check font-size-16">
                                                                             <input type="checkbox"
-                                                                                ng-click="setCheckAll('daXacNhanTraHang','daXacNhanTraHang')"
+                                                                                ng-click="setCheckAll('checkAllDaXacNhanTraHang','checkDaXacNhanTraHang')"
                                                                                 class="form-check-input"
                                                                                 id="daXacNhanTraHang">
                                                                         </div>
@@ -297,13 +304,15 @@
                                                                     <th scope="row">
                                                                         <div class="form-check font-size-16">
                                                                             <input type="checkbox"
-                                                                                ng-click="checkAllChecked('daXacNhanTraHang','daXacNhanTraHang')"
+                                                                                ng-click="checkAllChecked('checkDaXacNhanTraHang','checkAllDaXacNhanTraHang')"
                                                                                 class="form-check-input"
-                                                                                name="daXacNhanTraHang" value="{{d.ma}}">
+                                                                                name="daXacNhanTraHang"
+                                                                                value="{{d.ma}}">
                                                                         </div>
                                                                     </th>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="daXacNhanTraHang.getDetail(d.ma)">{{d.ma}}
+                                                                        ng-click="daXacNhanTraHang.getDetail(d.ma)">
+                                                                        {{d.ma}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="daXacNhanTraHang.getDetail(d.ma)">
@@ -315,15 +324,17 @@
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="daXacNhanTraHang.getDetail(d.ma)">
-                                                                        {{d.ngayTraHang | date:'yyyy-MM-dd HH:mm:ss' }}
+                                                                        {{d.ngayKiemTraTraHang | date:'yyyy-MM-dd
+                                                                        HH:mm:ss' }}
                                                                     </td>
                                                                     <td style="width: 200px">
                                                                         <button class="btn btn-danger me-1"
-                                                                            data-toggle="modal" data-target="#lyDo"
+                                                                            data-toggle="modal" data-target="#lyDoTraHang"
                                                                             ng-click="daXacNhanTraHang.setIdDonHang(d.ma)">Hủy
                                                                         </button>
                                                                         <button class="btn btn-primary"
-                                                                            ng-click="daXacNhanTraHang.chuyenGiao(d.ma)">Hoàn Tiền
+                                                                            ng-click="daXacNhanTraHang.chuyenGiao(d.ma)">Hoàn
+                                                                            Tiền
                                                                         </button>
                                                                     </td>
                                                                 </tr>
@@ -336,8 +347,8 @@
                                                 <div class="card-footer">
                                                     <div class="row d-flex justify-content-end me-1  mb-2">
                                                         <button class="btn btn-danger me-1 col-1" id="huyAll2" disabled
-                                                            ng-click="daXacNhanTraHang.setAllIdDonHang()" data-toggle="modal"
-                                                            data-target="#lyDo">Hủy
+                                                            ng-click="daXacNhanTraHang.setAllIdDonHang()"
+                                                            data-toggle="modal" data-target="#lyDoTraHang">Hủy
                                                         </button>
                                                         <button class="btn btn-primary col-2" disabled id="xacNhanAll2"
                                                             ng-click="daXacNhanTraHang.chuyenGiaoDHAll()">Hoàn Tiền
@@ -350,14 +361,15 @@
                                                                 <ul class="pagination justify-content-end">
                                                                     <li class="page-item"
                                                                         ng-click="daXacNhanTraHang.getList(0)"
-                                                                        ng-if="daXacNdaXacNhanTraHanghan.page>0">
+                                                                        ng-if="daXacNhanTraHang.page>0">
                                                                         <span class="page-link" style="cursor: pointer"
                                                                             aria-label="First">
                                                                             <span aria-hidden="true">&laquo;</span>
                                                                             <span class="sr-only">First</span>
                                                                         </span>
                                                                     </li>
-                                                                    <li class="page-item" ng-if="daXacNhanTraHang.page>0">
+                                                                    <li class="page-item"
+                                                                        ng-if="daXacNhanTraHang.page>0">
                                                                         <span class="page-link" style="cursor: pointer"
                                                                             aria-label="Previous"
                                                                             ng-click="daXacNhanTraHang.getList(daXacNhanTraHang.page==0 ? 0 : daXacNhanTraHang.page-1)">
@@ -367,14 +379,16 @@
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
                                                                     </li>
-                                                                    <li class="page-item" ng-if="daXacNhanTraHang.page>2">
+                                                                    <li class="page-item"
+                                                                        ng-if="daXacNhanTraHang.page>2">
                                                                         <span class="page-link">
                                                                             <span>...</span>
                                                                         </span>
                                                                     </li>
                                                                     <li class="page-item pageNumber"
                                                                         ng-repeat="p in daXacNhanTraHang.pages"
-                                                                        ng-click="daXacNhanTraHang.getList(p)" id="{{p}}">
+                                                                        ng-click="daXacNhanTraHang.getList(p)"
+                                                                        id="{{p}}">
                                                                         <span ng-if="p!=daXacNhanTraHang.page"
                                                                             class="page-link"
                                                                             style="cursor: pointer">{{p + 1}}</span>
@@ -469,7 +483,8 @@
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'
+                                                                        {{d.ngayHoanThanhTraHang | date:'yyyy-MM-dd
+                                                                        HH:mm:ss'
                                                                         }}
                                                                     </td>
                                                                 </tr>
@@ -494,7 +509,8 @@
                                                                             <span class="sr-only">First</span>
                                                                         </span>
                                                                     </li>
-                                                                    <li class="page-item" ng-if="hoanThanhTraHang.page>0">
+                                                                    <li class="page-item"
+                                                                        ng-if="hoanThanhTraHang.page>0">
                                                                         <span class="page-link" style="cursor: pointer"
                                                                             aria-label="Previous"
                                                                             ng-click="hoanThanhTraHang.getList(hoanThanhTraHang.page==0 ? 0 : hoanThanhTraHang.page-1)">
@@ -504,13 +520,15 @@
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
                                                                     </li>
-                                                                    <li class="page-item" ng-if="hoanThanhTraHang.page>2">
+                                                                    <li class="page-item"
+                                                                        ng-if="hoanThanhTraHang.page>2">
                                                                         <span class="page-link">
                                                                             <span>...</span>
                                                                         </span>
                                                                     </li>
                                                                     <li class="page-item pageNumber"
-                                                                        ng-repeat="p in hoanThanhTraHang.pages" id="{{p}}">
+                                                                        ng-repeat="p in hoanThanhTraHang.pages"
+                                                                        id="{{p}}">
                                                                         <span ng-if="p!=hoanThanhTraHang.page"
                                                                             class="page-link"
                                                                             ng-click="hoanThanhTraHang.getList(p)"
@@ -566,8 +584,8 @@
                                                             <div
                                                                 class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
                                                                 <input class="form-control col-6"
-                                                                    ng-model="huy.sdtSearch"
-                                                                    onchange="angular.element(this).scope().huy.getList(0)"
+                                                                    ng-model="huyTraHang.sdtSearch"
+                                                                    onchange="angular.element(this).scope().huyTraHang.getList(0)"
                                                                     placeholder="Tìm kiếm theo số điện thoại hoặc mã đơn hàng"
                                                                     style="width: 50%">
                                                             </div>
@@ -582,18 +600,18 @@
                                                                     <th scope="col">Mã</th>
                                                                     <th scope="col">Tên người nhận</th>
                                                                     <th scope="col">Số điện thoại</th>
-                                                                    <th scope="col">Ngày hủy</th>
-                                                                    <th scope="col">Lý do hủy</th>
+                                                                    <th scope="col">Ngày từ chối</th>
+                                                                    <th scope="col">Lý từ chối hoàn hàng</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr ng-if="huy.list.length == 0">
+                                                                <tr ng-if="huyTraHang.list.length == 0">
                                                                     <td colspan="8">
                                                                         <h4 class="text-center col-12 mt-5">Không có đơn
                                                                             hàng liên quan</h4>
                                                                     </td>
                                                                 </tr>
-                                                                <tr ng-repeat="d in huy.list">
+                                                                <tr ng-repeat="d in huyTraHang.list">
                                                                     <td style="cursor: pointer"
                                                                         ng-click="daXacNhan.getDetail(d.ma)">{{d.ma}}
                                                                     </td>
@@ -606,16 +624,13 @@
                                                                         {{d.soDienThoai}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.ngayHuy | date:'yyyy-MM-dd HH:mm:ss' }}
+                                                                        ng-click="ngayHuyTrahang.getDetail(d.ma)">
+                                                                        {{d.ngayHuyTraHang | date:'yyyy-MM-dd HH:mm:ss'
+                                                                        }}
                                                                     </td>
-                                                                    <!--                                                            <td style="width: 200px">-->
-                                                                    <!--                                                                <button class="btn btn-danger me-1">Hủy</button>-->
-                                                                    <!--                                                                <button class="btn btn-primary">Xác nhận</button>-->
-                                                                    <!--                                                            </td>-->
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        <p class="nameProduct">{{d.lyDoHuy}}</p>
+                                                                        ng-click="ngayHuyTrahang.getDetail(d.ma)">
+                                                                        <p class="nameProduct">{{d.lyDoTraHang}}</p>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -630,40 +645,42 @@
                                                         <div class="col-6">
                                                             <nav aria-label="Page navigation example">
                                                                 <ul class="pagination justify-content-end">
-                                                                    <li class="page-item" ng-click="huy.getList(0)"
-                                                                        ng-if="huy.page>0">
+                                                                    <li class="page-item"
+                                                                        ng-click="huyTraHang.getList(0)"
+                                                                        ng-if="huyTraHang.page>0">
                                                                         <span class="page-link" style="cursor: pointer"
                                                                             aria-label="First">
                                                                             <span aria-hidden="true">&laquo;</span>
                                                                             <span class="sr-only">First</span>
                                                                         </span>
                                                                     </li>
-                                                                    <li class="page-item" ng-if="huy.page>0">
+                                                                    <li class="page-item" ng-if="huyTraHang.page>0">
                                                                         <span class="page-link" style="cursor: pointer"
                                                                             aria-label="Previous"
-                                                                            ng-click="huy.getList(huy.page==0 ? 0 : huy.page-1)">
+                                                                            ng-click="huyTraHang.getList(huyTraHang.page==0 ? 0 : huyTraHang.page-1)">
                                                                             <span>
                                                                                 < </span>
                                                                                     <span
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
                                                                     </li>
-                                                                    <li class="page-item" ng-if="huy.page>2">
+                                                                    <li class="page-item" ng-if="huyTraHang.page>2">
                                                                         <span class="page-link">
                                                                             <span>...</span>
                                                                         </span>
                                                                     </li>
                                                                     <li class="page-item pageNumber"
-                                                                        ng-repeat="p in huy.pages"
-                                                                        ng-click="huy.getList(p)" id="{{p}}">
-                                                                        <span ng-if="p!=huy.page" class="page-link"
+                                                                        ng-repeat="p in huyTraHang.pages"
+                                                                        ng-click="huyTraHang.getList(p)" id="{{p}}">
+                                                                        <span ng-if="p!=huyTraHang.page"
+                                                                            class="page-link"
                                                                             style="cursor: pointer">{{p + 1}}</span>
-                                                                        <span ng-if="p==huy.page"
+                                                                        <span ng-if="p==huyTraHang.page"
                                                                             class="page-link active"
                                                                             style="cursor: pointer">{{p + 1}}</span>
                                                                     </li>
                                                                     <li class="page-item"
-                                                                        ng-if="huy.page<huy.totalPage -2">
+                                                                        ng-if="huyTraHang.page<huyTraHang.totalPage -2">
                                                                         <span class="page-link">
                                                                             <span>...</span>
                                                                         </span>
@@ -671,8 +688,8 @@
                                                                     <li class="page-item">
                                                                         <span class="page-link" style="cursor: pointer"
                                                                             aria-label="Next"
-                                                                            ng-if="huy.page<huy.totalPage -1"
-                                                                            ng-click="huy.getList(huy.page==huy.totalPage -1 ? huy.totalPage -1 : huy.page+1)">
+                                                                            ng-if="huyTraHang.page<huyTraHang.totalPage -1"
+                                                                            ng-click="huyTraHang.getList(huyTraHang.page==huyTraHang.totalPage -1 ? huyTraHang.totalPage -1 : huyTraHang.page+1)">
                                                                             <span>></span>
                                                                             <span class="sr-only">Next</span>
                                                                         </span>
@@ -680,8 +697,8 @@
                                                                     <li class="page-item">
                                                                         <span class="page-link" style="cursor: pointer"
                                                                             aria-label="Last"
-                                                                            ng-if="huy.page<huy.totalPage-1"
-                                                                            ng-click="huy.getList(huy.totalPage -1)">
+                                                                            ng-if="huyTraHang.page<huyTraHang.totalPage-1"
+                                                                            ng-click="huyTraHang.getList(huyTraHang.totalPage -1)">
                                                                             <span aria-hidden="true">&raquo;</span>
                                                                             <span class="sr-only">Last</span>
                                                                         </span>
@@ -701,31 +718,30 @@
                 </div><!-- end col -->
             </div> <!-- container-fluid -->
 
-            <!--        Modal lý do hủy đơn-->
-            <div class="modal fade" id="lyDo" tabindex="-1" role="dialog"
-             aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Lý do</h5>
-                            <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <input ng-model="lyDo" class="form-control">
-                            <i style="color: red">{{messLyDo}}</i>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="closeHuy" data-dismiss="modal">Trở về
-                            </button>
-                            <button type="button" class="btn btn-primary" ng-click="huyDH()">Hủy đơn hàng
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+             <!--        Modal lý do từ chối hoàn đơn-->
+             <div class="modal fade" id="lyDoTraHang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+             <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <h5 class="modal-title">Lý do từ chối hoàn</h5>
+                         <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                         </button>
+                     </div>
+                     <div class="modal-body">
+                         <input ng-model="lyDoTraHang" class="form-control">
+                         <i style="color: red">{{messLyDo}}</i>
+                     </div>
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary" id="closeHuy" data-dismiss="modal">Trở về
+                         </button>
+                         <button type="button" class="btn btn-primary" ng-click="huyDH()">Hủy đơn hàng
+                         </button>
+                     </div>
+                 </div>
+             </div>
+         </div>
             <!-- Modal Chưa xác nhận-->
             <div class="modal fade bd-example-modal-lg" id="chuaXacNhanDetail" tabindex="-1" role="dialog"
                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -740,30 +756,31 @@
                         </div>
                         <div class="modal-body d-flex justify-content-start">
                             <div class="me-2" style="width: 33%">
-                                <!-- <div class="row">
-                                    <div class="col-sm-6" ng-repeat="d in chuaXacNhanTraHang.list">
+                                <div class="row">
+                                    <div class="col-sm-6" >
                                         <div class="mb-3">
                                             <label>Mã đơn hàng</label>
-                                            <span class="form-control">{{d.ma}}</span>
+                                            <span class="form-control">{{chuaXacNhanTraHang.detail.ma}}</span>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6" ng-repeat="d in chuaXacNhanTraHang.list">
+                                    <div class="col-sm-6" >
                                         <div class="mb-3" >
                                             <label>Ngày yêu cầu trả hàng</label>
-                                            <span class="form-control">{{d.ngayTraHang |
+                                            <span class="form-control">{{chuaXacNhanTraHang.detail.ngayTraHang |
                                                 date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
                                 <div class="row">
                                     <div class="mb-3 col-12">
                                         <label>Phương thức thanh toán khi mua</label>
-                                         <!-- <select class="form-control" ng-model="chuaXacNhan.detail.phuongThucThanhToan">
+                                        <!-- <select class="form-control" ng-model="chuaXacNhan.detail.phuongThucThanhToan">
                                             <option value="true">Khi nhận hàng</option>
                                             <option value="false">Thanh toán VNPAY</option>
                                         </select> -->
                                         <span class="form-control">
-                                            {{ selectedDonHang.phuongThucThanhToan ? 'Khi nhận hàng' : 'Thanh toán VNPAY' }}
+                                            {{ selectedDonHang.phuongThucThanhToan ? 'Khi nhận hàng' : 'Thanh toán
+                                            VNPAY' }}
                                         </span>
                                     </div>
                                 </div>
@@ -771,15 +788,15 @@
                                     <div class="col-sm-12">
                                         <div class="mb-3">
                                             <label>Mã voucher</label>
-                                            <span class="form-control">{{chuaXacNhan.detail.voucherCode == null ? 'Không
-                                                áp dụng' : chuaXacNhan.detail.voucherCode}}</span>
+                                            <span class="form-control">{{chuaXacNhanTraHang.detail.voucherCode == null ? 'Không
+                                                áp dụng' : chuaXacNhanTraHang.detail.voucherCode}}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="mb-3">
                                             <label>Tên voucher</label>
-                                            <span class="form-control">{{chuaXacNhan.detail.voucherName == null ? 'Không
-                                                áp dụng' : chuaXacNhan.detail.voucherName}}</span>
+                                            <span class="form-control">{{chuaXacNhanTraHang.detail.voucherName == null ? 'Không
+                                                áp dụng' : chuaXacNhanTraHang.detail.voucherName}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -789,7 +806,7 @@
                                         <div class="mb-3">
                                             <label>Tên người nhận</label>
                                             <input class="form-control" ng-focus="er.tenNguoiNhan=''"
-                                                ng-model="chuaXacNhan.detail.tenNguoiNhan">
+                                                ng-model="chuaXacNhanTraHang.detail.tenNguoiNhan">
                                             <i class="er">{{er.tenNguoiNhan == undefined ? '' : er.tenNguoiNhan}}</i>
                                         </div>
                                     </div>
@@ -797,7 +814,7 @@
                                         <div class="mb-3">
                                             <label>Số điện thoại</label>
                                             <input class="form-control" ng-focus="er.soDienThoai=''"
-                                                ng-model="chuaXacNhan.detail.soDienThoai">
+                                                ng-model="chuaXacNhanTraHang.detail.soDienThoai">
                                             <i class="er">{{er.soDienThoai == undefined ? '' : er.soDienThoai}}</i>
                                         </div>
                                     </div>
@@ -805,7 +822,7 @@
                                         <div class="mb-3">
                                             <label>email</label>
                                             <input class="form-control" ng-focus="er.email=''"
-                                                ng-model="chuaXacNhan.detail.email">
+                                                ng-model="chuaXacNhanTraHang.detail.email">
                                             <i class="er">{{er.email == undefined ? '' : er.email}}</i>
                                         </div>
                                     </div>
@@ -814,7 +831,7 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Thành phố</label>
-                                            <select class="form-control" ng-model="chuaXacNhan.detail.thanhPhoCode"
+                                            <select class="form-control" ng-model="chuaXacNhanTraHang.detail.thanhPhoCode"
                                                 ng-focus="er.thanhPhoCode=''"
                                                 onchange="angular.element(this).scope().giaoHangNhanh.cityChange(this.value)">
                                                 <option ng-repeat="c in giaoHangNhanh.citys" value="{{c.ProvinceID}}">
@@ -827,7 +844,7 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Quận huyện</label>
-                                            <select class="form-control" ng-model="chuaXacNhan.detail.quanHuyenCode"
+                                            <select class="form-control" ng-model="chuaXacNhanTraHang.detail.quanHuyenCode"
                                                 ng-focus="er.quanHuyenCode=''"
                                                 onchange="angular.element(this).scope().giaoHangNhanh.districtChange(this.value)">
                                                 <option ng-repeat="d in giaoHangNhanh.districts"
@@ -841,7 +858,7 @@
                                     <div class="col-sm-4">
                                         <div class="mb-3">
                                             <label>Xã phường</label>
-                                            <select class="form-control" ng-model="chuaXacNhan.detail.xaPhuongCode"
+                                            <select class="form-control" ng-model="chuaXacNhanTraHang.detail.xaPhuongCode"
                                                 ng-focus="er.xaPhuongCode=''"
                                                 onchange="angular.element(this).scope().giaoHangNhanh.getFeeShipped()">
                                                 <option ng-repeat="w in giaoHangNhanh.wards" value="{{w.WardCode}}">
@@ -856,93 +873,19 @@
                                     <div class="mb-3 col-6">
                                         <label>Địa chỉ chi tiết</label>
                                         <textarea class="form-control" rows="2" ng-focus="er.diaChiChiTiet=''"
-                                            ng-model="chuaXacNhan.detail.diaChiChiTiet"></textarea>
+                                            ng-model="chuaXacNhanTraHang.detail.diaChiChiTiet"></textarea>
                                         <i class="er">{{er.diaChiChiTiet == undefined ? '' : er.diaChiChiTiet}}</i>
                                     </div>
                                     <div class="mb-3 col-6">
                                         <label>Ghi chú</label>
                                         <textarea class="form-control" rows="2"
-                                            ng-model="chuaXacNhan.detail.ghiChu"></textarea>
+                                            ng-model="chuaXacNhanTraHang.detail.ghiChu"></textarea>
                                     </div>
                                 </div>
 
 
                             </div>
                             <div style="width: 65%" class="d-flex flex-column">
-                                <!-- <div class="col-sm-12">
-                                    <div class="dropdown">
-                                        <input data-toggle="dropdown" ng-keyup="searchSanPham()" ng-model="inputProduct"
-                                            ng-focus="er.soLuongSP=''" placeholder="Thêm sản phẩm" class="form-control"
-                                            style="width: 200px;float: right">
-                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"
-                                            style="margin-top: 40px;margin-left: 190px;width: 530px;max-height: 500px;overflow-y: auto;">
-                                            <h5 ng-if="sanPham.length ==0" style="text-align: center;padding: 5px">Không
-                                                có sản phẩm liên quan</h5>
-                                            <li ng-repeat="s in sanPham">
-                                                <div ng-if="checkSanPhamInDonHang(s.id)==false && s.soLuong>0"
-                                                    style="cursor: pointer"
-                                                    class="row d-flex justify-content-start align-items-center"
-                                                    ng-click="addChiTietDonHang(s)">
-                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0"><img
-                                                            src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
-                                                            style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
-                                                    </div>
-                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length==0"><img
-                                                            src="/image/loadImage/product/default.png"
-                                                            style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div style="white-space: nowrap;
-                                                        overflow: hidden;
-                                                        text-overflow: ellipsis;
-                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
-                                                        </div>
-                                                        <i style="font-size: 12px;">Size: {{s.size}} - Còn lại:
-                                                            {{s.soLuong}}</i>
-                                                    </div>
-                                                    <div class="col-sm-3 d-flex justify-content-center">
-                                                        <i style="text-decoration: line-through;"
-                                                            ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
-                                                    </div>
-                                                    <div class="col-sm-3 d-flex justify-content-center"
-                                                        style="margin-top: 15px">
-                                                        <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet}}</p>
-                                                    </div>
-                                                </div>
-                                                <div ng-if="checkSanPhamInDonHang(s.id)==true || s.soLuong<=0"
-                                                    class="row d-flex justify-content-start align-items-center dropdown-item disabled"
-                                                    style="background-color: gainsboro">
-                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0"><img
-                                                            src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
-                                                            style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
-                                                    </div>
-                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length==0"><img
-                                                            src="/image/loadImage/product/default.png"
-                                                            style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div style="white-space: nowrap;
-                                                        overflow: hidden;
-                                                        text-overflow: ellipsis;
-                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
-                                                        </div>
-                                                        <i style="font-size: 12px;">Size: {{s.size}} - Còn lại:
-                                                            {{s.soLuong}}</i>
-                                                    </div>
-                                                    <div class="col-sm-3 d-flex justify-content-center">
-                                                        <i style="text-decoration: line-through;"
-                                                            ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
-                                                    </div>
-                                                    <div class="col-sm-3 d-flex justify-content-center"
-                                                        style="margin-top: 15px">
-                                                        <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet}}</p>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div> -->
                                 <div style="height: 430px;overflow-y: auto;">
                                     <table class="table table-hover dt-responsive  nowrap w-100">
                                         <thead>
@@ -977,7 +920,7 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-                                                            {{d.soLuong}}
+                                                        {{d.soLuong}}
                                                     </div>
                                                 </td>
                                                 <td>{{d.donGia | currency: "" : 0}} đ</td>
@@ -1010,8 +953,8 @@
                                             <td>Khuyễn mại</td>
                                             <td colspan="4">
                                                 <div class="d-flex justify-content-end">
-                                                    {{chuaXacNhan.detail.tienGiam == null ? 0 :
-                                                    chuaXacNhan.detail.tienGiam | currency: "" : 1}}
+                                                    {{chuaXacNhanTraHang.detail.tienGiam == null ? 0 :
+                                                    chuaXacNhanTraHang.detail.tienGiam | currency: "" : 1}}
                                                     đ
                                                 </div>
                                             </td>
@@ -1020,7 +963,7 @@
                                             <td>Phí giao hàng</td>
                                             <td colspan="4">
                                                 <div class="d-flex justify-content-end">
-                                                    {{chuaXacNhan.detail.phiGiaoHang | currency: "" : 1}} đ
+                                                    {{chuaXacNhanTraHang.detail.phiGiaoHang | currency: "" : 1}} đ
                                                 </div>
                                             </td>
                                         </tr>
@@ -1028,8 +971,8 @@
                                             <td>Thành tiền</td>
                                             <td colspan="4">
                                                 <div class="d-flex justify-content-end">
-                                                    {{(getTotalPrice() + chuaXacNhan.detail.phiGiaoHang) -
-                                                    chuaXacNhan.detail.tienGiam | currency: "" : 1}}
+                                                    {{(getTotalPrice() + chuaXacNhanTraHang.detail.phiGiaoHang) -
+                                                    chuaXacNhanTraHang.detail.tienGiam | currency: "" : 1}}
                                                     đ
                                                 </div>
                                             </td>
@@ -1050,11 +993,11 @@
                 </div>
             </div>
         </div>
-       
-    <!-- Modal-->
+
+        <!-- Modal-->
         <div class="modal fade bd-example-modal-lg" id="donHangDetail" tabindex="-1" role="dialog"
             aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="donHangDetailTitle">Thông tin đơn hàng</h5>
@@ -1155,7 +1098,7 @@
                         <div class="row" ng-if="donHang.trangThai==0">
                             <div class="mb-3 col-12">
                                 <label>Lý do hủy</label>
-                                <span class="form-control">{{donHang.lyDoHuy}}</span>
+                                <span class="form-control">{{donHang.lyDoTraHang}}</span>
                             </div>
                         </div>
                         <hr>

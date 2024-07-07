@@ -34,6 +34,8 @@ public interface IDonHangService {
 
 //    DonHangDtoResponse updateDonHang(DonHangDTORequest request);
 
+    void huyTraHang(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
+
     void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
 
     void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException;

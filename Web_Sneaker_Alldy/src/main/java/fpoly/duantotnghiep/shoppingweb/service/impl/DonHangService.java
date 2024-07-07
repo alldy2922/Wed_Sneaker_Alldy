@@ -142,20 +142,20 @@ public class DonHangService implements IDonHangService {
             } else if (trangThai == 7) {
                 subject = "Kiểm tra hoàn hàng!";
                 title = "Đơn hàng đang được kiểm tra hoàn hàng";
-                // model.setNgayKiemTraTraHang(new Date());
+                model.setNgayKiemTraTraHang(new Date());
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được kiểm tra hoàn hàng. Chúng tôi sẽ thông báo cho bạn khi quá trình kiểm tra hoàn tất.";
             } else if (trangThai == 8) {
                 subject = "Hoàn tiền!";
                 title = "Đơn hàng đã được hoàn tiền";
-                //  model.setNgayHoanThanhTraHang(new Date());
+                 model.setNgayHoanThanhTraHang(new Date());
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được hoàn tiền. Số tiền hoàn lại sẽ sớm có trong tài khoản của bạn.";
             }
-            // else if (trangThai == 9) {
-            //     subject = "Từ Chối Hoàn!";
-            //     title = "Đơn hàng không được hoàn tiền";
-            //     model.setNgayHuyTraHang(new Date());
-            //     messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn không được hoàn tiền.";
-            // }
+            else if (trangThai == 9) {
+                subject = "Từ chối Hoàn tiền!";
+                title = "Tư Chối hoàn tiền";
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã không được hoàn tiền.";
+            }
+
 
 
             List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(maDonHang);
@@ -194,7 +194,7 @@ public class DonHangService implements IDonHangService {
             model.setNgayHuy(new Date());
 
             String subject = "Hủy đơn hàng!";
-            String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";
+            String messeger = "Xin chào " + model.getTenNguoiNhan() + ", yêu cầu hoàn đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";
 
             List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
             ctdhModel.forEach(c -> {
@@ -226,6 +226,46 @@ public class DonHangService implements IDonHangService {
                         e.printStackTrace();
                     }
                 }).start();
+            }
+
+            donHangResponsitory.saveAndFlush(model);
+        });
+    }
+
+    @Override
+    public void huyTraHang(List<String> maDonHang, String lyDoTraHang) throws MessagingException {
+        maDonHang.forEach(ma -> {
+            DonHangModel model = donHangResponsitory.findById(ma).get();
+            model.setLyDoTraHang(lyDoTraHang);
+            model.setTrangThai(9);
+            model.setNgayHuyTraHang(new Date());
+
+            String subject = "Từ chối hoàn đơn hàng!";
+            String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";
+
+            List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
+            ctdhModel.forEach(c -> {
+                int soLuongInDonHang = c.getSoLuong();
+                ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
+                sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
+                chiTietSanPhamRepository.save(sanPhamInDonHang);
+            });
+
+
+            if (model.getLoai() == 0) {
+                List<ChiTietDonHangDtoResponse> lstSanPham = ctdhModel.stream().map(m -> new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
+                BigDecimal tongTien = BigDecimal.valueOf(0);
+                for (ChiTietDonHangDtoResponse d : lstSanPham) {
+                    tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
+                }
+
+                Context context = new Context();
+                context.setVariable("donHang", new DonHangDtoResponse(model));
+                context.setVariable("products", lstSanPham);
+                context.setVariable("totalPrice", tongTien);
+                context.setVariable("mess", messeger);
+                context.setVariable("title", subject);
+                context.setVariable("lyDoTraHang", lyDoTraHang);
             }
 
             donHangResponsitory.saveAndFlush(model);

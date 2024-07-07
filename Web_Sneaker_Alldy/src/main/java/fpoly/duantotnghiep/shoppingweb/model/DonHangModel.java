@@ -91,6 +91,12 @@ public class DonHangModel {
     @Column(name = "lydothaydoi")
     private String lyDoThayDoi;
 
+    @Column(name = "ngaytrahang")
+    private Date ngayTraHang;
+
+    @Column(name = "lydotrahang")
+    private String lyDoTraHang;
+
     @Column(name = "ngayxacnhan")
     private Date ngayXacNhan;
 

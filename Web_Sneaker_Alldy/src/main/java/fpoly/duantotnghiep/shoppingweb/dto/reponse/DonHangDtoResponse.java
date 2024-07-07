@@ -33,12 +33,14 @@ public class DonHangDtoResponse {
     private String phuongThucThanhToan;
     private String lyDoHuy;
     private String lyDoThayDoi;
+    private String lyDoTraHang;
     private String voucherCode;
     private String voucherName;
     private Date ngayXacNhan;
     private Date ngayGiaoHang;
     private Date ngayHoanThanh;
     private Date ngayHuy;
+    private Date ngayTraHang;
     private BigDecimal tongTien;
 
     private NhanVienDtoResponse nhanVienDtoResponse;
@@ -65,11 +67,13 @@ public class DonHangDtoResponse {
         this.phuongThucThanhToan = model.getPhuongThucThanhToan()+"";
         this.lyDoHuy = model.getLyDoHuy();
         this.lyDoThayDoi = model.getLyDoThayDoi();
+        this.lyDoTraHang = model.getLyDoTraHang();
 
         if(model.getNgayXacNhan()!=null) this.ngayXacNhan = model.getNgayXacNhan();
         if(model.getNgayGiaoHang()!=null) this.ngayGiaoHang = model.getNgayGiaoHang();
         if(model.getNgayHoanThanh()!=null) this.ngayHoanThanh = model.getNgayHoanThanh();
         if(model.getNgayHuy()!=null) this.ngayHuy = model.getNgayHuy();
+        if(model.getNgayTraHang()!=null) this.ngayTraHang = model.getNgayTraHang();
 
         if(model.getVoucher()!=null){
             voucherCode = model.getVoucher().getMa();

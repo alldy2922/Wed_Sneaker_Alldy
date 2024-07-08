@@ -31,6 +31,7 @@ import org.thymeleaf.context.Context;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @RestController("don-hang-restCtrl-admin")
 @RequestMapping("${admin.domain}/don-hang")
@@ -52,11 +53,10 @@ public class DonHangRescontroller {
     public Page<DonHangDtoResponse> getChuaXacNhan(@RequestParam("trangThai") Integer trangThai,
                                                    @RequestParam(defaultValue = "0") Integer pageNumber,
                                                    @RequestParam(defaultValue = "10") Integer limit,
-                                                   @RequestParam(required = false)String sdt,
-                                                   @RequestParam(defaultValue = "0")Integer loai) {
-        return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber , limit, sdt,loai);
+                                                   @RequestParam(required = false) String sdt,
+                                                   @RequestParam(defaultValue = "0") Integer loai) {
+        return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber, limit, sdt, loai);
     }
-
 
 
     @GetMapping("/{ma}")
@@ -74,19 +74,31 @@ public class DonHangRescontroller {
         }
 
         DonHangModel donHangModel = donHangResponsitory.findById(ma).get();
-            if(donHangModel.getLoai()==1 && trangThai==4){
-                if (donHangModel.getPhuongThucThanhToan() == false) {
-                    String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort();
-                    String vnpayUrl = vnPayService.createOrder(donHangModel.getMa(), baseUrl, donHangModel.getTongTien().multiply(BigDecimal.valueOf(100)).intValue()+"");
-                    Map<String, String> vnPayUrl = new HashMap<>();
-                    vnPayUrl.put("vnPayUrl", vnpayUrl);
-                    return ResponseEntity.ok(vnPayUrl);
-                }
+        if (donHangModel.getLoai() == 1 && trangThai == 4) {
+            if (donHangModel.getPhuongThucThanhToan() == false) {
+                String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort();
+                String vnpayUrl = vnPayService.createOrder(donHangModel.getMa(), baseUrl, donHangModel.getTongTien().multiply(BigDecimal.valueOf(100)).intValue() + "");
+                Map<String, String> vnPayUrl = new HashMap<>();
+                vnPayUrl.put("vnPayUrl", vnpayUrl);
+                return ResponseEntity.ok(vnPayUrl);
             }
+        }
         donHangService.updateTrangThai(ma, trangThai);
 
         return ResponseEntity.ok().build();
     }
+
+//    @GetMapping("/schedule-email")
+//    public String scheduleEmail() {
+//        String email = "recipient@example.com";
+//        String subject = "Scheduled Email";
+//        String content = "This is a scheduled email.";
+//        long delay = 10; // Gửi email sau 10 giây
+//        TimeUnit unit = TimeUnit.SECONDS;
+//
+//        donHangService.scheduleEmail(email, subject, content, delay, unit);
+//        return "Email will be sent in " + delay + " seconds.";
+//    }
 
     @PutMapping("update-trang-thai")
     public ResponseEntity<Integer> updatTrangThaiAll(@RequestBody List<String> ma, @RequestParam("trangThai") Integer trangThai) throws MessagingException {
@@ -111,24 +123,24 @@ public class DonHangRescontroller {
     public ResponseEntity<?> updateDonHang(@Valid @RequestPart("donHang") DonHangDTORequest request,
                                            BindingResult result,
                                            @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products) {
-        if(products.size()<=0){
-            result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
-        }else{
-            if(request.getVoucher() != null && !request.getVoucher().isBlank()){
+        if (products.size() <= 0) {
+            result.addError(new FieldError("soLuongSP", "soLuongSP", "Không có sản phẩm trong đơn hàng"));
+        } else {
+            if (request.getVoucher() != null && !request.getVoucher().isBlank()) {
                 VoucherReponse voucherReponse = voucherService.findById(request.getVoucher());
                 BigDecimal tongTien = BigDecimal.valueOf(0);
-                for (var p: products ) {
+                for (var p : products) {
                     tongTien = tongTien.add(p.getDonGiaSauGiam());
                 }
 
-                if(tongTien.compareTo(BigDecimal.valueOf(voucherReponse.getGiaTriDonHang())) < 0){
+                if (tongTien.compareTo(BigDecimal.valueOf(voucherReponse.getGiaTriDonHang())) < 0) {
                     NumberFormat numberFM = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                    result.addError(new FieldError("soLuongSP","soLuongSP","Voucher đã sử dụng chỉ áp dụng cho đơn hàng từ " + numberFM.format(voucherReponse.getGiaTriDonHang()) + " đ" ) );
+                    result.addError(new FieldError("soLuongSP", "soLuongSP", "Voucher đã sử dụng chỉ áp dụng cho đơn hàng từ " + numberFM.format(voucherReponse.getGiaTriDonHang()) + " đ"));
                 }
             }
         }
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return ValidateUtil.getErrors(result);
         }
         if (!donHangService.existsByMa(request.getMa())) {
@@ -136,38 +148,39 @@ public class DonHangRescontroller {
         }
         return ResponseEntity.ok(donHangService.updateDonHang(request, products));
     }
+
     @PostMapping("")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})
     public ResponseEntity<?> themDonHang(@Valid @RequestPart("donHang") DonHangDTORequest request,
-                                           BindingResult result,
-                                           @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products,
-                                            Authentication authentication) {
-        if(products.size()<=0){
-            result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
+                                         BindingResult result,
+                                         @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products,
+                                         Authentication authentication) {
+        if (products.size() <= 0) {
+            result.addError(new FieldError("soLuongSP", "soLuongSP", "Không có sản phẩm trong đơn hàng"));
         }
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return ValidateUtil.getErrors(result);
         }
         String maDH = "";
-        while (true){
-            if(donHangService.existsByMa(codeDonHang())){
+        while (true) {
+            if (donHangService.existsByMa(codeDonHang())) {
                 continue;
-            }else {
+            } else {
                 maDH = codeDonHang();
                 break;
             }
         }
-        if(request.getLoai()!=null){
-            if(request.getLoai()==1){
+        if (request.getLoai() != null) {
+            if (request.getLoai() == 1) {
                 request.setNhanVien(authentication.getName());
             }
         }
         request.setMa(maDH);
-        donHangService.themDonHangAdmin(request,products);
+        donHangService.themDonHangAdmin(request, products);
 
-        if(request.getLoai()!=null){
-            if(request.getLoai()==1 && request.getTrangThai()==4){
+        if (request.getLoai() != null) {
+            if (request.getLoai() == 1 && request.getTrangThai() == 4) {
                 if (request.getPhuongThucThanhToan() == 1) {
                     String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort();
                     String vnpayUrl = vnPayService.createOrder(maDH, baseUrl, request.getTongTien());
@@ -180,6 +193,7 @@ public class DonHangRescontroller {
 
         return ResponseEntity.ok().build();
     }
+
     private String codeDonHang() {
         final String ALLOWED_CHARACTERS = "asdfghjklqwertyuiopzxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 

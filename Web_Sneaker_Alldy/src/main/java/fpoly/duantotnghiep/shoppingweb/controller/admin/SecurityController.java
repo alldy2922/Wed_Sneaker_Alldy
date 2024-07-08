@@ -203,7 +203,5 @@ public class SecurityController {
             }
 
         return ResponseEntity.ok().build();
-
-
     }
 }

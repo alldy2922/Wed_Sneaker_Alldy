@@ -7,11 +7,13 @@ import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import org.springframework.data.jpa.repository.Query;
+import org.thymeleaf.context.Context;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public interface IDonHangService {
     List<DonHangDtoResponse> getAllByTrangThai(Integer trangThai);
@@ -30,10 +32,14 @@ public interface IDonHangService {
 
     void updateTrangThai(String maDonHang, Integer trangThai) throws MessagingException;
 
+    void updateTrangThaiTraHang(String maDonHang, Integer trangThai) throws  MessagingException;
+
 //    void huyDonHang(String maDonHang, String lyDo) throws MessagingException;
 
 //    DonHangDtoResponse updateDonHang(DonHangDTORequest request);
+//    void scheduleEmail(String email, String subject, String content, long delay, TimeUnit unit);
 
+//    void sendImmediateEmail(String email, String subject, String content);
     void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
 
     void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException;

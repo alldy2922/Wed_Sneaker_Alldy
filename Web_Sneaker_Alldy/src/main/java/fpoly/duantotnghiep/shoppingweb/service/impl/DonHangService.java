@@ -13,6 +13,7 @@ import fpoly.duantotnghiep.shoppingweb.repository.IChiTietSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietDonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
+import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -164,6 +168,57 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
+    public void updateTrangThaiTraHang(String maDonHang, Integer trangThai) throws MessagingException {
+        DonHangModel model = donHangResponsitory.findById(maDonHang).get();
+        model.setTrangThai(trangThai);
+
+        if (model.getLoai() == 0) {
+            String subject = "";
+            String messeger = "";
+            String title = "";
+            if (trangThai == 6) {
+                subject = "Xác nhận trả hàng!";
+                title = "Xác nhận trả thành công";
+                model.setNgayXacNhan(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận trả hàng. Cảm ơn bạn đã mua hàng. Bạn có tham khảo một số mẫu giày khác trong cửa hàng";
+            } else if (trangThai == 7) {
+                subject = "Kiểm tra trả hàng!";
+                title = "Kiểm tra trả hàng thành công";
+                model.setNgayXacNhan(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận kiểm tra trả hàng. Cảm ơn bạn đã mua hàng. Bạn có tham khảo một số mẫu giày khác trong cửa hàng";
+            } else if (trangThai == 8) {
+                subject = "Hoàn thành trả hàng và hoàn tiền!";
+                title = "Xác nhận trả hàng thành công";
+                model.setNgayHoanThanh(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã trả hàng thành công. Cảm ơn bạn đã mua hàng. Bạn có tham khảo một số mẫu giày khác trong cửa hàng";
+            }
+            List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(maDonHang);
+            BigDecimal tongTien = BigDecimal.valueOf(0);
+            for (ChiTietDonHangDtoResponse d : lstSanPham) {
+                tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
+            }
+            Context context = new Context();
+            context.setVariable("donHang", new DonHangDtoResponse(model));
+            context.setVariable("products", lstSanPham);
+            context.setVariable("totalPrice", tongTien);
+            context.setVariable("mess", messeger);
+            context.setVariable("title", title);
+            String finalSubject = subject;
+            long delay = 10;
+            TimeUnit unit = TimeUnit.SECONDS;
+            new Thread(() -> {
+                try {
+//                    sendEmailTraHang(model.getEmail(), finalSubject, "email/capNhatTrangThaiTraHang", context, lstSanPham);
+                    sendEmailRefundWithHtml(model.getEmail(), finalSubject, "email/capNhatTrangThaiTraHang", context, delay, unit, lstSanPham);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+        donHangResponsitory.saveAndFlush(model);
+    }
+
+    @Override
     public void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException {
 //         donHangResponsitory.updateTrangThaiDonHang(trangThai,maDonHang);
         maDonHang.forEach(ma -> {
@@ -236,14 +291,14 @@ public class DonHangService implements IDonHangService {
         }
         model.setLoai(donHangOld.getLoai());
         Boolean phuongThucThanhToan = model.getPhuongThucThanhToan();
-        if(donHangOld.getLoai()==0){
+        if (donHangOld.getLoai() == 0) {
             if (phuongThucThanhToan) {
                 model.setTrangThai(2);
                 System.out.println("ASDASDASDASDASD");
             } else {
                 model.setTrangThai(5);
             }
-        }else{
+        } else {
             model.setTrangThai(donHangOld.getTrangThai());
         }
 //        model.setPhuongThucThanhToan(donHangOld.getPhuongThucThanhToan());
@@ -352,6 +407,59 @@ public class DonHangService implements IDonHangService {
         javaMailSender.send(mimeMessage);
     }
 
+
+    public void sendEmailTraHang(String email, String subject, String templateHtml, Context context, List<ChiTietDonHangDtoResponse> lstSanPham) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+        helper.setTo(email);
+        helper.setSubject(subject);
+        String htmlContent = templateEngine.process(templateHtml, context);
+        helper.setText(htmlContent, true);
+
+        ClassPathResource resource = new ClassPathResource("./images/product/default.png");
+        helper.addInline("logo", resource);
+
+        lstSanPham.forEach(s -> {
+            ClassPathResource img = new ClassPathResource("./images/product/" + s.getAnh());
+            try {
+                helper.addInline(s.getAnh() + "", img);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        });
+
+        javaMailSender.send(mimeMessage);
+    }
+
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    public void sendEmailRefundWithHtml(String email, String subject, String templateHtml, Context context, long delay, TimeUnit unit, List<ChiTietDonHangDtoResponse> lstSanPham) throws MessagingException {
+        Runnable emailTask = () -> {
+            try {
+                MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+                helper.setTo("Anhhkph21563@fpt.edu.vn");
+                helper.setSubject(subject);
+                String htmlContent = templateEngine.process(templateHtml, context);
+                helper.setText(htmlContent, true);
+                ClassPathResource resource = new ClassPathResource("./images/product/default.png");
+                helper.addInline("logo", resource);
+
+                lstSanPham.forEach(s -> {
+                    ClassPathResource img = new ClassPathResource("./images/product/" + s.getAnh());
+                    try {
+                        helper.addInline(s.getAnh() + "", img);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                });
+                javaMailSender.send(mimeMessage);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        };
+            scheduler.schedule(emailTask, delay, unit);
+    }
+
     @Override
     public Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate) {
         return donHangResponsitory.getTotalQauntityInOrdersWithDate(firstDate, lastDate) == null ? 0L : donHangResponsitory.getTotalQauntityInOrdersWithDate(firstDate, lastDate);
@@ -384,16 +492,16 @@ public class DonHangService implements IDonHangService {
 
         DonHangModel model = donHangDTORequest.mapModel();
 
-        if (donHangDTORequest.getLoai() == 0){
+        if (donHangDTORequest.getLoai() == 0) {
             if (model.getPhuongThucThanhToan()) {
                 model.setTrangThai(2);
             } else {
                 model.setTrangThai(5);
             }
-        }else{
-            if(model.getPhuongThucThanhToan()){
+        } else {
+            if (model.getPhuongThucThanhToan()) {
                 model.setTrangThai(donHangDTORequest.getTrangThai());
-            }else {
+            } else {
                 model.setTrangThai(5);
             }
         }
@@ -408,9 +516,9 @@ public class DonHangService implements IDonHangService {
         }).collect(Collectors.toList());
         chiTietDonHangRepository.saveAllAndFlush(lstCTDHModel);
 
-        lstCTDHModel.forEach(c ->{
+        lstCTDHModel.forEach(c -> {
             ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
-            chiTietSanPhamModel.setSoLuong(chiTietSanPhamModel.getSoLuong()-c.getSoLuong());
+            chiTietSanPhamModel.setSoLuong(chiTietSanPhamModel.getSoLuong() - c.getSoLuong());
             chiTietSanPhamRepository.saveAndFlush(chiTietSanPhamModel);
         });
 
@@ -464,14 +572,14 @@ public class DonHangService implements IDonHangService {
 //    }
 
     @Override
-    public Map<String,Long> getQuantityProductInOrderDetailWithDate(Date firstDate, Date lastDate){
-        Long hoaDonOnline = donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate,lastDate,0)
-                            == null ? 0L :  donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate,lastDate,0);
-        Long hoaDonTaiQuay = donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate,lastDate,1)
-                == null ? 0L :  donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate,lastDate,1);
-        Map<String,Long> result = new HashMap<>();
-        result.put("hoaDonOnline",hoaDonOnline);
-        result.put("hoaDonTaiQuay",hoaDonTaiQuay);
+    public Map<String, Long> getQuantityProductInOrderDetailWithDate(Date firstDate, Date lastDate) {
+        Long hoaDonOnline = donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate, lastDate, 0)
+                == null ? 0L : donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate, lastDate, 0);
+        Long hoaDonTaiQuay = donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate, lastDate, 1)
+                == null ? 0L : donHangResponsitory.getTotalQauntityInOrdersWithDateAndLoai(firstDate, lastDate, 1);
+        Map<String, Long> result = new HashMap<>();
+        result.put("hoaDonOnline", hoaDonOnline);
+        result.put("hoaDonTaiQuay", hoaDonTaiQuay);
         return result;
     }
 }

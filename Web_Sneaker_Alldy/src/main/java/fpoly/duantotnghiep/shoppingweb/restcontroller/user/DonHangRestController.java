@@ -27,6 +27,15 @@ public class DonHangRestController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+    @GetMapping("get-by-trangThaiHoan-khachHang")
+    public ResponseEntity<List<DonHangReponseUser>> getByKhachHangAndTrangThaiHoan(@RequestParam(name = "trangThaiHoan",defaultValue = "2") Integer trangThaiHoan,
+                                                                               Authentication authentication) {
+        if (authentication != null) {
+            String khachHang = authentication.getName();
+            return ResponseEntity.ok(donHangService.getAllByKhachHangAndTrangThaiHoan(khachHang, trangThaiHoan));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 
     @PutMapping("huy-don-hang-user")
     public ResponseEntity<?> huyDonHangUser(@RequestBody String lyDoHuy, @RequestParam String ma) throws MessagingException {
@@ -34,7 +43,16 @@ public class DonHangRestController {
         donHangService.huyDonHangUser(ma, lyDoHuy);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+    @PutMapping("update-trang-thai-hoan")
+    public ResponseEntity<?> updateTrangThaiAndLyDo(@RequestParam("ma") String ma, @RequestParam("trangThai") Integer trangThai,@RequestParam("lydo") String lyDo) throws MessagingException {
 
+        try {
+            donHangService.hoanHang(ma,trangThai,lyDo);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok().build();
+    }
     @GetMapping("/{ma}")
     public ResponseEntity<DonHangReponseUser> getByMa(@PathVariable("ma") String ma) {
         if (!donHangService.existsByMa(ma)) {

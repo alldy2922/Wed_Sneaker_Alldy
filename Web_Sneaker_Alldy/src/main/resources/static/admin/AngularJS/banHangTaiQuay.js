@@ -87,10 +87,13 @@ app.controller("banhang-ctrl", function ($scope, $http) {
 
     $scope.getProductDetails = function(maSP) {
         $http.get("/chi-tiet-san-pham/" + maSP + "/get-all").then(r => {
+            console.log("dtaaw",r.data)
             $scope.productDetails = r.data;
         }).catch(e => console.log(e))
     };
     $scope.getProductDetails();
+
+
     $scope.addChiTietDonHang = function () {
         if (!$scope.selectedSize) {
             // Nếu người dùng chưa chọn size, thông báo hoặc xử lý khác tùy nhu cầu
@@ -489,6 +492,7 @@ app.controller("banhang-ctrl", function ($scope, $http) {
                 }
             })
         },
+
         huyDH() {
 
             if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
@@ -860,6 +864,29 @@ app.controller("banhang-ctrl", function ($scope, $http) {
             $scope.dangGiao.checkButton();
         }else if ($scope.trangThaiDonHang == 5) {
             $scope.chuaThanhToan.checkButton();
+        }
+    }
+    $scope.lyDoDoi = '';
+    $scope.messLyDoDoi = '';
+
+    $scope.maDonHang = "";
+    $scope.layMaDonHang = function(item) {
+       console.log(item)
+        $scope.maDonHang = item
+    };
+    $scope.huyDH1 = function() {
+        if ($scope.lyDoDoi.trim() === '') {
+            $scope.messLyDoDoi = 'Vui lòng nhập lý do đổi hàng!';
+        } else {
+            $scope.messLyDoDoi = '';
+            $http.put("/admin/don-hang/update-trang-thai-hoan?ma=" + $scope.maDonHang + "&trangThai=6" + "&lydo=" + encodeURIComponent($scope.lyDoDoi)).then( r =>  {
+               console.log(r.data)
+                alertify.success("Gửi yêu cầu Hoàn Thành công");
+                $('#closeHuy').click()
+            }).catch(e => {
+                alertify.error("Gửi Yêu cầu Hoàn thất bại")
+                console.log(e)
+            })
         }
     }
 

@@ -61,6 +61,13 @@ public class DonHangService implements IDonHangService {
 
     }
 
+    @Override
+    public List<DonHangReponseUser> getAllByKhachHangAndTrangThaiHoan(String nguoiSoHuu, Integer trangThaiHoan) {
+        return donHangResponsitory.findAllByKhachHangAndTrangThaiHoan(nguoiSoHuu, trangThaiHoan).stream().map(d -> new DonHangReponseUser(d)).collect(Collectors.toList());
+
+
+    }
+
 
     @Override
     public Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber) {
@@ -99,6 +106,48 @@ public class DonHangService implements IDonHangService {
     @Override
     public Boolean existsByMa(String ma) {
         return donHangResponsitory.existsById(ma);
+    }
+
+    @Override
+    public void hoanHang(String maDonHang, Integer trangThai, String lyDo) throws MessagingException {
+
+        DonHangModel model = donHangResponsitory.findById(maDonHang).get();
+        model.setTrangThai(trangThai);
+        model.setLyDoThayDoi(lyDo);
+        model.setNgayHoanHang(new Date());
+        model.setTrangThaiHoan(1);
+        if (model.getLoai() == 0) {
+            String subject = "";
+            String messeger = "";
+            String title = "";
+            if (trangThai == 6) {
+                subject = "Tạo đơn hàng!";
+                title = "Tạo đơn hàng thành công";
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được tạo. Cảm ơn bạn đã mua hàng";
+            } else if (trangThai == 7) {
+                subject = "Xác nhận đơn hàng!";
+                title = "Xác nhận hàng thành công";
+                model.setNgayXacNhan(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng. Đơn hàng đang được đóng gói và sẽ đến tay bạn trong vài ngày tới";
+            } else if (trangThai == 8) {
+                subject = "Chuyển giao đơn hàng!";
+                title = "Đơn hàng đang được giao";
+                model.setNgayGiaoHang(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được giao. Cảm ơn bạn đã mua hàng. Đơn hàng đang được giao và sẽ đến tay bạn trong vài ngày tới";
+            } else if (trangThai == 9) {
+                subject = "Hoàn thành đơn hàng!";
+                title = "Đơn hàng đã giao thành công";
+                model.setNgayHoanThanh(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn được giao thành công. Cảm ơn bạn đã mua hàng.";
+            } else if (trangThai == 10) {
+                subject = "Đơn hàng chưa đuọc thanh toán!";
+                title = "Đơn hàng của bạn chưa được thanh toán";
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn chưa được thanh toán.Vui lòng thanh toán đơn hàng của bạn.";
+            }
+        }
+
+
+        donHangResponsitory.saveAndFlush(model);
     }
 
     @Override
@@ -239,6 +288,108 @@ public class DonHangService implements IDonHangService {
         if(donHangOld.getLoai()==0){
             if (phuongThucThanhToan) {
                 model.setTrangThai(2);
+                System.out.println("ASDASDASDASDASD");
+            } else {
+                model.setTrangThai(5);
+            }
+        }else{
+            model.setTrangThai(donHangOld.getTrangThai());
+        }
+//        model.setPhuongThucThanhToan(donHangOld.getPhuongThucThanhToan());
+
+        List<String> maCTSPNew = products.stream().map(c -> c.getId()).collect(Collectors.toList());
+        List<ChiTietDonHangModel> ctdhModelOld = chiTietDonHangRepository.findAllByDonHang(model);
+        ctdhModelOld.forEach(c -> {
+            if (!maCTSPNew.contains(c.getId())) {
+                //Thêm lại số lượng khi xóa sản phẩm khỏi đơn hàng
+                ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
+                chiTietSanPhamModel.setSoLuong(chiTietSanPhamModel.getSoLuong() + c.getSoLuong());
+                chiTietSanPhamRepository.saveAndFlush(chiTietSanPhamModel);
+
+                chiTietDonHangRepository.deleteById(c.getId());//xóa khỏi đơn hàng
+            }
+        });
+
+        products.forEach(p -> {
+            if (p.getId() != null) {
+                ChiTietDonHangModel chiTietDHOld = chiTietDonHangRepository.findById(p.getId()).get();
+                ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(p.getSanPhamCT()).get();
+                Long soLuong = chiTietSanPhamModel.getSoLuong() - (p.getSoLuong() - chiTietDHOld.getSoLuong());
+                chiTietSanPhamModel.setSoLuong(soLuong);
+                chiTietSanPhamRepository.saveAndFlush(chiTietSanPhamModel);
+            } else {
+                ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(p.getSanPhamCT()).get();
+                Long soLuong = chiTietSanPhamModel.getSoLuong() - p.getSoLuong();
+                chiTietSanPhamModel.setSoLuong(soLuong);
+                chiTietSanPhamRepository.saveAndFlush(chiTietSanPhamModel);
+            }
+        });
+
+        products.forEach(p -> chiTietDonHangRepository.saveAndFlush(p.mapModel()));
+
+        if (donHangOld.getVoucher() != null) {
+            model.setVoucher(donHangOld.getVoucher());
+        }
+        if (donHangOld.getNguoiSoHuu() != null) {
+            model.setNguoiSoHuu(donHangOld.getNguoiSoHuu());
+        } else {
+            model.setNguoiSoHuu(null);
+        }
+
+        if (model.getLoai() == 1) {
+            return new DonHangDtoResponse(donHangResponsitory.save(model));
+        }
+
+        String subject = "Cập nhật thông tin đơn hàng!";
+        String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn vừa cập nhật thông tin!";
+
+//        List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
+//        ctdhModel.forEach(c -> {
+//            int soLuongInDonHang = c.getSoLuong();
+//            ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
+//            sanPhamInDonHang.setSoLuong(soLuongInDonHang+sanPhamInDonHang.getSoLuong());
+//            chiTietSanPhamRepository.save(sanPhamInDonHang);
+//        });
+
+
+        chiTietDonHangRepository.findAllByDonHang(model).forEach(c -> {
+            c.setChiTietSanPham(chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get());
+        });
+        List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangRepository.findAllByDonHang(model).stream().map(m -> new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
+        BigDecimal tongTien = BigDecimal.valueOf(0);
+        for (ChiTietDonHangDtoResponse d : lstSanPham) {
+            tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
+        }
+
+        Context context = new Context();
+        context.setVariable("donHang", new DonHangDtoResponse(model));
+        context.setVariable("products", lstSanPham);
+        context.setVariable("totalPrice", tongTien);
+        context.setVariable("mess", messeger);
+        context.setVariable("title", subject);
+        new Thread(() -> {
+            try {
+                sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        return new DonHangDtoResponse(donHangResponsitory.save(model));
+    }
+    @Override
+    public DonHangDtoResponse updateDonHangHoan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products) {
+        DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElse(null);
+        DonHangModel model = request.mapModel();
+        if (donHangOld.getLoai() == 1) {
+            model.setEmail(null);
+        }
+        model.setLoai(donHangOld.getLoai());
+        Boolean phuongThucThanhToan = model.getPhuongThucThanhToan();
+        if(donHangOld.getLoai()==0){
+            if (phuongThucThanhToan) {
+                model.setTrangThai(6);
+                model.setTrangThaiHoan(1);
                 System.out.println("ASDASDASDASDASD");
             } else {
                 model.setTrangThai(5);

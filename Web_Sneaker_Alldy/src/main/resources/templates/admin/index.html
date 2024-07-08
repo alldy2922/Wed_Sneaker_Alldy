@@ -210,6 +210,12 @@
                         </a>
                     </li>
                     <li>
+                        <a th:href="@{/admin/hoan-hang}">
+                            <i data-feather="layout"></i>
+                            <span data-key="t-chat">Hoàn Hàng</span>
+                        </a>
+                    </li>
+                    <li>
                         <a th:href="@{/admin/don-hang}">
                             <i data-feather="layout"></i>
                             <span data-key="t-chat">Đơn Hàng online</span>
@@ -504,7 +510,8 @@
 <script src="/admin/AngularJS/ThuongHieuJS.js"></script>
 <script src="/admin/AngularJS/DonHang.js"></script>
 <script src="/admin/AngularJS/banHangTaiQuay.js"></script>
-
+<!-- Include your AngularJS application script -->
+<script src="/admin/AngularJS/LichSuHoanHang.js"></script>
 <script src="/admin/assets/libs/rater-js/index.js"></script>
 <script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
 <script th:src="@{/admin/AngularJS/ResetPassword.js}"></script>

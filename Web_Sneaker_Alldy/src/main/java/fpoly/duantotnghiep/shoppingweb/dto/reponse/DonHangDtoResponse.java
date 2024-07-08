@@ -72,6 +72,7 @@ public class DonHangDtoResponse {
         this.phuongThucThanhToan = model.getPhuongThucThanhToan() + "";
         this.lyDoHuy = model.getLyDoHuy();
         this.lyDoThayDoi = model.getLyDoThayDoi();
+        if(model.getNgayTraHang()!=null) this.ngayTraHang = model.getNgayTraHang();
         this.lyDoTraHang = model.getLyDoTraHang();
 
 

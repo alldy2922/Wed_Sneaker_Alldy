@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/user/trangChu}">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{/user/trangChu}">
+
 <head>
     <meta charset="UTF-8">
     <title>Lịch Sử Mua Hàng</title>
@@ -38,7 +37,7 @@
 
         }
 
-        input.star:checked ~ label.star:before {
+        input.star:checked~label.star:before {
 
             content: '\f005';
 
@@ -48,7 +47,7 @@
 
         }
 
-        input.star-5:checked ~ label.star:before {
+        input.star-5:checked~label.star:before {
 
             color: #FE7;
 
@@ -56,7 +55,7 @@
 
         }
 
-        input.star-1:checked ~ label.star:before {
+        input.star-1:checked~label.star:before {
             color: #F62;
         }
 
@@ -78,11 +77,12 @@
         }
     </style>
 </head>
+
 <body>
 <div layout:fragment="contentUser" class="page-content" ng-app="donhang-app" ng-controller="donhang-ctrl">
 
     <div class="container-fulid" style="background-color:#f9f9fa;">
-        
+
         <!-- Tab01 -->
         <div class="tab01 container">
             <!-- Nav tabs -->
@@ -124,6 +124,12 @@
                     <a class="nav-link" data-bs-toggle="tab" ng-click="donHangUser(0)" href="#huy" role="tab">
                         <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
                         <span class="d-none d-sm-block">Đã hủy</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" ng-click="donHangUser(6)" href="#trahang" role="tab">
+                        <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                        <span class="d-none d-sm-block">Trả hàng/Hoàn tiền</span>
                     </a>
                 </li>
             </ul>
@@ -190,6 +196,7 @@
                 <!--                        </div>-->
                 <!--                        <div class="row"></div>-->
                 <!--                    </div>-->
+
                 <!--                    chờ xác nhận-->
                 <div class="tab-pane active" id="choXacNhan" role="tabpanel">
                     <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
@@ -210,8 +217,10 @@
                                 <h5 style="color: white">Đơn hàng: {{d.ma}}</h5>
                             </div>
                             <div class="col-6 m-t-3">
-                                <h5 ng-if="d.trangThai == 2" class="flex-r m-t-10" style="color: white;">Chờ xác nhận</h5>
-                                <h5 ng-if="d.trangThai == 5" class="flex-r m-t-10" style="color: white;">Chưa thanh toán</h5>
+                                <h5 ng-if="d.trangThai == 2" class="flex-r m-t-10" style="color: white;">Chờ xác
+                                    nhận</h5>
+                                <h5 ng-if="d.trangThai == 5" class="flex-r m-t-10" style="color: white;">Chưa thanh
+                                    toán</h5>
                             </div>
                         </div>
                         <div class="row m-r-10 m-l-10 m-t-10" ng-repeat="ct in d.chiTietDonHang">
@@ -221,7 +230,8 @@
                             </div>
                             <div class="col-7">
                                 <div class="text" style="margin-left: 10px;">
-                                    <h8><a style="color: #666;" href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
+                                    <h8><a style="color: #666;"
+                                           href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
                                     <p>size: {{ct.size}}</p>
                                 </div>
                             </div>
@@ -239,18 +249,15 @@
                         <div class="row flex-r mr-3 m-t-10 m-b-15">
                             <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
                                 <button type="button" class="btn btn-secondary ml-2 m-b-10 btn-danger"
-                                        ng-click="findByMaDonHangUser(d.ma)"
-                                        data-bs-toggle="modal"
+                                        ng-click="findByMaDonHangUser(d.ma)" data-bs-toggle="modal"
                                         data-bs-target="#huyModal">Hủy
                                 </button>
                                 <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
-                                   class="btn btn-secondary ml-2 m-b-10"
-                                   ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng
+                                   class="btn btn-secondary ml-2 m-b-10" ng-click="findByMaDonHangUser(d.ma)">Xem
+                                    chi tiết đơn hàng
                                 </a>
-                                <a ng-click="thanhToan(d.ma)" href="#" type="button"
-                                   ng-if="d.trangThai == 5"
-                                   class="btn btn-primary ml-2 m-b-10"
-                                >Thanh toán
+                                <a ng-click="thanhToan(d.ma)" href="#" type="button" ng-if="d.trangThai == 5"
+                                   class="btn btn-primary ml-2 m-b-10">Thanh toán
                                 </a>
                             </div>
                         </div>
@@ -265,8 +272,8 @@
 
 
                             <h4 class="m-t-2" style="text-align: center"><img style="height: 150px; width: 150px"
-                                                                              src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png"
-                                                                              alt="">Chưa có đơn hàng</h4>
+                                                                              src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">Chưa
+                                có đơn hàng</h4>
                         </div>
                     </div>
                     <div class="row"></div>
@@ -287,7 +294,8 @@
                             </div>
                             <div class="col-7">
                                 <div class="text" style="margin-left: 10px;">
-                                    <h8><a style="color: #666;" href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
+                                    <h8><a style="color: #666;"
+                                           href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
                                     <p>size: {{ct.size}}</p>
                                 </div>
                             </div>
@@ -305,8 +313,8 @@
                         <div class="row flex-r mr-3 m-t-10 m-b-15">
                             <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
                                 <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
-                                   class="btn btn-secondary ml-2 m-b-10"
-                                   ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng
+                                   class="btn btn-secondary ml-2 m-b-10" ng-click="findByMaDonHangUser(d.ma)">Xem
+                                    chi tiết đơn hàng
                                 </a>
                             </div>
                         </div>
@@ -321,8 +329,8 @@
 
 
                             <h4 class="m-t-2" style="text-align: center"><img style="height: 150px; width: 150px"
-                                                                              src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png"
-                                                                              alt="">Chưa có đơn hàng</h4>
+                                                                              src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">Chưa
+                                có đơn hàng</h4>
                         </div>
                     </div>
                     <div class="row"></div>
@@ -343,7 +351,8 @@
                             </div>
                             <div class="col-7">
                                 <div class="text" style="margin-left: 10px;">
-                                    <h8><a style="color: #666;" href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
+                                    <h8><a style="color: #666;"
+                                           href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
                                     <p>size: {{ct.size}}</p>
                                 </div>
                             </div>
@@ -361,8 +370,8 @@
                         <div class="row flex-r mr-3 m-t-10 m-b-15">
                             <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
                                 <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
-                                   class="btn btn-secondary ml-2 m-b-10"
-                                   ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng
+                                   class="btn btn-secondary ml-2 m-b-10" ng-click="findByMaDonHangUser(d.ma)">Xem
+                                    chi tiết đơn hàng
                                 </a>
                             </div>
                         </div>
@@ -377,8 +386,8 @@
 
 
                             <h4 class="m-t-2" style="text-align: center"><img style="height: 150px; width: 150px"
-                                                                              src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png"
-                                                                              alt="">Chưa có đơn hàng</h4>
+                                                                              src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">Chưa
+                                có đơn hàng</h4>
                         </div>
                     </div>
                     <div class="row"></div>
@@ -399,7 +408,8 @@
                             </div>
                             <div class="col-5">
                                 <div class="text" style="margin-left: 10px;">
-                                    <h8><a style="color: #666;" href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
+                                    <h8><a style="color: #666;"
+                                           href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
                                     <p>size: {{ct.size}}</p>
                                 </div>
                             </div>
@@ -411,11 +421,10 @@
                             </div>
                             <div class="col-2">
                                 <a href="#" data-bs-toggle="modal" ng-click="setChiTietDH(ct.id)"
-                                   ng-if="ct.nhanXet==null"
-                                   data-bs-target="#danhGia">Đánh giá</a>
+                                   ng-if="ct.nhanXet==null" data-bs-target="#danhGia">Đánh giá</a>
                                 <a href="#" data-bs-toggle="modal" ng-if="ct.nhanXet!=null"
-                                   ng-click="viewUpdateDanhGia(ct.nhanXet.id)"
-                                   data-bs-target="#danhGiaUpdate">Đã đánh giá</a>
+                                   ng-click="viewUpdateDanhGia(ct.nhanXet.id)" data-bs-target="#danhGiaUpdate">Đã
+                                    đánh giá</a>
                             </div>
                         </div>
                         <hr>
@@ -424,16 +433,20 @@
                         </div>
                         <div class="row flex-r mr-3 m-t-10 m-b-15">
                             <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
+                                <button type="button" class="btn btn-secondary ml-2 m-b-10 btn-danger"
+                                        ng-click="findByMaDonHangUser(d.ma)" data-bs-toggle="modal"
+                                        data-bs-target="#traHangModal">Trả Hàng
+                                </button>
                                 <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
-                                   class="btn btn-secondary ml-2 m-b-10"
-                                   ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng
+                                   class="btn btn-secondary ml-2 m-b-10" ng-click="findByMaDonHangUser(d.ma)">Xem
+                                    chi tiết đơn hàng
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="row"></div>
                 </div>
-                <!--                    hủy-->
+                <!--hủy-->
                 <div class="tab-pane" id="huy" role="tabpanel">
                     <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                         <div class="row"
@@ -441,8 +454,8 @@
 
 
                             <h4 class="m-t-2" style="text-align: center"><img style="height: 150px; width: 150px"
-                                                                              src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png"
-                                                                              alt="">Chưa có đơn hàng</h4>
+                                                                              src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">Chưa
+                                có đơn hàng</h4>
                         </div>
                     </div>
                     <div class="row"></div>
@@ -463,7 +476,8 @@
                             </div>
                             <div class="col-7">
                                 <div class="text" style="margin-left: 10px;">
-                                    <h8><a style="color: #666;" href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
+                                    <h8><a style="color: #666;"
+                                           href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
                                     <p>size: {{ct.size}}</p>
                                 </div>
                             </div>
@@ -481,8 +495,65 @@
                         <div class="row flex-r mr-3 m-t-10 m-b-15">
                             <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
                                 <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
-                                   class="btn btn-secondary ml-2 m-b-10"
-                                   ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng
+                                   class="btn btn-secondary ml-2 m-b-10" ng-click="findByMaDonHangUser(d.ma)">Xem
+                                    chi tiết đơn hàng
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"></div>
+                </div>
+                <!--trả hàng-->
+                <div class="tab-pane" id="trahang" role="tabpanel">
+                    <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
+                        <div class="row"
+                             style="height: 500px; display: flex; justify-content: center; align-items: center;">
+
+
+                            <h4 class="m-t-2" style="text-align: center"><img style="height: 150px; width: 150px"
+                                                                              src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">Chưa
+                                có đơn hàng</h4>
+                        </div>
+                    </div>
+                    <div class="row"></div>
+                    <div class="m-l-10 m-r-10 m-b-10" style="background-color: white;"
+                         ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0">
+                        <div class="row m-t-10 m-r-1 m-l-1" style="background-color: #717fe0; height: 50px">
+                            <div class="col-6">
+                                <h5 style="color: white;" class="m-t-5">Hóa đơn: {{d.ma}}</h5>
+                            </div>
+                            <div class="col-6 m-t-5">
+                                <h5 class="flex-r m-t-10" style="color: white;">Hủy</h5>
+                            </div>
+                        </div>
+                        <div class="row m-t-10 m-r-10 m-l-10" ng-repeat="ct in d.chiTietDonHang">
+                            <div class="col-1">
+                                <img src="/image/loadImage/product/{{ct.anh}}" style="width: 100px; height: 100px;"
+                                     alt="chờ xác nhận">
+                            </div>
+                            <div class="col-7">
+                                <div class="text" style="margin-left: 10px;">
+                                    <h8><a style="color: #666;"
+                                           href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
+                                    <p>size: {{ct.size}}</p>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <h9>Số lượng: {{ct.soLuong}}</h9>
+                            </div>
+                            <div class="col-2">
+                                <h9>{{ct.donGiaSauGiam | currency: "" : 1}}đ</h9>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row flex-r mr-3">
+                            <h4 class="flex-r mr-3">{{d.tongTien | currency: "" : 1}}đ</h4>
+                        </div>
+                        <div class="row flex-r mr-3 m-t-10 m-b-15">
+                            <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
+                                <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
+                                   class="btn btn-secondary ml-2 m-b-10" ng-click="findByMaDonHangUser(d.ma)">Xem
+                                    chi tiết đơn hàng
                                 </a>
                             </div>
                         </div>
@@ -515,6 +586,39 @@
             </div>
         </div>
     </div>
+    <!--        modal tra hang-->
+    <div class="modal" id="traHangModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Lý do trả hàng</label>
+                        <textarea class="form-control" ng-model="lyDoTraHang" id="exampleFormControlTextarea1"
+                                  rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="refundMethod">Phương thức hoàn tiền</label>
+                        <select id="refundMethod" class="form-control">
+                            <option value="1">Chuyển Khoản</option>
+                            <option value="2">Nhận Tại Quầy-Tiền Mặt</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" ng-click="traDonUser(maDonHang)"
+                            data-bs-dismiss="modal">Xác nhận
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <!-- Đánh giá-->
     <div class="modal" id="danhGia">
         <div class="modal-dialog modal-dialog-centered">
@@ -539,32 +643,32 @@
                                 <form action="" id="formDanhGia">
 
                                     <input class="star star-5" id="star-5" type="radio"
-                                           ng-click="erDanhGia.rating=''"
-                                           name="star" value="5" ng-model="danhGia.rating"/>
+                                           ng-click="erDanhGia.rating=''" name="star" value="5"
+                                           ng-model="danhGia.rating" />
 
                                     <label class="star star-5" for="star-5"></label>
 
                                     <input class="star star-4" id="star-4" type="radio"
-                                           ng-click="erDanhGia.rating=''"
-                                           name="star" value="4" ng-model="danhGia.rating"/>
+                                           ng-click="erDanhGia.rating=''" name="star" value="4"
+                                           ng-model="danhGia.rating" />
 
                                     <label class="star star-4" for="star-4"></label>
 
                                     <input class="star star-3" id="star-3" type="radio"
-                                           ng-click="erDanhGia.rating=''"
-                                           name="star" value="3" ng-model="danhGia.rating"/>
+                                           ng-click="erDanhGia.rating=''" name="star" value="3"
+                                           ng-model="danhGia.rating" />
 
                                     <label class="star star-3" for="star-3"></label>
 
                                     <input class="star star-2" id="star-2" type="radio"
-                                           ng-click="erDanhGia.rating=''"
-                                           name="star" value="2" ng-model="danhGia.rating"/>
+                                           ng-click="erDanhGia.rating=''" name="star" value="2"
+                                           ng-model="danhGia.rating" />
 
                                     <label class="star star-2" for="star-2"></label>
 
                                     <input class="star star-1" id="star-1" type="radio"
-                                           ng-click="erDanhGia.rating=''"
-                                           name="star" value="1" ng-model="danhGia.rating"/>
+                                           ng-click="erDanhGia.rating=''" name="star" value="1"
+                                           ng-model="danhGia.rating" />
 
                                     <label class="star star-1" for="star-1"></label>
                                     <br>
@@ -582,8 +686,8 @@
                                ng-focus="erDanhGia.tieuDe=''">
                         <i class="er ">{{erDanhGia.tieuDe == undefined ? "" : erDanhGia.tieuDe}}</i>
                         <textarea class="form-control mt-3" ng-model="danhGia.noiDung"
-                                  ng-focus="erDanhGia.noiDung=''"
-                                  id="exampleFormControlTextarea11" rows="3" placeholder="Nội dung"></textarea>
+                                  ng-focus="erDanhGia.noiDung=''" id="exampleFormControlTextarea11" rows="3"
+                                  placeholder="Nội dung"></textarea>
                         <i class="er mb-3">{{erDanhGia.noiDung == undefined ? "" : erDanhGia.noiDung}}</i>
                     </div>
                     <button type="button" class="btn btn-secondary" ng-click="addDanhGia()">Gửi đánh giá</button>
@@ -614,67 +718,67 @@
                                 <form action="" id="formDanhGiapdateUpdate">
 
                                     <input class="star star-5" id="star-5update" type="radio"
-                                           ng-click="erDanhGiaUpdate.rating=''"
-                                           name="star" value="5" ng-model="danhGiaUpdate.rating"/>
+                                           ng-click="erDanhGiaUpdate.rating=''" name="star" value="5"
+                                           ng-model="danhGiaUpdate.rating" />
 
                                     <label class="star star-5" for="star-5update"></label>
 
                                     <input class="star star-4" id="star-4update" type="radio"
-                                           ng-click="erDanhGiaUpdate.rating=''"
-                                           name="star" value="4" ng-model="danhGiaUpdate.rating"/>
+                                           ng-click="erDanhGiaUpdate.rating=''" name="star" value="4"
+                                           ng-model="danhGiaUpdate.rating" />
 
                                     <label class="star star-4" for="star-4update"></label>
 
                                     <input class="star star-3" id="star-3update" type="radio"
-                                           ng-click="erDanhGiaUpdate.rating=''"
-                                           name="star" value="3" ng-model="danhGiaUpdate.rating"/>
+                                           ng-click="erDanhGiaUpdate.rating=''" name="star" value="3"
+                                           ng-model="danhGiaUpdate.rating" />
 
                                     <label class="star star-3" for="star-3update"></label>
 
                                     <input class="star star-2" id="star-2update" type="radio"
-                                           ng-click="erDanhGiaUpdate.rating=''"
-                                           name="star" value="2" ng-model="danhGiaUpdate.rating"/>
+                                           ng-click="erDanhGiaUpdate.rating=''" name="star" value="2"
+                                           ng-model="danhGiaUpdate.rating" />
 
                                     <label class="star star-2" for="star-2update"></label>
 
                                     <input class="star star-1" id="star-1update" type="radio"
-                                           ng-click="erDanhGiaUpdate.rating=''"
-                                           name="star" value="1" ng-model="danhGiaUpdate.rating"/>
+                                           ng-click="erDanhGiaUpdate.rating=''" name="star" value="1"
+                                           ng-model="danhGiaUpdate.rating" />
 
-                                        <label class="star star-1" for="star-1update"></label>
-                                        <br>
-                                        <p style="color: orange">Đã đánh giá {{danhGiaUpdate.rating}}/5 sao</p>
-                                        <br>
-                                        <i class="er">{{erDanhGiaUpdate.rating == undefined ? "" : erDanhGiaUpdate.rating}}</i>
-                                    </form>
-                                </div>
+                                    <label class="star star-1" for="star-1update"></label>
+                                    <br>
+                                    <p style="color: orange">Đã đánh giá {{danhGiaUpdate.rating}}/5 sao</p>
+                                    <br>
+                                    <i class="er">{{erDanhGiaUpdate.rating == undefined ? "" :
+                                            erDanhGiaUpdate.rating}}</i>
+                                </form>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Chia sẻ cảm nhận của bạn về sản
-                            phẩm
-                            <h9 style="color: red;">*</h9>
-                        </label>
-                        <input type="text" class="form-control" placeholder="Tiêu đề"
-                               ng-model="danhGiaUpdate.tieuDe"
-                               ng-focus="erDanhGiaUpdate.tieuDe=''">
-                        <i class="er ">{{erDanhGiaUpdate.tieuDe == undefined ? "" : erDanhGiaUpdate.tieuDe}}</i>
-                        <textarea class="form-control mt-3" ng-model="danhGiaUpdate.noiDung"
-                                  ng-focus="erDanhGiaUpdate.noiDung=''"
-                                  id="exampleFormControlTextarea11update" rows="3"
-                                  placeholder="Nội dung"></textarea>
-                        <i class="er mb-3">{{erDanhGiaUpdate.noiDung == undefined ? "" : erDanhGiaUpdate.noiDung}}</i>
-                    </div>
-                    <button type="button" class="btn btn-secondary" ng-click="updateDanhGia()"
-                            ng-if="danhGiaUpdate.chinhSua==false && danhGiaUpdate.pheDuyet==false">Cập nhật đánh giá
-                    </button>
                 </div>
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Chia sẻ cảm nhận của bạn về sản
+                        phẩm
+                        <h9 style="color: red;">*</h9>
+                    </label>
+                    <input type="text" class="form-control" placeholder="Tiêu đề" ng-model="danhGiaUpdate.tieuDe"
+                           ng-focus="erDanhGiaUpdate.tieuDe=''">
+                    <i class="er ">{{erDanhGiaUpdate.tieuDe == undefined ? "" : erDanhGiaUpdate.tieuDe}}</i>
+                    <textarea class="form-control mt-3" ng-model="danhGiaUpdate.noiDung"
+                              ng-focus="erDanhGiaUpdate.noiDung=''" id="exampleFormControlTextarea11update" rows="3"
+                              placeholder="Nội dung"></textarea>
+                    <i class="er mb-3">{{erDanhGiaUpdate.noiDung == undefined ? "" : erDanhGiaUpdate.noiDung}}</i>
+                </div>
+                <button type="button" class="btn btn-secondary" ng-click="updateDanhGia()"
+                        ng-if="danhGiaUpdate.chinhSua==false && danhGiaUpdate.pheDuyet==false">Cập nhật đánh giá
+                </button>
             </div>
         </div>
     </div>
 </div>
+</div>
 
 </div>
 </body>
+
 </html>

@@ -38,6 +38,10 @@ public interface IDonHangService {
 
     void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException;
 
+    void traHang(DonHangDTORequest donHangDTORequest) throws MessagingException;
+
+    void traDonHangUser(String maDonHang, String lyDoTraHang) throws MessagingException;
+
     DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoThayDoi);
 
 

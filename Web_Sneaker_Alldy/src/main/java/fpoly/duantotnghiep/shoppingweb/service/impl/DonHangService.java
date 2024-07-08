@@ -61,7 +61,6 @@ public class DonHangService implements IDonHangService {
 
     }
 
-
     @Override
     public Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber) {
 
@@ -134,21 +133,32 @@ public class DonHangService implements IDonHangService {
                 subject = "Đơn hàng chưa đuọc thanh toán!";
                 title = "Đơn hàng của bạn chưa được thanh toán";
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn chưa được thanh toán.Vui lòng thanh toán đơn hàng của bạn.";
+            } else if (trangThai == 6) {
+                subject = "Chờ xàc nhận trả hàng!";
+                title = "Đơn hàng đang chờ xác nhận trả hàng";
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang chờ xác nhận trả hàng. Chúng tôi sẽ xử lý yêu cầu của bạn sỡm nhất có thể.";
+            } else if (trangThai == 7) {
+                subject = "Kiểm tra hoàn hàng!";
+                title = "Đơn hàng đang được kiểm tra hoàn hàng";
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được kiểm tra hoàn hàng. Chúng tôi sẽ thông báo cho bạn khi quá trình kiểm tra hoàn tất.";
+            } else if (trangThai == 8) {
+                subject = "Hoàn tiền!";
+                title = "Đơn hàng đã được hoàn tiền";
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được hoàn tiền. Số tiền hoàn lại sẽ sớm có trong tài khoản của bạn.";
             }
-
 
             List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(maDonHang);
             BigDecimal tongTien = BigDecimal.valueOf(0);
             for (ChiTietDonHangDtoResponse d : lstSanPham) {
                 tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
             }
-
             Context context = new Context();
             context.setVariable("donHang", new DonHangDtoResponse(model));
             context.setVariable("products", lstSanPham);
             context.setVariable("totalPrice", tongTien);
             context.setVariable("mess", messeger);
             context.setVariable("title", title);
+
             String finalSubject = subject;
             new Thread(() -> {
                 try {
@@ -158,7 +168,6 @@ public class DonHangService implements IDonHangService {
                 }
             }).start();
         }
-
 
         donHangResponsitory.saveAndFlush(model);
     }
@@ -225,6 +234,62 @@ public class DonHangService implements IDonHangService {
             chiTietSanPhamRepository.save(sanPhamInDonHang);
         });
         donHangResponsitory.save(model);
+    }
+
+    @Override
+    public void traDonHangUser(String maDonHang, String lyDoTraHang) throws MessagingException {
+        DonHangModel model = donHangResponsitory.findById(maDonHang).get();
+        model.setNgayHuy(new Date());
+        model.setLyDoHuy(lyDoTraHang);
+        model.setTrangThai(6);
+        //Hoàn sản phẩm vào kho, dùng cho bước hoàn thành kiểm tra hoàn hàng
+//        List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
+//        ctdhModel.forEach(c -> {
+//            int soLuongInDonHang = c.getSoLuong();
+//            ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
+//            sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
+//            chiTietSanPhamRepository.save(sanPhamInDonHang);
+//        });
+        donHangResponsitory.save(model);
+    }
+
+
+
+    @Override
+    public void traHang(DonHangDTORequest donHangDTORequest) throws MessagingException{
+        DonHangModel donHangModel = donHangResponsitory.findById(donHangDTORequest.getMa()).orElseThrow(() -> new RuntimeException("Không tìm thấy đơn hàng"));
+        if (donHangModel.getLoai() == 0) {
+            donHangModel.setTrangThai(6);//Chờ xác nhận trả hàng
+        }
+        donHangModel.setNgayTraHang(new Date());
+        donHangModel.setLyDoTraHang(donHangDTORequest.getLyDoTraHang());
+
+        String subject = "Yêu cầu trả hàng!";
+        String messeger = "Xin chào " + donHangModel.getTenNguoiNhan() + " Thông báo trả hàng cho khách hàng!";
+
+
+        List<ChiTietDonHangModel> chiTietDonHangModels = chiTietDonHangRepository.findAllByDonHang(donHangModel);
+        chiTietDonHangModels.forEach(chiTietDonHang ->{
+            chiTietDonHang.setDonGia(chiTietDonHang.getDonGia().negate());//Đánh dấu sản p đã trả hàng
+            chiTietDonHangRepository.save(chiTietDonHang);
+        });
+
+
+
+        // Gửi email thông báo cho khách hàng
+        Context context = new Context();
+        context.setVariable("donHang", donHangModel);
+        context.setVariable("products", chiTietDonHangModels);
+        context.setVariable("mess", messeger);
+        context.setVariable("title", subject);
+        String htmlContent = templateEngine.process("email/traHang", context);
+//        sendEmailDonHang(donHangModel.getEmail(), subject, htmlContent, chiTietDonHangModels);
+
+//        sendEmailDonHang(donHangModel.getEmail(), subject,"Yêu cầu trả hàng", htmlContent, chiTietDonHangModels);
+
+
+        donHangResponsitory.save(donHangModel);
+
     }
 
     @Override

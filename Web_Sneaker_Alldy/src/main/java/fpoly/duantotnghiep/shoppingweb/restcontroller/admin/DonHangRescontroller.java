@@ -56,10 +56,10 @@ public class DonHangRescontroller {
                                                    @RequestParam(defaultValue = "10") Integer limit,
                                                    @RequestParam(required = false)String sdt,
                                                    @RequestParam(defaultValue = "0")Integer loai) {
+
         return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber , limit, sdt,loai);
+
     }
-
-
 
     @GetMapping("/{ma}")
     public ResponseEntity<DonHangDtoResponse> getByMa(@PathVariable("ma") String ma) {
@@ -107,6 +107,24 @@ public class DonHangRescontroller {
         donHangService.huyDonHang(ma, lyDo);
         return ResponseEntity.ok().build();
     }
+
+//    @PostMapping("/tra-hang")
+//    public ResponseEntity<?> traHang(@RequestBody DonHangDTORequest donHangDTORequest) {
+//        try {
+//            // Check if the order exists
+//            if (!donHangService.existsByMa(donHangDTORequest.getMa())) {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Đơn hàng không tồn tại.");
+//            }
+//
+//            // Call the service method to process the return
+//            donHangService.traHang(donHangDTORequest);
+//            return ResponseEntity.ok("Yêu cầu trả hàng đã được gửi và email thông báo đã được gửi.");
+//        } catch (MessagingException e) {
+//            return ResponseEntity.status(500).body("Lỗi khi gửi email thông báo.");
+//        } catch (Exception e) {
+//            return ResponseEntity.status(500).body("Đã xảy ra lỗi.");
+//        }
+//    }
 
     @PutMapping("")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})
@@ -189,6 +207,7 @@ public class DonHangRescontroller {
 
         return ResponseEntity.ok().build();
     }
+
     private String codeDonHang() {
         final String ALLOWED_CHARACTERS = "asdfghjklqwertyuiopzxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 

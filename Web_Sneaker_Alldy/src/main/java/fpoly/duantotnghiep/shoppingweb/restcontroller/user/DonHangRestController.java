@@ -35,6 +35,13 @@ public class DonHangRestController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PutMapping("tra-hang-user")
+    public ResponseEntity<?> traDonHangUser(@RequestBody String lyDoTraHang, @RequestParam String ma) throws MessagingException {
+
+        donHangService.traDonHangUser(ma, lyDoTraHang);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @GetMapping("/{ma}")
     public ResponseEntity<DonHangReponseUser> getByMa(@PathVariable("ma") String ma) {
         if (!donHangService.existsByMa(ma)) {

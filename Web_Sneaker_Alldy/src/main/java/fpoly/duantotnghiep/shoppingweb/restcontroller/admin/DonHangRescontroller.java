@@ -100,18 +100,6 @@ public class DonHangRescontroller {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("update-trang-thai-hoan")
-    public ResponseEntity<?> updateTrangThaiAndLyDo(@RequestParam("ma") String ma, @RequestParam("trangThai") Integer trangThai,@RequestParam("lydo") String lyDo) throws MessagingException {
-
-        try {
-            donHangService.hoanHang(ma,trangThai,lyDo);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok().build();
-    }
-
-
     @PutMapping("/huy-don-hang")
     public ResponseEntity<Integer> huyDonHang(@RequestBody List<String> ma, @RequestParam("lyDo") String lyDo) throws MessagingException {
         donHangService.huyDonHang(ma, lyDo);
@@ -147,36 +135,6 @@ public class DonHangRescontroller {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(donHangService.updateDonHang(request, products));
-    }
-    @PutMapping("hoan")
-    @Transactional(rollbackFor = {Exception.class, Throwable.class})
-    public ResponseEntity<?> updateDonHangHoan(@Valid @RequestPart("donHang") DonHangDTORequest request,
-                                           BindingResult result,
-                                           @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products) {
-        if(products.size()<=0){
-            result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
-        }else{
-            if(request.getVoucher() != null && !request.getVoucher().isBlank()){
-                VoucherReponse voucherReponse = voucherService.findById(request.getVoucher());
-                BigDecimal tongTien = BigDecimal.valueOf(0);
-                for (var p: products ) {
-                    tongTien = tongTien.add(p.getDonGiaSauGiam());
-                }
-
-                if(tongTien.compareTo(BigDecimal.valueOf(voucherReponse.getGiaTriDonHang())) < 0){
-                    NumberFormat numberFM = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-                    result.addError(new FieldError("soLuongSP","soLuongSP","Voucher đã sử dụng chỉ áp dụng cho đơn hàng từ " + numberFM.format(voucherReponse.getGiaTriDonHang()) + " đ" ) );
-                }
-            }
-        }
-
-        if(result.hasErrors()){
-            return ValidateUtil.getErrors(result);
-        }
-        if (!donHangService.existsByMa(request.getMa())) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(donHangService.updateDonHangHoan(request, products));
     }
     @PostMapping("")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})

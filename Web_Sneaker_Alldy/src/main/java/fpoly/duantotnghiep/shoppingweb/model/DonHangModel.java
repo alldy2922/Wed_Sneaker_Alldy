@@ -88,9 +88,6 @@ public class DonHangModel {
     @Column(name = "lydohuy")
     private String lyDoHuy;
 
-    @Column(name = "lydothaydoi")
-    private String lyDoThayDoi;
-
     @Column(name = "ngayxacnhan")
     private Date ngayXacNhan;
 
@@ -99,12 +96,6 @@ public class DonHangModel {
 
     @Column(name = "ngayhoanthanh")
     private Date ngayHoanThanh;
-
-    @Column(name = "ngayhoanhang")
-    private Date ngayHoanHang;
-
-    @Column(name = "trangthaihoan")
-    private Integer trangThaiHoan;
 
     @Column(name = "ngayhuy")
     private Date ngayHuy;
@@ -137,9 +128,7 @@ public class DonHangModel {
     public String toString() {
         return "DonHangModel{" +
                 "ma='" + ma + '\'' +
-                ", nguoiSoHuu=" + nguoiSoHuu +
-                ", nhanVien=" + nhanVien +
-                ", voucher=" + voucher +
+                ", nguoiSoHuu=" + (nguoiSoHuu == null ? "" : nguoiSoHuu.getUsername()) +
                 ", tenNguoiNhan='" + tenNguoiNhan + '\'' +
                 ", soDienThoai='" + soDienThoai + '\'' +
                 ", email='" + email + '\'' +
@@ -153,20 +142,8 @@ public class DonHangModel {
                 ", ngayDatHang=" + ngayDatHang +
                 ", trangThai=" + trangThai +
                 ", ghiChu='" + ghiChu + '\'' +
-                ", tienGiam=" + tienGiam +
+//                ", tienGiam=" + tienGiam +
                 ", phiGiaoHang=" + phiGiaoHang +
-                ", phuongThucThanhToan=" + phuongThucThanhToan +
-                ", lyDoHuy='" + lyDoHuy + '\'' +
-                ", lyDoThayDoi='" + lyDoThayDoi + '\'' +
-                ", ngayXacNhan=" + ngayXacNhan +
-                ", ngayGiaoHang=" + ngayGiaoHang +
-                ", ngayHoanThanh=" + ngayHoanThanh +
-                ", ngayHoanHang=" + ngayHoanHang +
-                ", trangThaiHoan=" + trangThaiHoan +
-                ", ngayHuy=" + ngayHuy +
-                ", loai=" + loai +
-                ", tongTien=" + tongTien +
-                ", danhSachSanPham=" + danhSachSanPham +
                 '}';
     }
 }

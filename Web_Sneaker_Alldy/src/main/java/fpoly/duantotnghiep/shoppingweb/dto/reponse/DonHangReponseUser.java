@@ -35,20 +35,17 @@ public class DonHangReponseUser {
     private String diaChiChiTiet;
     private Date ngayDatHang;
     private Integer trangThai;
-    private Integer trangThaiHoan;
     private String ghiChu;
     private BigDecimal tienGiam;
     private BigDecimal phiGiaoHang;
     private String trangThaiDetail;
     private String phuongThucThanhToan;
     private String lyDoHuy;
-    private String lyDoThayDoi;
     private String voucherCode;
     private String voucherName;
     private Date ngayXacNhan;
     private Date ngayGiaoHang;
     private Date ngayHoanThanh;
-    private Date ngayHoanHang;
     private Date ngayHuy;
     private BigDecimal tongTien;
     private List<ChiTietDonHangDtoResponse> chiTietDonHang;
@@ -69,7 +66,6 @@ public class DonHangReponseUser {
         this.xaPhuongCode = model.getXaPhuongCode();
         this.diaChiChiTiet = model.getDiaChiChiTiet();
         this.ngayDatHang = model.getNgayDatHang();
-        this.ngayHoanHang = model.getNgayHoanHang();
         this.trangThai = model.getTrangThai();
         this.ghiChu = model.getGhiChu();
         this.tienGiam = model.getTienGiam() == null ? BigDecimal.valueOf(0) : model.getTienGiam();
@@ -77,8 +73,6 @@ public class DonHangReponseUser {
         this.trangThaiDetail = model.trangThaiDetail();
         this.phuongThucThanhToan = model.getPhuongThucThanhToan() == true ? "Thanh toán khi nhận hàng" : "Thanh toán online";
         this.lyDoHuy = model.getLyDoHuy();
-        this.lyDoThayDoi = model.getLyDoThayDoi();
-        this.trangThaiHoan = model.getTrangThaiHoan();
 
         if (model.getNgayXacNhan() != null) this.ngayXacNhan = model.getNgayXacNhan();
         if (model.getNgayGiaoHang() != null) this.ngayGiaoHang = model.getNgayGiaoHang();

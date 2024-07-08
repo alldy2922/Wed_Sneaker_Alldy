@@ -18,8 +18,6 @@ public interface IDonHangService {
 
     List<DonHangReponseUser> getAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai);
 
-    List<DonHangReponseUser> getAllByKhachHangAndTrangThaiHoan(String nguoiSoHuu, Integer trangThaiHoan);
-
     Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber);
 
     DonHangDtoResponse checkOut(DonHangDTORequest donHangDTORequest);
@@ -29,10 +27,6 @@ public interface IDonHangService {
     DonHangReponseUser findByMaUser(String ma);
 
     Boolean existsByMa(String ma);
-
-   DonHangDtoResponse updateDonHangHoan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products);
-
-    void hoanHang(String maDonHang, Integer trangThai,String lyDo) throws MessagingException;
 
     void updateTrangThai(String maDonHang, Integer trangThai) throws MessagingException;
 

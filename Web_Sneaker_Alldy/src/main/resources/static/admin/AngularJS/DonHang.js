@@ -862,7 +862,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getDetail(ma) {
             $http.get("/admin/don-hang/" + ma).then(r => {
                 $scope.donHang = r.data;
-                console.log("đâttđaa",$scope.donHang)
                 $('#donHangDetail').modal('show')
             }).catch(e => console.log(e))
 
@@ -1301,14 +1300,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             console.log(err);
         })
     }
-    $scope.donHangHoanUser = function (trangThaiHoan) {
-        $http.get("/don-hang/get-by-trangThaiHoan-khachHang?trangThaiHoan=" + trangThaiHoan).then(resp => {
-            $scope.donHangChuaXacNhanKh = resp.data;
-            console.log(resp.data)
-        }).catch(err => {
-            console.log(err);
-        })
-    }
     $scope.donHangUser(5)
 
     $scope.findByMaDonHangUser = function (ma) {
@@ -1422,30 +1413,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         document.cookie = "url=" + window.location.href + "; expires=" + expires;
         location.href = "/dang-nhap";
     }
-    $scope.lyDoDoi = '';
-    $scope.messLyDoDoi = '';
-
-    $scope.maDonHang = "";
-    $scope.layMaDonHang = function(item) {
-        console.log(item)
-        $scope.maDonHang = item
-    };
-    $scope.huyDH1 = function() {
-        if ($scope.lyDoDoi.trim() === '') {
-            $scope.messLyDoDoi = 'Vui lòng nhập lý do đổi hàng!';
-        } else {
-            $scope.messLyDoDoi = '';
-            $http.put("/don-hang/update-trang-thai-hoan?ma=" + $scope.maDonHang + "&trangThai=6" + "&lydo=" + encodeURIComponent($scope.lyDoDoi)).then( r =>  {
-                console.log(r.data)
-                alertify.success("Gửi yêu cầu Hoàn Thành công");
-                $('#closeHuy').click()
-            }).catch(e => {
-                alertify.error("Gửi Yêu cầu Hoàn thất bại")
-                console.log(e)
-            })
-        }
-    }
-
 })
 $('#khachHangSL').select2({
     dropdownParent: $('#add')

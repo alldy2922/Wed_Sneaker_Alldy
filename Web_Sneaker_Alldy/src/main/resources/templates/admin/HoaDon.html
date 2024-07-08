@@ -217,9 +217,7 @@
                                                                                     <span
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
-                                                                        </span>
                                                                     </li>
-
                                                                     <li class="page-item" ng-if="chuaXacNhan.page>2">
                                                                         <span class="page-link">
                                                                             <span>...</span>
@@ -327,11 +325,6 @@
                                                                     <td>
                                                                         <a href="/export/don-hang/{{d.ma}}"
                                                                             class="btn btn-primary">In hóa đơn</a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <td>
-                                                                            <button ng-click="layMaDonHang(d.ma)" data-toggle="modal" data-target="#lyDoHoanHang" class="btn btn-danger">Đổi Hàng</button>
-                                                                        </td>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -552,30 +545,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="modal fade" id="lyDoHoanHang" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Lý do Đổi Hàng</h5>
-                                        <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <input ng-model="lyDoDoi" class="form-control">
-                                        <i style="color: red">{{messLyDoDoi}}</i>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" id="closeHuy"
-                                                data-dismiss="modal">Trở về
-                                        </button>
-                                        <button type="button" class="btn btn-primary" ng-click="huyDH1()">Đổi Hàng
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         <!--                Modal lý do hủy-->
                         <div class="modal fade" id="lyDo" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1339,7 +1309,7 @@
                                                 <td>
                                                     <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
                                                         currency: "" : 1}}
-                                                     đ
+                                                        đ
                                                     </div>
                                                 </td>
                                                 <td>

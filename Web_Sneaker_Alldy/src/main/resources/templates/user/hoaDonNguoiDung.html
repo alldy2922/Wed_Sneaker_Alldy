@@ -179,12 +179,6 @@
                         <span class="d-none d-sm-block">Đã hủy</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" ng-click="donHangHoanUser(1);" href="#hoanTra" role="tab">
-                        <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
-                        <span class="d-none d-sm-block">Hoàn trả</span>
-                    </a>
-                </li>
             </ul>
 
             <div class="tab-content p-3 text-muted">
@@ -429,7 +423,6 @@
                     <div class="row"></div>
                 </div>
                 <!--                   Hoàn thành-->
-                <!--                   Hoàn thành-->
                 <div class="tab-pane" id="hoanThanh" role="tabpanel">
                     <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                         <div class="row"
@@ -484,46 +477,15 @@
                         </div>
                         <div class="row flex-r mr-3 m-t-10 m-b-15">
                             <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
-                                <button type="button" class="btn btn-warning ml-2 m-b-10"
-                                        ng-click="layMaDonHang(d.ma)"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#lyDoHoanHang">Hoàn Hàng
-                                </button>
                                 <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
                                    class="btn btn-secondary ml-2 m-b-10"
                                    ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng
                                 </a>
                             </div>
-
                         </div>
                     </div>
                     <div class="row"></div>
-                </div><!--                   Hoàn trả-->
-    <!--        modal hoan tra-->
-    <div class="modal" id="lyDoHoanHang">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="exampleFormControlTextarea1">Lý do hoàn trả </label>
-                        <textarea class="form-control" ng-model="lyDoDoi" id="exampleFormControlTextarea1"
-                                  rows="3"></textarea>
-                        <i style="color: red">{{messLyDoDoi}}</i>
-                    </div>
                 </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger"
-                            ng-click="huyDH1()"
-                            data-bs-dismiss="modal">Xác nhận
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </div>
                 <!--                    hủy-->
                 <div class="tab-pane" id="huy" role="tabpanel">
                     <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
@@ -541,7 +503,7 @@
                          ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0">
                         <div class="row m-t-10 m-r-1 m-l-1" style="background-color: #717fe0; height: 50px">
                             <div class="col-6">
-                                <h5 style="color: white;" class="m-t-5">Hóa đơn:{{d.ma}}</h5>
+                                <h5 style="color: white;" class="m-t-5">Hóa đơn: {{d.ma}}</h5>
                             </div>
                             <div class="col-6 m-t-5">
                                 <h5 class="flex-r m-t-10" style="color: white;">Hủy</h5>
@@ -580,65 +542,6 @@
                     </div>
                     <div class="row"></div>
                 </div>
-<!--                hoan tra-->
-                <div class="tab-pane" id="hoanTra" role="tabpanel">
-                    <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
-                        <div class="row"
-                             style="height: 500px; display: flex; justify-content: center; align-items: center;">
-
-
-                            <h4 class="m-t-2" style="text-align: center"><img style="height: 150px; width: 150px"
-                                                                              src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png"
-                                                                              alt="">Chưa có đơn hàng</h4>
-                        </div>
-                    </div>
-                    <div class="row"></div>
-                    <div class="m-l-10 m-r-10 m-b-10" style="background-color: white;"
-                         ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0">
-                        <div class="row m-t-10 m-r-1 m-l-1" style="background-color: #717fe0; height: 50px">
-                            <div class="col-6">
-                                <h5 style="color: white;" class="m-t-5">Hóa đơn: {{d.ma}} </h5>
-                            </div>
-                            <div class="col-6 m-t-5">
-                                <h5 class="flex-r m-t-10" style="color: white;">Hủy</h5>
-                            </div>
-                        </div>
-                        <div class="row m-t-10 m-r-10 m-l-10" ng-repeat="ct in d.chiTietDonHang">
-                            <div class="col-1">
-                                <img src="/image/loadImage/product/{{ct.anh}}" style="width: 100px; height: 100px;"
-                                     alt="chờ xác nhận">
-                            </div>
-                            <div class="col-7">
-                                <div class="text" style="margin-left: 10px;">
-                                    <h8><a style="color: #666;" href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
-                                    <p>size: {{ct.size}}</p>
-                                    <h7>lý do hoàn: {{d.lyDoThayDoi}}</h7>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <h9>Số lượng: {{ct.soLuong}}</h9>
-                            </div>
-
-                            <div class="col-2">
-                                <h9>{{ct.donGiaSauGiam | currency: "" : 1}}đ</h9>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row flex-r mr-3">
-                            <h4 class="flex-r mr-3">{{d.tongTien | currency: "" : 1}}đ</h4>
-                        </div>
-                        <div class="row flex-r mr-3 m-t-10 m-b-15">
-                            <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
-                                <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
-                                   class="btn btn-secondary ml-2 m-b-10"
-                                   ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row"></div>
-                </div>
-
             </div>
         </div>
     </div>

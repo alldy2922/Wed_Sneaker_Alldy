@@ -43,11 +43,7 @@ public class SanPhamRestController {
         return ResponseEntity.ok(sanPhamService.findByMa(ma));
 
     }
-    @GetMapping("get-sphoadon")
-    public ResponseEntity<List<SanPhamDtoResponse>> getListSpHoaDon() {
 
-        return ResponseEntity.ok(sanPhamService.findAll());
-    }
 
     @DeleteMapping("delete/{id}")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})//Khi có lỗi sẽ rollback

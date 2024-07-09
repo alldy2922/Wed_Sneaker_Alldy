@@ -59,6 +59,12 @@
                                     <span class="d-none d-sm-block">Hoàn thành</span>
                                 </a>
                             </li>
+                            <li class="nav-item" ng-click="huy.getList(huy.page)">
+                                <a class="nav-link" data-bs-toggle="tab" href="#donhangHuy" role="tab">
+                                    <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                    <span class="d-none d-sm-block">Hủy</span>
+                                </a>
+                            </li>
 
                         </ul>
                         <div class="tab-content p-3 text-muted">
@@ -69,14 +75,11 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row align-items-center">
-                                                    <div class="col-md-6">
+                                                     <div class="col-md-6">
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
-                                                            <div data-toggle="modal" data-target="#add">
-                                                                <a class="btn btn-light"><i
-                                                                        class="bx bx-plus me-1"></i>Thêm mới</a>
-                                                            </div>
+
                                                             <!--                                                            <div class="dropdown">-->
                                                             <!--                                                                <a class="btn btn-link text-muted py-1 font-size-16 shadow-none dropdown-toggle"-->
                                                             <!--                                                                   href="#" role="button" data-bs-toggle="dropdown"-->
@@ -907,7 +910,7 @@
                                                             </td>
                                                             <td style="cursor: pointer"
                                                                 ng-click="daXacNhan.getDetail(d.ma)">
-                                                                {{d.ngayHuy | date:'yyyy-MM-dd HH:mm:ss' }}
+                                                                {{d.ngayHuyHoan | date:'yyyy-MM-dd HH:mm:ss' }}
                                                             </td>
                                                             <!--                                                            <td style="width: 200px">-->
                                                             <!--                                                                <button class="btn btn-danger me-1">Hủy</button>-->
@@ -915,7 +918,7 @@
                                                             <!--                                                            </td>-->
                                                             <td style="cursor: pointer"
                                                                 ng-click="daXacNhan.getDetail(d.ma)">
-                                                                <p class="nameProduct">{{d.lyDoHuy}}</p>
+                                                                <p class="nameProduct">{{d.lyDoHuyHoan}}</p>
                                                             </td>
                                                         </tr>
                                                         </tbody>
@@ -1044,8 +1047,9 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="mb-3">
-                                        <label>Ngày đặt hàng</label>
-                                        <span class="form-control">{{chuaXacNhan.detail.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+
+                                        <label  ng-if="donHang.trangThai === 6">ngày yêu cầu</label>
+                                        <span class="form-control"  ng-if="donHang.trangThai === 6">{{d.ngayHoanHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -1684,8 +1688,14 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="mb-3">
-                                    <label>Ngày đặt hàng</label>
-                                    <span class="form-control">{{donHang.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                    <label  ng-if="donHang.trangThai === 7">Ngày Kiểm Tra Hang</label>
+                                    <span class="form-control"  ng-if="donHang.trangThai === 7">{{donHang.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                <label  ng-if="donHang.trangThai === 8">Ngày Giao Hàng</label>
+                                    <span class="form-control"  ng-if="donHang.trangThai === 8">{{donHang.ngayGiaoHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                <label  ng-if="donHang.trangThai === 9">Ngày Hoàn Thành</label>
+                                    <span class="form-control"  ng-if="donHang.trangThai === 9">{{donHang.ngayHuyHoan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                               <label  ng-if="donHang.trangThai === 10">Ngày Hủy</label>
+                                    <span class="form-control"  ng-if="donHang.trangThai === 10">{{donHang.ngayHuyHoan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                 </div>
                             </div>
                             <div class="mb-3 col-4">

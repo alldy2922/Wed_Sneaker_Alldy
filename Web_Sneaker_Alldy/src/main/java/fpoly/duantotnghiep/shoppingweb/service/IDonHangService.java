@@ -42,6 +42,10 @@ public interface IDonHangService {
 
     void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
 
+    void huyDonHangHoan(List<String> maDonHang, String lyDo) throws MessagingException;
+
+    void huyDonHangHoanUser(String maDonHang, String lyDo) throws MessagingException;
+
     void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException;
 
     DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products);

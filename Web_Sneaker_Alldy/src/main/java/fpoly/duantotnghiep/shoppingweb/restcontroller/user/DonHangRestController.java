@@ -43,6 +43,12 @@ public class DonHangRestController {
         donHangService.huyDonHangUser(ma, lyDoHuy);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+    @PutMapping("huy-don-hang-hoan-user")
+    public ResponseEntity<?> huyDonHangHoanUser(@RequestBody String lyDoHuy, @RequestParam String ma) throws MessagingException {
+
+        donHangService.huyDonHangHoanUser(ma, lyDoHuy);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
     @PutMapping("update-trang-thai-hoan")
     public ResponseEntity<?> updateTrangThaiAndLyDo(@RequestParam("ma") String ma, @RequestParam("trangThai") Integer trangThai,@RequestParam("lydo") String lyDo) throws MessagingException {
 

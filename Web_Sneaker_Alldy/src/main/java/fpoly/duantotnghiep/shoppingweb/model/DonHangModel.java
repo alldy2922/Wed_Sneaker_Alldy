@@ -91,6 +91,9 @@ public class DonHangModel {
     @Column(name = "lydothaydoi")
     private String lyDoThayDoi;
 
+    @Column(name = "lydohuyhoan")
+    private String lyDoHuyHoan;
+
     @Column(name = "ngayxacnhan")
     private Date ngayXacNhan;
 
@@ -102,6 +105,9 @@ public class DonHangModel {
 
     @Column(name = "ngayhoanhang")
     private Date ngayHoanHang;
+
+    @Column(name = "ngayhuyhoan")
+    private Date ngayHuyHoan;
 
     @Column(name = "trangthaihoan")
     private Integer trangThaiHoan;
@@ -133,6 +139,7 @@ public class DonHangModel {
         return lyDoHuy;
     }
 
+
     @Override
     public String toString() {
         return "DonHangModel{" +
@@ -158,10 +165,12 @@ public class DonHangModel {
                 ", phuongThucThanhToan=" + phuongThucThanhToan +
                 ", lyDoHuy='" + lyDoHuy + '\'' +
                 ", lyDoThayDoi='" + lyDoThayDoi + '\'' +
+                ", lyDoHuyHoan='" + lyDoHuyHoan + '\'' +
                 ", ngayXacNhan=" + ngayXacNhan +
                 ", ngayGiaoHang=" + ngayGiaoHang +
                 ", ngayHoanThanh=" + ngayHoanThanh +
                 ", ngayHoanHang=" + ngayHoanHang +
+                ", ngayHuyHoan=" + ngayHuyHoan +
                 ", trangThaiHoan=" + trangThaiHoan +
                 ", ngayHuy=" + ngayHuy +
                 ", loai=" + loai +

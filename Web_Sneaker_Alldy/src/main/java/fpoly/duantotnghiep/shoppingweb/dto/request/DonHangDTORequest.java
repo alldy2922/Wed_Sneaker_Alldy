@@ -39,6 +39,7 @@ public class DonHangDTORequest {
     private String diaChiChiTiet;
     private Date ngayDatHang;
     private Date ngayHoanHang;
+    private Date ngayHuyHoan;
     private Integer trangThai;
     @Size(max = 255, message = "Diạ chỉ chi tiết tối 255 ký tự")
     private String ghiChu;
@@ -49,6 +50,7 @@ public class DonHangDTORequest {
     //    @NotBlank(message = "Nhập lý do hủy đơn")
     private String lyDoHuy;
     private String lyDoThayDoi;
+    private String lyDoHuyHoan;
     private String tongTien;
     private Integer loai;
     private Integer trangThaiHoan;
@@ -83,6 +85,8 @@ public class DonHangDTORequest {
         donHangModel.setNgayHoanHang(ngayHoanHang);
         donHangModel.setLyDoThayDoi(lyDoThayDoi);
         donHangModel.setTrangThaiHoan(trangThaiHoan);
+        donHangModel.setLyDoHuyHoan(lyDoHuyHoan);
+        donHangModel.setNgayHuyHoan(ngayHuyHoan);
         if(loai!=null){
             donHangModel.setLoai(this.loai);
         }

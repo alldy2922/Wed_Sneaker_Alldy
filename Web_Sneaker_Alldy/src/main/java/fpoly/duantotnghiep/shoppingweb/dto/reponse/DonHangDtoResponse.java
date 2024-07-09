@@ -35,11 +35,13 @@ public class DonHangDtoResponse {
     private String phuongThucThanhToan;
     private String lyDoHuy;
     private String lyDoThayDoi;
+    private String lyDoHuyHoan;
     private String voucherCode;
     private String voucherName;
     private Date ngayXacNhan;
     private Date ngayGiaoHang;
     private Date ngayHoanThanh;
+    private Date ngayHuyHoan;
     private Date ngayHuy;
     private BigDecimal tongTien;
 
@@ -69,6 +71,8 @@ public class DonHangDtoResponse {
         this.lyDoThayDoi = model.getLyDoThayDoi();
         this.ngayHoanHang  = model.getNgayHoanHang();
         this.trangThaiHoan = model.getTrangThaiHoan();
+        this.ngayHuyHoan = model.getNgayHuyHoan();
+        this.lyDoHuyHoan = model.getLyDoHuyHoan();
         if(model.getNgayXacNhan()!=null) this.ngayXacNhan = model.getNgayXacNhan();
         if(model.getNgayGiaoHang()!=null) this.ngayGiaoHang = model.getNgayGiaoHang();
         if(model.getNgayHoanThanh()!=null) this.ngayHoanThanh = model.getNgayHoanThanh();

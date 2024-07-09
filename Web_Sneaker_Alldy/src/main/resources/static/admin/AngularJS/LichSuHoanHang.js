@@ -458,7 +458,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
                 return;
             }
 
-            $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
+            $http.put("/admin/don-hang/huy-don-hang-hoan?lyDo=" + $scope.lyDo, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -762,7 +762,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
                 return;
             }
 
-            $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
+            $http.put("/admin/don-hang/huy-don-hang-hoan?lyDo=" + $scope.lyDo, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -934,7 +934,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
         huy(ma){
             alertify.confirm("Hủy đơn hàng?", function () {
 
-                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=2").then(r => {
+                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=9").then(r => {
                     if ($scope.daXacNhan.page == $scope.daXacNhan.totalPage - 1) {
                         if ($scope.daXacNhan.list.length == 1 && $scope.daXacNhan.page > 0) {
                             $scope.daXacNhan.page--;
@@ -962,7 +962,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
                 return;
             }
 
-            $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
+            $http.put("/admin/don-hang/huy-don-hang-hoan?lyDo=" + $scope.lyDo, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -1076,7 +1076,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
         hoanThanh(ma) {
             alertify.confirm("Xác nhận đơn hàng hoàn thành?", function () {
 
-                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=4").then(r => {
+                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=9").then(r => {
                     if ($scope.dangGiao.page == $scope.dangGiao.totalPage - 1) {
                         if ($scope.dangGiao.list.length == 1 && $scope.dangGiao.page > 0) {
                             $scope.dangGiao.page--;
@@ -1118,7 +1118,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
                 return;
             }
 
-            $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
+            $http.put("/admin/don-hang/huy-don-hang-hoan?lyDo=" + $scope.lyDo, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -1147,7 +1147,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
                     }
                 })
 
-                $http.put("/admin/don-hang/update-trang-thai?trangThai=4", $scope.dangGiao.id).then(r => {
+                $http.put("/admin/don-hang/update-trang-thai?trangThai=9", $scope.dangGiao.id).then(r => {
                     if ($scope.dangGiao.page == $scope.dangGiao.totalPage - 1) {
                         if ($scope.dangGiao.list.length == 1 && $scope.dangGiao.page > 0) {
                             $scope.dangGiao.page--;
@@ -1189,7 +1189,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
         pages: [],
         sdtSearch: "",
         init() {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=9&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
@@ -1199,7 +1199,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 0
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=9&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -1247,7 +1247,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
         pages: [],
         sdtSearch: "",
         init() {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=10&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
@@ -1257,7 +1257,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 0
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=10&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -1325,7 +1325,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
     }
     $scope.huyDonUser = function (ma) {
         lyDoHuy = $scope.lyDoHuy
-        $http.put("/don-hang/huy-don-hang-user?ma=" + ma, lyDoHuy).then(function (res) {
+        $http.put("/don-hang/huy-don-hang-hoan-user?ma=" + ma, lyDoHuy).then(function (res) {
             // location.reload()
             let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == ma)
             $scope.donHangChuaXacNhanKh.splice(index, 1);

@@ -47,6 +47,8 @@ public class DonHangDTORequest {
     private String trangThaiDetail;
     //    @NotBlank(message = "Nhập lý do hủy đơn")
     private String lyDoHuy;
+    private String lyDoThayDoi;
+    private String lyDoTraHang;
     private String tongTien;
     private Integer loai;
     private String nhanVien;
@@ -61,6 +63,8 @@ public class DonHangDTORequest {
         donHangModel.setMa(ma);
         if (nguoiSoHuu != null) donHangModel.setNguoiSoHuu(nguoiSoHuu);
         if (lyDoHuy != null && !lyDoHuy.isBlank()) donHangModel.setLyDoHuy(lyDoHuy);
+        if (lyDoThayDoi != null && !lyDoThayDoi.isBlank()) donHangModel.setLyDoThayDoi(lyDoThayDoi);
+        if (lyDoTraHang != null && !lyDoTraHang.isBlank()) donHangModel.setLyDoTraHang(lyDoTraHang);
         donHangModel.setTenNguoiNhan(tenNguoiNhan);
         donHangModel.setSoDienThoai(soDienThoai);
         donHangModel.setEmail(email);

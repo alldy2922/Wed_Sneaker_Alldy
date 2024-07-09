@@ -88,7 +88,6 @@ public class DonHangModel {
     @Column(name = "lydohuy")
     private String lyDoHuy;
 
-
     @Column(name = "lydothaydoi")
     private String lyDoThayDoi;
 

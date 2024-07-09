@@ -40,11 +40,14 @@ public interface IDonHangService {
 //    void scheduleEmail(String email, String subject, String content, long delay, TimeUnit unit);
 
 //    void sendImmediateEmail(String email, String subject, String content);
+
+    void huyTraHang(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
+
     void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
 
     void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException;
 
-    DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products);
+    DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoThayDoi);
 
     @Query("""
                 SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
@@ -61,4 +64,6 @@ public interface IDonHangService {
     void themDonHangAdmin(DonHangDTORequest donHangDTORequest, List<ChiTietDonHangDTORequest> chiTietDonHang);
 
     Map<String,Long> getQuantityProductInOrderDetailWithDate(Date firstDate, Date lastDate);
+
+    void traDonHangUser(String ma, String lyDoTraHang)throws MessagingException;
 }

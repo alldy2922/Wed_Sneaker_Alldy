@@ -10,7 +10,6 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
 @Data
 public class DonHangDtoResponse {
     private String ma;
@@ -69,28 +68,29 @@ public class DonHangDtoResponse {
         this.tienGiam = model.getTienGiam() == null ? BigDecimal.valueOf(0) : model.getTienGiam();
         this.phiGiaoHang = model.getPhiGiaoHang();
         this.trangThaiDetail = model.trangThaiDetail();
-        this.phuongThucThanhToan = model.getPhuongThucThanhToan() + "";
+        this.phuongThucThanhToan = model.getPhuongThucThanhToan()+"";
         this.lyDoHuy = model.getLyDoHuy();
         this.lyDoThayDoi = model.getLyDoThayDoi();
-        if(model.getNgayTraHang()!=null) this.ngayTraHang = model.getNgayTraHang();
         this.lyDoTraHang = model.getLyDoTraHang();
 
 
-        if (model.getNgayXacNhan() != null) this.ngayXacNhan = model.getNgayXacNhan();
-        if (model.getNgayGiaoHang() != null) this.ngayGiaoHang = model.getNgayGiaoHang();
-        if (model.getNgayHoanThanh() != null) this.ngayHoanThanh = model.getNgayHoanThanh();
-        if (model.getNgayHuy() != null) this.ngayHuy = model.getNgayHuy();
-        if (model.getNgayTraHang() != null) this.ngayTraHang = model.getNgayTraHang();
-        if (model.getNgayHuyTraHang() != null) this.ngayHuyTraHang = model.getNgayHuyTraHang();
-        if (model.getNgayHoanThanhTraHang() != null) this.ngayHoanThanhTraHang = model.getNgayHoanThanhTraHang();
-        if (model.getNgayKiemTraTraHang() != null) this.ngayKiemTraTraHang = model.getNgayKiemTraTraHang();
 
-        if (model.getVoucher() != null) {
+
+        if(model.getNgayXacNhan()!=null) this.ngayXacNhan = model.getNgayXacNhan();
+        if(model.getNgayGiaoHang()!=null) this.ngayGiaoHang = model.getNgayGiaoHang();
+        if(model.getNgayHoanThanh()!=null) this.ngayHoanThanh = model.getNgayHoanThanh();
+        if(model.getNgayHuy()!=null) this.ngayHuy = model.getNgayHuy();
+        if(model.getNgayTraHang()!=null) this.ngayTraHang = model.getNgayTraHang();
+        if(model.getNgayHuyTraHang()!=null) this.ngayHuyTraHang = model.getNgayHuyTraHang();
+        if(model.getNgayHoanThanhTraHang()!=null) this.ngayHoanThanhTraHang = model.getNgayHoanThanhTraHang();
+        if(model.getNgayKiemTraTraHang()!=null) this.ngayKiemTraTraHang = model.getNgayKiemTraTraHang();
+
+        if(model.getVoucher()!=null){
             voucherCode = model.getVoucher().getMa();
             voucherName = model.getVoucher().getMota();
         }
         this.tongTien = model.getTongTien();
-        if (model.getNhanVien() != null) {
+        if(model.getNhanVien()!=null){
             nhanVienDtoResponse = new NhanVienDtoResponse(model.getNhanVien());
         }
     }

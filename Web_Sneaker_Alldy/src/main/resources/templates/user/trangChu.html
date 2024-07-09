@@ -78,18 +78,10 @@
                 z-index: 1000;
                 background-color: #ffffff;
                 /* Màu nền trắng */
-                box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+                box-shadow: 0 0 40px rgba(0, 0, 0, 1.1);
                 /* Đổ bóng */
             }
 
-            .container-menu-desktop.dark {
-                background-color: #ffffff;
-                /* Giữ màu nền trắng */
-                color: #ffffff;
-                /* Màu chữ trắng khi chế độ tối */
-                box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
-                /* Không có đổ bóng */
-            }
 
             .main-menu li a {
                 color: #000000;
@@ -100,8 +92,6 @@
                 /* Cỡ chữ */
                 text-decoration: none;
                 /* Bỏ gạch chân */
-
-                /* Điều chỉnh khoảng cách giữa các mục menu */
             }
 
             .main-menu li a:hover {
@@ -115,6 +105,12 @@
                 align-items: center;
                 padding-left: 45px;
                 padding-right: 45px;
+                box-shadow: 0 0 40px rgba(0, 0, 0, 1.1);
+                /* Đổ bóng */
+                border-bottom-left-radius: 20px;
+                /* Độ bo tròn góc trái dưới */
+                border-bottom-right-radius: 20px;
+                /* Độ bo tròn góc phải dưới */
             }
 
             .menu-desktop {
@@ -482,8 +478,8 @@
         </div>
     </section> -->
 
-    <!-- Slider 2  -->
-
+    <!-- Slide 2  -->
+    <!-- css -->
     <style>
         @font-face {
             font-family: "H7GBK-Heavy";
@@ -498,7 +494,7 @@
         .container2 {
             position: relative;
             width: auto;
-            height: 70%;
+            height: 75%;
             background: #f5f5f5;
             overflow: hidden;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
@@ -632,25 +628,17 @@
 
     <div class="container2">
         <div class="slide">
-            <div class="item" style="background-image: url(/image/loadImage/product/banner1.png);">
-                <!-- <div class="content">
-                    <div class="name">ALLDY STORE SALE 50%</div>
-                </div> -->
-            </div>
-
-            <div class="item" style="background-image: url(/image/loadImage/product/banner3.png);">
-                <!-- <div class="content">
-                    <div class="name">UY TÍN-CHẤT LƯỢNG</div>
-                </div> -->
-            </div>
-
             <div class="item" style="background-image: url(/admin/images/anh2slidev2.jpg);">
                 <div class="content">
                     <div class="name">ADIDAS</div>
                 </div>
             </div>
-
-            <div class="item" style="background-image: url(/admin/images/anh3slidev2.jpg);">
+            <div class="item" style="background-image: url(/image/loadImage/product/banner3.png);">
+                <!-- <div class="content">
+                    <div class="name">UY TÍN-CHẤT LƯỢNG</div>
+                </div> -->
+            </div>
+            <div class="item" style="background-image: url(/admin/images/anh3slidev2.png);">
                 <div class="content">
                     <div class="name">NIKE</div>
                 </div>
@@ -686,6 +674,16 @@
                     <div class="name">VANS </div>
                 </div>
             </div>
+            <div class="item" style="background-image: url( /admin/images/anh10slidev2.jpg);">
+                <div class="content">
+                    <div class="name" style="color: #000000;">LINING </div>
+                </div>
+            </div>
+            <div class="item" style="background-image: url( /admin/images/anh11slidev2.jpg);">
+                <div class="content">
+                    <div class="name">BITIS HUNTER </div>
+                </div>
+            </div>
         </div>
 
 
@@ -714,7 +712,7 @@
         prevButton.addEventListener('click', prevSlide);
 
         // Auto slide every 3 seconds
-        setInterval(nextSlide, 3000);
+        setInterval(nextSlide, 5000);
     </script>
     <!-- js -->
     <br>
@@ -735,33 +733,36 @@
                 gap: 20px;
                 padding: 20px;
                 background-color: #f5f5f5;
-                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             }
 
             .logo-item {
-                width: 200px;
-                height: 150px;
+                width: calc(20% - 20px);
+                /* 20% width for each item minus the gap */
                 background-color: #fff;
                 border-radius: 10px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
                 overflow: hidden;
                 position: relative;
+                aspect-ratio: 1;
+                /* Maintain square shape */
             }
 
             .logo-item img {
-                max-width: 100%;
-                max-height: 100%;
-                object-fit: contain;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                /* Cover the entire container */
                 border-radius: 10px;
                 transition: transform 0.5s;
             }
 
             .logo-item:hover img {
                 transform: rotateY(360deg);
-                /* Rotate 180 degrees along the Y-axis */
+                /* Xoay 360 độ theo trục Y */
             }
         </style>
         <div class="logo-container">
@@ -782,7 +783,7 @@
                 </a>
             </div>
             <div class="logo-item">
-                <a href="">
+                <a href="/san-pham/thuong-hieu/2066d25f-d081-4018-a432-bf50157df6f4">
                     <img src="/admin/images/logolv.png" alt="Logo 4">
                 </a>
             </div>
@@ -794,6 +795,26 @@
             <div class="logo-item">
                 <a href="/san-pham/thuong-hieu/ed4e0553-e93f-4490-af2b-4612537f43c0">
                     <img src="/admin/images/logovans.png" alt="Logo 6">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/8c56dc79-4d9e-4716-a425-8d7ccedd8832">
+                    <img src="/admin/images/logocv.png" alt="Logo 7">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/a0caa4a1-d76c-411e-8d73-fd345c9fad80">
+                    <img src="/admin/images/logobalen.png" alt="Logo 8">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/a090693c-4ba3-4c22-9926-990423c9f7b9">
+                    <img src="/admin/images/logoniling.png" alt="Logo 9">
+                </a>
+            </div>
+            <div class="logo-item">
+                <a href="/san-pham/thuong-hieu/95fecd94-e995-4da5-b472-bf35ae4961b7">
+                    <img src="/admin/images/logobitis.png" alt="Logo 10">
                 </a>
             </div>
         </div>

@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.controller.admin;
 
+
 import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
@@ -31,7 +32,7 @@ public class TraHangController {
     @Autowired
     private VnPayServiceImpl vnPayService;
 
-    @GetMapping
+    @GetMapping()
     public String donHang() {
         return "admin/traHang";
     }

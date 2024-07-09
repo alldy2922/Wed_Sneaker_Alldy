@@ -237,6 +237,9 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="mb-3">
+                            <label  ng-if="donHang.trangThai === 7">Ngày Kiểm Tra Hang</label>
+                            <span class="form-control"  ng-if="donHang.trangThai === 7">{{donHang.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+
                             <label>Ngày đặt hàng</label>
                             <span class="form-control">{{donHang.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                         </div>

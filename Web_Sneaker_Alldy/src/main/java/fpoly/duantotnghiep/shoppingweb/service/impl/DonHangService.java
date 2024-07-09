@@ -127,23 +127,41 @@ public class DonHangService implements IDonHangService {
             } else if (trangThai == 7) {
                 subject = "Xác nhận đơn hàng!";
                 title = "Xác nhận hàng thành công";
-                model.setNgayXacNhan(new Date());
+                model.setNgayKiemTra(new Date());
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng. Đơn hàng đang được đóng gói và sẽ đến tay bạn trong vài ngày tới";
             } else if (trangThai == 8) {
                 subject = "Chuyển giao đơn hàng!";
                 title = "Đơn hàng đang được giao";
-                model.setNgayGiaoHang(new Date());
+                model.setNgayGiaoHoan(new Date());
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được giao. Cảm ơn bạn đã mua hàng. Đơn hàng đang được giao và sẽ đến tay bạn trong vài ngày tới";
             } else if (trangThai == 9) {
                 subject = "Hoàn thành đơn hàng!";
                 title = "Đơn hàng đã giao thành công";
-                model.setNgayHoanThanh(new Date());
+                model.setNgayHoanThanhHoan(new Date());
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn được giao thành công. Cảm ơn bạn đã mua hàng.";
-            } else if (trangThai == 10) {
-                subject = "Đơn hàng chưa đuọc thanh toán!";
-                title = "Đơn hàng của bạn chưa được thanh toán";
-                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn chưa được thanh toán.Vui lòng thanh toán đơn hàng của bạn.";
             }
+
+
+            List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(maDonHang);
+            BigDecimal tongTien = BigDecimal.valueOf(0);
+            for (ChiTietDonHangDtoResponse d : lstSanPham) {
+                tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
+            }
+
+            Context context = new Context();
+            context.setVariable("donHang", new DonHangDtoResponse(model));
+            context.setVariable("products", lstSanPham);
+            context.setVariable("totalPrice", tongTien);
+            context.setVariable("mess", messeger);
+            context.setVariable("title", title);
+            String finalSubject = subject;
+            new Thread(() -> {
+                try {
+                    sendEmailDonHang(model.getEmail(), finalSubject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }
 
 
@@ -183,6 +201,21 @@ public class DonHangService implements IDonHangService {
                 subject = "Đơn hàng chưa đuọc thanh toán!";
                 title = "Đơn hàng của bạn chưa được thanh toán";
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn chưa được thanh toán.Vui lòng thanh toán đơn hàng của bạn.";
+            } else if (trangThai == 7) {
+                subject = "Xác nhận đơn hàng!";
+                title = "Xác nhận hàng thành công";
+                model.setNgayKiemTra(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được xác nhận. Cảm ơn bạn đã mua hàng. Đơn hàng đang được đóng gói và sẽ đến tay bạn trong vài ngày tới";
+            } else if (trangThai == 8) {
+                subject = "Chuyển giao đơn hàng!";
+                title = "Đơn hàng đang được giao";
+                model.setNgayGiaoHoan(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được giao. Cảm ơn bạn đã mua hàng. Đơn hàng đang được giao và sẽ đến tay bạn trong vài ngày tới";
+            } else if (trangThai == 9) {
+                subject = "Hoàn thành đơn hàng!";
+                title = "Đơn hàng đã giao thành công";
+                model.setNgayHoanThanhHoan(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn được giao thành công. Cảm ơn bạn đã mua hàng.";
             }
 
 
@@ -451,6 +484,7 @@ public class DonHangService implements IDonHangService {
             if (phuongThucThanhToan) {
                 model.setTrangThai(6);
                 model.setTrangThaiHoan(1);
+                model.setLyDoThayDoi(model.getLyDoThayDoi());
                 System.out.println("ASDASDASDASDASD");
             } else {
                 model.setTrangThai(5);

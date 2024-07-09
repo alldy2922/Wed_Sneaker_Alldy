@@ -455,7 +455,7 @@
                                                             <th scope="col">Mã</th>
                                                             <th scope="col">Tên người nhận</th>
                                                             <th scope="col">Số điện thoại</th>
-                                                            <th scope="col">Ngày xác nhận</th>
+                                                            <th scope="col">Ngày Kiểm Tra</th>
                                                             <th></th>
                                                         </tr>
                                                         </thead>
@@ -485,7 +485,7 @@
                                                             </td>
                                                             <td style="cursor: pointer"
                                                                 ng-click="daXacNhan.getDetail(d.ma)">
-                                                                {{d.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss' }}
+                                                                {{d.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss' }}
                                                             </td>
                                                             <td style="width: 200px">
                                                                 <button class="btn btn-danger me-1"
@@ -645,7 +645,7 @@
                                                             </td>
                                                             <td style="cursor: pointer"
                                                                 ng-click="daXacNhan.getDetail(d.ma)">
-                                                                {{d.ngayGiaoHang | date:'yyyy-MM-dd HH:mm:ss' }}
+                                                                {{d.ngayGiaoHoan | date:'yyyy-MM-dd HH:mm:ss' }}
                                                             </td>
                                                             <td style="width: 200px">
                                                                 <button class="btn btn-danger me-1"
@@ -787,7 +787,7 @@
                                                             </td>
                                                             <td style="cursor: pointer"
                                                                 ng-click="daXacNhan.getDetail(d.ma)">
-                                                                {{d.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss' }}
+                                                                {{d.ngayHoanThanhHoan | date:'yyyy-MM-dd HH:mm:ss' }}
                                                             </td>
                                                         </tr>
                                                         </tbody>
@@ -1689,11 +1689,11 @@
                             <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label  ng-if="donHang.trangThai === 7">Ngày Kiểm Tra Hang</label>
-                                    <span class="form-control"  ng-if="donHang.trangThai === 7">{{donHang.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                    <span class="form-control"  ng-if="donHang.trangThai === 7">{{donHang.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                 <label  ng-if="donHang.trangThai === 8">Ngày Giao Hàng</label>
-                                    <span class="form-control"  ng-if="donHang.trangThai === 8">{{donHang.ngayGiaoHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                    <span class="form-control"  ng-if="donHang.trangThai === 8">{{donHang.ngayGiaoHoan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                 <label  ng-if="donHang.trangThai === 9">Ngày Hoàn Thành</label>
-                                    <span class="form-control"  ng-if="donHang.trangThai === 9">{{donHang.ngayHuyHoan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                    <span class="form-control"  ng-if="donHang.trangThai === 9">{{donHang.ngayHoanThanhHoan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                <label  ng-if="donHang.trangThai === 10">Ngày Hủy</label>
                                     <span class="form-control"  ng-if="donHang.trangThai === 10">{{donHang.ngayHuyHoan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                 </div>

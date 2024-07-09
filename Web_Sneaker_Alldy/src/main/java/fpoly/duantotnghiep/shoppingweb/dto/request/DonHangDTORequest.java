@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.dto.request;
 
 import fpoly.duantotnghiep.shoppingweb.model.*;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -40,6 +41,9 @@ public class DonHangDTORequest {
     private Date ngayDatHang;
     private Date ngayHoanHang;
     private Date ngayHuyHoan;
+    private Date ngayKiemTra;
+    private Date ngayGiaoHoan;
+    private Date ngayHoanThanhHoan;
     private Integer trangThai;
     @Size(max = 255, message = "Diạ chỉ chi tiết tối 255 ký tự")
     private String ghiChu;
@@ -87,6 +91,9 @@ public class DonHangDTORequest {
         donHangModel.setTrangThaiHoan(trangThaiHoan);
         donHangModel.setLyDoHuyHoan(lyDoHuyHoan);
         donHangModel.setNgayHuyHoan(ngayHuyHoan);
+        donHangModel.setNgayGiaoHoan(ngayGiaoHoan);
+        donHangModel.setNgayKiemTra(ngayKiemTra);
+        donHangModel.setNgayHoanThanhHoan(ngayHoanThanhHoan);
         if(loai!=null){
             donHangModel.setLoai(this.loai);
         }

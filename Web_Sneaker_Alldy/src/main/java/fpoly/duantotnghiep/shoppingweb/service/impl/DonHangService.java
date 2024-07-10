@@ -482,7 +482,7 @@ public class DonHangService implements IDonHangService {
         Boolean phuongThucThanhToan = model.getPhuongThucThanhToan();
         if(donHangOld.getLoai()==0){
             if (phuongThucThanhToan) {
-                model.setTrangThai(6);
+                model.setTrangThai(7);
                 model.setTrangThaiHoan(1);
                 model.setLyDoThayDoi(model.getLyDoThayDoi());
                 System.out.println("ASDASDASDASDASD");

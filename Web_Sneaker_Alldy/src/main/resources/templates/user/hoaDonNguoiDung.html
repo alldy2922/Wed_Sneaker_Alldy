@@ -182,7 +182,7 @@
                 <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="tab" ng-click="donHangHoanUser(1);" href="#hoanTra" role="tab">
                         <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
-                        <span class="d-none d-sm-block">Hoàn trả</span>
+                        <span class="d-none d-sm-block">Hoàn Hàng</span>
                     </a>
                 </li>
             </ul>
@@ -419,7 +419,10 @@
                         </div>
                         <div class="row flex-r mr-3 m-t-10 m-b-15">
                             <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
-                                <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
+                                <a href="/don-hang/huy-don-hang-hoan-user/{{d.ma}}" type="button"
+                                   class="btn btn-danger ml-2 m-b-10"
+                                   ng-click="findByMaDonHangUser(d.ma)">Hủy
+                                </a><a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
                                    class="btn btn-secondary ml-2 m-b-10"
                                    ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng
                                 </a>
@@ -524,6 +527,30 @@
             </div>
         </div>
     </div>
+                <div class="modal" id="lyDoHuyHoan">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Lý do Hủy Hoàn </label>
+                                    <textarea class="form-control" ng-model="lyDoHuyHoan" id="exampleFormControlTextarea1"
+                                              rows="3"></textarea>
+                                    <i style="color: red">{{messLyDoDoi}}</i>
+                                </div>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger"
+                                        ng-click="huyDHhoan()"
+                                        data-bs-dismiss="modal">Xác nhận
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
                 <!--                    hủy-->
                 <div class="tab-pane" id="huy" role="tabpanel">
                     <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
@@ -629,6 +656,11 @@
                         </div>
                         <div class="row flex-r mr-3 m-t-10 m-b-15">
                             <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
+                                <button type="button" class="btn btn-danger ml-2 m-b-10"
+                                        ng-click="layMaDonHang(d.ma)"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#lyDoHuyHoan" ng-if="d.trangThai===6">Hủy
+                                </button>
                                 <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
                                    class="btn btn-secondary ml-2 m-b-10"
                                    ng-click="findByMaDonHangUser(d.ma)">Xem chi tiết đơn hàng

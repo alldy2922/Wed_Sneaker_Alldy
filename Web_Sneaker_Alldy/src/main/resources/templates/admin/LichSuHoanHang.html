@@ -1042,21 +1042,21 @@
                                 <div class="col-sm-6">
                                     <div class="mb-3">
                                         <label>Mã đơn hàng</label>
-                                        <span class="form-control">{{chuaXacNhan.detail.ma}}</span>
+                                        <span class="form-control" readonly>{{daXacNhan.detail.ma}}</span>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="mb-3">
 
                                         <label  ng-if="donHang.trangThai === 6">ngày yêu cầu</label>
-                                        <span class="form-control"  ng-if="donHang.trangThai === 6">{{d.ngayHoanHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                        <span class="form-control"  ng-if="donHang.trangThai === 6" readonly>{{d.ngayHoanHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-12">
                                     <label>Phương thức thanh toán</label>
-                                    <select class="form-control" ng-model="chuaXacNhan.detail.phuongThucThanhToan">
+                                    <select class="form-control" ng-model="daXacNhan.detail.phuongThucThanhToan" readonly>
                                         <option value="true">Khi nhận hàng</option>
                                         <option value="false">Thanh toán VNPAY</option>
                                     </select>
@@ -1066,13 +1066,13 @@
                                 <div class="col-sm-12">
                                     <div class="mb-3">
                                         <label>Mã voucher</label>
-                                        <span class="form-control">{{chuaXacNhan.detail.voucherCode == null ? 'Không áp dụng' : chuaXacNhan.detail.voucherCode}}</span>
+                                        <span class="form-control" readonly>{{daXacNhan.detail.voucherCode == null ? 'Không áp dụng' : daXacNhan.detail.voucherCode}}</span>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="mb-3">
                                         <label>Tên voucher</label>
-                                        <span class="form-control">{{chuaXacNhan.detail.voucherName == null ? 'Không áp dụng' : chuaXacNhan.detail.voucherName}}</span>
+                                        <span class="form-control" readonly>{{daXacNhan.detail.voucherName == null ? 'Không áp dụng' : daXacNhan.detail.voucherName}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -1082,7 +1082,7 @@
                                     <div class="mb-3">
                                         <label>Tên người nhận</label>
                                         <input class="form-control" ng-focus="er.tenNguoiNhan=''"
-                                               ng-model="chuaXacNhan.detail.tenNguoiNhan">
+                                               ng-model="daXacNhan.detail.tenNguoiNhan" readonly>
                                         <i class="er">{{er.tenNguoiNhan == undefined ? '' : er.tenNguoiNhan}}</i>
                                     </div>
                                 </div>
@@ -1090,7 +1090,7 @@
                                     <div class="mb-3">
                                         <label>Số điện thoại</label>
                                         <input class="form-control" ng-focus="er.soDienThoai=''"
-                                               ng-model="chuaXacNhan.detail.soDienThoai">
+                                               ng-model="daXacNhan.detail.soDienThoai" readonly>
                                         <i class="er">{{er.soDienThoai == undefined ? '' : er.soDienThoai}}</i>
                                     </div>
                                 </div>
@@ -1098,7 +1098,7 @@
                                     <div class="mb-3">
                                         <label>email</label>
                                         <input class="form-control" ng-focus="er.email=''"
-                                               ng-model="chuaXacNhan.detail.email">
+                                               ng-model="daXacNhan.detail.email" readonly>
                                         <i class="er">{{er.email == undefined ? '' : er.email}}</i>
                                     </div>
                                 </div>
@@ -1108,40 +1108,40 @@
                                     <div class="mb-3">
                                         <label>Thành phố</label>
                                         <!--                                    <input class="form-control" ng-model="chuaXacNhan.detail.thanhPhoName">-->
-                                        <select class="form-control" ng-model="chuaXacNhan.detail.thanhPhoCode"
+                                        <select class="form-control" ng-model="daXacNhan.detail.thanhPhoCode"
                                                 ng-focus="er.thanhPhoCode=''"
-                                                onchange="angular.element(this).scope().giaoHangNhanh.cityChange(this.value)">
+                                                onchange="angular.element(this).scope().giaoHangNhanh.cityChange(this.value)" readonly>
                                             <option ng-repeat="c in giaoHangNhanh.citys" value="{{c.ProvinceID}}">
                                                 {{c.ProvinceName}}
                                             </option>
                                         </select>
-                                        <i class="er">{{er.thanhPhoCode == undefined ? '' : er.thanhPhoCode}}</i>
+                                        <i class="er" readonly>{{er.thanhPhoCode == undefined ? '' : er.thanhPhoCode}}</i>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="mb-3">
                                         <label>Quận huyện</label>
-                                        <select class="form-control" ng-model="chuaXacNhan.detail.quanHuyenCode"
+                                        <select class="form-control" ng-model="daXacNhan.detail.quanHuyenCode"
                                                 ng-focus="er.quanHuyenCode=''"
-                                                onchange="angular.element(this).scope().giaoHangNhanh.districtChange(this.value)">
+                                                onchange="angular.element(this).scope().giaoHangNhanh.districtChange(this.value)" readonly>
                                             <option ng-repeat="d in giaoHangNhanh.districts" value="{{d.DistrictID}}">
                                                 {{d.DistrictName}}
                                             </option>
                                         </select>
-                                        <i class="er">{{er.quanHuyenCode == undefined ? '' : er.quanHuyenCode}}</i>
+                                        <i class="er" readonly>{{er.quanHuyenCode == undefined ? '' : er.quanHuyenCode}}</i>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="mb-3">
                                         <label>Xã phường</label>
-                                        <select class="form-control" ng-model="chuaXacNhan.detail.xaPhuongCode"
+                                        <select class="form-control" ng-model="daXacNhan.detail.xaPhuongCode"
                                                 ng-focus="er.xaPhuongCode=''"
-                                                onchange="angular.element(this).scope().giaoHangNhanh.getFeeShipped()">
+                                                onchange="angular.element(this).scope().giaoHangNhanh.getFeeShipped()" readonly>
                                             <option ng-repeat="w in giaoHangNhanh.wards" value="{{w.WardCode}}">
                                                 {{w.WardName}}
                                             </option>
                                         </select>
-                                        <i class="er">{{er.xaPhuongCode == undefined ? '' : er.xaPhuongCode}}</i>
+                                        <i class="er" readonly>{{er.xaPhuongCode == undefined ? '' : er.xaPhuongCode}}</i>
                                     </div>
                                 </div>
                             </div>
@@ -1149,13 +1149,13 @@
                                 <div class="mb-3 col-6">
                                     <label>Địa chỉ chi tiết</label>
                                     <textarea class="form-control" rows="2" ng-focus="er.diaChiChiTiet=''"
-                                              ng-model="chuaXacNhan.detail.diaChiChiTiet"></textarea>
-                                    <i class="er">{{er.diaChiChiTiet == undefined ? '' : er.diaChiChiTiet}}</i>
+                                              ng-model="daXacNhan.detail.diaChiChiTiet" readonly></textarea>
+                                    <i class="er" readonly>{{er.diaChiChiTiet == undefined ? '' : er.diaChiChiTiet}}</i>
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label>Ghi chú</label>
                                     <textarea class="form-control" rows="2"
-                                              ng-model="chuaXacNhan.detail.ghiChu"></textarea>
+                                              ng-model="daXacNhan.detail.ghiChu" ></textarea>
                                 </div>
                             </div>
 
@@ -1273,15 +1273,15 @@
                                                 <input id="{{d.idChiTietSanPham}}"
                                                        ng-model="chiTietDonHang[$index].soLuong"
                                                        onchange="angular.element(this).scope().chuaXacNhan.updateSoLuong(this.id,this.value)"
-                                                       class="form-control me-1">
-                                                <div>
-                                                    <span class="rounded-circle mb-1"
-                                                          style="cursor: pointer; border: 1px solid #ced4da;padding: 1px;"
-                                                          ng-click="chuaXacNhan.addSoLuong(d.idChiTietSanPham)">+</span>
-                                                    <span class="rounded-circle"
-                                                          style="cursor: pointer;border: 1px solid #ced4da;padding: 1px;"
-                                                          ng-click="chuaXacNhan.subtractSoLuong(d.idChiTietSanPham)">-</span>
-                                                </div>
+                                                       class="form-control me-1" readonly>
+<!--                                                <div>-->
+<!--                                                    <span class="rounded-circle mb-1"-->
+<!--                                                          style="cursor: pointer; border: 1px solid #ced4da;padding: 1px;"-->
+<!--                                                          ng-click="chuaXacNhan.addSoLuong(d.idChiTietSanPham)">+</span>-->
+<!--                                                    <span class="rounded-circle"-->
+<!--                                                          style="cursor: pointer;border: 1px solid #ced4da;padding: 1px;"-->
+<!--                                                          ng-click="chuaXacNhan.subtractSoLuong(d.idChiTietSanPham)">-</span>-->
+<!--                                                </div>-->
                                             </div>
                                         </td>
                                         <td>{{d.donGia | currency: "" : 1}} đ</td>
@@ -1329,7 +1329,7 @@
                                     <td>Phí giao hàng</td>
                                     <td colspan="4">
                                         <div class="d-flex justify-content-end">
-                                            {{chuaXacNhan.detail.phiGiaoHang | currency: "" : 1}} đ
+                                            {{daXacNhan.detail.phiGiaoHang | currency: "" : 1}} đ
                                         </div>
                                     </td>
                                 </tr>
@@ -1337,7 +1337,7 @@
                                     <td>Thành tiền</td>
                                     <td colspan="4">
                                         <div class="d-flex justify-content-end">
-                                            {{(getTotalPrice() + chuaXacNhan.detail.phiGiaoHang) - chuaXacNhan.detail.tienGiam | currency: "" : 1}}
+                                            {{(getTotalPrice() + daXacNhan.detail.phiGiaoHang) - daXacNhan.detail.tienGiam | currency: "" : 1}}
                                             đ
                                         </div>
                                     </td>
@@ -1351,7 +1351,7 @@
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                 ng-click="closeModal('#chuaXacNhanDetail')">Đóng
                         </button>
-                        <button type="button" class="btn btn-primary" ng-click="chuaXacNhan.capNhat()">Cập nhật
+                        <button type="button" class="btn btn-primary" ng-click="daXacNhan.capNhat()">Cập nhật
                         </button>
                     </div>
                 </div>

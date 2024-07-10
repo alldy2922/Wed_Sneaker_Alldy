@@ -51,6 +51,9 @@ public class DonHangReponseUser {
     private Date ngayHoanThanh;
     private Date ngayHoanHang;
     private Date ngayHuyHoan;
+    private Date ngayKiemTra;
+    private Date ngayGiaoHoan;
+    private Date ngayHoanThanhHoan;
     private Date ngayHuy;
     private BigDecimal tongTien;
     private List<ChiTietDonHangDtoResponse> chiTietDonHang;
@@ -83,6 +86,9 @@ public class DonHangReponseUser {
         this.trangThaiHoan = model.getTrangThaiHoan();
         this.ngayHuyHoan = model.getNgayHuyHoan();
         this.lyDoHuyHoan = model.getLyDoHuyHoan();
+        this.ngayGiaoHoan = model.getNgayGiaoHoan();
+        this.ngayKiemTra = model.getNgayKiemTra();
+        this.ngayHoanThanhHoan = model.getNgayHoanThanhHoan();
 
         if (model.getNgayXacNhan() != null) this.ngayXacNhan = model.getNgayXacNhan();
         if (model.getNgayGiaoHang() != null) this.ngayGiaoHang = model.getNgayGiaoHang();

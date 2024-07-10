@@ -147,40 +147,40 @@
                     <li class="step-wizard-item">
                         <span class="progress-count">1</span>
                         <span class="progress-label">Đã Gửi yêu Cầu</span>
-                        <span class="progress-label">{{donHang.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHang.ngayHoanHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                     <!--                    Đã xác nhận-->
                     <li class="step-wizard-item" ng-if="donHang.trangThai != 6">
                         <span class="progress-count">2</span>
                         <span class="progress-label">Shop Đang Kiểm Tra</span>
-                        <span class="progress-label">{{donHang.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHang.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                     <li class="step-wizard-item current-item" ng-if="donHang.trangThai === 6">
                         <span class="progress-count">2</span>
                         <span class="progress-label">Shop Đang Kiểm Tra</span>
-                        <span class="progress-label">{{donHang.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHang.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                     <!--                   Đang giao -->
                     <li class="step-wizard-item" ng-if="donHang.trangThai != 7">
                         <span class="progress-count">3</span>
                         <span class="progress-label">Đang giao</span>
-                        <span class="progress-label">{{donHang.ngayGiaoHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHang.ngayGiaoHoan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                     <li class="step-wizard-item  current-item" ng-if="donHang.trangThai === 7">
                         <span class="progress-count">3</span>
                         <span class="progress-label">Đang giao</span>
-                        <span class="progress-label">{{donHang.ngayGiaoHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHang.ngayGiaoaHoan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                     <!--                    Hoàn thành-->
                     <li class="step-wizard-item" ng-if="donHang.trangThai != 8">
                         <span class="progress-count">4</span>
                         <span class="progress-label">Hoàn thành</span>
-                        <span class="progress-label">{{donHang.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHang.ngayHoanThanhHoan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                     <li class="step-wizard-item current-item" ng-if="donHang.trangThai === 8">
                         <span class="progress-count">4</span>
                         <span class="progress-label">Hoàn thành</span>
-                        <span class="progress-label">{{donHang.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHang.ngayHoanThanhHoan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                 </ul>
                 <ul class="step-wizard-list" ng-if="donHang.trangThai != 0 && donHang.trangThaiHoan !=1 ">

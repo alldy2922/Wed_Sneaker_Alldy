@@ -35,6 +35,14 @@ public class DonHangEntityManager {
                 jpql.append(" ORDER BY d.ngayGiaoHang DESC ");
             }else if(trangThai == 4){
                 jpql.append(" ORDER BY d.ngayHoanThanh DESC ");
+            }else if (trangThai==6){
+                jpql.append(" ORDER BY d.ngayHoanHang DESC ");
+            }else if (trangThai==7){
+                jpql.append(" ORDER BY d.ngayKiemTra DESC ");
+            }else if (trangThai==8){
+                jpql.append(" ORDER BY d.ngayGiaoHoan DESC ");
+            }else if (trangThai==8){
+                jpql.append(" ORDER BY d.ngayHoanThanhHoan DESC ");
             }else{
                 jpql.append(" ORDER BY d.ngayDatHang DESC ");
             }

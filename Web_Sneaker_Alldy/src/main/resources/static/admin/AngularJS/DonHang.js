@@ -1423,6 +1423,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         location.href = "/dang-nhap";
     }
     $scope.lyDoDoi = '';
+    $scope.lyDoHuyHoan = '';
     $scope.messLyDoDoi = '';
 
     $scope.maDonHang = "";
@@ -1441,6 +1442,21 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 $('#closeHuy').click()
             }).catch(e => {
                 alertify.error("Gửi Yêu cầu Hoàn thất bại")
+                console.log(e)
+            })
+        }
+    }
+    $scope.huyDHhoan = function() {
+        if ($scope.lyDoHuyHoan.trim() === '') {
+            $scope.messLyDoDoi = 'Vui lòng nhập lý do đổi hàng!';
+        } else {
+            $scope.messLyDoDoi = '';
+            $http.put("/don-hang/huy-don-hang-user?ma=" + $scope.maDonHang + "&trangThai=10" + "&lydo=" + encodeURIComponent($scope.lyDoHuyHoan)).then( r =>  {
+                console.log(r.data)
+                alertify.success("Đã Hủy Đơn Hang Hoàn");
+                $('#closeHuy').click()
+            }).catch(e => {
+                alertify.error("Hủy Đơn Hàng Hoàn thất bại")
                 console.log(e)
             })
         }

@@ -779,8 +779,7 @@
                                             <option value="false">Thanh toán VNPAY</option>
                                         </select> -->
                                         <span class="form-control">
-                                            {{ selectedDonHang.phuongThucThanhToan ? 'Khi nhận hàng' : 'Thanh toán
-                                            VNPAY' }}
+                                            {{ selectedDonHang.phuongThucThanhToan == 'true' ? 'Khi nhận hàng' : 'Thanh toán VNPAY' }}
                                         </span>
                                     </div>
                                 </div>
@@ -1016,16 +1015,15 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="mb-3">
-                                    <label>Ngày đặt hàng</label>
-                                    <span class="form-control">{{donHang.ngayDatHang | date:'yyyy-MM-dd
+                                    <label>Ngày Trả Hàng</label>
+                                    <span class="form-control">{{donHang.ngayTraHang | date:'yyyy-MM-dd
                                         HH:mm:ss'}}</span>
                                 </div>
                             </div>
 
                             <div class="mb-3 col-4">
                                 <label>Phương thức hoàn tiền</label>
-                                <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Khi nhận
-                                    hàng':'VNPAY'}}</span>
+                                <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Nhận Tại Quầy-Tiền Mặt':'Chuyển Khoản'}}</span>
                             </div>
                         </div>
                         <div class="row">
@@ -1090,9 +1088,11 @@
                                 <label>Địa chỉ chi tiết</label>
                                 <span class="form-control">{{donHang.diaChiChiTiet}}</span>
                             </div>
-                            <div class="mb-3 col-6">
-                                <label>Ghi chú</label>
-                                <span class="form-control" style="height: 37px;">{{donHang.ghiChu}}</span>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label>Số Tài Khoản Nhận Tiền</label>
+                                    <pre class="form-control" style="white-space: pre-wrap;">{{donHang.ghiChu}}</pre>
+                                </div>
                             </div>
                         </div>
                         <div class="row" ng-if="donHang.trangThai==0">

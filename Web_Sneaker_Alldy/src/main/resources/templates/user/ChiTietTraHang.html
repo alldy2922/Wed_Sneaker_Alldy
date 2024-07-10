@@ -138,49 +138,39 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 m-t-80 m-b-80" ng-if="donHang.trangThai === 0">
-                    <h4 class="m-l-20" style="color: red">Đơn hàng đã hủy</h4>
-                    <span class="m-l-20">{{donHang.ngayHuy | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                <div class="col-6 m-t-80 m-b-80" ng-if="donHang.trangThai === 9">
+                    <h4 class="m-l-20" style="color: red">Từ chối hoàn tiền</h4>
+                    <span class="m-l-20">{{donHang.ngayHuyTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                 </div>
-                <ul class="step-wizard-list" ng-if="donHang.trangThai != 0 && donHang.trangThai != 6 && donHang.trangThai != 7 && donHang.trangThai != 8">
-                    <!--                    Chờ xác nhận-->
+                <!--                trả hàng-->
+                <ul class="step-wizard-list" ng-if="donHang.trangThai != 0 && donHang.trangThai != 1 && donHang.trangThai != 2 && donHang.trangThai != 3 && donHang.trangThai != 4 && donHang.trangThai != 5">
+                    <!--                    Chờ xác nhận trả hàng-->
                     <li class="step-wizard-item">
                         <span class="progress-count">1</span>
-                        <span class="progress-label">Đặt hàng</span>
-                        <span class="progress-label">{{donHang.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">Chờ xác nhận trả hàng</span>
+                        <span class="progress-label">{{donHang.ngayTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
-                    <!--                    Đã xác nhận-->
-                    <li class="step-wizard-item" ng-if="donHang.trangThai != 2">
+                    <!--                    Kiểm tra hàng hoàn-->
+                    <li class="step-wizard-item" ng-if="donHang.trangThai != 6">
                         <span class="progress-count">2</span>
-                        <span class="progress-label">Đã xác nhận</span>
-                        <span class="progress-label">{{donHang.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">Kiểm tra hàng hoàn</span>
+                        <span class="progress-label">{{donHang.ngayKiemTraTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
-                    <li class="step-wizard-item current-item" ng-if="donHang.trangThai === 2">
+                    <li class="step-wizard-item current-item" ng-if="donHang.trangThai === 6">
                         <span class="progress-count">2</span>
-                        <span class="progress-label">Đã xác nhận</span>
-                        <span class="progress-label">{{donHang.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">Kiểm tra hàng hoàn</span>
+                        <span class="progress-label">{{donHang.ngayKiemTraTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
-                    <!--                   Đang giao -->
-                    <li class="step-wizard-item" ng-if="donHang.trangThai != 1">
+                    <!--                   Hoàn tiền -->
+                    <li class="step-wizard-item" ng-if="donHang.trangThai != 7">
                         <span class="progress-count">3</span>
-                        <span class="progress-label">Đang giao</span>
-                        <span class="progress-label">{{donHang.ngayGiaoHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">Hoàn tiền</span>
+                        <span class="progress-label">{{donHang.ngayHoanThanhTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
-                    <li class="step-wizard-item  current-item" ng-if="donHang.trangThai === 1">
+                    <li class="step-wizard-item  current-item" ng-if="donHang.trangThai === 7">
                         <span class="progress-count">3</span>
-                        <span class="progress-label">Đang giao</span>
-                        <span class="progress-label">{{donHang.ngayGiaoHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                    </li>
-                    <!--                    Hoàn thành-->
-                    <li class="step-wizard-item" ng-if="donHang.trangThai != 3">
-                        <span class="progress-count">4</span>
-                        <span class="progress-label">Hoàn thành</span>
-                        <span class="progress-label">{{donHang.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                    </li>
-                    <li class="step-wizard-item current-item" ng-if="donHang.trangThai === 3">
-                        <span class="progress-count">4</span>
-                        <span class="progress-label">Hoàn thành</span>
-                        <span class="progress-label">{{donHang.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">Hoàn tiền</span>
+                        <span class="progress-label">{{donHang.ngayHoanThanhTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                 </ul>
             </div>
@@ -188,33 +178,26 @@
             <div class="card-body">
                 <h4 class="m-t-20 m-b-20">Thông tin đơn hàng</h4>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="mb-3">
                             <label>Mã đơn hàng</label>
                             <span class="form-control">{{donHang.ma}}</span>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="mb-3">
-                            <label>Ngày đặt hàng</label>
-                            <span class="form-control">{{donHang.ngayDatHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                            <label>Phương thức nhận tiền hoàn</label>
+                            <span class="form-control" ng-if="donHang.phuongThucThanhToan === 'Thanh toán khi nhận hàng'">Nhận Tại Quầy-Tiền Mặt</span>
+                            <span class="form-control" ng-if="donHang.phuongThucThanhToan === 'Thanh toán online'">Chuyển Khoản</span>
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="mb-3">
-                            <label>Phương thức thanh toán</label>
-                            <span class="form-control">{{donHang.phuongThucThanhToan}}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-3">
                         <div class="mb-3">
                             <label>Mã voucher</label>
                             <span class="form-control">{{donHang.voucherCode == null ? 'Không áp dụng' : donHang.voucherCode}}</span>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-3">
                         <div class="mb-3">
                             <label>Tên voucher</label>
                             <span class="form-control">{{donHang.voucherName == null ? 'Không áp dụng' : donHang.voucherName}}</span>
@@ -244,33 +227,37 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="mb-3">
                             <label>Thành phố</label>
                             <span class="form-control">{{donHang.thanhPhoName}}</span>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="mb-3">
                             <label>Quận huyện</label>
                             <span class="form-control">{{donHang.quanHuyenName}}</span>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <div class="mb-3">
                             <label>Xã phường</label>
                             <span class="form-control">{{donHang.xaPhuongName}}</span>
                         </div>
                     </div>
+                    <div class="col-sm-3">
+                    <div class="mb-3">
+                        <label>Địa chỉ chi tiết</label>
+                        <span class="form-control">{{donHang.diaChiChiTiet}}</span>
+                    </div>
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="mb-3 col-6">
-                        <label>Địa chỉ chi tiết</label>
-                        <textarea class="form-control">{{donHang.diaChiChiTiet}}</textarea>
-                    </div>
-                    <div class="mb-3 col-6">
-                        <label>Ghi chú</label>
-                        <textarea class="form-control">{{donHang.ghiChu}}</textarea>
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label>Số Tài Khoản Nhận Tiền</label>
+                            <pre class="form-control" style="white-space: pre-wrap;">{{donHang.ghiChu}}</pre>
+                        </div>
                     </div>
                 </div>
                 <div class="row" ng-if="donHang.trangThai==0">

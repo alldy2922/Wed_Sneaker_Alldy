@@ -240,6 +240,7 @@ public class DonHangService implements IDonHangService {
             model.setTrangThai(9);
             model.setNgayHuyTraHang(new Date());
 
+
             String subject = "Từ chối hoàn đơn hàng!";
             String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";
 
@@ -289,11 +290,13 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
-    public void traDonHangUser(String maDonHang, String lyDoTraHang) throws MessagingException {
+    public void traDonHangUser(String maDonHang, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu) throws MessagingException {
         DonHangModel model = donHangResponsitory.findById(maDonHang).get();
         model.setNgayTraHang(new Date());
         model.setLyDoTraHang(lyDoTraHang);
         model.setTrangThai(6);
+        model.setPhuongThucThanhToan(phuongThucNhanTien);
+        model.setGhiChu(ghiChu);
         List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
         ctdhModel.forEach(c -> {
             int soLuongInDonHang = c.getSoLuong();

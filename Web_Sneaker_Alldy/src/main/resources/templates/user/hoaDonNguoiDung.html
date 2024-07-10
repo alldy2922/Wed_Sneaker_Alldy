@@ -490,7 +490,8 @@
                                 <button type="button" class="btn btn-warning ml-2 m-b-10"
                                         ng-click="layMaDonHang(d.ma)"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#lyDoHoanHang">Hoàn Hàng
+                                        data-bs-target="#lyDoHoanHang"
+                                        ng-if="isWithinSevenDays(d.ngayHoanThanh) === true">Hoàn Hàng
                                 </button>
                                 <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
                                    class="btn btn-secondary ml-2 m-b-10"

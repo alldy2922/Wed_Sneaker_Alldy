@@ -8,9 +8,10 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
     $scope.sanPham = [];
     const limit = 10;
     $scope.er = {}
-    $scope.dateNow = new Date().getTime();
+    $scope.dateNow = new Date();
     $scope.khachHang = []
     $scope.erAdd = {}
+
 
 
 
@@ -1293,7 +1294,7 @@ app.controller("hoanhang-ctrl", function ($scope, $http) {
         getDetail(ma) {
             $http.get("/admin/don-hang/" + ma).then(r => {
                 $scope.donHang = r.data;
-                $('#donHangDetail3').modal('show')
+                $('#donHangDetail').modal('show')
             }).catch(e => console.log(e))
 
             $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {

@@ -455,6 +455,7 @@
                                                             <th scope="col">Mã</th>
                                                             <th scope="col">Tên người nhận</th>
                                                             <th scope="col">Số điện thoại</th>
+                                                            <th scope="col">Lý Do Hoàn</th>
                                                             <th scope="col">Ngày Kiểm Tra</th>
                                                             <th></th>
                                                         </tr>
@@ -482,6 +483,10 @@
                                                             </td>
                                                             <td style="cursor: pointer"
                                                                 ng-click="daXacNhan.getDetail(d.ma)">{{d.soDienThoai}}
+                                                            </td>
+                                                            <td style="cursor: pointer"
+                                                                ng-click="daXacNhan.getDetail(d.ma)">
+                                                                {{d.lyDoThayDoi}}
                                                             </td>
                                                             <td style="cursor: pointer"
                                                                 ng-click="daXacNhan.getDetail(d.ma)">
@@ -615,6 +620,7 @@
                                                             <th scope="col">Mã</th>
                                                             <th scope="col">Tên người nhận</th>
                                                             <th scope="col">Số điện thoại</th>
+                                                            <th scope="col">Lý Do Hoàn</th>
                                                             <th scope="col">Ngày giao hàng</th>
                                                             <th></th>
                                                         </tr>
@@ -635,16 +641,20 @@
                                                                 </div>
                                                             </th>
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">{{d.ma}}
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">{{d.ma}}
                                                             </td>
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">{{d.tenNguoiNhan}}
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">{{d.tenNguoiNhan}}
                                                             </td>
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">{{d.soDienThoai}}
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">{{d.soDienThoai}}
                                                             </td>
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">
+                                                                {{d.lyDoThayDoi}}
+                                                            </td>
+                                                            <td style="cursor: pointer"
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">
                                                                 {{d.ngayGiaoHoan | date:'yyyy-MM-dd HH:mm:ss' }}
                                                             </td>
                                                             <td style="width: 200px">
@@ -766,6 +776,7 @@
                                                             <th scope="col">Mã</th>
                                                             <th scope="col">Tên người nhận</th>
                                                             <th scope="col">Số điện thoại</th>
+                                                            <th scope="col">Lý Do Hoàn</th>
                                                             <th scope="col">Ngày hoàn thành</th>
                                                         </tr>
                                                         </thead>
@@ -777,16 +788,20 @@
                                                         </tr>
                                                         <tr ng-repeat="d in hoanThanh.list">
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">{{d.ma}}
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">{{d.ma}}
                                                             </td>
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">{{d.tenNguoiNhan}}
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">{{d.tenNguoiNhan}}
                                                             </td>
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">{{d.soDienThoai}}
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">{{d.soDienThoai}}
                                                             </td>
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">
+                                                                {{d.lyDoThayDoi}}
+                                                            </td>
+                                                            <td style="cursor: pointer"
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">
                                                                 {{d.ngayHoanThanhHoan | date:'yyyy-MM-dd HH:mm:ss' }}
                                                             </td>
                                                         </tr>
@@ -900,16 +915,16 @@
                                                         </tr>
                                                         <tr ng-repeat="d in huy.list">
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">{{d.ma}}
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">{{d.ma}}
                                                             </td>
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">{{d.tenNguoiNhan}}
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">{{d.tenNguoiNhan}}
                                                             </td>
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">{{d.soDienThoai}}
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">{{d.soDienThoai}}
                                                             </td>
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">
                                                                 {{d.ngayHuyHoan | date:'yyyy-MM-dd HH:mm:ss' }}
                                                             </td>
                                                             <!--                                                            <td style="width: 200px">-->
@@ -917,7 +932,7 @@
                                                             <!--                                                                <button class="btn btn-primary">Xác nhận</button>-->
                                                             <!--                                                            </td>-->
                                                             <td style="cursor: pointer"
-                                                                ng-click="daXacNhan.getDetail(d.ma)">
+                                                                ng-click="chuaXacNhan.getDetail(d.ma)">
                                                                 <p class="nameProduct">{{d.lyDoHuyHoan}}</p>
                                                             </td>
                                                         </tr>
@@ -1885,5 +1900,6 @@
 
     </div>
     <!-- end main content-->
+</div>
 </body>
 </html>

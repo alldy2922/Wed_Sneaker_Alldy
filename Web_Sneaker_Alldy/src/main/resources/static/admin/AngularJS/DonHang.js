@@ -13,6 +13,23 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.erAdd = {}
 
 
+    $scope.isWithinSevenDays = function(ngayHoanThanh) {
+        result = false;
+        var ngayHienTai = new Date();
+        var ngayHoanThanhDate = new Date(ngayHoanThanh);
+
+        // Tính toán sự khác biệt giữa ngày hiện tại và ngày hoàn thành
+        var timeDifference = ngayHienTai - ngayHoanThanhDate;
+        var dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+        // Kiểm tra nếu sự khác biệt là trong vòng 7 ngày
+        if(dayDifference<=7){
+            result = true
+        }
+        console.log("donHang",result)
+        return result;
+    };
+    $scope.isWithinSevenDays()
 
 
     $scope.closeModal = function (id) {

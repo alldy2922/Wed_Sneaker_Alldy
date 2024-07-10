@@ -8,9 +8,11 @@ import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietDonHangRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.IChiTietSanPhamRepository;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
+import fpoly.duantotnghiep.shoppingweb.repository.INhanVienRepository;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietDonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
@@ -42,6 +44,8 @@ public class DonHangService implements IDonHangService {
 
     @Autowired
     private IDonHangResponsitory donHangResponsitory;
+    @Autowired
+    private INhanVienRepository nhanVienRepository;
     @Autowired
     private IChiTietDonHangService chiTietDonHangService;
     @Autowired
@@ -191,6 +195,7 @@ public class DonHangService implements IDonHangService {
     @Override
     public void updateTrangThaiTraHang(String maDonHang, Integer trangThai) throws MessagingException {
         DonHangModel model = donHangResponsitory.findById(maDonHang).get();
+        NhanVienModel modelNV = nhanVienRepository.findById(maDonHang).get();
         model.setTrangThai(trangThai);
 
         if (model.getLoai() == 0) {
@@ -225,12 +230,9 @@ public class DonHangService implements IDonHangService {
             context.setVariable("mess", messeger);
             context.setVariable("title", title);
             String finalSubject = subject;
-            long delay = 10;
-            TimeUnit unit = TimeUnit.SECONDS;
             new Thread(() -> {
                 try {
-//                    sendEmailTraHang(model.getEmail(), finalSubject, "email/capNhatTrangThaiTraHang", context, lstSanPham);
-                    sendEmailRefundWithHtml(model.getEmail(), finalSubject, "email/capNhatTrangThaiTraHang", context, delay, unit, lstSanPham);
+                    sendEmailTraHang(model.getEmail(), finalSubject, "email/capNhatTrangThaiTraHang", context, lstSanPham);
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
@@ -510,13 +512,15 @@ public class DonHangService implements IDonHangService {
         javaMailSender.send(mimeMessage);
     }
 
+
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    public void sendEmailRefundWithHtml(String email, String subject, String templateHtml, Context context, long delay, TimeUnit unit, List<ChiTietDonHangDtoResponse> lstSanPham) throws MessagingException {
+    @Override
+    public void sendEmailRefundWithHtml(String email, String subject, String templateHtml, Context context, long delay , TimeUnit unit, List<ChiTietDonHangDtoResponse> lstSanPham) throws MessagingException {
         Runnable emailTask = () -> {
             try {
                 MimeMessage mimeMessage = javaMailSender.createMimeMessage();
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
-                helper.setTo("Anhhkph21563@fpt.edu.vn");
+                helper.setTo(email);
                 helper.setSubject(subject);
                 String htmlContent = templateEngine.process(templateHtml, context);
                 helper.setText(htmlContent, true);
@@ -536,7 +540,7 @@ public class DonHangService implements IDonHangService {
                 e.printStackTrace();
             }
         };
-            scheduler.schedule(emailTask, delay, unit);
+            scheduler.schedule(emailTask, 10, TimeUnit.SECONDS);
     }
 
     @Override

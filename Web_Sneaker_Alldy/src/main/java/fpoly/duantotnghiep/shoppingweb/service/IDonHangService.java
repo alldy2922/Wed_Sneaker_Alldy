@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
@@ -37,9 +38,7 @@ public interface IDonHangService {
 //    void huyDonHang(String maDonHang, String lyDo) throws MessagingException;
 
 //    DonHangDtoResponse updateDonHang(DonHangDTORequest request);
-//    void scheduleEmail(String email, String subject, String content, long delay, TimeUnit unit);
-
-//    void sendImmediateEmail(String email, String subject, String content);
+    void sendEmailRefundWithHtml(String email, String subject, String templateHtml, Context context, long delay, TimeUnit unit, List<ChiTietDonHangDtoResponse> lstSanPham)throws MessagingException;
 
     void huyTraHang(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
 

@@ -9,6 +9,7 @@ import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
+import fpoly.duantotnghiep.shoppingweb.service.impl.LichSuThaoTacServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VnPayServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.util.EmailUtil;
@@ -47,6 +48,8 @@ public class DonHangRescontroller {
     private IDonHangResponsitory donHangResponsitory;
     @Autowired
     private VoucherServiceImpl voucherService;
+    @Autowired
+    private LichSuThaoTacServiceImpl lichSuThaoTacService;
 
     @GetMapping("get-by-trangthai")
     public Page<DonHangDtoResponse> getChuaXacNhan(@RequestParam("trangThai") Integer trangThai,
@@ -68,7 +71,7 @@ public class DonHangRescontroller {
     }
 
     @GetMapping("update-trang-thai/{ma}")
-    public ResponseEntity<?> updatTrangThai(@PathVariable("ma") String ma, @RequestParam("trangThai") Integer trangThai) throws MessagingException {
+    public ResponseEntity<?> updatTrangThai(@PathVariable("ma") String ma, @RequestParam("trangThai") Integer trangThai,Authentication authentication) throws MessagingException {
         if (!donHangService.existsByMa(ma)) {
             return ResponseEntity.notFound().build();
         }
@@ -84,19 +87,42 @@ public class DonHangRescontroller {
                 }
             }
         donHangService.updateTrangThai(ma, trangThai);
+        System.out.println(ma);
+        if(trangThai==7){
+            lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Đơn Hàng Hoàn: "+ ma);
+donHangService.
+        }   else if(trangThai==8){
+            lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Giao Đơn Hàng Hoàn: "+ ma);
+
+        }  else   if(trangThai==9){
+            lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Hoàn Thành Hoàn Đơn: "+ ma);
+
+        }
 
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("update-trang-thai")
-    public ResponseEntity<Integer> updatTrangThaiAll(@RequestBody List<String> ma, @RequestParam("trangThai") Integer trangThai) throws MessagingException {
+    public ResponseEntity<Integer> updatTrangThaiAll(@RequestBody List<String> ma, @RequestParam("trangThai") Integer trangThai,Authentication authentication) throws MessagingException {
         ma.forEach(m -> {
             try {
                 donHangService.updateTrangThai(m, trangThai);
+
+                if(trangThai==7){
+                    lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Đơn Hàng Hoàn: "+ m);
+
+                }   else if(trangThai==8){
+                    lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Giao Đơn Hàng Hoàn: "+ m);
+
+                }  else   if(trangThai==9){
+                    lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Hoàn Thành Hoàn Đơn: "+ m);
+
+                }
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
         });
+
         return ResponseEntity.ok().build();
     }
 
@@ -118,8 +144,11 @@ public class DonHangRescontroller {
         return ResponseEntity.ok().build();
     }
     @PutMapping("/huy-don-hang-hoan")
-    public ResponseEntity<Integer> huyDonHangHoan(@RequestBody List<String> ma, @RequestParam("lyDo") String lyDo) throws MessagingException {
+    public ResponseEntity<Integer> huyDonHangHoan(@RequestBody List<String> ma, @RequestParam("lyDo") String lyDo,Authentication authentication) throws MessagingException {
         donHangService.huyDonHangHoan(ma, lyDo);
+        lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Hủy Đơn Hàng Hoàn: "+ ma);
+
+
         return ResponseEntity.ok().build();
     }
 

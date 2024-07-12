@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.repository;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.SanPhamModel;
 import org.springframework.data.domain.Page;
@@ -60,5 +61,7 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
                 WHERE c.donHang.ngayDatHang between ?1 and ?2 AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5 AND c.donHang.loai = ?3
             """)
     Long getTotalQauntityInOrdersWithDateAndLoai(Date firstDate, Date lastDate,Integer loai);
+
+
 
 }

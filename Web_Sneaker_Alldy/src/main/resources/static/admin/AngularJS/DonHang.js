@@ -14,20 +14,21 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
 
     $scope.isWithinSevenDays = function(ngayHoanThanh) {
-        result = false;
-        var ngayHienTai = new Date();
-        var ngayHoanThanhDate = new Date(ngayHoanThanh);
+        // Tính khoảng thời gian giữa ngày hiện tại và ngày hoàn thành
+        var timeDifference = ngayHienTai.getTime() - ngayHoanThanhDate.getTime(); // Khoảng thời gian tính bằng milliseconds
+        var dayDifference = timeDifference / (1000 * 60 * 60 * 24); // Chuyển đổi sang số ngày
+        console.log("Khoảng thời gian (milliseconds):", timeDifference);
+        console.log("Khoảng thời gian (ngày):", dayDifference);
 
-        // Tính toán sự khác biệt giữa ngày hiện tại và ngày hoàn thành
-        var timeDifference = ngayHienTai - ngayHoanThanhDate;
-        var dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+// Kiểm tra nếu ngày hoàn thành lớn hơn 5 phút so với ngày hiện tại và trong vòng 7 ngày
+        var result = false;
+        var fiveMinutesInMillis = 5 * 60 * 1000; // 5 phút tính bằng milliseconds
 
-        // Kiểm tra nếu sự khác biệt là trong vòng 7 ngày
-        if(dayDifference<=7){
-            result = true
+        if (timeDifference > fiveMinutesInMillis && dayDifference <= 7) {
+            result = true;
         }
-        console.log("donHang",result)
-        return result;
+
+        console.log("Kết quả kiểm tra:", result);
     };
     $scope.isWithinSevenDays()
 

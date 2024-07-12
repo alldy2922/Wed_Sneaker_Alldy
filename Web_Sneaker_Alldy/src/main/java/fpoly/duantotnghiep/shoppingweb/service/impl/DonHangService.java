@@ -304,12 +304,6 @@ public class DonHangService implements IDonHangService {
             String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";
 
             List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
-            ctdhModel.forEach(c -> {
-                int soLuongInDonHang = c.getSoLuong();
-                ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
-                sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
-                chiTietSanPhamRepository.save(sanPhamInDonHang);
-            });
 
 
             if (model.getLoai() == 0) {
@@ -566,7 +560,7 @@ public class DonHangService implements IDonHangService {
         context.setVariable("title", subject);
         new Thread(() -> {
             try {
-                sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+                sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHangHoan", context, lstSanPham);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
@@ -574,6 +568,8 @@ public class DonHangService implements IDonHangService {
 
         return new DonHangDtoResponse(donHangResponsitory.save(model));
     }
+
+
 
     public void sendEmailDonHang(String email, String subject, String tempalteHtml, Context context, List<ChiTietDonHangDtoResponse> lstSanPham) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -702,12 +698,7 @@ public class DonHangService implements IDonHangService {
             }).start();
         }
     }
-//    @Override
-//    public DonHangDtoResponse updateTrangThai1(String maDonHang,Integer trangThai){
-//        DonHangModel donHangModel = donHangResponsitory.findById(maDonHang).get();
-//        donHangModel.setTrangThai(trangThai);
-//        return new DonHangDtoResponse(donHangResponsitory.saveAndFlush(donHangModel));
-//    }
+
 
     @Override
     public Map<String,Long> getQuantityProductInOrderDetailWithDate(Date firstDate, Date lastDate){
@@ -720,5 +711,7 @@ public class DonHangService implements IDonHangService {
         result.put("hoaDonTaiQuay",hoaDonTaiQuay);
         return result;
     }
+
+
 }
 

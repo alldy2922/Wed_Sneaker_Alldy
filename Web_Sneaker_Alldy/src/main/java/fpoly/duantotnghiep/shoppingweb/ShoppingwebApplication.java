@@ -1,9 +1,14 @@
 package fpoly.duantotnghiep.shoppingweb;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +44,8 @@ public class ShoppingwebApplication {
 //            e.printStackTrace();
 //        }
     }
-    }
+
+}
+
 
 

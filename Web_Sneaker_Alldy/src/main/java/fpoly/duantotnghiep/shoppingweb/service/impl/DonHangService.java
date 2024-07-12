@@ -106,6 +106,8 @@ public class DonHangService implements IDonHangService {
 //         donHangResponsitory.updateTrangThaiDonHang(trangThai,maDonHang);
         DonHangModel model = donHangResponsitory.findById(maDonHang).get();
         model.setTrangThai(trangThai);
+        List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
+
 
         if (model.getLoai() == 0) {
             String subject = "";
@@ -143,6 +145,13 @@ public class DonHangService implements IDonHangService {
                 subject = "Kiểm tra hoàn hàng!";
                 title = "Đơn hàng đang được kiểm tra hoàn hàng";
                 model.setNgayKiemTraTraHang(new Date());
+
+                ctdhModel.forEach(c -> {
+                    int soLuongInDonHang = c.getSoLuong();
+                    ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
+                    sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
+                    chiTietSanPhamRepository.save(sanPhamInDonHang);
+                });
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được kiểm tra hoàn hàng. Chúng tôi sẽ thông báo cho bạn khi quá trình kiểm tra hoàn tất.";
             } else if (trangThai == 8) {
                 subject = "Hoàn tiền!";
@@ -245,12 +254,7 @@ public class DonHangService implements IDonHangService {
             String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";
 
             List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
-            ctdhModel.forEach(c -> {
-                int soLuongInDonHang = c.getSoLuong();
-                ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
-                sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
-                chiTietSanPhamRepository.save(sanPhamInDonHang);
-            });
+
 
 
             if (model.getLoai() == 0) {
@@ -297,13 +301,6 @@ public class DonHangService implements IDonHangService {
         model.setTrangThai(6);
         model.setPhuongThucThanhToan(phuongThucNhanTien);
         model.setGhiChu(ghiChu);
-        List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
-        ctdhModel.forEach(c -> {
-            int soLuongInDonHang = c.getSoLuong();
-            ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
-            sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
-            chiTietSanPhamRepository.save(sanPhamInDonHang);
-        });
         donHangResponsitory.save(model);
     }
 

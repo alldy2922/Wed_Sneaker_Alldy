@@ -3,7 +3,7 @@
       layout:decorate="~{/admin/index}">
 
 <head>
-    <title>ALLDY SNAEKER | Bán Hàng Tại Quầy</title>
+    <title>ALLDY SNAEKER | Hóa Đơn Tại Quầy</title>
 </head>
 
 <body>
@@ -50,7 +50,7 @@
         <div class="container-fluid">
             <div class="col-xl-12">
                 <div class="card">
-                    
+
                     <!-- end card header -->
                     <div class="card-body">
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
@@ -90,7 +90,8 @@
                                                         <div
                                                                 class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
                                                             <div data-toggle="modal" data-target="#add">
-                                                                <a href="#" class="btn btn-light"><i
+                                                                <a href="/admin/don-hang/ban-hang"
+                                                                   class="btn btn-light"><i
                                                                         class="bx bx-plus me-1"></i>Thêm mới</a>
                                                             </div>
                                                             <!--                                                            <div class="dropdown">-->
@@ -210,9 +211,9 @@
                                                                         <span class="page-link" style="cursor: pointer"
                                                                               aria-label="Previous"
                                                                               ng-click="chuaXacNhan.getList(chuaXacNhan.page==0 ? 0 : chuaXacNhan.page-1)">
-
-                                                                                </span>
-                                                                                    <span>
+                                                                            <span>
+                                                                                < </span>
+                                                                                    <span
                                                                                             class="sr-only">Previous</span>
                                                                             </span>
                                                                 </li>
@@ -350,7 +351,8 @@
                                                                         <span class="page-link" style="cursor: pointer"
                                                                               aria-label="Previous"
                                                                               ng-click="hoanThanh.getList(hoanThanh.page==0 ? 0 : hoanThanh.page-1)">
-                                                                                </span>
+                                                                            <span>
+                                                                                < </span>
                                                                                     <span
                                                                                             class="sr-only">Previous</span>
                                                                             </span>
@@ -487,7 +489,8 @@
                                                                         <span class="page-link" style="cursor: pointer"
                                                                               aria-label="Previous"
                                                                               ng-click="huy.getList(huy.page==0 ? 0 : huy.page-1)">
-                                                                                </span>
+                                                                            <span>
+                                                                                < </span>
                                                                                     <span
                                                                                             class="sr-only">Previous</span>
                                                                             </span>
@@ -667,12 +670,12 @@
                                                              style="cursor: pointer"
                                                              class="row d-flex justify-content-start align-items-center"
                                                              ng-click="addChiTietDonHang(s)">
-                                                            <div class="col-sm-2" ng-if="s.anh.length>0">
-                                                                <img src="/image/loadImage/product/{{s.anh[0]}}"
+                                                            <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0">
+                                                                <img src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
                                                                      style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
                                                             </div>
                                                             <div class="col-sm-2"
-                                                                 ng-if="s.anh.length==0"><img
+                                                                 ng-if="s.sanPhamDTO.anh.length==0"><img
                                                                     src="/image/loadImage/product/default.png"
                                                                     style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
                                                             </div>
@@ -680,19 +683,19 @@
                                                                 <div style="white-space: nowrap;
                                                         overflow: hidden;
                                                         text-overflow: ellipsis;
-                                                        font-weight: bold;">{{s.ten}}
+                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
                                                                 </div>
                                                                 <i style="font-size: 12px;">Size: {{s.size}} - Còn
                                                                     lại: {{s.soLuong}}</i>
                                                             </div>
                                                             <div class="col-sm-3 d-flex justify-content-center">
                                                                 <i style="text-decoration: line-through;"
-                                                                   ng-if="s.giaNiemYet < s.giaBan">{{s.giaBan}}</i>
+                                                                   ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
                                                             </div>
                                                             <div class="col-sm-3 d-flex justify-content-center"
                                                                  style="margin-top: 15px">
                                                                 <p style="font-weight: bold;">
-                                                                    {{s.giaNiemYet}}</p>
+                                                                    {{s.sanPhamDTO.giaNiemYet}}</p>
                                                             </div>
                                                         </div>
                                                         <!--                                            /////////////////////////////////////////-->
@@ -703,12 +706,12 @@
                                                             <!--                                                    <span style="font-weight: bold;font-size: 20px;color: black;-->
                                                             <!--                                                                font-style: italic;">Đã có trong đơn hàng</span>-->
                                                             <!--                                                </div>-->
-                                                            <div class="col-sm-2" ng-if="s.anh.length>0">
-                                                                <img src="/image/loadImage/product/{{s.anh[0]}}"
+                                                            <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0">
+                                                                <img src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
                                                                      style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
                                                             </div>
                                                             <div class="col-sm-2"
-                                                                 ng-if="s.anh.length==0"><img
+                                                                 ng-if="s.sanPhamDTO.anh.length==0"><img
                                                                     src="/image/loadImage/product/default.png"
                                                                     style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
                                                             </div>
@@ -716,19 +719,19 @@
                                                                 <div style="white-space: nowrap;
                                                         overflow: hidden;
                                                         text-overflow: ellipsis;
-                                                        font-weight: bold;">{{s.ten}}
+                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
                                                                 </div>
                                                                 <i style="font-size: 12px;">Size: {{s.size}} - Còn
                                                                     lại: {{s.soLuong}}</i>
                                                             </div>
                                                             <div class="col-sm-3 d-flex justify-content-center">
                                                                 <i style="text-decoration: line-through;"
-                                                                   ng-if="s.giaNiemYet < s.giaBan">{{s.giaBan}}</i>
+                                                                   ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
                                                             </div>
                                                             <div class="col-sm-3 d-flex justify-content-center"
                                                                  style="margin-top: 15px">
                                                                 <p style="font-weight: bold;">
-                                                                    {{s.giaNiemYet}}</p>
+                                                                    {{s.sanPhamDTO.giaNiemYet}}</p>
                                                             </div>
                                                         </div>
                                                         <hr>
@@ -830,14 +833,14 @@
                          aria-labelledby="myLargeModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-fullscreen " style="height: auto;width: auto;">
                             <!-- Modal-->
-                            <div class="modal fade bd-example-modal-lg" id="donHangDetail" tabindex="-1" role="dialog"
-                                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal fade bd-example-modal-lg" id="donHangDetail" tabindex="-1"
+                                 role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="donHangDetailTitle">Thông tin đơn hàng</h5>
-                                            <button type="button" class="close btn" data-dismiss="modal" aria-label="Close"
-                                                    ng-click="closeModal('#donHangDetail')">
+                                            <button type="button" class="close btn" data-dismiss="modal"
+                                                    aria-label="Close" ng-click="closeModal('#donHangDetail')">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -852,18 +855,22 @@
                                                 <div class="col-sm-4">
                                                     <div class="mb-3">
                                                         <label>Ngày đặt hàng</label>
-                                                        <span class="form-control">{{donHang.ngayDatHang | date:'yyyy-MM-dd
+                                                        <span class="form-control">{{donHang.ngayDatHang |
+                                                        date:'yyyy-MM-dd
                                                         HH:mm:ss'}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="mb-3 col-4">
                                                     <label>Phương thức thanh toán</label>
-                                                    <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Tiền mặt':'VNPAY'}}</span>
+                                                    <span
+                                                            class="form-control">{{donHang.phuongThucThanhToan=='true'?'Tiền
+                                                            mặt':'VNPAY'}}</span>
                                                 </div>
                                                 <div class="col-sm-12">
                                                     <div class="mb-3">
                                                         <label>Người tạo</label>
-                                                        <span class="form-control">{{donHang.nhanVienDtoResponse == null ?
+                                                        <span class="form-control">{{donHang.nhanVienDtoResponse ==
+                                                        null ?
                                                                 'Đã xóa' : donHang.nhanVienDtoResponse.hoVaTen}}</span>
                                                     </div>
                                                 </div>
@@ -912,9 +919,11 @@
                                                                 <img src="/image/loadImage/product/{{d.anh}}"
                                                                      style="width: 100px; height: 70px;">
                                                                 <div>
-                                                                    <p style="font-weight: bold;padding-left: 10px; ">
+                                                                    <p
+                                                                            style="font-weight: bold;padding-left: 10px; ">
                                                                         {{d.sanPham}}</p>
-                                                                    <i style="font-size: 10px;padding-left: 10px;">Size
+                                                                    <i
+                                                                            style="font-size: 10px;padding-left: 10px;">Size
                                                                         {{d.size}}</i>
                                                                 </div>
                                                             </div>
@@ -922,14 +931,16 @@
                                                         <td>{{d.soLuong}}</td>
                                                         <td>{{d.donGia | currency: "" : 1}} đ</td>
                                                         <td>
-                                                            <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
+                                                            <div class="d-flex justify-content-end">
+                                                                {{d.donGiaSauGiam |
                                                             currency: "" : 1}}
                                                                 đ
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="d-flex justify-content-end">
-                                                                {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
+                                                                {{d.donGiaSauGiam * d.soLuong | currency: "" :
+                                                                    1}}
                                                                 đ
                                                             </div>
                                                         </td>
@@ -942,12 +953,13 @@
                                                 <tr>
                                                     <td>Tổng</td>
                                                     <td colspan="4">
-                                                        <div class="d-flex justify-content-end">{{getTotalPrice() |
+                                                        <div class="d-flex justify-content-end">
+                                                            {{getTotalPrice() |
                                                         currency: "" : 1}} đ
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                 </tbody>
+                                                </tbody>
                                             </table>
                                         </div>
                                         <div class="modal-footer">

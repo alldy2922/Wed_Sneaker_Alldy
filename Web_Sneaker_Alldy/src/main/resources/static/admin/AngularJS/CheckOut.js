@@ -274,6 +274,9 @@ $scope.getDataSessions = function() {
         event.returnValue = message; // Hiển thị thông báo trên các trình duyệt cũ
         return message; // Hiển thị thông báo trên các trình duyệt mới hơn
     };
+    
+
+    
 
 
 

@@ -34,21 +34,19 @@ public interface IDonHangService {
 
 //    DonHangDtoResponse updateDonHang(DonHangDTORequest request);
 
+    void huyTraHang(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
+
     void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
 
     void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException;
 
-    void traHang(DonHangDTORequest donHangDTORequest) throws MessagingException;
-
-    void traDonHangUser(String ma, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu)throws MessagingException;
     DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoThayDoi);
-
 
     @Query("""
                 SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c 
                 WHERE c.donHang.ngayDatHang in (?1,?2)
             """)
-    Long getTotalQuantityInOrdersWithDate(Date firstDate, Date lastDate);
+    Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
 
     Long getQuantityOrdersWithDate(Date firstDate, Date lastDate);
 
@@ -59,4 +57,6 @@ public interface IDonHangService {
     void themDonHangAdmin(DonHangDTORequest donHangDTORequest, List<ChiTietDonHangDTORequest> chiTietDonHang);
 
     Map<String,Long> getQuantityProductInOrderDetailWithDate(Date firstDate, Date lastDate);
+
+    void traDonHangUser(String ma, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu)throws MessagingException;
 }

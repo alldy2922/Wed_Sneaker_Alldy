@@ -1,6 +1,5 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
-import fpoly.duantotnghiep.shoppingweb.config.security.AdminUser;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
@@ -8,7 +7,6 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
-import fpoly.duantotnghiep.shoppingweb.model.NhanVienModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VnPayServiceImpl;
@@ -56,10 +54,10 @@ public class DonHangRescontroller {
                                                    @RequestParam(defaultValue = "10") Integer limit,
                                                    @RequestParam(required = false)String sdt,
                                                    @RequestParam(defaultValue = "0")Integer loai) {
-
         return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber , limit, sdt,loai);
-
     }
+
+
 
     @GetMapping("/{ma}")
     public ResponseEntity<DonHangDtoResponse> getByMa(@PathVariable("ma") String ma) {
@@ -76,15 +74,15 @@ public class DonHangRescontroller {
         }
 
         DonHangModel donHangModel = donHangResponsitory.findById(ma).get();
-            if(donHangModel.getLoai()==1 && trangThai==4){
-                if (donHangModel.getPhuongThucThanhToan() == false) {
-                    String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort();
-                    String vnpayUrl = vnPayService.createOrder(donHangModel.getMa(), baseUrl, donHangModel.getTongTien().multiply(BigDecimal.valueOf(100)).intValue()+"");
-                    Map<String, String> vnPayUrl = new HashMap<>();
-                    vnPayUrl.put("vnPayUrl", vnpayUrl);
-                    return ResponseEntity.ok(vnPayUrl);
-                }
+        if(donHangModel.getLoai()==1 && trangThai==4){
+            if (donHangModel.getPhuongThucThanhToan() == false) {
+                String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort();
+                String vnpayUrl = vnPayService.createOrder(donHangModel.getMa(), baseUrl, donHangModel.getTongTien().multiply(BigDecimal.valueOf(100)).intValue()+"");
+                Map<String, String> vnPayUrl = new HashMap<>();
+                vnPayUrl.put("vnPayUrl", vnpayUrl);
+                return ResponseEntity.ok(vnPayUrl);
             }
+        }
         donHangService.updateTrangThai(ma, trangThai);
 
         return ResponseEntity.ok().build();
@@ -108,23 +106,12 @@ public class DonHangRescontroller {
         return ResponseEntity.ok().build();
     }
 
-//    @PostMapping("/tra-hang")
-//    public ResponseEntity<?> traHang(@RequestBody DonHangDTORequest donHangDTORequest) {
-//        try {
-//            // Check if the order exists
-//            if (!donHangService.existsByMa(donHangDTORequest.getMa())) {
-//                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Đơn hàng không tồn tại.");
-//            }
-//
-//            // Call the service method to process the return
-//            donHangService.traHang(donHangDTORequest);
-//            return ResponseEntity.ok("Yêu cầu trả hàng đã được gửi và email thông báo đã được gửi.");
-//        } catch (MessagingException e) {
-//            return ResponseEntity.status(500).body("Lỗi khi gửi email thông báo.");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(500).body("Đã xảy ra lỗi.");
-//        }
-//    }
+    @PutMapping("/tra-don-hang")
+    public ResponseEntity<Integer> traDonHang(@RequestBody List<String> ma, @RequestParam("lyDoTraHang") String lyDoTraHang) throws MessagingException {
+        donHangService.huyTraHang(ma, lyDoTraHang);
+        return ResponseEntity.ok().build();
+    }
+
 
     @PutMapping("")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})
@@ -157,8 +144,6 @@ public class DonHangRescontroller {
             return ResponseEntity.notFound().build();
         }
 
-        System.out.println("authen " + authentication);
-        System.out.println("nhan vien" + authentication.getName());
         request.setNhanVien(authentication.getName());
 
         return ResponseEntity.ok(donHangService.updateDonHang(request, products, lyDoThayDoi));
@@ -166,9 +151,9 @@ public class DonHangRescontroller {
     @PostMapping("")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})
     public ResponseEntity<?> themDonHang(@Valid @RequestPart("donHang") DonHangDTORequest request,
-                                           BindingResult result,
-                                           @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products,
-                                            Authentication authentication) {
+                                         BindingResult result,
+                                         @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products,
+                                         Authentication authentication) {
         if(products.size()<=0){
             result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
         }
@@ -207,7 +192,6 @@ public class DonHangRescontroller {
 
         return ResponseEntity.ok().build();
     }
-
     private String codeDonHang() {
         final String ALLOWED_CHARACTERS = "asdfghjklqwertyuiopzxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 

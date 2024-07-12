@@ -50,6 +50,9 @@ public class DonHangReponseUser {
     private Date ngayHoanThanh;
     private Date ngayHuy;
     private Date ngayTraHang;
+    private Date ngayKiemTraTraHang;
+    private Date ngayHoanThanhTraHang;
+    private Date ngayHuyTraHang;
     private BigDecimal tongTien;
     private List<ChiTietDonHangDtoResponse> chiTietDonHang;
     private NhanVienDtoResponse nhanVienDtoResponse;
@@ -78,13 +81,14 @@ public class DonHangReponseUser {
         this.lyDoHuy = model.getLyDoHuy();
         this.lyDoThayDoi = model.getLyDoThayDoi();
         this.lyDoTraHang = model.getLyDoTraHang();
-
-
         if (model.getNgayXacNhan() != null) this.ngayXacNhan = model.getNgayXacNhan();
         if (model.getNgayGiaoHang() != null) this.ngayGiaoHang = model.getNgayGiaoHang();
         if (model.getNgayHoanThanh() != null) this.ngayHoanThanh = model.getNgayHoanThanh();
         if (model.getNgayHuy() != null) this.ngayHuy = model.getNgayHuy();
         if (model.getNgayTraHang() != null) this.ngayTraHang = model.getNgayTraHang();
+        if (model.getNgayKiemTraTraHang() != null) this.ngayKiemTraTraHang = model.getNgayKiemTraTraHang();
+        if (model.getNgayHoanThanhTraHang() != null) this.ngayHoanThanhTraHang = model.getNgayHoanThanhTraHang();
+        if (model.getNgayHuyTraHang() != null) this.ngayHuyTraHang = model.getNgayHuyTraHang();
         this.tongTien = model.getTongTien();
         if (model.getVoucher() != null) {
             voucherCode = model.getVoucher().getMa();

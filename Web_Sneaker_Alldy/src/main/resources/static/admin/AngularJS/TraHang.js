@@ -1428,3 +1428,4 @@ app.controller("traHang-ctrl", function ($scope, $http) {
 $('#khachHangSL').select2({
     dropdownParent: $('#add')
 });
+

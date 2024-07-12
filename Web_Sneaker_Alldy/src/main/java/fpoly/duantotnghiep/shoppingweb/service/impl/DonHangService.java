@@ -513,34 +513,34 @@ public class DonHangService implements IDonHangService {
     }
 
 
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
     @Override
     public void sendEmailRefundWithHtml(String email, String subject, String templateHtml, Context context, long delay , TimeUnit unit, List<ChiTietDonHangDtoResponse> lstSanPham) throws MessagingException {
-        Runnable emailTask = () -> {
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.schedule(() -> {
             try {
+                System.out.println("Sending email to: " + email);
                 MimeMessage mimeMessage = javaMailSender.createMimeMessage();
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
                 helper.setTo(email);
                 helper.setSubject(subject);
                 String htmlContent = templateEngine.process(templateHtml, context);
                 helper.setText(htmlContent, true);
+
                 ClassPathResource resource = new ClassPathResource("./images/product/default.png");
                 helper.addInline("logo", resource);
 
-                lstSanPham.forEach(s -> {
+                for (ChiTietDonHangDtoResponse s : lstSanPham) {
                     ClassPathResource img = new ClassPathResource("./images/product/" + s.getAnh());
-                    try {
-                        helper.addInline(s.getAnh() + "", img);
-                    } catch (MessagingException e) {
-                        e.printStackTrace();
-                    }
-                });
+                    helper.addInline(s.getAnh(), img);
+                }
+
                 javaMailSender.send(mimeMessage);
-            }catch (Exception e){
+                System.out.println("Email sent successfully to: " + email);
+            } catch (MessagingException e) {
                 e.printStackTrace();
             }
-        };
-            scheduler.schedule(emailTask, 10, TimeUnit.SECONDS);
+        }, delay, unit);
     }
 
     @Override

@@ -237,11 +237,12 @@ public class DonHangService implements IDonHangService {
     }
 
     @Override
-    public void traDonHangUser(String maDonHang, String lyDoTraHang) throws MessagingException {
-        DonHangModel model = donHangResponsitory.findById(maDonHang).get();
+    public void traDonHangUser(String maDonHang, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu) throws MessagingException {        DonHangModel model = donHangResponsitory.findById(maDonHang).get();
         model.setNgayHuy(new Date());
         model.setLyDoHuy(lyDoTraHang);
         model.setTrangThai(6);
+        model.setPhuongThucThanhToan(phuongThucNhanTien);
+        model.setGhiChu(ghiChu);
         //Hoàn sản phẩm vào kho, dùng cho bước hoàn thành kiểm tra hoàn hàng
 //        List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
 //        ctdhModel.forEach(c -> {

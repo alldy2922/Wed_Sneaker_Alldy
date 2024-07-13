@@ -142,7 +142,12 @@
                     <h4 class="m-l-20" style="color: red">Đơn hàng đã hủy</h4>
                     <span class="m-l-20">{{donHang.ngayHuy | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                 </div>
-                <ul class="step-wizard-list" ng-if="donHang.trangThai != 0">
+                <div class="col-6 m-t-80 m-b-80" ng-if="donHang.trangThai === 9">
+                    <h4 class="m-l-20" style="color: red">Đơn hàng bị từ chối hoàn tiền</h4>
+                    <span class="m-l-20">{{donHang.ngayHuyTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                </div>
+                
+                <ul class="step-wizard-list" ng-if="donHang.trangThai != 0  && donHang.trangThai != 6 && donHang.trangThai != 7 && donHang.trangThai != 8 && donHang.trangThai != 9">
                     <!--                    Chờ xác nhận-->
                     <li class="step-wizard-item">
                         <span class="progress-count">1</span>

@@ -34,6 +34,8 @@ public interface IDonHangService {
 
 //    DonHangDtoResponse updateDonHang(DonHangDTORequest request);
 
+    void huyTraHang(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
+
     void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
 
     void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException;
@@ -55,4 +57,6 @@ public interface IDonHangService {
     void themDonHangAdmin(DonHangDTORequest donHangDTORequest, List<ChiTietDonHangDTORequest> chiTietDonHang);
 
     Map<String,Long> getQuantityProductInOrderDetailWithDate(Date firstDate, Date lastDate);
+
+    public void traDonHangUser(String maDonHang, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu) throws MessagingException;
 }

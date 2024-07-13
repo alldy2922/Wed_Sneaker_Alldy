@@ -157,7 +157,7 @@
                 <div id="sidebar-menu">
                     <!-- Left Menu Start -->
                     <ul class="metismenu list-unstyled" id="side-menu">
-                        <li class="menu-title" data-key="t-menu">Menu</li>
+                        <li class="menu-title" data-key="t-menu">Bán Hàng</li>
 
                         <li>
                             <a href="/admin/trang-chu">
@@ -184,8 +184,19 @@
                                 <span data-key="t-chat">Hóa Đơn Online</span>
                             </a>
                         </li>
+                        <li>
+                            <a th:href="@{/admin/tra-hang}">
+                                <i class="bi bi-bag-x"></i>
+                                <span data-key="t-chat">Trả Hàng</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a>
+                                <i class="bi bi-arrow-left-right"></i>
+                                <span data-key="t-chat">Đổi Hàng</span>
+                            </a>
+                        </li>
                         <li class="menu-title" data-key="t-apps">Sản phẩm</li>
-
                         <li>
                             <a href="javascript: void(0);" class="has-arrow">
                                 <i data-feather="list"></i>
@@ -236,17 +247,23 @@
 
                         <li th:if="${hasAdmin}">
                             <a th:href="@{/admin/khuyen-mai}">
-                                <i data-feather="gift"></i>
+                                <i class="bi bi-ticket-detailed"></i>
                                 <span data-key="t-horizontal">Khuyến Mại</span>
                             </a>
                         </li>
                         <li th:if="${hasAdmin}">
                             <a th:href="@{/admin/voucher}">
-                                <i data-feather="gift"></i>
+                                <i class="bi bi-ticket-perforated"></i>
                                 <span data-key="t-horizontal">Voucher</span>
                             </a>
                         </li>
-
+                        <li class="menu-title" data-key="t-apps">Hệ Thống</li>
+                        <li>
+                            <a th:href="@{/admin/lich-su-thao-tac}">
+                                <i class="bi bi-journal-code"></i>
+                                <span data-key="t-chat">Lịch Sử Thao Tác</span>
+                            </a>
+                        </li>
 
                     </ul>
                 </div>
@@ -258,9 +275,9 @@
                         justify-content: center;
                         align-items: center;
                         position: relative;
-                        width: 200px;
-                        height: 200px;
-                        padding-left: 20px;
+                        /* width: 200px;
+                        height: 200px; */
+                        /* padding-left: 20px; */
                     }
 
                     .scale-continuous {
@@ -378,13 +395,15 @@
     <script src="/admin/AngularJS/KieuDangJS.js"></script>
     <script src="/admin/AngularJS/ThuongHieuJS.js"></script>
     <script src="/admin/AngularJS/DonHang.js"></script>
+    <script src="/admin/AngularJS/TraHang.js"></script>
     <script src="/admin/AngularJS/banHangTaiQuay.js"></script>
+    <script src="/admin/AngularJS/LichSuThaoTac.js"></script>
 
     <script src="/admin/assets/libs/rater-js/index.js"></script>
     <script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
     <script th:src="@{/admin/AngularJS/ResetPassword.js}"></script>
     <script th:src="@{/admin/AngularJS/nhanXet.js}"></script>
-
+    <script th:src="@{/admin/AngularJS/LichSuThaoTac.js}"></script>
     <script src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
     <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.2.3/js/plugins/sortable.min.js'></script>

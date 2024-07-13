@@ -600,6 +600,7 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
                 this.setPageNumbers()
             })
         },
+        
         getDetail(ma) {
             $http.get("/admin/don-hang/" + ma).then(r => {
                 $scope.donHang = r.data;

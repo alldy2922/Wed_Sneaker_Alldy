@@ -1378,33 +1378,141 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     // }
     // Khai báo biến lyDoTraHang trong scope
     $scope.lyDoTraHang = "";
+    $scope.phuongThucNhanTien = "";
+    $scope.ghiChu = "";
+
+    $http.get("https://api.vietqr.io/v2/banks").then(function(response) {
+        $scope.nganHang = response.data.data;
+    }, function(error) {
+        console.error("Lỗi khi lấy dữ liệu ngân hàng:", error);
+    });
+
+    // Biến lưu trữ ngân hàng được chọn
+    $scope.selectedNganHang = null;
+    $scope.selectedNganHangName = null;
+
+    $scope.isWithinSevenDays = function(ngayHoanThanh) {
+        result = false;
+        var ngayHienTai = new Date();
+        var ngayHoanThanhDate = new Date(ngayHoanThanh);
+
+        // Tính toán sự khác biệt giữa ngày hiện tại và ngày hoàn thành
+        // var timeDifference = ngayHienTai - ngayHoanThanhDate;
+        // var dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+        // console.log("ngày1", timeDifference)
+        // console.log("ngày2", dayDifference)
+        // // Kiểm tra nếu sự khác biệt là trong vòng 7 ngày
+        // if(dayDifference<=7){
+        //     result = true
+        // }
+        //Tính toán theo phút
+        var timeDifference = ngayHienTai - ngayHoanThanhDate;
+        var minuteDifference = timeDifference / (1000 * 60); // Chuyển đổi sự khác biệt sang phút
+        console.log("Sự khác biệt thời gian (ms)", timeDifference);
+        console.log("Sự khác biệt thời gian (phút)", minuteDifference);
+
+        // Kiểm tra nếu sự khác biệt là trong vòng 2 phút
+        if(minuteDifference <= 2){
+            result = true;
+        } else {
+            result = false;
+        }
+        console.log("donHang",result)
+        return result;
+    };
+    $scope.isWithinSevenDays()
 
     // Định nghĩa hàm traDonUser
-    $scope.traDonUser = function (ma) {
+    $scope.traDonUser = function (ma, phuongThucNhanTien, selectedNganHang, soTaiKhoan, tenNguoiNhan) {
         const lydoTraHang = $scope.lyDoTraHang; // Sử dụng let hoặc const để khai báo biến cục bộ
+        const phuongThucNhanTien1 = $scope.phuongThucNhanTien;
+        console.log("abcd", phuongThucNhanTien1)
 
-        // Kiểm tra nếu lydoTraHang tồn tại và không rỗng
         if (!lydoTraHang) {
             alertify.error("Bạn cần nhập lý do trả hàng");
             return;
         }
 
-        // Gửi yêu cầu HTTP PUT
-        $http.put("/don-hang/tra-don-hang-user?ma=" + ma, lydoTraHang)
-            .then(function (res) {
-                // Tìm và xóa đơn hàng khỏi danh sách
-                let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == ma);
-                if (index !== -1) {
-                    $scope.donHangChuaXacNhanKh.splice(index, 1);
-                }
-                alertify.success("Yêu cầu trả đơn hàng thành công");
-            })
-            .catch(function (error) {
-                // Xử lý lỗi khi gửi yêu cầu HTTP
-                console.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng:", error);
-                alertify.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng");
-            });
+
+
+        if (phuongThucNhanTien === 'false') {
+            if (!soTaiKhoan) {
+                alertify.error("Bạn cần nhập số tài khoản");
+                return;
+            }
+
+            if (!tenNguoiNhan) {
+                alertify.error("Bạn cần nhập tên người nhận");
+                return;
+            }
+
+            if (!selectedNganHang || !selectedNganHang.name) {
+                alertify.error("Bạn cần chọn ngân hàng");
+                return;
+            }
+            console.log('Số tài khoản:', soTaiKhoan);
+            console.log('Tên người nhận:', tenNguoiNhan);
+            console.log('Tên người 2:', $scope.selectedNganHang.name);
+
+            $scope.ghiChu = "Ngân hàng: " + $scope.selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
+            // Sử dụng encodeURIComponent để mã hóa ghiChu
+            const encodedGhiChu = encodeURIComponent($scope.ghiChu);
+            $http.put("/don-hang/tra-don-hang-user?ma=" + ma + "&phuongThucNhanTien=" + phuongThucNhanTien1 + "&ghiChu=" + encodedGhiChu, lydoTraHang)
+                .then(function (res) {
+                    // Tìm và xóa đơn hàng khỏi danh sách
+                    let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == ma);
+                    if (index !== -1) {
+                        $scope.donHangChuaXacNhanKh.splice(index, 1);
+                    }
+                    alertify.success("Yêu cầu trả đơn hàng thành công");
+                    $('#traHangModal').modal('hide');
+                })
+                .catch(function (error) {
+                    // Xử lý lỗi khi gửi yêu cầu HTTP
+                    console.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng:", error);
+                    alertify.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng");
+                });
+        } else {
+
+
+            // Gửi yêu cầu HTTP PUT
+            $http.put("/don-hang/tra-don-hang-user?ma=" + ma + "&phuongThucNhanTien=" + phuongThucNhanTien1 + "&ghiChu=" + '', lydoTraHang)
+                .then(function (res) {
+                    // Tìm và xóa đơn hàng khỏi danh sách
+                    let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == ma);
+                    if (index !== -1) {
+                        $scope.donHangChuaXacNhanKh.splice(index, 1);
+                    }
+                    alertify.success("Yêu cầu trả đơn hàng thành công");
+                    $('#traHangModal').modal('hide');
+                })
+                .catch(function (error) {
+                    // Xử lý lỗi khi gửi yêu cầu HTTP
+                    console.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng:", error);
+                    alertify.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng");
+                });
+        }
+
     };
+
+    $scope.resetModal = function() {
+        $scope.lyDoTraHang = '';
+        $scope.phuongThucNhanTien = '';
+        $scope.selectedNganHang = '';
+        $scope.soTaiKhoan = '';
+        $scope.tenNguoiNhan = '';
+    };
+
+// Kiểm tra và đảm bảo không khởi động $digest/$apply nếu đang diễn ra
+    $('#traHangModal').on('hidden.bs.modal', function () {
+        if(!$scope.$$phase) {
+            $scope.$apply(function() {
+                $scope.resetModal();
+            });
+        } else {
+            $scope.resetModal();
+        }
+    });
 
     $scope.setChiTietDH = function (maCTDH) {
         console.log(maCTDH);

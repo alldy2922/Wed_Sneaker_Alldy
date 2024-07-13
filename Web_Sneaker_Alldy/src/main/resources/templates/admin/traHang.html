@@ -788,14 +788,17 @@
                                 <div class="row">
                                     <div class="mb-3 col-12">
                                         <label>Phương thức thanh toán khi mua</label>
-                                        <!-- <select class="form-control" ng-model="chuaXacNhan.detail.phuongThucThanhToan">
-                                            <option value="true">Khi nhận hàng</option>
-                                            <option value="false">Thanh toán VNPAY</option>
-                                        </select> -->
                                         <span class="form-control">
-                                            {{ selectedDonHang.phuongThucThanhToan ? 'Khi nhận hàng' : 'Thanh toán
-                                            VNPAY' }}
+                                            {{ chuaXacNhanTraHang.detail.phuongThucThanhToan == 'true' ? 'Thanh Toán khi nhận hàng' : 'Thanh toán VNPAY' }}
                                         </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-12">
+                                        <label>Phương thức nhận tiền hoàn hoàn đơn</label>
+                                        <span class="form-control">
+                                            {{ chuaXacNhanTraHang.detail.phuongThucNhanTien == 'true' ? 'Nhận Tại Quầy-Tiền Mặt' : 'Chuyển Khoản ngân hàng' }}
+                                    </span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -896,7 +899,7 @@
                                         <i class="er">{{er.diaChiChiTiet == undefined ? '' : er.diaChiChiTiet}}</i>
                                     </div>
                                     <div class="mb-3 col-6">
-                                        <label>Ghi chú</label>
+                                        <label>Thông tin nhận tiền hoàn (Chuyển Khoản)</label>
                                         <textarea class="form-control" rows="2"
                                             ng-model="chuaXacNhanTraHang.detail.ghiChu"></textarea>
                                     </div>
@@ -1049,24 +1052,29 @@
                             </div>
 
                             <div class="mb-3 col-4">
-                                <label>Phương thức hoàn tiền</label>
-                                <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Khi nhận
-                                    hàng':'VNPAY'}}</span>
+                                <label>Phương thức thanh toán khi mua</label>
+                                <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Thanh Toán khi nhận hàng':'Thanh Toán VNPAY'}}</span>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>Mã voucher</label>
                                     <span class="form-control">{{donHang.voucherCode == null ? 'Không áp dụng' :
                                         donHang.voucherCode}}</span>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <div class="mb-3">
                                     <label>Tên voucher</label>
                                     <span class="form-control">{{donHang.voucherName == null ? 'Không áp dụng' :
                                         donHang.voucherName}}</span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="mb-3">
+                                    <label>Phương thức hoàn tiền hoàn đơn</label>
+                                    <span class="form-control">{{donHang.phuongThucNhanTien=='true'?'Nhận Tại Quầy-Tiền Mặt':'Chuyển Khoản ngân hàng'}}</span>
                                 </div>
                             </div>
                         </div>
@@ -1086,7 +1094,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="mb-3">
-                                    <label>email</label>
+                                    <label>Email</label>
                                     <span class="form-control">{{donHang.email}}</span>
                                 </div>
                             </div>
@@ -1117,8 +1125,8 @@
                                 <span class="form-control">{{donHang.diaChiChiTiet}}</span>
                             </div>
                             <div class="mb-3 col-6">
-                                <label>Ghi chú</label>
-                                <span class="form-control" style="height: 37px;">{{donHang.ghiChu}}</span>
+                                <label>Tài khoản nhận tiền hoàn</label>
+                                <textarea class="form-control" style="height: 37px;">{{donHang.ghiChu}}</textarea>
                             </div>
                         </div>
                         <div class="row">

@@ -25,17 +25,25 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-
         }
 
         .auth-page {
             display: flex;
             justify-content: center;
             align-items: center;
-            background: url('/admin/images/Anhnen.jpg') no-repeat center center fixed;
-            background-size: cover;
             min-height: 100vh;
             width: 100%;
+            overflow: hidden;
+        }
+
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
         }
 
         .auth-full-page-content {
@@ -47,14 +55,11 @@
             padding: 3rem;
             min-height: 650px;
             border-radius: 40px;
-            background-color: rgba(255, 255, 255, 0);
-            background-color: rgba(255, 255, 255, 0.05);
-            /* Nền trong suốt */
-            backdrop-filter: blur(10px);
-            /* Hiệu ứng nhòe */
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(2px);
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
-            /* Bóng mờ xung quanh khung */
         }
+
         .auth-logo .logo-txt {
             font-size: 30px;
         }
@@ -80,7 +85,7 @@
             box-shadow: 0 0 20px rgb(0, 255, 34), 0 0 30px rgba(255, 241, 114, 0.6), 0 0 40px rgb(0, 255, 34);
         }
 
-        /* nut đăng kí */
+        /* nút đăng ký */
         .btn-outline-primary {
             width: 100%;
             background: linear-gradient(45deg, #35fff5, #a8a8a8);
@@ -104,7 +109,6 @@
         form {
             position: relative;
             z-index: 2;
-            /* Thêm thuộc tính này để đảm bảo form hiển thị trên thẻ ring */
         }
 
         /* Vòng màu */
@@ -116,7 +120,6 @@
             justify-content: center;
             align-items: center;
             z-index: 1;
-            /* Đặt z-index thấp hơn để xếp sau logo */
         }
 
         .ring span {
@@ -132,12 +135,12 @@
         }
 
         .ring span:nth-child(2) {
-            border-radius: 41% 44% 56% 59%/38% 62% 63% 37%;
+            border-radius: 41% 44% 56% 59% / 38% 62% 63% 37%;
             animation: animate 4s linear infinite;
         }
 
         .ring span:nth-child(3) {
-            border-radius: 41% 44% 56% 59%/38% 62% 63% 37%;
+            border-radius: 41% 44% 56% 59% / 38% 62% 63% 37%;
             animation: animate2 10s linear infinite;
         }
 
@@ -150,7 +153,6 @@
             0% {
                 transform: rotate(0deg);
             }
-
             100% {
                 transform: rotate(360deg);
             }
@@ -160,21 +162,21 @@
             0% {
                 transform: rotate(360deg);
             }
-
             100% {
                 transform: rotate(0deg);
             }
         }
     </style>
-
 </head>
-
 <body data-topbar="dark">
-
+    <video class="video-bg" autoplay loop muted>
+        <source src="/admin/images/videoLogin3.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
     <div class="auth-page">
         <div class="auth-full-page-content">
             <div class="ring">
-                <span style="--clr:#00ff0a; "></span>
+                <span style="--clr:#00ff0a;"></span>
                 <span style="--clr:#00f7ff;"></span>
                 <span style="--clr:#fffd44;"></span>
                 <div class="w-100">
@@ -183,25 +185,21 @@
                             <div class="mb-4 mb-md-5 text-center">
                                 <a class="d-block auth-logo">
                                     <img src="/admin/images/LOGOALLDY.png" alt="" height="200px" width="200px">
-                                    <BR></BR>
+                                    <br></br>
                                     <i class="logo-txt">ALLDY SNEAKER XIN CHÀO</i>
                                 </a>
                             </div>
                             <form class="mt-4 pt-2" action="/dang-nhap" method="post">
                                 <div class="form-floating form-floating-custom mb-4">
-                                    <input type="text" class="form-control" id="input-username" name="username"
-                                        placeholder="Enter User Name">
+                                    <input type="text" class="form-control" id="input-username" name="username" placeholder="Enter User Name">
                                     <label for="input-username">Tài khoản</label>
                                     <div class="form-floating-icon">
                                         <i data-feather="user-check"></i>
                                     </div>
                                 </div>
-
                                 <div class="form-floating form-floating-custom mb-4 auth-pass-inputgroup">
-                                    <input type="password" class="form-control pe-5" id="password-input" name="password"
-                                        placeholder="Enter Password">
-                                    <button type="button" class="btn btn-link position-absolute h-100 end-0 top-0"
-                                        id="password-addon">
+                                    <input type="password" class="form-control pe-5" id="password-input" name="password" placeholder="Enter Password">
+                                    <button type="button" class="btn btn-link position-absolute h-100 end-0 top-0" id="password-addon">
                                         <i class="mdi mdi-eye-outline font-size-18 text-muted"></i>
                                     </button>
                                     <label for="password-input">Mật khẩu</label>
@@ -209,42 +207,31 @@
                                         <i data-feather="lock"></i>
                                     </div>
                                 </div>
-
                                 <div class="row mb-4">
                                     <div class="col">
                                         <div class="form-check font-size-15">
                                             <div style="float: right">
-                                                <a href="/quen-mat-khau" class="text-danger fw-semibold"> Quên mật khẩu
-                                                </a>
+                                                <a href="/quen-mat-khau" class="text-danger fw-semibold">Quên mật khẩu</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="mb-2">
-                                    <i class="text-danger"> [[${mess}]]</i>
+                                    <i class="text-danger">[[${mess}]]</i>
                                 </div>
                                 <div class="mb-3">
-                                    <button class="btn btn-outline-success w-100 waves-effect waves-light"
-                                        type="submit">
-                                        Đăng Nhập
-                                    </button>
+                                    <button class="btn btn-outline-success w-100 waves-effect waves-light" type="submit">Đăng Nhập</button>
                                 </div>
                                 <div>
-                                    <a href="/dang-ky-nguoi-dung"
-                                        class="btn btn-outline-primary w-100 waves-effect waves-light" type="submit">
-                                        Đăng ký
-                                    </a>
+                                    <a href="/dang-ky-nguoi-dung" class="btn btn-outline-primary w-100 waves-effect waves-light" type="submit">Đăng ký</a>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-        <!-- end auth full page content -->
     </div>
-
     <!-- JAVASCRIPT -->
     <script src="/admin/assets/libs/jquery/jquery.min.js"></script>
     <script src="/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>

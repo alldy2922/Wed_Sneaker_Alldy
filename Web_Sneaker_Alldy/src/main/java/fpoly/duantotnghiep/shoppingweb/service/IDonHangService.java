@@ -58,5 +58,5 @@ public interface IDonHangService {
 
     Map<String,Long> getQuantityProductInOrderDetailWithDate(Date firstDate, Date lastDate);
 
-    void traDonHangUser(String ma, String lyDoTraHang)throws MessagingException;
+    public void traDonHangUser(String maDonHang, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu) throws MessagingException;
 }

@@ -31,6 +31,7 @@ public class DonHangDtoResponse {
     private BigDecimal phiGiaoHang;
     private String trangThaiDetail;
     private String phuongThucThanhToan;
+    private String phuongThucNhanTien;
     private String lyDoHuy;
     private String lyDoThayDoi;
     private String lyDoTraHang;
@@ -69,6 +70,7 @@ public class DonHangDtoResponse {
         this.phiGiaoHang = model.getPhiGiaoHang();
         this.trangThaiDetail = model.trangThaiDetail();
         this.phuongThucThanhToan = model.getPhuongThucThanhToan()+"";
+        this.phuongThucNhanTien = model.getPhuongThucNhanTien()+"";
         this.lyDoHuy = model.getLyDoHuy();
         this.lyDoThayDoi = model.getLyDoThayDoi();
         this.lyDoTraHang = model.getLyDoTraHang();

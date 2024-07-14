@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.service.impl;
 
+import fpoly.duantotnghiep.shoppingweb.config.EmailParameters;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
@@ -37,6 +38,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Service
@@ -142,8 +144,7 @@ public class DonHangService implements IDonHangService {
                 subject = "Đơn hàng chưa đuọc thanh toán!";
                 title = "Đơn hàng của bạn chưa được thanh toán";
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn chưa được thanh toán.Vui lòng thanh toán đơn hàng của bạn.";
-            }
-             else if (trangThai == 6) {
+            } else if (trangThai == 6) {
                 subject = "Chờ xàc nhận trả hàng!";
                 title = "Đơn hàng đang chờ xác nhận trả hàng";
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang chờ xác nhận trả hàng. Chúng tôi sẽ xử lý yêu cầu của bạn sỡm nhất có thể.";
@@ -155,15 +156,13 @@ public class DonHangService implements IDonHangService {
             } else if (trangThai == 8) {
                 subject = "Hoàn tiền!";
                 title = "Đơn hàng đã được hoàn tiền";
-                 model.setNgayHoanThanhTraHang(new Date());
+                model.setNgayHoanThanhTraHang(new Date());
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được hoàn tiền. Số tiền hoàn lại sẽ sớm có trong tài khoản của bạn.";
-            }
-            else if (trangThai == 9) {
+            } else if (trangThai == 9) {
                 subject = "Từ chối Hoàn tiền!";
                 title = "Tư Chối hoàn tiền";
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã không được hoàn tiền.";
             }
-
 
 
             List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(maDonHang);
@@ -195,7 +194,8 @@ public class DonHangService implements IDonHangService {
     @Override
     public void updateTrangThaiTraHang(String maDonHang, Integer trangThai) throws MessagingException {
         DonHangModel model = donHangResponsitory.findById(maDonHang).get();
-        NhanVienModel modelNV = nhanVienRepository.findById(maDonHang).get();
+//        NhanVienModel modelNV = nhanVienRepository.findById(maDonHang).get();
+//        String email = "heinikens0408@gmail.com";
         model.setTrangThai(trangThai);
 
         if (model.getLoai() == 0) {
@@ -232,7 +232,7 @@ public class DonHangService implements IDonHangService {
             String finalSubject = subject;
             new Thread(() -> {
                 try {
-                    sendEmailTraHang(model.getEmail(), finalSubject, "email/capNhatTrangThaiTraHang", context, lstSanPham);
+                    sendEmailTraHang(model.getEmail(), finalSubject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
@@ -512,35 +512,79 @@ public class DonHangService implements IDonHangService {
         javaMailSender.send(mimeMessage);
     }
 
+//    private String email;
+//    private String orderId;
+//    private List<ChiTietDonHangDtoResponse> lstSanPham;
+//    private final AtomicBoolean shouldSendEmail = new AtomicBoolean(false);
 
+//    @Override
+//    public void setParameters(String email, String orderId, List<ChiTietDonHangDtoResponse> lstSanPham) {
+//        this.email = email;
+//        this.orderId = orderId;
+//        this.lstSanPham = lstSanPham;
+//        shouldSendEmail.set(true); // Bật cờ khi đặt tham số
+//    }
 
+    public void sendEmaiNhacNho(String email, String subject, String templateHtml, Context context) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+        helper.setTo(email);
+        helper.setSubject(subject);
+        helper.setText(templateHtml, true);
+        ClassPathResource resource = new ClassPathResource("./images/product/default.png");
+        helper.addInline("logo", resource);
+        javaMailSender.send(mimeMessage);
+    }
+
+    @Scheduled(fixedRate = 90000)
     @Override
-    public void sendEmailRefundWithHtml(String email, String subject, String templateHtml, Context context, long delay , TimeUnit unit, List<ChiTietDonHangDtoResponse> lstSanPham) throws MessagingException {
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.schedule(() -> {
+    public void sendEmailRefundWithHtml() throws MessagingException {
+////        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+        String email = EmailParameters.getEmail();
+        String orderId = EmailParameters.getOrderId();
+        List<ChiTietDonHangDtoResponse> lstSanPham = EmailParameters.getLstSanPham();
+        AtomicBoolean shouldSendEmail = new AtomicBoolean(false);
+
+        if (!shouldSendEmail.get() || email == null || orderId == null || lstSanPham == null) {
+            System.out.println("Parameters are not set or email sending is disabled. Skipping email sending." + email  +  orderId +  lstSanPham);
+            return;
+        }
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
+
+
+        helper.setTo(email);
+        String subject = "Thông báo hoàn tiền" + orderId;
+        helper.setSubject(subject);
+        String templeHtml = "email/testNhacNho.html";
+        Context context = new Context();
+        context.setVariable("orderId", orderId);
+        String htmlContent = templateEngine.process(templeHtml, context);
+        helper.setText(htmlContent, true);
+
+        ClassPathResource resource = new ClassPathResource("./images/product/default.png");
+        helper.addInline("logo", resource);
+
+        lstSanPham.forEach(s -> {
+            ClassPathResource img = new ClassPathResource("./images/product/" + s.getAnh());
             try {
-                System.out.println("Sending email to: " + email);
-                MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
-                helper.setTo(email);
-                helper.setSubject(subject);
-                String htmlContent = templateEngine.process(templateHtml, context);
-                helper.setText(htmlContent, true);
-
-                ClassPathResource resource = new ClassPathResource("./images/product/default.png");
-                helper.addInline("logo", resource);
-
-                for (ChiTietDonHangDtoResponse s : lstSanPham) {
-                    ClassPathResource img = new ClassPathResource("./images/product/" + s.getAnh());
-                    helper.addInline(s.getAnh(), img);
-                }
-
-                javaMailSender.send(mimeMessage);
-                System.out.println("Email sent successfully to: " + email);
+                helper.addInline(s.getAnh() + "", img);
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
-        }, delay, unit);
+        });
+//        context.setVariable("OderId", donHangService.findByMa(""));
+//        List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(ma);
+//        System.out.println("Đã có thông báo hoàn hàng1");
+//        donHangService.sendEmailRefundWithHtml(email, subject, templeHtml, context);
+//
+        javaMailSender.send(mimeMessage);
+//        System.out.println("Email sent successfully to: 100%");
+//        sendEmaiNhacNho(email, subject, templeHtml, context);
+        System.out.println("Email sent successfully to: " + email);
+        shouldSendEmail.set(false); // Tắt cờ sau khi gửi email
     }
 
     @Override

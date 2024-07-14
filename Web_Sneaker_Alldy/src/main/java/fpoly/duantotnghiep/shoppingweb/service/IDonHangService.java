@@ -38,7 +38,9 @@ public interface IDonHangService {
 //    void huyDonHang(String maDonHang, String lyDo) throws MessagingException;
 
 //    DonHangDtoResponse updateDonHang(DonHangDTORequest request);
-    void sendEmailRefundWithHtml(String email, String subject, String templateHtml, Context context, long delay, TimeUnit unit, List<ChiTietDonHangDtoResponse> lstSanPham)throws MessagingException;
+    void sendEmailRefundWithHtml()throws MessagingException;
+
+//    void setParameters(String email, String orderId, List<ChiTietDonHangDtoResponse> lstSanPham);
 
     void huyTraHang(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
 

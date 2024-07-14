@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
+import fpoly.duantotnghiep.shoppingweb.config.EmailParameters;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -70,6 +72,7 @@ public class DonHangRescontroller {
         return ResponseEntity.ok(donHangService.findByMa(ma));
     }
 
+
     @GetMapping("update-trang-thai/{ma}")
     public ResponseEntity<?> updatTrangThai(@PathVariable("ma") String ma, @RequestParam("trangThai") Integer trangThai) throws MessagingException {
         if (!donHangService.existsByMa(ma)) {
@@ -86,42 +89,46 @@ public class DonHangRescontroller {
                 return ResponseEntity.ok(vnPayUrl);
             }
         }
-        donHangService.updateTrangThai(ma, trangThai);
+        donHangService.updateTrangThaiTraHang(ma, trangThai);
+
         if (trangThai == 6 || trangThai == 7) {
+            //Thiết lập tham số
+            String email = "heinikens0408@gmail.com";
+            donHangModel = donHangResponsitory.findById(ma).get();
+            List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(ma);
             try {
-                String email = "heinikens0408@gmail.com";
-                String subject = "Thông báo hoàn tiền" + ma;
-                String templeHtml = "email/testNhacNho.html";
-                Context context = new Context();
-                context.setVariable("orderId", ma);
-                List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(ma);
-                System.out.println("Đã có thông báo hoàn hàng1");
-                donHangService.sendEmailRefundWithHtml(email, subject, templeHtml, context, 15, TimeUnit.SECONDS, lstSanPham);
+                EmailParameters.setParameters(email, ma, lstSanPham);
+                donHangService.sendEmailRefundWithHtml();
+
+                System.out.println("Đã gửi 1");
+
+                return ResponseEntity.ok().build();
             } catch (MessagingException e) {
                 e.printStackTrace();
+                return ResponseEntity.status(500).body("Failed to send email");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(500).body("Failed to update order status");
             }
+
+
         }
-
-
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("update-trang-thai/{ma}")
+    @PutMapping("update-trang-thai-email")
     public ResponseEntity<?> updatTrangThaiAndSendMail(@PathVariable("ma") String ma, @RequestParam("trangThai") Integer trangThai) throws MessagingException {
-
         try {
-            String email = "heinikens0408@gmail.com";
-            String subject = "Thông báo hoàn tiền" + ma;
-            String templeHtml = "email/testNhacNho.html";
-            Context context = new Context();
-            context.setVariable("orderId", ma);
-            List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(ma);
-            System.out.println("Đã có thông báo hoàn hàng2");
-            donHangService.sendEmailRefundWithHtml(email, subject, templeHtml, context, 1, TimeUnit.MINUTES, lstSanPham);
+            if (trangThai == 6 || trangThai == 7) {
+                donHangService.updateTrangThaiTraHang(ma, trangThai);
+//                donHangService.sendEmailRefundWithHtml();
+//                donHangService.setParameters("heinikens0408@gmail.com", ma, chiTietDonHangService.getByDonHang(ma));
+                System.out.println("Đã gửi 2");
+            }
         } catch (MessagingException e) {
             e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Gửi Email thất bại");
         }
-        donHangService.updateTrangThai(ma, trangThai);
         return ResponseEntity.ok().build();
     }
 

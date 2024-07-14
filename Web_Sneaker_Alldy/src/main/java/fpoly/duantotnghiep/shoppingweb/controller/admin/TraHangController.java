@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
@@ -66,6 +67,25 @@ public class TraHangController {
         donHangService.updateTrangThaiTraHang(ma, trangThai);
         return ResponseEntity.ok().build();
     }
+
+
+//    @PutMapping("update-trang-thai-tra-hang/{ma}")
+//    public ResponseEntity<?> updatTrangThaiAndSendMail(@PathVariable("ma") String ma, @RequestParam("trangThai") Integer trangThai) throws MessagingException {
+//        try {
+//            String email = "heinikens0408@gmail.com";
+//            String subject = "Thông báo hoàn tiền" + ma;
+//            String templeHtml = "email/testNhacNho.html";
+//            Context context = new Context();
+//            context.setVariable("orderId", ma);
+//            List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(ma);
+//            System.out.println("Đã có thông báo hoàn hàng2");
+//            donHangService.sendEmailRefundWithHtml(email);
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        }
+//        donHangService.updateTrangThai(ma, trangThai);
+//        return ResponseEntity.ok().build();
+//    }
 
 
     @PutMapping("update-trang-thai-tra-hang")

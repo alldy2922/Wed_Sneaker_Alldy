@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.repository;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietDonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import org.springframework.data.jpa.repository.JpaRepository;

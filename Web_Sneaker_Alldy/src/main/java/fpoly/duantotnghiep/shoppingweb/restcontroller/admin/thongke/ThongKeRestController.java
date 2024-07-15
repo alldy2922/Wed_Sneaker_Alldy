@@ -43,7 +43,7 @@ public class ThongKeRestController {
 
 
         Map<String,Object> result = new HashMap<>();
-        result.put("quantityProducts",donHangService.getTotalQuantityInOrdersWithDate(firstDate, lastDate).toString());
+        result.put("quantityProducts",donHangService.getTotalQauntityInOrdersWithDate(firstDate, lastDate).toString());
         result.put("quantityProductsDetail",donHangService.getQuantityProductInOrderDetailWithDate(firstDate, lastDate));
         result.put("quantityOrders",donHangService.getQuantityOrdersWithDate(firstDate,lastDate).toString());
         result.put("totalPrice",thongKeEntityManager.getTotalDoanhThuByDate(firstDate,lastDate));

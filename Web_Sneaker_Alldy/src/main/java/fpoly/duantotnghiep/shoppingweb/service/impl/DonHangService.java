@@ -143,6 +143,12 @@ public class DonHangService implements IDonHangService {
                 subject = "Kiểm tra hoàn hàng!";
                 title = "Đơn hàng đang được kiểm tra hoàn hàng";
                 model.setNgayKiemTraTraHang(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được kiểm tra hoàn hàng. Chúng tôi sẽ thông báo cho bạn khi quá trình kiểm tra hoàn tất.";
+            } else if (trangThai == 8) {
+                subject = "Hoàn tiền!";
+                title = "Đơn hàng đã được hoàn tiền";
+                 model.setNgayHoanThanhTraHang(new Date());
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được hoàn tiền. Số tiền hoàn lại sẽ sớm có trong tài khoản của bạn.";
                 List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
                 ctdhModel.forEach(c -> {
                     int soLuongInDonHang = c.getSoLuong();
@@ -150,12 +156,6 @@ public class DonHangService implements IDonHangService {
                     sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
                     chiTietSanPhamRepository.save(sanPhamInDonHang);
                 });
-                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được kiểm tra hoàn hàng. Chúng tôi sẽ thông báo cho bạn khi quá trình kiểm tra hoàn tất.";
-            } else if (trangThai == 8) {
-                subject = "Hoàn tiền!";
-                title = "Đơn hàng đã được hoàn tiền";
-                 model.setNgayHoanThanhTraHang(new Date());
-                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được hoàn tiền. Số tiền hoàn lại sẽ sớm có trong tài khoản của bạn.";
             }
             else if (trangThai == 9) {
                 subject = "Từ chối Hoàn tiền!";

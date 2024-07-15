@@ -1949,15 +1949,28 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         var ngayHoanThanhDate = new Date(ngayHoanThanh);
 
         // Tính toán sự khác biệt giữa ngày hiện tại và ngày hoàn thành
+        // var timeDifference = ngayHienTai - ngayHoanThanhDate;
+        // var dayDifference = timeDifference / (1000 * 60 * 60 * 24);
+        // console.log("ngày1", timeDifference)
+        //
+        // console.log("ngày2", dayDifference)
+        // // Kiểm tra nếu sự khác biệt là trong vòng 7 ngày
+        // if(dayDifference<=7){
+        //     result = true
+        // }
+        //Tính toán theo phút
         var timeDifference = ngayHienTai - ngayHoanThanhDate;
-        var dayDifference = timeDifference / (1000 * 60 * 60 * 24);
-        console.log("ngày1", timeDifference)
+        var minuteDifference = timeDifference / (1000 * 60); // Chuyển đổi sự khác biệt sang phút
+        console.log("Sự khác biệt thời gian (ms)", timeDifference);
+        console.log("Sự khác biệt thời gian (phút)", minuteDifference);
 
-        console.log("ngày2", dayDifference)
-        // Kiểm tra nếu sự khác biệt là trong vòng 7 ngày
-        if(dayDifference<=7){
-            result = true
+        // Kiểm tra nếu sự khác biệt là trong vòng 2 phút
+        if(minuteDifference <= 2){
+            result = true;
+        } else {
+            result = false;
         }
+
         console.log("donHang",result)
         return result;
     };

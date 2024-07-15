@@ -250,8 +250,9 @@ public class DonHangService implements IDonHangService {
             model.setNgayHuyTraHang(new Date());
 
 
-            String subject = "Từ chối hoàn đơn hàng!";
-            String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã hủy. Cảm ơn bạn đã ghé qua cửa hàng";
+
+            String subject = "Từ chối Hoàn tiền!";
+            String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã không được hoàn tiền.";
 
             List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
 
@@ -270,7 +271,15 @@ public class DonHangService implements IDonHangService {
                 context.setVariable("totalPrice", tongTien);
                 context.setVariable("mess", messeger);
                 context.setVariable("title", subject);
-                context.setVariable("lyDoTraHang", lyDoTraHang);
+//                context.setVariable("lyDoTraHang", lyDoTraHang);
+                new Thread(() -> {
+                    try {
+                        sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+
             }
 
             donHangResponsitory.saveAndFlush(model);
@@ -299,9 +308,45 @@ public class DonHangService implements IDonHangService {
         model.setNgayTraHang(new Date());
         model.setLyDoTraHang(lyDoTraHang);
         model.setTrangThai(6);
-        model.setPhuongThucThanhToan(phuongThucNhanTien);
+        model.setPhuongThucNhanTien(phuongThucNhanTien);
         model.setGhiChu(ghiChu);
+
+        String subject = "Chờ xác nhận trả hàng!";
+        String title = "Đơn hàng đang chờ xác nhận trả hàng";
+        String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang chờ xác nhận trả hàng. Chúng tôi sẽ xử lý yêu cầu của bạn sỡm nhất có thể.";
+
+
+        List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
+
+
+
+        if (model.getLoai() == 0) {
+            List<ChiTietDonHangDtoResponse> lstSanPham = ctdhModel.stream().map(m -> new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
+            BigDecimal tongTien = BigDecimal.valueOf(0);
+            for (ChiTietDonHangDtoResponse d : lstSanPham) {
+                tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
+            }
+
+            Context context = new Context();
+            context.setVariable("donHang", new DonHangDtoResponse(model));
+            context.setVariable("products", lstSanPham);
+            context.setVariable("totalPrice", tongTien);
+            context.setVariable("mess", messeger);
+            context.setVariable("title", subject);
+            new Thread(() -> {
+                try {
+                    sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+        }
+
         donHangResponsitory.save(model);
+
+
+
     }
 
     @Override

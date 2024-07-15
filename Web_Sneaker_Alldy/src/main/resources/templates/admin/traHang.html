@@ -771,16 +771,21 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="mb-3 col-12">
                                     <label>Phương thức thanh toán khi mua</label>
-                                    <!-- <select class="form-control" ng-model="chuaXacNhan.detail.phuongThucThanhToan">
-                                        <option value="true">Khi nhận hàng</option>
-                                        <option value="false">Thanh toán VNPAY</option>
-                                    </select> -->
                                     <span class="form-control">
-                                            {{ selectedDonHang.phuongThucThanhToan == 'true' ? 'Khi nhận hàng' : 'Thanh toán VNPAY' }}
+                                            {{ chuaXacNhanTraHang.detail.phuongThucThanhToan == 'true' ? 'Khi nhận hàng' : 'Thanh toán VNPAY' }}
                                         </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-12">
+                                    <label>Phương thức nhận tiền hoàn</label>
+                                    <span class="form-control">
+                                            {{ chuaXacNhanTraHang.detail.phuongThucNhanTien == 'true' ? 'Nhận Tại Quầy-Tiền Mặt' : 'Chuyển Khoản' }}
+                                    </span>
                                 </div>
                             </div>
                             <div class="row">
@@ -1020,23 +1025,29 @@
                         </div>
 
                         <div class="mb-3 col-4">
-                            <label>Phương thức hoàn tiền</label>
-                            <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Nhận Tại Quầy-Tiền Mặt':'Chuyển Khoản'}}</span>
+                            <label>Phương thức thanh toán khi mua</label>
+                            <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Thanh toán khi nhận hàng':'Thanh toán VN PAY'}}</span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="mb-3">
                                 <label>Mã voucher</label>
                                 <span class="form-control">{{donHang.voucherCode == null ? 'Không áp dụng' :
                                         donHang.voucherCode}}</span>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="mb-3">
                                 <label>Tên voucher</label>
                                 <span class="form-control">{{donHang.voucherName == null ? 'Không áp dụng' :
                                         donHang.voucherName}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label>Phương thức hoàn tiền</label>
+                                <span class="form-control">{{donHang.phuongThucNhanTien=='true'?'Nhận Tại Quầy-Tiền Mặt':'Chuyển Khoản'}}</span>
                             </div>
                         </div>
                     </div>
@@ -1218,28 +1229,32 @@
                                 HH:mm:ss'}}</span>
                             </div>
                         </div>
-
                         <div class="mb-3 col-4">
-                            <label>Phương thức hoàn tiền</label>
-                            <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Nhận Tại Quầy-Tiền Mặt':'Chuyển Khoản'}}</span>
+                            <label>Phương thức thanh toán khi mua</label>
+                            <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Thanh toán khi nhận hàng':'Thanh toán VN PAY'}}</span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="mb-3">
                                 <label>Mã voucher</label>
                                 <span class="form-control">{{donHang.voucherCode == null ? 'Không áp dụng' :
                                         donHang.voucherCode}}</span>
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <div class="mb-3">
                                 <label>Tên voucher</label>
                                 <span class="form-control">{{donHang.voucherName == null ? 'Không áp dụng' :
                                         donHang.voucherName}}</span>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-sm-4">
+                        <div class="mb-3">
+                            <label>Phương thức hoàn tiền</label>
+                            <span class="form-control">{{donHang.phuongThucNhanTien=='true'?'Nhận Tại Quầy-Tiền Mặt':'Chuyển Khoản'}}</span>
+                        </div>
+                        </div>
                     <hr>
                     <div class="row">
                         <div class="col-sm-4">

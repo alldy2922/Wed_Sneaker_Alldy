@@ -40,6 +40,7 @@ public class DonHangReponseUser {
     private BigDecimal phiGiaoHang;
     private String trangThaiDetail;
     private String phuongThucThanhToan;
+    private String phuongThucNhanTien;
     private String lyDoHuy;
     private String lyDoThayDoi;
     private String lyDoTraHang;
@@ -78,6 +79,7 @@ public class DonHangReponseUser {
         this.phiGiaoHang = model.getPhiGiaoHang();
         this.trangThaiDetail = model.trangThaiDetail();
         this.phuongThucThanhToan = model.getPhuongThucThanhToan() == true ? "Thanh toán khi nhận hàng" : "Thanh toán online";
+        if (model.getPhuongThucNhanTien() != null) this.phuongThucNhanTien = model.getPhuongThucNhanTien() == true ? "Nhận Tại Quầy-Tiền Mặt" : "Chuyển Khoản";
         this.lyDoHuy = model.getLyDoHuy();
         this.lyDoThayDoi = model.getLyDoThayDoi();
         this.lyDoTraHang = model.getLyDoTraHang();

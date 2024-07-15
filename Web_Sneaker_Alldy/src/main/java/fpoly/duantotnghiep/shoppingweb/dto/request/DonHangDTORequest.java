@@ -44,6 +44,7 @@ public class DonHangDTORequest {
     private BigDecimal tienGiam;
     private BigDecimal phiGiaoHang;
     private int phuongThucThanhToan;
+    private int phuongThucNhanTien;
     private String trangThaiDetail;
     //    @NotBlank(message = "Nhập lý do hủy đơn")
     private String lyDoHuy;
@@ -81,6 +82,7 @@ public class DonHangDTORequest {
         donHangModel.setTienGiam(tienGiam == null ? BigDecimal.valueOf(0) : tienGiam);
         donHangModel.setPhiGiaoHang(phiGiaoHang == null? BigDecimal.valueOf(0) : phiGiaoHang);
         donHangModel.setPhuongThucThanhToan(phuongThucThanhToan == 1 ? false : true);
+        donHangModel.setPhuongThucNhanTien(phuongThucNhanTien == 1 ? false : true);
         if(loai!=null){
             donHangModel.setLoai(this.loai);
         }

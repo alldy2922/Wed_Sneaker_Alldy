@@ -85,6 +85,9 @@ public class DonHangModel {
     @Column(name = "phuongthucthanhtoan")
     private Boolean phuongThucThanhToan;
 
+    @Column(name = "phuongthucnhantien")
+    private Boolean phuongThucNhanTien;
+
     @Column(name = "lydohuy")
     private String lyDoHuy;
 

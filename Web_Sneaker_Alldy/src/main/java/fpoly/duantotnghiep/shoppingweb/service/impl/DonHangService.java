@@ -546,45 +546,47 @@ public class DonHangService implements IDonHangService {
         List<ChiTietDonHangDtoResponse> lstSanPham = EmailParameters.getLstSanPham();
         AtomicBoolean shouldSendEmail = new AtomicBoolean(false);
 
-        if (!shouldSendEmail.get() || email == null || orderId == null || lstSanPham == null) {
-            System.out.println("Parameters are not set or email sending is disabled. Skipping email sending." + email  +  orderId +  lstSanPham);
+        if (email == null || orderId == null) {
+            System.out.println("Parameters are not set or email sending is disabled. Skipping email sending." + email + orderId);
             return;
-        }
+        } else {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
 
-        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "utf-8");
 
+            helper.setTo(email);
+            String subject = "Thông báo hoàn tiền" + orderId;
+            helper.setSubject(subject);
+            String templeHtml = "email/testNhacNho.html";
+            Context context = new Context();
+            context.setVariable("orderId", orderId);
+            String htmlContent = templateEngine.process(templeHtml, context);
+            helper.setText(htmlContent, true);
 
-        helper.setTo(email);
-        String subject = "Thông báo hoàn tiền" + orderId;
-        helper.setSubject(subject);
-        String templeHtml = "email/testNhacNho.html";
-        Context context = new Context();
-        context.setVariable("orderId", orderId);
-        String htmlContent = templateEngine.process(templeHtml, context);
-        helper.setText(htmlContent, true);
+            ClassPathResource resource = new ClassPathResource("./images/product/default.png");
+            helper.addInline("logo", resource);
 
-        ClassPathResource resource = new ClassPathResource("./images/product/default.png");
-        helper.addInline("logo", resource);
-
-        lstSanPham.forEach(s -> {
-            ClassPathResource img = new ClassPathResource("./images/product/" + s.getAnh());
-            try {
-                helper.addInline(s.getAnh() + "", img);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        });
+            lstSanPham.forEach(s -> {
+                ClassPathResource img = new ClassPathResource("./images/product/" + s.getAnh());
+                try {
+                    helper.addInline(s.getAnh() + "", img);
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            });
 //        context.setVariable("OderId", donHangService.findByMa(""));
 //        List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(ma);
 //        System.out.println("Đã có thông báo hoàn hàng1");
 //        donHangService.sendEmailRefundWithHtml(email, subject, templeHtml, context);
 //
-        javaMailSender.send(mimeMessage);
+            javaMailSender.send(mimeMessage);
 //        System.out.println("Email sent successfully to: 100%");
 //        sendEmaiNhacNho(email, subject, templeHtml, context);
-        System.out.println("Email sent successfully to: " + email);
-        shouldSendEmail.set(false); // Tắt cờ sau khi gửi email
+            System.out.println("Email sent successfully to: " + email);
+//            shouldSendEmail.set(false); // Tắt cờ sau khi gửi email
+        }
+
+
     }
 
     @Override

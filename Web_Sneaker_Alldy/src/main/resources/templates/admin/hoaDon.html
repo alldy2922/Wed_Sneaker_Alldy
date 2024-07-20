@@ -46,7 +46,7 @@
                 /* Đảm bảo tiêu đề nằm trên cùng */
             }
         </style>
-        <div class="page-content" ng-app="banhang-app" ng-controller="banhang-ctrl">
+        <div class="page-content" ng-app="hoaDon-app" ng-controller="hoaDon-ctrl">
             <div class="container-fluid">
                 <div class="col-xl-12">
                     <div class="card">
@@ -94,13 +94,6 @@
                                                                         class="btn btn-light"><i
                                                                             class="bx bx-plus me-1"></i>Thêm mới</a>
                                                                 </div>
-                                                                <!--                                                            <div class="dropdown">-->
-                                                                <!--                                                                <a class="btn btn-link text-muted py-1 font-size-16 shadow-none dropdown-toggle"-->
-                                                                <!--                                                                   href="#" role="button" data-bs-toggle="dropdown"-->
-                                                                <!--                                                                   aria-expanded="false">-->
-                                                                <!--                                                                    <i class="bx bx-dots-horizontal-rounded"></i>-->
-                                                                <!--                                                                </a>-->
-                                                                <!--                                                            </div>-->
                                                                 <input class="form-control col-6"
                                                                     ng-model="chuaXacNhan.sdtSearch"
                                                                     onchange="angular.element(this).scope().chuaXacNhan.getList(0)"
@@ -665,7 +658,7 @@
                                                         <h5 ng-if="sanPham.length ==0"
                                                             style="text-align: center;padding: 5px">Không có sản phẩm
                                                             liên quan</h5>
-                                                        <li ng-repeat="s in sanPham">
+                                                        <li ng-repeat="s in sanPham track by s.id">
                                                             <div ng-if="checkSanPhamInDonHang(s.id)==false && s.soLuong>0"
                                                                 style="cursor: pointer"
                                                                 class="row d-flex justify-content-start align-items-center"
@@ -674,11 +667,11 @@
                                                                     <img src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
                                                                         style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
                                                                 </div>
-                                                                <div class="col-sm-2"
-                                                                    ng-if="s.sanPhamDTO.anh.length==0"><img
-                                                                        src="/image/loadImage/product/default.png"
+                                                                <!-- <div class="col-sm-2"
+                                                                    ng-if="s.sanPhamDTO.anh.length==0">
+                                                                    <img src="/image/loadImage/product/default.png"
                                                                         style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
-                                                                </div>
+                                                                </div> -->
                                                                 <div class="col-sm-4">
                                                                     <div style="white-space: nowrap;
                                                         overflow: hidden;
@@ -695,7 +688,8 @@
                                                                 <div class="col-sm-3 d-flex justify-content-center"
                                                                     style="margin-top: 15px">
                                                                     <p style="font-weight: bold;">
-                                                                        {{s.sanPhamDTO.giaNiemYet}}</p>
+                                                                        {{s.sanPhamDTO.giaNiemYet | currency: "đ" : 0}}
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <!--                                            /////////////////////////////////////////-->
@@ -905,7 +899,7 @@
                                         <div style="width: 65%" class="d-flex flex-column">
                                             <div class="col-sm-12">
                                                 <div class="dropdown">
-                                                    <input data-toggle="dropdown" ng-keyup="searchSanPham()"
+                                                    <input data-toggle="dropdown" ng-change ="searchSanPham()"
                                                         ng-model="inputProduct" ng-focus="erAdd.soLuongSP=''"
                                                         placeholder="Thêm sản phẩm" class="form-control"
                                                         style="width: 200px;float: right">
@@ -1215,5 +1209,4 @@
                 </div>
             </div>
 </body>
-
 </html>

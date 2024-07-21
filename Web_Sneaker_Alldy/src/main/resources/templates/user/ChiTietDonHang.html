@@ -288,6 +288,16 @@
                 <div style="max-height: 220px;overflow-y: auto;">
                     <table id="datatable"
                            class="table table-hover dt-responsive  nowrap w-100">
+                           <thead>
+                            <tr>                     
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col">Số Lượng</th>
+                                <th scope="col">Đơn Giá Gốc</th>
+                                <th scope="col">Khuyến Mại</th>
+                                <th scope="col">Đơn Giá Sau Giảm</th>
+                                <th scope="col">Tổng</th>
+                            </tr>
+                           </thead>
                         <tbody>
                         <tr ng-repeat="d in chiTietDonHang">
                             <td>
@@ -304,11 +314,11 @@
                             <td>{{d.donGia | currency: "" : 1}} đ</td>
                             <td>{{d.donGia - d.donGiaSauGiam | currency: "" : 1}} đ</td>
                             <td>
-                                <div class="d-flex justify-content-end">{{d.donGiaSauGiam | currency: "" : 1}} đ
+                                <div>{{d.donGiaSauGiam | currency: "" : 1}} đ
                                 </div>
                             </td>
                             <td>
-                                <div class="d-flex justify-content-end">{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
+                                <div>{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
                                     đ
                                 </div>
                             </td>
@@ -326,7 +336,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Khuyến mãi</td>
+                        <td>Voucher</td>
                         <td colspan="4">
                             <div class="d-flex justify-content-end">
                                 {{donHang.tienGiam == null ? 0 : donHang.tienGiam | currency: "" : 1}} đ

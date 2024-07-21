@@ -1367,7 +1367,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         })
     }
 
-        // $scope.traDonUser = function (ma) {
+    // $scope.traDonUser = function (ma) {
     //     lydoTraHang = $scope.lyDoTraHang
     //     $http.put("/don-hang/tra-don-hang-user?ma=" + ma, lyDoTraHang).then(function (res) {
     //         // location.reload()
@@ -1381,9 +1381,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.phuongThucNhanTien = "";
     $scope.ghiChu = "";
 
-    $http.get("https://api.vietqr.io/v2/banks").then(function(response) {
+    $http.get("https://api.vietqr.io/v2/banks").then(function (response) {
         $scope.nganHang = response.data.data;
-    }, function(error) {
+    }, function (error) {
         console.error("Lỗi khi lấy dữ liệu ngân hàng:", error);
     });
 
@@ -1391,7 +1391,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.selectedNganHang = null;
     $scope.selectedNganHangName = null;
 
-    $scope.isWithinSevenDays = function(ngayHoanThanh) {
+    $scope.isWithinSevenDays = function (ngayHoanThanh) {
         result = false;
         var ngayHienTai = new Date();
         var ngayHoanThanhDate = new Date(ngayHoanThanh);
@@ -1412,12 +1412,12 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         console.log("Sự khác biệt thời gian (phút)", minuteDifference);
 
         // Kiểm tra nếu sự khác biệt là trong vòng 2 phút
-        if(minuteDifference <= 2){
+        if (minuteDifference <= 100000) {
             result = true;
         } else {
             result = false;
         }
-        console.log("donHang",result)
+        console.log("donHang", result)
         return result;
     };
     $scope.isWithinSevenDays()
@@ -1432,8 +1432,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             alertify.error("Bạn cần nhập lý do trả hàng");
             return;
         }
-
-
 
         if (phuongThucNhanTien === 'false') {
             if (!soTaiKhoan) {
@@ -1495,7 +1493,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
     };
 
-    $scope.resetModal = function() {
+    $scope.resetModal = function () {
         $scope.lyDoTraHang = '';
         $scope.phuongThucNhanTien = '';
         $scope.selectedNganHang = '';
@@ -1503,10 +1501,177 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         $scope.tenNguoiNhan = '';
     };
 
-// Kiểm tra và đảm bảo không khởi động $digest/$apply nếu đang diễn ra
+    // hàm trả 1 phần
+    // $scope.selectedDonHang = null;
+    // $scope.selectedProducts = [];
+    // $scope.phuongThucNhanTien = null;
+    // $scope.selectedNganHang = null;
+    // $scope.soTaiKhoan = null;
+    // $scope.tenNguoiNhan = null;
+    // $scope.lyDoTraHang = null;
+    // $scope.nganHang = []; // Giả sử bạn có dữ liệu ngân hàng ở đây
+
+
+
+    // $scope.totalRefund = 0;
+
+    // // Hàm để tìm và thiết lập đơn hàng theo mã đơn hàng
+    // // $scope.findByMaDonHangUser = function (donHang) {
+    // //     $scope.selectedDonHang = donHang;
+    // // };
+    // $scope.changeQuantity = function (product, change) {
+    //     if (!product.selectedQuantity) {
+    //         product.selectedQuantity = 1;
+    //     }
+
+    //     var newQuantity = product.selectedQuantity + change;
+
+    //     if (newQuantity < 1) {
+    //         newQuantity = 1;
+    //     } else if (newQuantity > product.soLuong) {
+    //         newQuantity = product.soLuong;
+    //         alertify.error("Số lượng không được vượt quá số lượng hiện có");
+    //     }
+
+    //     product.selectedQuantity = newQuantity;
+    //     product.totalPrice = product.selectedQuantity * product.donGiaSauGiam; // Cập nhật tổng tiền
+
+    //     // Cập nhật danh sách sản phẩm đã chọn
+    //     var index = $scope.selectedProducts.findIndex(p => p.id === product.id);
+    //     if (index > -1) {
+    //         $scope.selectedProducts[index] = product;
+    //     } else {
+    //         $scope.selectedProducts.push(product);
+    //     }
+
+    //     // Cập nhật tổng tiền hoàn
+    //     $scope.calculateTotalRefund();
+    // };
+
+    // $scope.calculateTotalRefund = function () {
+    //     $scope.totalRefund = $scope.selectedProducts.reduce(function (sum, product) {
+    //         return sum + (product.totalPrice || 0);
+    //     }, 0);
+    // };
+
+
+    // // Cập nhật danh sách sản phẩm đã chọn
+    // $scope.updateSelectedProducts = function (product) {
+    //     if (product.selected) {
+    //         product.selectedQuantity = 1;
+    //         product.totalPrice = product.selectedQuantity * product.donGiaSauGiam;
+    //         $scope.selectedProducts.push(product);
+    //         $scope.calculateTotalRefund(); // Tính tổng tiền khi sản phẩm được thêm vào
+    //     } else {
+    //         var index = $scope.selectedProducts.indexOf(product);
+    //         if (index > -1) {
+    //             $scope.selectedProducts.splice(index, 1);
+    //             $scope.calculateTotalRefund(); // Cập nhật tổng tiền khi sản phẩm bị loại bỏ
+    //         }
+    //     }
+    // };
+
+
+
+
+    // // Tăng số lượng hoàn
+    // $scope.incrementQuantity = function (product) {
+    //     if (product.soLuongHoan < product.soLuong) {
+    //         product.soLuongHoan++;
+    //     }
+    // };
+
+    // // Giảm số lượng hoàn
+    // $scope.decrementQuantity = function (product) {
+    //     if (product.soLuongHoan > 1) {
+    //         product.soLuongHoan--;
+    //     }
+    // };
+
+    // //hàm trả hàng 1 phần
+
+    // $scope.traMotPhan = function (ma, phuongThucNhanTien, selectedNganHang, soTaiKhoan, tenNguoiNhan) {
+    //     const lydoTraHang = $scope.lyDoTraHang;
+
+    //     if (!lydoTraHang) {
+    //         alertify.error("Bạn cần nhập lý do trả hàng");
+    //         return;
+    //     }
+
+    //     if (phuongThucNhanTien === 'false') {
+    //         if (!soTaiKhoan) {
+    //             alertify.error("Bạn cần nhập số tài khoản");
+    //             return;
+    //         }
+
+    //         if (!tenNguoiNhan) {
+    //             alertify.error("Bạn cần nhập tên người nhận");
+    //             return;
+    //         }
+
+    //         if (!selectedNganHang || !selectedNganHang.name) {
+    //             alertify.error("Bạn cần chọn ngân hàng");
+    //             return;
+    //         }
+    //     }
+
+    //     // Lấy danh sách sản phẩm đã chọn
+    //     const selectedProducts = $scope.selectedProducts;
+
+    //     if (selectedProducts.length === 0) {
+    //         alertify.error("Bạn cần chọn ít nhất một sản phẩm để trả hàng");
+    //         return;
+    //     }
+
+    //     let ghiChu = "";
+    //     if (phuongThucNhanTien === 'false') {
+    //         ghiChu = "Ngân hàng: " + selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
+    //     }
+
+    //     const encodedGhiChu = encodeURIComponent(ghiChu);
+
+    //     $http.put("/don-hang/tra-don-hang-user?ma=" + ma + "&phuongThucNhanTien=" + phuongThucNhanTien + "&ghiChu=" + encodedGhiChu, {
+    //         lydoTraHang: lydoTraHang,
+    //         products: selectedProducts
+    //     })
+    //         .then(function (res) {
+    //             let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == ma);
+    //             if (index !== -1) {
+    //                 $scope.donHangChuaXacNhanKh.splice(index, 1);
+    //             }
+    //             alertify.success("Yêu cầu trả đơn hàng thành công");
+    //             $('#traHangModal').modal('hide');
+    //         })
+    //         .catch(function (error) {
+    //             console.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng:", error);
+    //             alertify.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng");
+    //         });
+    // };
+
+    //end
+    //chọn 1 pahần hoặc toàn phần
+    // Giả sử bạn có controller hoặc scope tương ứng
+    // $scope.getTraHangOption = function () {
+    //     console.log($scope.traHangOption); // Xem giá trị hiện tại của traHangOption
+    // };
+
+    // // Ví dụ gọi hàm khi bạn cần
+    // $scope.checkTraHangOption = function () {
+    //     if ($scope.traHangOption === 'toanBo') {
+    //         // Xử lý khi người dùng chọn "Trả hàng toàn bộ"
+    //         console.log('Chọn trả hàng toàn bộ');
+    //     } else if ($scope.traHangOption === 'motPhan') {
+    //         // Xử lý khi người dùng chọn "Trả hàng một phần"
+    //         console.log('Chọn trả hàng một phần');
+    //     }
+    // };
+
+    //
+
+    // Kiểm tra và đảm bảo không khởi động $digest/$apply nếu đang diễn ra
     $('#traHangModal').on('hidden.bs.modal', function () {
-        if(!$scope.$$phase) {
-            $scope.$apply(function() {
+        if (!$scope.$$phase) {
+            $scope.$apply(function () {
                 $scope.resetModal();
             });
         } else {

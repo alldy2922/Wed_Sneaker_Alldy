@@ -145,18 +145,17 @@ public class DonHangService implements IDonHangService {
                 subject = "Kiểm tra hoàn hàng!";
                 title = "Đơn hàng đang được kiểm tra hoàn hàng";
                 model.setNgayKiemTraTraHang(new Date());
-
+                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được kiểm tra hoàn hàng. Chúng tôi sẽ thông báo cho bạn khi quá trình kiểm tra hoàn tất.";
+            } else if (trangThai == 8) {
+                subject = "Hoàn tiền!";
+                title = "Đơn hàng đã được hoàn tiền";
+                model.setNgayHoanThanhTraHang(new Date());
                 ctdhModel.forEach(c -> {
                     int soLuongInDonHang = c.getSoLuong();
                     ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
                     sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
                     chiTietSanPhamRepository.save(sanPhamInDonHang);
                 });
-                messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đang được kiểm tra hoàn hàng. Chúng tôi sẽ thông báo cho bạn khi quá trình kiểm tra hoàn tất.";
-            } else if (trangThai == 8) {
-                subject = "Hoàn tiền!";
-                title = "Đơn hàng đã được hoàn tiền";
-                model.setNgayHoanThanhTraHang(new Date());
                 messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã được hoàn tiền. Số tiền hoàn lại sẽ sớm có trong tài khoản của bạn.";
             }
             else if (trangThai == 9) {
@@ -248,9 +247,6 @@ public class DonHangService implements IDonHangService {
             model.setLyDoTraHang(lyDoTraHang);
             model.setTrangThai(9);
             model.setNgayHuyTraHang(new Date());
-
-
-
             String subject = "Từ chối Hoàn tiền!";
             String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn đã không được hoàn tiền.";
 

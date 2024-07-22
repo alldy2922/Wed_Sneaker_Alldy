@@ -1,13 +1,13 @@
 //Thống kê
 var app = angular.module("thongke-tongquat", [])
-app.controller("ctrl", function ($scope, $http){
+app.controller("ctrl", function ($scope, $http) {
     $scope.tongQuat = {}
     $scope.sanPhamBanChay = [];
     $scope.sanPhamTon = [];
     $scope.chiTietBanChay = []
 
-    $scope.getTongQuat = function (firstDay,lastDay){
-        $http.get("/admin/thong-ke/tong-quat?firstDate="+firstDay+"&lastDate="+lastDay).then(r => {
+    $scope.getTongQuat = function (firstDay, lastDay) {
+        $http.get("/admin/thong-ke/tong-quat?firstDate=" + firstDay + "&lastDate=" + lastDay).then(r => {
             $scope.tongQuat = r.data
             // const tooltip = new bootstrap.Tooltip('#doanhThu', {
             //     // boundary: document.getElementById('doanhThu'),
@@ -20,9 +20,9 @@ app.controller("ctrl", function ($scope, $http){
             console.log(r.data)
         }).catch(e => console.log(e))
     }
-    $scope.getTongQuat(new Date().toJSON().slice(0, 10),new Date().toJSON().slice(0, 10))
+    $scope.getTongQuat(new Date().toJSON().slice(0, 10), new Date().toJSON().slice(0, 10))
 
-    $scope.getSanPhamBanChay = function (){
+    $scope.getSanPhamBanChay = function () {
         $http.get("/admin/thong-ke/san-pham-ban-chay").then(r => {
             $scope.sanPhamBanChay = r.data
         }).catch(e => console.log(e))
@@ -30,14 +30,14 @@ app.controller("ctrl", function ($scope, $http){
     }
     $scope.getSanPhamBanChay()
 
-    $scope.getChiTietSpBanChay = function (maSP){
-        $http.get("/admin/thong-ke/san-pham-ban-chay/"+maSP).then(r => {
+    $scope.getChiTietSpBanChay = function (maSP) {
+        $http.get("/admin/thong-ke/san-pham-ban-chay/" + maSP).then(r => {
             $scope.chiTietBanChay = r.data
             $('#chiTietBanChay').modal('show')
         }).catch(e => console.log(e))
     }
 
-    $scope.getSanPhamTon = function (){
+    $scope.getSanPhamTon = function () {
         $http.get("/admin/thong-ke/san-pham-ton").then(r => {
             $scope.sanPhamTon = r.data
         }).catch(e => console.log(e))
@@ -46,17 +46,47 @@ app.controller("ctrl", function ($scope, $http){
     $scope.getSanPhamTon()
 
 
-    $scope.getChartMonth = function (){
+    $scope.getChartMonth = function () {
 
-        var donHang = [], sanPham = [], doanhThu = [], months = []
+        // var donHang = [], sanPham = [], doanhThu = [];
+        // var months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']
 
+        var donHang = new Array(12).fill(0);
+        var sanPham = new Array(12).fill(0);
+        var doanhThu = new Array(12).fill(0);
+        var months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
 
         $http.get("/admin/thong-ke/tong-quat-nam").then(r => {
-            sanPham = r.data.totalProducts
-            donHang = r.data.quantityOrders
-            doanhThu = r.data.revenue
+            // sanPham = r.data.totalProducts || new Array(12).fill(0);
+            // donHang = r.data.quantityOrders || new Array(12).fill(0);
+            // doanhThu = r.data.revenue || new Array(12).fill(0);
+            //
+            // // Nếu dữ liệu phản hồi không có đủ 12 tháng, điền thêm giá trị 0
+            // while (sanPham.length < 12) sanPham.push(0);
+            // while (donHang.length < 12) donHang.push(0);
+            // while (doanhThu.length < 12) doanhThu.push(0);
+
+            let dataMap = {};
+            r.data.months.forEach((month, index) => {
+                dataMap[month] = {
+                    sanPham: r.data.totalProducts[index] || 0,
+                    donHang: r.data.quantityOrders[index] || 0,
+                    doanhThu: r.data.revenue[index] || 0
+                };
+            });
+
+            // Fill the data arrays according to the standard months array
+            months.forEach((month, index) => {
+                if (dataMap[month]) {
+                    sanPham[index] = dataMap[month].sanPham;
+                    donHang[index] = dataMap[month].donHang;
+                    doanhThu[index] = dataMap[month].doanhThu;
+                }
+            });
+
             months = r.data.months
-            console.log("asdad ",r.data)
+            console.log("asdad ", r.data)
+
 
             var options = {
                 series: [{
@@ -182,15 +212,15 @@ app.controller("ctrl", function ($scope, $http){
                 }
             };
 
-        var chart = new ApexCharts(document.getElementById("month"), options);
-        chart.render();
+            var chart = new ApexCharts(document.getElementById("month"), options);
+            chart.render();
 
         }).catch(e => console.log(e))
 
     }
     $scope.getChartMonth()
 
-    $(function() {
+    $(function () {
 
         var start = moment();
         var end = moment();
@@ -218,16 +248,16 @@ app.controller("ctrl", function ($scope, $http){
                 "monthNames": ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
                 // "firstDay": 1
             }
-        }).on('apply.daterangepicker',function (ev, picker){
+        }).on('apply.daterangepicker', function (ev, picker) {
 
-            let chosenLabel= picker.chosenLabel
-            var labelConnect = "Đến", start = "",end = "";
+            let chosenLabel = picker.chosenLabel
+            var labelConnect = "Đến", start = "", end = "";
 
-            if(chosenLabel == "Hôm nay"){
+            if (chosenLabel == "Hôm nay") {
                 labelConnect = "Hôm nay"
-            }else if(chosenLabel == "Hôm qua"){
+            } else if (chosenLabel == "Hôm qua") {
                 labelConnect = "Hôm qua"
-            }else{
+            } else {
                 start = picker.startDate.format('DD-MM-YYYY');
                 end = picker.endDate.format('DD-MM-YYYY');
             }
@@ -236,7 +266,7 @@ app.controller("ctrl", function ($scope, $http){
             $('#start').html(start);
             $('#end').html(end);
 
-            $scope.getTongQuat(picker.startDate.format('YYYY-MM-DD'),picker.endDate.format('YYYY-MM-DD'))
+            $scope.getTongQuat(picker.startDate.format('YYYY-MM-DD'), picker.endDate.format('YYYY-MM-DD'))
         });
 
 
@@ -244,12 +274,12 @@ app.controller("ctrl", function ($scope, $http){
 
     });
 
-    $scope.setDropDown = function(id){
+    $scope.setDropDown = function (id) {
         var content = document.getElementById(id);
-        if(content.style.display=='none'){
-            content.style.display='flow-root'
-        }else{
-            content.style.display='none'
+        if (content.style.display == 'none') {
+            content.style.display = 'flow-root'
+        } else {
+            content.style.display = 'none'
         }
     }
 

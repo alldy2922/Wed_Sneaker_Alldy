@@ -1466,7 +1466,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                         $scope.donHangChuaXacNhanKh.splice(index, 1);
                     }
                     alertify.success("Yêu cầu trả đơn hàng thành công");
-                    $('#traHangModal').modal('hide');
+                    $('#traHangToanBoModal').modal('hide');
                 })
                 .catch(function (error) {
                     // Xử lý lỗi khi gửi yêu cầu HTTP
@@ -1503,22 +1503,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         $scope.soTaiKhoan = '';
         $scope.tenNguoiNhan = '';
     };
-    //lấy giá trị 1 phần hoặc tôafn phần sau khi ấn Trả hàng trong hoàn thành
-    // $scope.prepareModal = function (donHang) {
-    //     $scope.donHang = donHang;
-    //     $scope.traHangOption = 'motPhan'; // Giá trị mặc định
-    // };
-
-    // $scope.handleReturn = function () {
-
-    //     console.log('TraHangOption:', $scope.traHangOption); // Xem giá trị của traHangOption trước khi xử lý
-
-    //     if ($scope.traHangOption === 'toanBo') {
-    //         $scope.findByMaDonHangUserFull($scope.donHang.ma);
-    //     } else if ($scope.traHangOption === 'motPhan') {
-    //         $scope.findByMaDonHangUserPartial($scope.donHang);
-    //     }
-    // };
 
     // hàm trả 1 phần
     $scope.selectedDonHang = null;
@@ -1536,7 +1520,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
     // Hàm để tìm và thiết lập đơn hàng theo mã đơn hàng
     $scope.findByMaDonHangUserPartial = function (donHang) {
-        $scope.selectedDonHang = donHang;
+        $scope.selectedDonHang = donHang
     };
     $scope.changeQuantity = function (product, change) {
         if (!product.selectedQuantity) {
@@ -1590,9 +1574,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         }
     };
 
-
-
-
     // Tăng số lượng hoàn
     $scope.incrementQuantity = function (product) {
         if (product.soLuongHoan < product.soLuong) {
@@ -1611,6 +1592,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
     $scope.traMotPhan = function (ma, phuongThucNhanTien, selectedNganHang, soTaiKhoan, tenNguoiNhan) {
         const lydoTraHang = $scope.lyDoTraHang;
+        const phuongThucNhanTien1 = $scope.phuongThucNhanTien;
+        console.log("abcd", phuongThucNhanTien1)
 
         if (!lydoTraHang) {
             alertify.error("Bạn cần nhập lý do trả hàng");
@@ -1668,24 +1651,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     };
 
     // end
-    // chọn 1 pahần hoặc toàn phần
-    // Giả sử bạn có controller hoặc scope tương ứng
-    $scope.getTraHangOption = function () {
-        console.log($scope.traHangOption); // Xem giá trị hiện tại của traHangOption
-    };
-
-    // Ví dụ gọi hàm khi bạn cần
-    $scope.checkTraHangOption = function () {
-        if ($scope.traHangOption === 'toanBo') {
-            // Xử lý khi người dùng chọn "Trả hàng toàn bộ"
-            console.log('Chọn trả hàng toàn bộ');
-        } else if ($scope.traHangOption === 'motPhan') {
-            // Xử lý khi người dùng chọn "Trả hàng một phần"
-            console.log('Chọn trả hàng một phần');
-        }
-    };
-
-
 
     // Kiểm tra và đảm bảo không khởi động $digest/$apply nếu đang diễn ra
     $('#traHangModal').on('hidden.bs.modal', function () {

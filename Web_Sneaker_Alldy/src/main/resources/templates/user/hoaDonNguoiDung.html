@@ -747,7 +747,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td style="text-align: center;">{{ct.selectedQuantity}}</td>
+                                            <td>{{ct.selectedQuantity}}</td>
                                             <td>{{ct.donGiaSauGiam | currency: "" : 1}} đ</td>
                                             <td>
                                                 <div>{{ct.totalPrice | currency: "" : 1}} đ</div>
@@ -775,7 +775,7 @@
                     <!-- Modal footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger"
-                            ng-click="traDonUser(maDonHang, phuongThucNhanTien,selectedNganHang, soTaiKhoan, tenNguoiNhan)">Trả
+                            ng-click="traMotPhan(maDonHang, phuongThucNhanTien,selectedNganHang, soTaiKhoan, tenNguoiNhan)">Trả
                             Hàng
                         </button>
                     </div>
@@ -784,8 +784,9 @@
             </div>
         </div>
 
+        <!-- // trả toàn bộ -->
         <div class="modal" id="traHangToanBoModal">
-            <div class="modal-dialog custom-modal ">
+            <div class="modal-dialog modal-dialog-centered ">
                 <div class="modal-content">
                     <!-- Modal body -->
                         <!-- thoong tin nhận tiền hoàn -->

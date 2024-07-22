@@ -1341,7 +1341,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
     $scope.donHangUser(5)
 
-    $scope.findByMaDonHangUserFull = function (ma) {
+    $scope.findByMaDonHangUser = function (ma) {
         $http.get("/don-hang/" + ma).then(function (res) {
             const donHang = res.data;
             $scope.maDonHang = donHang.ma
@@ -1357,6 +1357,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             $scope.chiTietDon = donHang.chiTietDonHang
         })
     }
+
+
+
     $scope.huyDonUser = function (ma) {
         lyDoHuy = $scope.lyDoHuy
         $http.put("/don-hang/huy-don-hang-user?ma=" + ma, lyDoHuy).then(function (res) {
@@ -1501,20 +1504,21 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         $scope.tenNguoiNhan = '';
     };
     //lấy giá trị 1 phần hoặc tôafn phần sau khi ấn Trả hàng trong hoàn thành
-    $scope.prepareModal = function (donHang) {
-        $scope.donHang = donHang;
-        $scope.traHangOption = 'toanBo'; // Giá trị mặc định
-    };
+    // $scope.prepareModal = function (donHang) {
+    //     $scope.donHang = donHang;
+    //     $scope.traHangOption = 'motPhan'; // Giá trị mặc định
+    // };
 
-    $scope.handleReturn = function () {
-        var returnType = $scope.traHangOption;
+    // $scope.handleReturn = function () {
 
-        if (returnType === 'toanBo') {
-            $scope.findByMaDonHangUserFull($scope.donHang.ma);
-        } else if (returnType === 'motPhan') {
-            $scope.findByMaDonHangUserPartial($scope.donHang);
-        }
-    };
+    //     console.log('TraHangOption:', $scope.traHangOption); // Xem giá trị của traHangOption trước khi xử lý
+
+    //     if ($scope.traHangOption === 'toanBo') {
+    //         $scope.findByMaDonHangUserFull($scope.donHang.ma);
+    //     } else if ($scope.traHangOption === 'motPhan') {
+    //         $scope.findByMaDonHangUserPartial($scope.donHang);
+    //     }
+    // };
 
     // hàm trả 1 phần
     $scope.selectedDonHang = null;

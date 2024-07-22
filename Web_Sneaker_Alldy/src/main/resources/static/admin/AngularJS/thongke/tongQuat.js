@@ -51,10 +51,27 @@ app.controller("ctrl", function ($scope, $http){
 
 
         $http.get("/admin/thong-ke/tong-quat-nam").then(r => {
-            sanPham = r.data.totalProducts
-            donHang = r.data.quantityOrders
-            doanhThu = r.data.revenue
-            months = r.data.months
+            // sanPham = r.data.totalProducts
+            // donHang = r.data.quantityOrders
+            // doanhThu = r.data.revenue
+            // months = r.data.months
+            var data = r.data;
+
+            // Khởi tạo 12 tháng với giá trị mặc định là 0
+            for (var i = 0; i < 12; i++) {
+                donHang.push(0);
+                sanPham.push(0);
+                doanhThu.push(0);
+                months.push(`Tháng ${i + 1}`);
+            }
+
+            // Cập nhật giá trị từ dữ liệu nhận được
+            data.months.forEach((month, index) => {
+                var monthIndex = parseInt(month.split(" ")[1]) - 1;
+                donHang[monthIndex] = data.quantityOrders[index] || 0;
+                sanPham[monthIndex] = data.totalProducts[index] || 0;
+                doanhThu[monthIndex] = data.revenue[index] || 0;
+            });
             console.log("asdad ",r.data)
 
             var options = {

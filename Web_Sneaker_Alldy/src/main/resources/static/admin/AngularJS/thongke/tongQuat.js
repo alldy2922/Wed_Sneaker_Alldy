@@ -47,46 +47,26 @@ app.controller("ctrl", function ($scope, $http) {
 
 
     $scope.getChartMonth = function () {
-
-        // var donHang = [], sanPham = [], doanhThu = [];
-        // var months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12']
-
-        var donHang = new Array(12).fill(0);
-        var sanPham = new Array(12).fill(0);
-        var doanhThu = new Array(12).fill(0);
-        var months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+        var months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+                        'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
 
         $http.get("/admin/thong-ke/tong-quat-nam").then(r => {
-            // sanPham = r.data.totalProducts || new Array(12).fill(0);
-            // donHang = r.data.quantityOrders || new Array(12).fill(0);
-            // doanhThu = r.data.revenue || new Array(12).fill(0);
-            //
-            // // Nếu dữ liệu phản hồi không có đủ 12 tháng, điền thêm giá trị 0
-            // while (sanPham.length < 12) sanPham.push(0);
-            // while (donHang.length < 12) donHang.push(0);
-            // while (doanhThu.length < 12) doanhThu.push(0);
-
-            let dataMap = {};
-            r.data.months.forEach((month, index) => {
-                dataMap[month] = {
-                    sanPham: r.data.totalProducts[index] || 0,
-                    donHang: r.data.quantityOrders[index] || 0,
-                    doanhThu: r.data.revenue[index] || 0
-                };
+            var donHang = new Array(12).fill(0);
+            var sanPham = new Array(12).fill(0);
+            var doanhThu = new Array(12).fill(0);
+            
+            r.data.totalProducts.forEach((value, index) => {
+                if (index < 12) sanPham[index] = value;
+            });
+            r.data.quantityOrders.forEach((value, index) => {
+                if (index < 12) donHang[index] = value;
+            });
+            r.data.revenue.forEach((value, index) => {
+                if (index < 12) doanhThu[index] = value;
             });
 
-            // Fill the data arrays according to the standard months array
-            months.forEach((month, index) => {
-                if (dataMap[month]) {
-                    sanPham[index] = dataMap[month].sanPham;
-                    donHang[index] = dataMap[month].donHang;
-                    doanhThu[index] = dataMap[month].doanhThu;
-                }
-            });
-
-            months = r.data.months
-            console.log("asdad ", r.data)
-
+            // months = r.data.months
+            // console.log("asdad ", r.data)
 
             var options = {
                 series: [{
@@ -120,6 +100,13 @@ app.controller("ctrl", function ($scope, $http) {
                 },
                 xaxis: {
                     categories: months,
+                    labels: {
+                        show: true,
+                        rotate: -45, // Giúp hiển thị các nhãn dễ đọc hơn
+                        rotateAlways: true,
+                        minHeight: 80
+                    },
+                    tickPlacement: 'between' // Đặt nhãn giữa các cột
                 },
                 yaxis: [
                     {

@@ -54,6 +54,7 @@ public class DonHangDTORequest {
     private Integer loai;
     private String nhanVien;
 
+
     public DonHangModel mapModel() {
         DonHangModel donHangModel = new DonHangModel();
         if (this.voucher != null && this.voucher.length() > 0) {

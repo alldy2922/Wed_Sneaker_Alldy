@@ -1,14 +1,20 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietDonHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
+import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangTraModel;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collector;
 
+@Data
 public class DonHangTraDTOReponse {
-    private String id;
     private String maDonHangTra;
+    private String maDonHang;
     private String maSanPham;
     private String sanPham;
     private String anh;
@@ -21,9 +27,11 @@ public class DonHangTraDTOReponse {
     private Date ngayKiemTra;
     private Date ngayHoanThanh;
     private Integer trangThai;
+    private DonHangDtoResponse donHangDtoResponse;
+
     public DonHangTraDTOReponse(DonHangTraModel model) {
         this.maSanPham = model.getChiTietSanPham().getSanPham().getMa();
-        this.id = model.getId();
+        this.maDonHang = model.getDonHang().getMa();
         this.maDonHangTra = model.getMaDonHangTra();
         this.sanPham = model.getChiTietSanPham().getSanPham().getTen();
         this.anh = model.getChiTietSanPham().getSanPham().getImages().size()>0 ? model.getChiTietSanPham().getSanPham().getImages().get(0).getTen() : "default.png";
@@ -36,5 +44,8 @@ public class DonHangTraDTOReponse {
         this.ngayKiemTra = model.getNgayKiemTra();
        this.ngayHoanThanh = model.getNgayHoanThanh();
        this.trangThai = model.getTrangThai();
+        this.donHangDtoResponse = new DonHangDtoResponse(model.getDonHang());
     }
+
+
 }

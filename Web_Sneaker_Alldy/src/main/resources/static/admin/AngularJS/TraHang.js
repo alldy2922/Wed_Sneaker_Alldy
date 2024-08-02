@@ -11,8 +11,11 @@ app.controller("trahang-ctrl", function ($scope, $http) {
     $scope.dateNow = new Date().getTime();
     $scope.khachHang = []
     $scope.erAdd = {}
+    $scope.sanPhamTra = [];
 
-
+    $http.get("/admin/don-hang/get-tra?trangThai=1" ).then(r => {
+       console.log(r)
+    })
 
 
     $scope.closeModal = function (id) {
@@ -358,7 +361,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         sdtSearch: "",
         init() {
             $scope.trangThaiDonHang = 6
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=6").then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=1").then(r => {
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -368,12 +371,15 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 6
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=6&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=1&pageNumber=" + pageNumber ).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
+                console.log("this",this.list);
+                console.log(this.totalPage)
                 this.setPageNumbers()
             })
         },
+
         xacNhanDH(ma) {
             alertify.confirm("Xác nhận đơn hàng?", function () {
 
@@ -480,12 +486,18 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 this.detail.xaPhuongCode = this.detail.xaPhuongCode + "" //set selected xã
 
                 $('#chuaXacNhanTraHangDetail').modal('show')
+                console.log(r)
             }).catch(e => console.log(e))
 
             $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {
                 $scope.chiTietDonHang = r.data;
             }).catch(e => console.log(e))
+            $http.get("/admin/don-hang/get-ctsp-tra?ma=" + ma).then(r => {
+                $scope.sanPhamTra = r.data;
+                console.log("spt",$scope.sanPhamTra)
+            }).catch(e => console.log(e))
         },
+
         setPageNumbers() {
             let numbers = [];
             let i = this.page

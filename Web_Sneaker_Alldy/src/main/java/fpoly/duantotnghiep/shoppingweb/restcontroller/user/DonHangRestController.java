@@ -1,15 +1,21 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.user;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangTraDTOReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
+import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangTraDTORequest;
+import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.Entity;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -33,6 +39,9 @@ public class DonHangRestController {
     @Autowired
     private VoucherServiceImpl voucherService;
 
+    @Autowired
+    private DonHangEntityManager donHangEntityManager;
+
 
 
     @GetMapping("get-by-trangThai-khachHang")
@@ -44,6 +53,17 @@ public class DonHangRestController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+//    @GetMapping("get-by-trangthai-khachhang-tra")
+//    public Page<DonHangTraDTOReponse> getTrangThaiTra(@RequestParam("trangThai") Integer trangThai,
+//                                                     @RequestParam(defaultValue = "0") Integer pageNumber,
+//                                                     @RequestParam(defaultValue = "10") Integer limit
+//    ) {
+//        return donHangEntityManager.getDonHangByTrangThaiTra(trangThai, pageNumber , limit);
+//    }
+//   @GetMapping("get-ctsp-user-tra")
+//    public ResponseEntity<?> getCtspTra(@RequestParam("idSP") String id,@RequestParam("trangThai")Integer trangThai) {
+//        return ResponseEntity.ok(donHangService.getAllByCTSP(id,trangThai));
+//    }
 
     @PutMapping("huy-don-hang-user")
     public ResponseEntity<?> huyDonHangUser(@RequestBody String lyDoHuy, @RequestParam String ma) throws MessagingException {
@@ -70,6 +90,7 @@ public class DonHangRestController {
                                         @RequestParam("ghiChu") String ghiChu) {
         //sản phẩm trống -> thông báo lỗi
         System.out.println("data"+products);
+        System.out.println("data1" + request.getLoai());
         if(products.size()<=0){
             result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn trả"));
         }
@@ -83,6 +104,7 @@ public class DonHangRestController {
         }
         //khong co loi -> HTTP 200
         return ResponseEntity.ok(donHangService.traMotPhan(request, products, lyDoTraHang, phuongThucNhanTien, ghiChu));
+//        return null;
     }
 
     @GetMapping("/{ma}")

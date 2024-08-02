@@ -104,7 +104,8 @@
                                                                                 id="checkAllChuaXacNhan">
                                                                         </div>
                                                                     </th>
-                                                                    <th scope="col">Mã</th>
+
+                                                                    <th scope="col">Mã Dơn Hàng</th>
                                                                     <th scope="col">Tên người nhận</th>
                                                                     <th scope="col">Số điện thoại</th>
                                                                     <th scope="col">Ngày hoàn</th>
@@ -133,6 +134,7 @@
                                                                         ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
                                                                         {{d.ma}}
                                                                     </td>
+
                                                                     <td style="cursor: pointer"
                                                                         ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
                                                                         {{d.tenNguoiNhan}}
@@ -959,6 +961,57 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <h4>San Pham Tra</h4>
+                                    <table class="table table-hover dt-responsive  nowrap w-100">
+                                        <thead>
+                                            <tr style="position: sticky;
+                                            top: 0;
+                                            z-index: 1;
+                                            background: white;">
+                                                <th style="width: 250px;">Sản phẩm</th>
+                                                <th style="width: 90px">Số lượng</th>
+                                                <th style="width: 115px">Đơn giá</th>
+                                                <th style="width: 115px">Đơn giá<br> sau giảm</th>
+                                                <th style="width: 120px;">Thành tiền</th>
+                                                <th style="width: 15px"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <i class="er">{{er.soLuongSP == undefined ? '' : er.soLuongSP}}</i>
+                                            <tr ng-repeat="d in sanPhamTra" style="vertical-align: middle">
+                                                <td style="width: 260px;">
+                                                    <div class="d-flex justify-content-start">
+                                                        <div style="width: 70px;">
+                                                            <img src="/image/loadImage/product/{{d.anh}}"
+                                                                style="width: 70px; height: 70px; border-radius: 10px">
+                                                        </div>
+                                                        <div>
+                                                            <p style="font-weight: bold;padding-left: 10px; ">
+                                                                {{d.sanPham}}</p>
+                                                            <i style="font-size: 10px;padding-left: 10px;">Size
+                                                                {{d.size}}</i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center">
+                                                        {{d.soLuong}}
+                                                    </div>
+                                                </td>
+                                                <td>{{d.donGia | currency: "" : 0}} đ</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
+                                                        currency: "" : 0}}đ
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-end">
+                                                        {{d.donGiaSauGiam * d.soLuong | currency: "" : 0}}đ
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <hr>
                                 <table class="table">
@@ -999,6 +1052,8 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             </td>
                             </tr>

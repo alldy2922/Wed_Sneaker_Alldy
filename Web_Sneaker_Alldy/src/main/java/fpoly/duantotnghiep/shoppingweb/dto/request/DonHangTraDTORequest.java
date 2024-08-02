@@ -16,10 +16,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DonHangTraDTORequest {
-    private String id;
     private String maDonHangTra;
     private String donHangID;
     private String sanPhamCT;
+    private String lyDoTra;
     private Integer soLuong;
     private BigDecimal donGia;
     private BigDecimal donGiaSauGiam;
@@ -27,12 +27,13 @@ public class DonHangTraDTORequest {
     private Date ngayKiemTra;
     private Date ngayHoanThanh;
     private Integer trangThai;
+    private DonHangModel donHang;
+    private ChiTietSanPhamModel chiTietSanPhamModel;
 
     public DonHangTraModel mapModel() {
         DonHangTraModel model = new DonHangTraModel();
         ChiTietSanPhamModel chiTietSanPhamModel = new ChiTietSanPhamModel();
         DonHangModel donhang = new DonHangModel();
-        if(id!=null && !id.isBlank()) model.setId(id);
         model.setMaDonHangTra(maDonHangTra);
         donhang.setMa(donHangID);
         chiTietSanPhamModel.setId(sanPhamCT);
@@ -45,6 +46,8 @@ public class DonHangTraDTORequest {
         model.setNgayKiemTra(ngayKiemTra);
         model.setNgayHoanThanh(ngayHoanThanh);
         model.setTrangThai(trangThai);
+        model.setDonHang(donHang);
+        model.setChiTietSanPham(chiTietSanPhamModel);
         return model;
     }
 

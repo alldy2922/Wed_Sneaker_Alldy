@@ -17,6 +17,7 @@ import java.util.Date;
 @Table(name = "chitietdonhangtra")
 @Entity
 public class DonHangTraModel {
+
     @Id
     @UuidGenerator
     @Column(name = "id")
@@ -40,7 +41,7 @@ public class DonHangTraModel {
     @Column(name = "dongia")
     private BigDecimal donGia;
 
-    @Column(name = "dongiasaugiam")
+    @Column(name = "dongiagiamsau")
     private BigDecimal donGiaSauGiam;
 
     @Column(name = "ngayxacnhan")

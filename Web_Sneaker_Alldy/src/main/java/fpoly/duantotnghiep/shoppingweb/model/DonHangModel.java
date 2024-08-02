@@ -122,7 +122,7 @@ public class DonHangModel {
     @Column(name = "ngayhuytrahang")
     private Date ngayHuyTraHang;
 
-    @Column(name = "loai",columnDefinition = "Integer default 0")
+    @Column(name = "loai")
     private Integer loai;
 
     @Formula("(SELECT SUM(c.dongiasaugiam*c.SoLuong) + d.phigiaohang - d.tiengiam FROM donhang d Join chitietdonhang c on c.DonHang = d.Ma where d.Ma = ma)")
@@ -130,6 +130,11 @@ public class DonHangModel {
 
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
+
+
+
+
+
 
     public String trangThaiDetail() {
         if (trangThai == 1) {

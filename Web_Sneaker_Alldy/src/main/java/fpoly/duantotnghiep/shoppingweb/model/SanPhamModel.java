@@ -94,6 +94,7 @@ public class SanPhamModel {
     @OneToMany(mappedBy = "sanPham", fetch = FetchType.EAGER)
     private List<ChiTietSanPhamModel> ctsp;
 
+
     public Long getSoLuongSanPham() {
         if (ctsp == null) return 0L;
         return ctsp.stream().filter(c -> c.getTrangThai()==true).map(c -> c.getSoLuong()).reduce(0L, (c1, c2) -> c1 + c2);

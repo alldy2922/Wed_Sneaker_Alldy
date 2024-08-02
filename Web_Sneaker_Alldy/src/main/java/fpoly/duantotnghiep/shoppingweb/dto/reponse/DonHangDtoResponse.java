@@ -1,6 +1,7 @@
 package fpoly.duantotnghiep.shoppingweb.dto.reponse;
 
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.DonHangTraModel;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
@@ -45,10 +46,12 @@ public class DonHangDtoResponse {
     private Date ngayKiemTraTraHang;
     private Date ngayHoanThanhTraHang;
     private Date ngayHuyTraHang;
+    private Integer loai;
 
     private BigDecimal tongTien;
 
     private NhanVienDtoResponse nhanVienDtoResponse;
+    private DonHangTraModel maDonHangTra;
 
     public DonHangDtoResponse(DonHangModel model) {
         this.ma = model.getMa();
@@ -75,7 +78,7 @@ public class DonHangDtoResponse {
         this.lyDoThayDoi = model.getLyDoThayDoi();
         this.lyDoTraHang = model.getLyDoTraHang();
 
-
+        this.loai = model.getLoai();
 
 
         if(model.getNgayXacNhan()!=null) this.ngayXacNhan = model.getNgayXacNhan();
@@ -95,5 +98,7 @@ public class DonHangDtoResponse {
         if(model.getNhanVien()!=null){
             nhanVienDtoResponse = new NhanVienDtoResponse(model.getNhanVien());
         }
+
+
     }
 }

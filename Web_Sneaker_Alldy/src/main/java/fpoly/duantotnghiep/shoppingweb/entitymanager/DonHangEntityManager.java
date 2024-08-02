@@ -1,8 +1,10 @@
 package fpoly.duantotnghiep.shoppingweb.entitymanager;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangTraDTOReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DongSanPhamResponese;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.DonHangTraModel;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,6 +43,44 @@ public class DonHangEntityManager {
         }else {
             jpql.append(" ORDER BY d.ngayDatHang DESC ");
         }
+        List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();
+        return new PageImpl(resultModel.stream().skip(pageable.getOffset()).limit(limit).map(d -> new DonHangDtoResponse(d)).collect(Collectors.toList()),
+                                pageable,resultModel.size());
+    }
+    public Page<DonHangDtoResponse> getDonHangByTrangThaiTra(Integer trangThai, Integer page, Integer limit){
+        Pageable pageable = PageRequest.of(page,limit);
+        StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d join DonHangTraModel t on d.ma = t.donHang.ma WHERE t.trangThai  ="+trangThai);
+
+
+
+
+            if(trangThai == 1){
+                jpql.append(" ORDER BY t.ngayXacNhan DESC ");
+            }else if(trangThai == 2){
+                jpql.append(" ORDER BY t.ngayKiemTra DESC ");
+            }else if(trangThai == 3){
+                jpql.append(" ORDER BY t.ngayHoanThanh DESC ");
+            }
+
+        List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();
+        return new PageImpl(resultModel.stream().skip(pageable.getOffset()).limit(limit).map(d -> new DonHangDtoResponse(d)).collect(Collectors.toList()),
+                                pageable,resultModel.size());
+    }
+    public Page<DonHangDtoResponse> get(Integer trangThai, Integer page, Integer limit){
+        Pageable pageable = PageRequest.of(page,limit);
+        StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d join DonHangTraModel t on d.ma = t.donHang.ma WHERE t.trangThai  ="+trangThai);
+
+
+
+
+            if(trangThai == 1){
+                jpql.append(" ORDER BY t.ngayXacNhan DESC ");
+            }else if(trangThai == 2){
+                jpql.append(" ORDER BY t.ngayKiemTra DESC ");
+            }else if(trangThai == 3){
+                jpql.append(" ORDER BY t.ngayHoanThanh DESC ");
+            }
+
         List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();
         return new PageImpl(resultModel.stream().skip(pageable.getOffset()).limit(limit).map(d -> new DonHangDtoResponse(d)).collect(Collectors.toList()),
                                 pageable,resultModel.size());

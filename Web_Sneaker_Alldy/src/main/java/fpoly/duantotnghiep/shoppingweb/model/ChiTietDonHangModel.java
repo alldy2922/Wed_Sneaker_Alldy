@@ -43,5 +43,16 @@ public class ChiTietDonHangModel {
     @OneToOne(mappedBy = "chiTietDonHangModel", fetch = FetchType.EAGER)
     private NhanXetModel nhanXet;
 
-
+    @Override
+    public String toString() {
+        return "ChiTietDonHangModel{" +
+                "id='" + id + '\'' +
+                ", donHang=" + donHang +
+                ", chiTietSanPham=" + chiTietSanPham +
+                ", soLuong=" + soLuong +
+                ", donGia=" + donGia +
+                ", donGiaSauGiam=" + donGiaSauGiam +
+                ", nhanXet=" + nhanXet +
+                '}';
+    }
 }

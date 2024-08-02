@@ -2,13 +2,16 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangTraDTOReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
+import fpoly.duantotnghiep.shoppingweb.model.DonHangTraModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
+import fpoly.duantotnghiep.shoppingweb.service.impl.DonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.LichSuThaoTacServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VnPayServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
@@ -33,11 +36,15 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.*;
 
+
+
 @RestController("don-hang-restCtrl-admin")
 @RequestMapping("${admin.domain}/don-hang")
 public class DonHangRescontroller {
     @Autowired
     private IDonHangService donHangService;
+    @Autowired
+    private DonHangService IdonHangService;
     @Autowired
     private DonHangEntityManager donHangEntityManager;
     @Autowired
@@ -60,7 +67,17 @@ public class DonHangRescontroller {
                                                    @RequestParam(defaultValue = "0")Integer loai) {
         return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber , limit, sdt,loai);
     }
+    @GetMapping("get-by-trangthai-tra")
+    public Page<DonHangDtoResponse>getTrangThaiTra(
+            @RequestParam(value = "trangThai", required = false) Integer trangThai,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer limit) {
 
+        return donHangEntityManager.getDonHangByTrangThaiTra(trangThai, pageNumber , limit);
+
+
+
+    }
 
 
     @GetMapping("/{ma}")
@@ -126,6 +143,25 @@ public class DonHangRescontroller {
                     lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Đơn Hàng Hoàn: "+ m);
 
                 }   else if(trangThai==8){
+                    lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Hoàn Tiền Đơn Hàng Hoàn: "+ m);
+
+                }
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        });
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("update-trang-thai-tra")
+    public ResponseEntity<Integer> updatTrangThaiTra(@RequestBody List<String> ma, @RequestParam("trangThai") Integer trangThai,Authentication authentication) throws MessagingException {
+        ma.forEach(m -> {
+            try {
+                donHangService.updateTrangThaiTra(m, trangThai);
+                if(trangThai==2){
+                    lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Đơn Hàng Hoàn: "+ m);
+
+                }   else if(trangThai==3){
                     lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Hoàn Tiền Đơn Hàng Hoàn: "+ m);
 
                 }
@@ -235,6 +271,14 @@ public class DonHangRescontroller {
 
         return ResponseEntity.ok().build();
     }
+    @GetMapping("get-ctsp-tra")
+    public List<DonHangTraDTOReponse> getCtspTra(@RequestParam("ma")String ma) {
+
+
+            return IdonHangService.getAllByDonHangTra(ma);
+
+    }
+
     private String codeDonHang() {
         final String ALLOWED_CHARACTERS = "asdfghjklqwertyuiopzxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 

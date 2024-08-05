@@ -272,8 +272,7 @@
                     </div>
                 </div>
                 <hr>
-                <h4>Sản Phẩm Đã Mua</h4>
-                <div>
+                <div style="max-height: 220px;overflow-y: auto;">
                     <table id="datatable"
                            class="table table-hover dt-responsive  nowrap w-100">
                         <thead>
@@ -313,9 +312,6 @@
                         </tr>
                         </tbody>
                     </table>
-                </div>
-
-             <!-- sp trả đc chọn -->
                     <h4>Sản Phẩm Trả</h4>
                     <table id="datatable"
                            class="table table-hover dt-responsive  nowrap w-100">
@@ -349,21 +345,44 @@
                                 </div>
                             </td>
                             <td>
-                                <div>{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}đ
+                                <div>{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
+                                    đ
                                 </div>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-
-                
+                </div>
                 <table class="table" style="    border-top: 1px solid black">
                     <tbody>
-                    <tr >
-                        <td style="font-weight: bold; font-size: 2em;">Thành tiền</td>
+                    <tr>
+                        <td>Tổng</td>
                         <td colspan="4">
-                            <div class="d-flex justify-content-end" style="font-weight: bold; font-size: 2em;">
-                                {{getTotalPriceSanPhamTra() | currency: "" : 1}} đ
+                            <div class="d-flex justify-content-end">{{getTotalPrice() | currency: "" : 1}} đ
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Voucher</td>
+                        <td colspan="4">
+                            <div class="d-flex justify-content-end">
+                                {{donHang.tienGiam == null ? 0 : donHang.tienGiam | currency: "" : 1}} đ
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Phí giao hàng</td>
+                        <td colspan="4">
+                            <div class="d-flex justify-content-end">
+                                {{donHang.phiGiaoHang | currency: "" : 1}} đ
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Thành tiền</td>
+                        <td colspan="4">
+                            <div class="d-flex justify-content-end">
+                                {{(getTotalPrice() + donHang.phiGiaoHang) - donHang.tienGiam | currency: "" : 1}} đ
                             </div>
                         </td>
                     </tr>

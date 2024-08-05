@@ -35,7 +35,7 @@ public class SecurityAdminConfig {
         String[] adminUrl = {"/admin/san-pham/add","/admin/san-pham/update/**","/admin/san-pham/delete/**"
                             ,"/admin/san-pham/update-TrangThai-HienThi/**","/admin/nhan-vien/**","/admin/kieu-dang/**",
                             "/admin/mau-sac/**","/admin/dong-san-pham/**","/admin/thuong-hieu/**","/admin/thong-ke/**","/admin/nhan-xet/phe-duyet/**",
-                            "/admin/chat-lieu/**"};
+                            "/admin/chat-lieu/**","/admin/tra-hang/**","/admin/lich-su-thao-tac/**"};
         http    .securityMatcher("/admin/**")
                 .cors(c -> c.disable())
                 .csrf(c -> c.disable())

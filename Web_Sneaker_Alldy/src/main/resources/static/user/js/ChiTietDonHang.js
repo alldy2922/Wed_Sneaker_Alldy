@@ -5,7 +5,7 @@ app.controller("ctdh-ctrl", function ($scope, $http) {
     const pathName = location.pathname;
     const maDH = pathName.substring(pathName.lastIndexOf("/"))
     $scope.cart = [];
-
+    $scope.sanPhamTra = []
     $http.get("/cart/check-login")
         .then(function(response) {
             if (response.data) {
@@ -36,12 +36,27 @@ app.controller("ctdh-ctrl", function ($scope, $http) {
             console.log('Error checking login status:', error);
         });
 
+    console.log("ma",maDH)
     $http.get("/don-hang" + maDH).then(r => {
         $scope.donHang = r.data
-        console.log($scope.donHang = r.data)
+        console.log("$donHang", $scope.donHang = r.data)
+
     }).catch(e => console.log(e));
+
+    //hiện chi tiết đơn trả
+    $http.get("/don-hang/tra" + maDH).then(r => {
+        $scope.donHangTra = r.data
+        console.log("$donHangTra", $scope.donHangTRa = r.data)
+        console.log("$MaHangTra", maDH)
+    }).catch(e => console.log(e));
+    //
     $http.get("/chi-tiet-don-hang" + maDH).then(r => {
         $scope.chiTietDonHang = r.data;
+    }).catch(e => console.log(e))
+    //hiện chi tiết sản phẩm trả
+    $http.get("/don-hang/get-ctsp-tra" + maDH).then(r => {
+        $scope.sanPhamTra = r.data;
+        console.log("spt",$scope.sanPhamTra)
     }).catch(e => console.log(e))
 
     $scope.getTotalPrice = function () {
@@ -49,4 +64,13 @@ app.controller("ctdh-ctrl", function ($scope, $http) {
         $scope.chiTietDonHang.forEach(c => total += (c.donGiaSauGiam * c.soLuong))
         return total
     }
+
+     // Hàm tính tổng tiền cho các sản phẩm trả
+     $scope.getTotalPriceSanPhamTra = function () {
+        let total = 0;
+        $scope.sanPhamTra.forEach(
+            (d) => (total += d.donGiaSauGiam * d.soLuong)
+        );
+        return total;
+    };
 })

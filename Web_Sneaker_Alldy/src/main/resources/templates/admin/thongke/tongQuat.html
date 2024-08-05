@@ -451,6 +451,41 @@
             </div>
         </div>
 
+        <!--        ---Biểu do cot san pham ban chay-->
+        <div class="row mt-5">
+            <div class="">
+                <!-- card -->
+                <div class="card">
+                    <!-- card body -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="txtStart" class="form-label">Bắt đầu</label>
+                                <input type="date" class="form-control" id="txtStart" ng-model="chartStart">
+                            </div>
+                            <div class="col">
+                                <label for="txtEnd" class="form-label">Kết thúc</label>
+                                <input type="date" class="form-control" id="txtEnd" ng-model="chartEnd">
+                            </div>
+                            <!--                            <div class="col">-->
+                            <!--                                <label for="txtNum" class="form-label">Số lượng</label>-->
+                            <!--                                <input type="number" class="form-control" id="txtNum" value="10" ng-model="chartNum">-->
+                            <!--                            </div>-->
+                            <div class="col-auto d-flex align-items-end">
+                                <button class="btn btn-primary" ng-click="getChart()">Thống kê</button>
+                            </div>
+                        </div>
+
+                        <div class="col-12" id="spbanchay"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
         <div class="row mt-5">
             <div class="">
                 <!-- card -->

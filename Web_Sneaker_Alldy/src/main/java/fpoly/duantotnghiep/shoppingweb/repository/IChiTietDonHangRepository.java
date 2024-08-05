@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IChiTietDonHangRepository extends JpaRepository<ChiTietDonHangModel,String> {
     List<ChiTietDonHangModel> findAllByDonHang(DonHangModel donHangModel);
+    ChiTietDonHangModel findAllById(String Id);
 }

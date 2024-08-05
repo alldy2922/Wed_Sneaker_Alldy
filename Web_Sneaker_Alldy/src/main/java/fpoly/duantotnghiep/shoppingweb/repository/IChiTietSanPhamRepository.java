@@ -55,4 +55,5 @@ public interface IChiTietSanPhamRepository extends JpaRepository<ChiTietSanPhamM
     List<ChiTietSanPhamModel> getAllBySize(SizeModel sizeModel);
 
     List<ChiTietSanPhamModel> getAllBySanPham(SanPhamModel sanPhamModel);
+    ChiTietSanPhamModel findAllById(String Id);
 }

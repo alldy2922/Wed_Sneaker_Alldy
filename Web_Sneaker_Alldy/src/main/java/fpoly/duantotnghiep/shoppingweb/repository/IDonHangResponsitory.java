@@ -14,8 +14,41 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
 
 public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String> {
+    //Câu truy vấn thống kê sp bán chạy
+    @Query(nativeQuery = true, value="WITH TempTableAnh AS (\n" +
+            "    SELECT " +
+            "        SP.Ma AS SanPham, " +
+            "        TTA.ten AS TenAnh " +
+            "    FROM " +
+            "        anh AS TTA " +
+            "    JOIN sanpham AS SP ON SP.Ma = TTA.SanPham " +
+            "    GROUP BY SP.Ma " +
+            ") " +
+            "SELECT " +
+            "    CONCAT(SP.ten, ' - size(', SPCT.size, ')') AS TenSP, " +
+            "    SUM(HDCT.SoLuong) AS SoLuongSP, " +
+            "    TTA.TenAnh " +
+            "FROM " +
+            "    donhang AS HD " +
+            "JOIN chitietdonhang AS HDCT ON HDCT.DonHang = HD.Ma " +
+            "JOIN chitietsanpham AS SPCT ON SPCT.id = HDCT.ChiTietSanPham " +
+            "JOIN sanpham AS SP ON SP.Ma = SPCT.SanPham " +
+            "JOIN TempTableAnh AS TTA ON SP.Ma = TTA.SanPham " +
+            "WHERE " +
+            "    HD.trangthai != 4 " +
+            "    AND HD.ngayhoanthanh BETWEEN ?1 AND ?2 " +
+            "GROUP BY " +
+            "    SPCT.id " +
+            "ORDER BY " +
+            "    SoLuongSP DESC " +
+            "LIMIT ?3")
+
+    ArrayList<Map<String, Object>> thongKeSanPhamBanChay(Date start, Date end, int num);
+
     @Query("""
             SELECT d FROM DonHangModel d WHERE d.trangThai = ?1 ORDER BY d.ngayDatHang DESC 
             """)
@@ -48,6 +81,9 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
 
     @Query("SELECT dh FROM DonHangModel dh where dh.nguoiSoHuu.username = ?1 and dh.trangThai = ?2 AND dh.loai = 0 ORDER BY dh.ngayDatHang DESC")
     List<DonHangModel> findAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai);
+
+    @Query("SELECT dh FROM DonHangModel dh JOIN DonHangTraModel t on t.donHang.ma = dh.ma where dh.nguoiSoHuu.username = ?1 and t.trangThai = ?2 AND dh.loai = 0 ORDER BY dh.ngayDatHang DESC")
+     List<DonHangModel> findAllByKhachHangAndTrangThaiTra(String nguoiSoHuu, Integer trangThai);
 
     @Query("SELECT dh FROM DonHangModel dh WHERE dh.ngayDatHang <= :cutoffTime and dh.trangThai = 5 ")
     List<DonHangModel> findDonHangWithOlderStock(@Param("cutoffTime") Date cutoffTime);

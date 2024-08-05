@@ -57,7 +57,7 @@ public class DonHangReponseUser {
     private BigDecimal tongTien;
     private List<ChiTietDonHangDtoResponse> chiTietDonHang;
     private NhanVienDtoResponse nhanVienDtoResponse;
-
+    private Integer loai;
 
     public DonHangReponseUser(DonHangModel model) {
         this.ma = model.getMa();
@@ -101,7 +101,7 @@ public class DonHangReponseUser {
             nhanVienDtoResponse = new NhanVienDtoResponse(model.getNhanVien());
         }
         this.chiTietDonHang = model.getDanhSachSanPham().stream().map(s -> new ChiTietDonHangDtoResponse(s)).collect(Collectors.toList());
-
+        this.loai = model.getLoai();
     }
 
 

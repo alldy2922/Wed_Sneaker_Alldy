@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.restcontroller.admin.thongke;
 
 import fpoly.duantotnghiep.shoppingweb.entitymanager.SanPhamEntityManager;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.ThongKeEntityManager;
+import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ import java.util.stream.Collectors;
 public class ThongKeRestController {
 
     @Autowired
+    private IDonHangResponsitory donHangDAO;
+
+    @Autowired
     private IChiTietSanPhamService chiTietSanPhamService;
     @Autowired
     private IDonHangService donHangService;
@@ -31,6 +35,15 @@ public class ThongKeRestController {
     private SanPhamEntityManager sanPhamEntityManager;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+//    --Bieu Do SP Ban chay
+    @PostMapping("san-pham-ban-chay")
+    public ResponseEntity<?> thongke(
+            @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd") Date start,
+            @RequestParam("end") @DateTimeFormat(pattern = "yyyy-MM-dd") Date end,
+            @RequestParam("num") int num){
+        return ResponseEntity.ok(donHangDAO.thongKeSanPhamBanChay(start, end, num));
+    }
 
     @GetMapping("tong-quat")
     public ResponseEntity<?> getTotalQauntityInOrdersWithDate(@RequestParam(required = false)

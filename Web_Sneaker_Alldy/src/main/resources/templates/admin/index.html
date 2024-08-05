@@ -184,13 +184,13 @@
                                 <span data-key="t-chat">Hóa Đơn Online</span>
                             </a>
                         </li>
-                        <li>
+                        <li th:if="${hasAdmin}">
                             <a th:href="@{/admin/tra-hang}">
                                 <i class="bi bi-bag-x"></i>
                                 <span data-key="t-chat">Trả Hàng</span>
                             </a>
                         </li>
-                        <li>
+                        <li th:if="${hasAdmin}">
                             <a>
                                 <i class="bi bi-arrow-left-right"></i>
                                 <span data-key="t-chat">Đổi Hàng</span>
@@ -257,8 +257,8 @@
                                 <span data-key="t-horizontal">Voucher</span>
                             </a>
                         </li>
-                        <li class="menu-title" data-key="t-apps">Hệ Thống</li>
-                        <li>
+                        <li th:if="${hasAdmin}"  class="menu-title" data-key="t-apps">Hệ Thống</li>
+                        <li th:if="${hasAdmin}">
                             <a th:href="@{/admin/lich-su-thao-tac}">
                                 <i class="bi bi-journal-code"></i>
                                 <span data-key="t-chat">Lịch Sử Thao Tác</span>

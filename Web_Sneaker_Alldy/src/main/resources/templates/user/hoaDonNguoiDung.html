@@ -449,7 +449,8 @@
                                             <button type="button" class="btn btn-warning ml-2 m-b-10 btn-danger"
                                                 ng-click="findByMaDonHangUserPartial(d)" data-bs-toggle="modal"
                                                 data-bs-target="#traHangMotPhanModal"
-                                                ng-if="isWithinSevenDays(d.ngayHoanThanh) === true">Trả Hàng Tùy Chọn
+                                                ng-if="isWithinSevenDays(d.ngayHoanThanh) === true && d.voucherCode === null">Trả
+                                                Hàng Tùy Chọn
                                             </button>
 
                                             <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
@@ -604,7 +605,7 @@
                 </div>
             </div>
         </div>
-        <!--        modal tra hang-->
+        <!-- trả một phần  -->
         <div class="modal" id="traHangMotPhanModal">
             <div class="modal-dialog custom-modal ">
                 <div class="modal-content">
@@ -764,6 +765,50 @@
                                 </h5>
                             </div>
                             <br>
+                            <!-- Nút xem chính sách đổi trả -->
+                            <div>
+                                <button type="button" class="btn btn-link" ng-click="showPolicy = !showPolicy">Xem chính sách đổi trả
+                                </button>
+                                <!-- Nội dung chính sách đổi trả -->
+                                <div ng-show="showPolicy">
+                                    <textarea class="form-control" readonly>
+                Chính sách đổi trả của cửa hàng
+    
+                1. Quy định đổi hàng:
+                1.1 Nội dung
+                1. Sản phẩm nguyên giá & giảm giá đến 30% được đổi size/màu hoặc sản phẩm khác (nếu còn hàng), áp dụng 1 đổi 1, đổi 1 lần/1 đơn hàng. Tổng giá trị các mặt hàng muốn đổi phải có giá trị tương đương hoặc lớn hơn với mặt hàng trả lại. ALLDY STORE không hoàn lại tiền thừa trong trường hợp sản phẩm mới có giá trị thấp hơn sản phẩm đã mua.
+                2. Sản phẩm giảm giá trên 30% trở lên được đổi size (nếu còn hàng), áp dụng 1 đổi 1, đổi 1 lần/1 đơn hàng.
+                3. Sản phẩm không áp dụng đổi bao gồm: sản phẩm được tặng kèm trong các chương trình
+                4. Khách hàng đổi tại cửa hàng đã mua hàng.
+                1.2 Điều kiện đổi sản phẩm
+                1. Đổi hàng trong vòng 07 ngày kể từ ngày khách hàng nhận được sản phẩm.
+                2. Sản phẩm còn trong tình trạng ban đầu khi nhận hàng, còn nguyên tem và nhãn mác.
+                3. Sản phẩm chưa qua giặt ủi hoặc bẩn, chưa bị hư hỏng, không bị mùi lạ (nước hoa, cơ thể...), chưa qua sử dụng
+                4. Khách hàng mang theo hóa đơn còn nguyên vẹn khi đổi hàng.
+                2. Quy Định Trả Hàng:
+                2.1 Chính sách trả hàng:
+                1. Khách hàng được trả sản phẩm trong trường hợp có lỗi phát sinh từ nhà sản xuất và không có nhu cầu đổi sang sản phẩm khác.
+                2. Các trường hợp lỗi do nhà sản xuất gồm: đế giày không đều, phụ kiện bị lỗi, in bong tróc, lỗi đường may.
+                3. Hoàn tiền lại sản phẩm gặp lỗi qua tài khoản ngân hàng.
+                4. ALLDY STORE chịu 100% chi phí vận chuyển trả lại hàng nếu sản phẩm được xác định là lỗi sản phẩm.
+                5. Một hoặc một vài sản phẩm trong đơn hàng không thể giao cho khách, hoàn tiền 1 lại sản phẩm không giao được (áp dụng mua hàng online với thanh toán trả trước).
+                6. ALLDY STORE xác minh lỗi từ 01 - 03 ngày sau khi nhận được sản phẩm và có phản hồi lại khách hàng thời gian xử lý tiếp theo với từng trường hợp cụ thể.
+                2.2 Điều kiện trả sản phẩm:
+                1. Trả sản phẩm trong vòng 10 ngày kể từ ngày nhận sản phẩm.
+                3. Chính sách hoàn tiền:
+                1. Đối với trường hợp thanh toán trước, khách hàng sẽ được hoàn tiền khi hàng nhận bị lỗi do sản xuất và khách hàng không có nhu cầu đổi sang sản phẩm khác.
+                2. Thời gian hoàn tiền từ 03 đến 05 ngày kể từ khi ALLDY STORE xác minh sản phẩm bị lỗi sản xuất. Tiền được hoàn vào tài khoản cá nhân của khách hàng.
+                    </textarea>
+                                </div>
+                                <!-- Checkbox đồng ý chính sách đổi trả -->
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="agreePolicy"
+                                        ng-model="agreePolicy">
+                                    <label class="form-check-label" for="agreePolicy">Tôi đồng ý với chính sách đổi trả
+                                        của cửa
+                                        hàng</label>
+                                </div>
+                            </div>
                         </div>
                         <style>
                             .custom-modal {
@@ -779,7 +824,6 @@
                             Hàng
                         </button>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -789,48 +833,87 @@
             <div class="modal-dialog modal-dialog-centered ">
                 <div class="modal-content">
                     <!-- Modal body -->
-                        <!-- thoong tin nhận tiền hoàn -->
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Lý do trả hàng</label>
-                                    <textarea class="form-control" ng-model="lyDoTraHang"
-                                        id="exampleFormControlTextarea1" rows="3"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="refundMethod">Phương thức hoàn tiền</label>
-                                    <select id="refundMethod" class="form-control" ng-model="phuongThucNhanTien">
-                                        <option value="true">Nhận Tại Quầy-Tiền Mặt</option>
-                                        <option value="false">Chuyển Khoản</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="modal-body" ng-show="phuongThucNhanTien === 'false'">
-                                <div class="form-group">
-                                    <label>Ngân Hàng</label>
-                                    <select id="nganHangSelect" class="form-control" ng-model="selectedNganHang"
-                                        ng-options="nganHang.name for nganHang in nganHang">
-                                        <option value="">--Chọn Ngân Hàng--</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="accountNumber">Số Tài Khoản</label>
-                                    <input type="text" class="form-control" id="accountNumber" ng-model="soTaiKhoan"
-                                        placeholder="Nhập Số Tài Khoản">
-                                </div>
-                                <div class="form-group">
-                                    <label for="accountName">Tên Người Nhận</label>
-                                    <input type="text" class="form-control" id="accountName" ng-model="tenNguoiNhan"
-                                        placeholder="Nhập Tên Người Nhận">
-                                </div>
+                    <!-- thoong tin nhận tiền hoàn -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Lý do trả hàng</label>
+                            <textarea class="form-control" ng-model="lyDoTraHang" id="exampleFormControlTextarea1"
+                                rows="3"></textarea>
                         </div>
+                    </div>
 
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="refundMethod">Phương thức hoàn tiền</label>
+                            <select id="refundMethod" class="form-control" ng-model="phuongThucNhanTien">
+                                <option value="true">Nhận Tại Quầy-Tiền Mặt</option>
+                                <option value="false">Chuyển Khoản</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-body" ng-show="phuongThucNhanTien === 'false'">
+                        <div class="form-group">
+                            <label>Ngân Hàng</label>
+                            <select id="nganHangSelect" class="form-control" ng-model="selectedNganHang"
+                                ng-options="nganHang.name for nganHang in nganHang">
+                                <option value="">--Chọn Ngân Hàng--</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="accountNumber">Số Tài Khoản</label>
+                            <input type="text" class="form-control" id="accountNumber" ng-model="soTaiKhoan"
+                                placeholder="Nhập Số Tài Khoản">
+                        </div>
+                        <div class="form-group">
+                            <label for="accountName">Tên Người Nhận</label>
+                            <input type="text" class="form-control" id="accountName" ng-model="tenNguoiNhan"
+                                placeholder="Nhập Tên Người Nhận">
+                        </div>
+                    </div>
+                    <!-- Nút xem chính sách đổi trả -->
+                    <button type="button" class="btn btn-link" ng-click="showPolicy = !showPolicy">Xem chính sách đổi
+                        trả
+                    </button>
+                    <!-- Nội dung chính sách đổi trả -->
+                    <div ng-show="showPolicy">
+                        <textarea class="form-control" readonly>
+            Chính sách đổi trả của cửa hàng
+
+            1. Quy định đổi hàng:
+            1.1 Nội dung
+            1. Sản phẩm nguyên giá & giảm giá đến 30% được đổi size/màu hoặc sản phẩm khác (nếu còn hàng), áp dụng 1 đổi 1, đổi 1 lần/1 đơn hàng. Tổng giá trị các mặt hàng muốn đổi phải có giá trị tương đương hoặc lớn hơn với mặt hàng trả lại. ALLDY STORE không hoàn lại tiền thừa trong trường hợp sản phẩm mới có giá trị thấp hơn sản phẩm đã mua.
+            2. Sản phẩm giảm giá trên 30% trở lên được đổi size (nếu còn hàng), áp dụng 1 đổi 1, đổi 1 lần/1 đơn hàng.
+            3. Sản phẩm không áp dụng đổi bao gồm: sản phẩm được tặng kèm trong các chương trình
+            4. Khách hàng đổi tại cửa hàng đã mua hàng.
+            1.2 Điều kiện đổi sản phẩm
+            1. Đổi hàng trong vòng 07 ngày kể từ ngày khách hàng nhận được sản phẩm.
+            2. Sản phẩm còn trong tình trạng ban đầu khi nhận hàng, còn nguyên tem và nhãn mác.
+            3. Sản phẩm chưa qua giặt ủi hoặc bẩn, chưa bị hư hỏng, không bị mùi lạ (nước hoa, cơ thể...), chưa qua sử dụng
+            4. Khách hàng mang theo hóa đơn còn nguyên vẹn khi đổi hàng.
+            2. Quy Định Trả Hàng:
+            2.1 Chính sách trả hàng:
+            1. Khách hàng được trả sản phẩm trong trường hợp có lỗi phát sinh từ nhà sản xuất và không có nhu cầu đổi sang sản phẩm khác.
+            2. Các trường hợp lỗi do nhà sản xuất gồm: đế giày không đều, phụ kiện bị lỗi, in bong tróc, lỗi đường may.
+            3. Hoàn tiền lại sản phẩm gặp lỗi qua tài khoản ngân hàng.
+            4. ALLDY STORE chịu 100% chi phí vận chuyển trả lại hàng nếu sản phẩm được xác định là lỗi sản phẩm.
+            5. Một hoặc một vài sản phẩm trong đơn hàng không thể giao cho khách, hoàn tiền 1 lại sản phẩm không giao được (áp dụng mua hàng online với thanh toán trả trước).
+            6. ALLDY STORE xác minh lỗi từ 01 - 03 ngày sau khi nhận được sản phẩm và có phản hồi lại khách hàng thời gian xử lý tiếp theo với từng trường hợp cụ thể.
+            2.2 Điều kiện trả sản phẩm:
+            1. Trả sản phẩm trong vòng 10 ngày kể từ ngày nhận sản phẩm.
+            3. Chính sách hoàn tiền:
+            1. Đối với trường hợp thanh toán trước, khách hàng sẽ được hoàn tiền khi hàng nhận bị lỗi do sản xuất và khách hàng không có nhu cầu đổi sang sản phẩm khác.
+            2. Thời gian hoàn tiền từ 03 đến 05 ngày kể từ khi ALLDY STORE xác minh sản phẩm bị lỗi sản xuất. Tiền được hoàn vào tài khoản cá nhân của khách hàng.
+                </textarea>
+                    </div>
+                    <!-- Checkbox đồng ý chính sách đổi trả -->
+                    <div>
+                        <input type="checkbox" id="agreePolicy" ng-model="agreePolicy">
+                        <label class="form-check-label" for="agreePolicy">Tôi đồng ý với chính sách đổi trả của cửa
+                            hàng</label>
+                    </div>
                     <!-- Modal footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger"
-                            ng-click="traDonUser(maDonHang, phuongThucNhanTien,selectedNganHang, soTaiKhoan, tenNguoiNhan)">Trả
+                        <button type="button" class="btn btn-danger" ng-click="traMotPhan()">Trả
                             Hàng
                         </button>
                     </div>
@@ -838,6 +921,9 @@
                 </div>
             </div>
         </div>
+
+
+
         <!-- Đánh giá-->
         <div class="modal" id="danhGia">
             <div class="modal-dialog modal-dialog-centered">
@@ -897,7 +983,8 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleFormControlTextarea1" class="form-label">Chia sẻ cảm nhận của bạn về sản
+                            <label for="exampleFormControlTextarea1" class="form-label">Chia sẻ cảm nhận của bạn về
+                                sản
                                 phẩm
                                 <h9 style="color: red;">*</h9>
                             </label>
@@ -909,7 +996,8 @@
                                 placeholder="Nội dung"></textarea>
                             <i class="er mb-3">{{erDanhGia.noiDung == undefined ? "" : erDanhGia.noiDung}}</i>
                         </div>
-                        <button type="button" class="btn btn-secondary" ng-click="addDanhGia()">Gửi đánh giá</button>
+                        <button type="button" class="btn btn-secondary" ng-click="addDanhGia()">Gửi đánh
+                            giá</button>
                     </div>
                 </div>
             </div>
@@ -986,7 +1074,8 @@
                         <textarea class="form-control mt-3" ng-model="danhGiaUpdate.noiDung"
                             ng-focus="erDanhGiaUpdate.noiDung=''" id="exampleFormControlTextarea11update" rows="3"
                             placeholder="Nội dung"></textarea>
-                        <i class="er mb-3">{{erDanhGiaUpdate.noiDung == undefined ? "" : erDanhGiaUpdate.noiDung}}</i>
+                        <i class="er mb-3">{{erDanhGiaUpdate.noiDung == undefined ? "" :
+                            erDanhGiaUpdate.noiDung}}</i>
                     </div>
                     <button type="button" class="btn btn-secondary" ng-click="updateDanhGia()"
                         ng-if="danhGiaUpdate.chinhSua==false && danhGiaUpdate.pheDuyet==false">Cập nhật đánh giá
@@ -995,9 +1084,7 @@
             </div>
         </div>
     </div>
-    </div>
 
-    </div>
 </body>
 
 </html>

@@ -15,6 +15,14 @@ app.controller("trahang-ctrl", function ($scope, $http) {
 
 
 
+    // Hàm tính tổng tiền cho các sản phẩm trả
+    $scope.getTotalPriceSanPhamTra = function () {
+        let total = 0;
+        $scope.sanPhamTra.forEach(
+            (d) => (total += d.donGiaSauGiam * d.soLuong)
+        );
+        return total;
+    };
     $scope.closeModal = function (id) {
         $(id).modal('hide')
         $scope.donHang = {}
@@ -152,7 +160,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
     $scope.trangThaiDonHang = 6
     $scope.huyDH = function () {
         console.log($scope.trangThaiDonHang)
-         if ($scope.trangThaiDonHang == 6) {
+        if ($scope.trangThaiDonHang == 6) {
             $scope.chuaXacNhanTraHang.huyDH();
         } else if ($scope.trangThaiDonHang == 7) {
             $scope.daXacNhan.huyDH();
@@ -177,14 +185,13 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 c.checked = false
             })
         }
-         if ($scope.trangThaiDonHang == 7) {
+        if ($scope.trangThaiDonHang == 7) {
             $scope.daXacNhan.checkButton();
         } else if ($scope.trangThaiDonHang == 6) {
             $scope.chuaXacNhanTraHang.checkButton();
         }
     }
     $scope.checkAllChecked = function (name, idCheckBoxSetAll) {
-        34
         let checkBox = document.getElementsByName(name)
         let check = true;
         checkBox.forEach(c => {
@@ -387,7 +394,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                     $scope.chuaXacNhanTraHang.init()
                     document.getElementById('checkAllChuaXacNhan').checked = false
                     $scope.daXacNhanTraHang.totalElement++
-                    
+
                 }).catch(e => {
                     alertify.success("Xác nhận thành công")
                     console.log(e)
@@ -440,7 +447,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
             })
         },
         huyDH() {
-          if (!$scope.lyDoTraHang || $scope.lyDoTraHang.trim().length === 0) {
+            if (!$scope.lyDoTraHang || $scope.lyDoTraHang.trim().length === 0) {
                 $scope.messLyDo = "Không để trống lý do hủy";
                 return;
             } else if ($scope.lyDoTraHang.length > 200) {
@@ -461,7 +468,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 this.id = [];
                 $('#closeHuy').click();
                 document.getElementById('checkAllChuaXacNhanTraHang').checked = false;
-              
+
             }).catch(e => {
                 console.log(e);
                 alertify.success("Hủy đơn hàng thành công");
@@ -643,7 +650,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
             }).catch(e => {
                 console.log(e);
                 alertify.success("Hủy đơn hàng thành công");
-            });           
+            });
         },
         chuyenGiaoDHAll() {
 
@@ -667,7 +674,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                     $scope.daXacNhan.id = []
                     document.getElementById('checkAllDaXacNhan').checked = false
 
-                   
+
                 }).catch(e => {
                     console.log(e)
                     alertify.success("Chuyển giao thành công")
@@ -689,7 +696,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         }
     }
     $scope.daXacNhan.init()
-
+  
     $scope.hoanThanhTraHang = {
         list: [],
         detail: {},
@@ -699,6 +706,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         pages: [],
         sdtSearch: "",
         init() {
+            $scope.trangThaiDonHang = 8
             $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=3&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
@@ -707,7 +715,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
             })
         },
         getList(pageNumber) {
-            $scope.trangThaiDonHang = 0
+            $scope.trangThaiDonHang = 8
             this.page = pageNumber;
             $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=3&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
@@ -725,7 +733,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 $scope.chiTietDonHang = r.data;
             }).catch(e => console.log(e))
             $http.get("/admin/don-hang/get-ctsp-tra?ma=" + ma).then(r => {
-                    $scope.sanPhamTra = r.data;
+                $scope.sanPhamTra = r.data;
             }).catch(e => console.log(e))
         },
         setPageNumbers() {
@@ -750,7 +758,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
 
         }
     }
-
+ 
     $scope.huyTraHang = {
         list: [],
         detail: {},
@@ -760,7 +768,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         pages: [],
         sdtSearch: "",
         init() {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=9&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
@@ -770,7 +778,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 9
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=9&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=0&pageNumber=" + pageNumber ).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -877,7 +885,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         })
     }
     //
-    $scope.loadMultipleDonHangUsers = function() {
+    $scope.loadMultipleDonHangUsers = function () {
         let promises = [];
         let trangThais = [6, 7, 8, 9];
 

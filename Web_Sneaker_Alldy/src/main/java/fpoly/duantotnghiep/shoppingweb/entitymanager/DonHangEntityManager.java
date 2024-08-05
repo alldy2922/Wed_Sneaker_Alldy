@@ -57,7 +57,12 @@ public class DonHangEntityManager {
             jpql.append(" ORDER BY t.ngayKiemTra DESC ");
         }else if(trangThai == 3){
             jpql.append(" ORDER BY t.ngayHoanThanh DESC ");
+        }else if(trangThai == 0) {
+            jpql.append(" ORDER BY d.ngayHuyTraHang DESC ");
         }
+//        else if(trangThai == 9){
+//                jpql.append(" ORDER BY d.ngayHuyTraHang DESC ");
+//    }
         List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();
 
         for (DonHangModel donHang : resultModel) {
@@ -79,7 +84,11 @@ public class DonHangEntityManager {
             jpql.append(" ORDER BY t.ngayKiemTra DESC ");
         }else if(trangThai == 3){
             jpql.append(" ORDER BY t.ngayHoanThanh DESC ");
-        }
+   }
+//        else if(trangThai == 0){
+//            jpql.append(" ORDER BY d.ngayHuyTraHang DESC ");
+//        }
+
 
         List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();
         List<DonHangDtoResponse> donHangDtoResponses = resultModel.stream().map(model -> new DonHangDtoResponse(model)).collect(Collectors.toList());

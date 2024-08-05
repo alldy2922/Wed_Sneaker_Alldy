@@ -1,396 +1,1001 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http:/www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/user/trangChu}">
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]--><!--[if !mso]><!-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css"><!--<![endif]-->
     <style>
-        .step-wizard-list {
-            background: white;
-            color: #333;
-            list-style-type: none;
-            display: flex;
-            padding: 60px 10px;
-            position: relative;
-            z-index: 10;
+        * {
+            box-sizing: border-box;
         }
 
-        .step-wizard-item {
-            padding: 0 20px;
-            flex-basis: 0;
-            -webkit-box-flex: 1;
-            -ms-flex-positive: 1;
-            flex-grow: 1;
-            max-width: 100%;
-            display: flex;
-            flex-direction: column;
-            text-align: center;
-            min-width: 170px;
-            position: relative;
+        body {
+            margin: 0;
+            padding: 0;
         }
 
-        .step-wizard-item + .step-wizard-item:after {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 19px;
-            background: #2dc258;
-            width: 100%;
-            height: 2px;
-            transform: translateX(-50%);
-            z-index: -10;
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+            text-decoration: inherit !important;
         }
 
-        .progress-count {
-            height: 40px;
-            width: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-weight: 600;
-            margin: 0 auto;
-            position: relative;
-            z-index: 10;
-            color: transparent;
+        #MessageViewBody a {
+            color: inherit;
+            text-decoration: none;
         }
 
-        .progress-count:after {
-            content: "";
-            height: 40px;
-            width: 40px;
-            background: #2dc258;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: -10;
+        p {
+            line-height: inherit
         }
 
-        .progress-count:before {
-            content: "";
-            height: 10px;
-            width: 20px;
-            border-left: 3px solid #fff;
-            border-bottom: 3px solid #fff;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -60%) rotate(-45deg);
-            transform-origin: center center;
+        .desktop_hide,
+        .desktop_hide table {
+            mso-hide: all;
+            display: none;
+            max-height: 0px;
+            overflow: hidden;
         }
 
-        .progress-label {
-            font-size: 14px;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-
-        .current-item .progress-count:before,
-        .current-item ~ .step-wizard-item .progress-count:before {
+        .image_block img+div {
             display: none;
         }
 
-        .current-item ~ .step-wizard-item .progress-count:after {
-            height: 10px;
-            width: 10px;
-        }
+        @media (max-width:700px) {
 
-        .current-item ~ .step-wizard-item .progress-label {
-            opacity: 0.5;
-        }
+            .desktop_hide table.icons-inner,
+            .social_block.desktop_hide .social-table {
+                display: inline-block !important;
+            }
 
-        .current-item .progress-count:after {
-            background: #fff;
-            border: 2px solid #2dc258;
-        }
+            .icons-inner {
+                text-align: center;
+            }
 
-        .current-item .progress-count {
-            color: #2dc258;
-        }
+            .icons-inner td {
+                margin: 0 auto;
+            }
 
-        .DM1xQK {
-            height: 0.1875rem;
-            width: 100%;
-            background-position-x: -1.875rem;
-            background-size: 7.25rem 0.1875rem;
-            background-image: repeating-linear-gradient(45deg, #6fa6d6, #6fa6d6 33px, transparent 0, transparent 41px, #f18d9b 0, #f18d9b 74px, transparent 0, transparent 82px);
-        }
-        .header-cart-buttons {
-            display: flex;
-            justify-content: center;
+            .image_block img.fullWidth {
+                max-width: 100% !important;
+            }
+
+            .mobile_hide {
+                display: none;
+            }
+
+            .row-content {
+                width: 100% !important;
+            }
+
+            .stack .column {
+                width: 100%;
+                display: block;
+            }
+
+            .mobile_hide {
+                min-height: 0;
+                max-height: 0;
+                max-width: 0;
+                overflow: hidden;
+                font-size: 0px;
+            }
+
+            .desktop_hide,
+            .desktop_hide table {
+                display: table !important;
+                max-height: none !important;
+            }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet">
 </head>
-<body>
-<div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" ng-app="ctdh-app" ng-controller="ctdh-ctrl">
-    <div class="page-content container-fulid"
-         style="background-color: #f9f9fa">
-        <div class="container bg-white">
-            <div class="card-header row" style="background-color: #717fe0">
-                <div class="col-4">
-                    <a href="/lich-su-mua-hang1">
-                        <img src="/userStyle/images/icons/icon-prev.png" alt="" srcset="">
-                    </a>
 
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6 m-t-80 m-b-80" ng-if="donHangTra.trangThai === 0">
-                    <h4 class="m-l-20" style="color: red">Từ chối hoàn tiền</h4>
-                    <span class="m-l-20">{{donHangTra.ngayHuy | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                </div>
-                <!--                trả hàng-->
-                <ul class="step-wizard-list" ng-if="donHangTra.trangThai != 0">
-                    <!--                    Chờ xác nhận trả hàng-->
-                    <li class="step-wizard-item">
-                        <span class="progress-count">1</span>
-                        <span class="progress-label">Chờ xác nhận trả hàng</span>
-                        <span class="progress-label">{{donHangTra.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                    </li>
-                    <!--                    Kiểm tra hàng hoàn-->
-                    <li class="step-wizard-item" ng-if="donHangTra.trangThai != 1">
-                        <span class="progress-count">2</span>
-                        <span class="progress-label">Kiểm tra hàng hoàn</span>
-                        <span class="progress-label">{{donHangTra.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                    </li>
-                    <li class="step-wizard-item current-item" ng-if="donHangTra.trangThai === 1">
-                        <span class="progress-count">2</span>
-                        <span class="progress-label">Kiểm tra hàng hoàn</span>
-                        <span class="progress-label">{{donHangTra.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                    </li>
-                    <!--                   Hoàn tiền -->
-                    <li class="step-wizard-item" ng-if="donHangTra.trangThai != 2">
-                        <span class="progress-count">3</span>
-                        <span class="progress-label">Hoàn tiền</span>
-                        <span class="progress-label">{{donHangTra.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                    </li>
-                    <li class="step-wizard-item  current-item" ng-if="donHangTra.trangThai === 2">
-                        <span class="progress-count">3</span>
-                        <span class="progress-label">Hoàn tiền</span>
-                        <span class="progress-label">{{donHangTra.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="DM1xQK"></div>
-            <div class="card-body">
-                <h4 class="m-t-20 m-b-20">Thông tin đơn hàng</h4>
-                <div class="row">
-                    <div class="col-sm-2">
-                        <div class="mb-3">
-                            <label>Mã đơn hàng</label>
-                            <span class="form-control">{{donHang.ma}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="mb-3">
-                            <label>Phương thức thanh toán khi mua</label>
-                            <span class="form-control">{{donHang.phuongThucThanhToan}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="mb-3">
-                            <label>Phương thức nhận tiền hoàn đơn</label>
-                            <span class="form-control">{{donHang.phuongThucNhanTien}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="mb-3">
-                            <label>Mã voucher</label>
-                            <span class="form-control">{{donHang.voucherCode == null ? 'Không áp dụng' : donHang.voucherCode}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="mb-3">
-                            <label>Tên voucher</label>
-                            <span class="form-control">{{donHang.voucherName == null ? 'Không áp dụng' : donHang.voucherName}}</span>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="mb-3">
-                            <label>Tên người nhận</label>
-                            <span class="form-control">{{donHang.tenNguoiNhan}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="mb-3">
-                            <label>Số điện thoại</label>
-                            <span class="form-control">{{donHang.soDienThoai}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="mb-3">
-                            <label>email</label>
-                            <span class="form-control">{{donHang.email}}</span>
-                        </div>
-                    </div>
+<body style="margin: 0; background-color: #fff; padding: 0; -webkit-text-size-adjust: none; text-size-adjust: none;">
+<table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #fff;">
+    <tbody>
+    <tr>
+        <td>
+            <table class="row row-1" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #222;">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; width: 680px; margin: 0 auto;" width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="image_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                        <tr>
+                                            <td class="pad" style="width:100%;padding-right:0px;padding-left:0px;">
+                                                <div class="alignment" align="center" style="line-height:10px"><img  src="cid:logo" style="padding: 10px;display: block; height: auto; border: 0; max-width: 136px; width: 100%;" width="136" ></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="row row-2" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; width: 680px; margin: 0 auto;" width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <div class="spacer_block block-1" style="height:25px;line-height:25px;font-size:1px;">&#8202;</div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-3"
+                   role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+                <tbody>
+                <tr>
+                    <td>
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               class="row-content stack" role="presentation"
+                               style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000; width: 680px; margin: 0 auto;"
+                               width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="66.66666666666667%">
+                                    <table border="0" cellpadding="10" cellspacing="0"
+                                           class="heading_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad">
+                                                <h2
+                                                        style="margin: 0; color: #1e0e4b; direction: ltr; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 30px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: left; margin-top: 0; margin-bottom: 0;">
+                                                    <span class="tinyMce-placeholder" th:text="${title}"></span></h2>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-2"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="33.333333333333336%">
+                                    <table border="0" cellpadding="10" cellspacing="0"
+                                           class="heading_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad">
+                                                <h3
+                                                        style="margin: 0; color: #1e0e4b; direction: ltr; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 24px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: right; margin-top: 0; margin-bottom: 0;">
+                                                    <span class="tinyMce-placeholder">Đơn hàng Trả #[[${donHangTra.maDonHang}]]</span>
+                                                </h3>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="row row-4" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; width: 680px; margin: 0 auto;" width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#444a5b;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
+                                                    <p style="margin: 0;" th:text="${mess}">Xin chào Phước, đơn hàng của bạn đã được xác nhận. Cám ơn bạn đã mua hàng.</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr th:if="${lyDo!=null}">
+                                <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#444a5b;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
+                                                    <p style="margin: 0;" >Lý do: [[${lyDo}]]</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-5"
+                   role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+                <tbody>
+                <tr>
+                    <td>
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               class="row-content stack" role="presentation"
+                               style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000; width: 680px; margin: 0 auto;"
+                               width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="50%">
+                                    <table border="0" cellpadding="10" cellspacing="0"
+                                           class="button_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad">
+                                                <div align="center" class="alignment">
+                                                    <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:42px;width:212px;v-text-anchor:middle;" arcsize="10%" stroke="false" fillcolor="#1c84ee"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, sans-serif; font-size:16px"><![endif]-->
+                                                    <div
+                                                            style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#1c84ee;border-radius:4px;width:auto;border-top:0px solid transparent;font-weight:400;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;">
+                                                        <a th:href="@{|http://localhost:8080/don-hang/get-ctsp-tra?ma=${donHangTra.maDonHang}|}" style="color: white;">
+                                                                            <span
+                                                                                    style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;letter-spacing:normal;"><span
+                                                                                    style="word-break: break-word; line-height: 32px;">Xem
+																				thông tin đơn hàng</span></span></a></div>
 
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="mb-3">
-                            <label>Thành phố</label>
-                            <span class="form-control">{{donHang.thanhPhoName}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="mb-3">
-                            <label>Quận huyện</label>
-                            <span class="form-control">{{donHang.quanHuyenName}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="mb-3">
-                            <label>Xã phường</label>
-                            <span class="form-control">{{donHang.xaPhuongName}}</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="mb-3">
-                            <label>Địa chỉ chi tiết</label>
-                            <span class="form-control">{{donHang.diaChiChiTiet}}</span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="col-sm-6">
-                        <div class="mb-3">
-                            <label>Số Tài Khoản Nhận Tiền Hoàn Đơn</label>
-                            <pre class="form-control" style="white-space: pre-wrap;">{{donHang.ghiChu}}</pre>
-                        </div>
-                    </div>
-                </div>
-                <div >
-                    <div class="col-sm-6">
-                        <label>Lý do hoàn hàng</label>
-                        <textarea class="form-control">{{donHang.lyDoTraHang}}</textarea>
-                    </div>
-                </div>
-                <hr>
-                <div style="max-height: 220px;overflow-y: auto;">
-                    <table id="datatable"
-                           class="table table-hover dt-responsive  nowrap w-100">
-                        <thead>
-                        <tr>
-                            <th scope="col">Sản phẩm</th>
-                            <th scope="col">Số Lượng</th>
-                            <th scope="col">Đơn Giá Gốc</th>
-                            <th scope="col">Khuyến Mại</th>
-                            <th scope="col">Đơn Giá Sau Giảm</th>
-                            <th scope="col">Tổng</th>
-                        </tr>
-                        </thead>
+                                                    <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>            <table class="row row-6" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+            <tbody>
+            <tr>
+                <td>
+                    <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; width: 680px; margin: 0 auto;" width="680">
                         <tbody>
-                        <tr ng-repeat="d in chiTietDonHang">
-                            <td>
-                                <div class="d-flex justify-content-start">
-                                    <img src="/image/loadImage/product/{{d.anh}}"
-                                         style="width: 100px; height: 70px;">
-                                    <div>
-                                        <p style="font-weight: bold;padding-left: 10px; ">{{d.sanPham}}</p>
-                                        <i style="font-size: 10px;padding-left: 10px;">Size {{d.size}}</i>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{d.soLuong}}</td>
-                            <td>{{d.donGia | currency: "" : 1}} đ</td>
-                            <td>{{d.donGia - d.donGiaSauGiam | currency: "" : 1}} đ</td>
-                            <td>
-                                <div>{{d.donGiaSauGiam | currency: "" : 1}} đ
-                                </div>
-                            </td>
-                            <td>
-                                <div>{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
-                                    đ
-                                </div>
+                        <tr>
+                            <td class="column column-1" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                <div class="spacer_block block-1" style="height:20px;line-height:20px;font-size:1px;">&#8202;</div>
+                                <table class="divider_block block-2" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                    <tr>
+                                        <td class="pad">
+                                            <div class="alignment" align="center">
+                                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                                    <tr>
+                                                        <td class="divider_inner" style="font-size: 1px; line-height: 1px; border-top: 1px solid #000000;"><span>&#8202;</span></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="spacer_block block-3" style="height:20px;line-height:20px;font-size:1px;">&#8202;</div>
+                                <table class="paragraph_block block-4" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                    <tr>
+                                        <td class="pad" style="padding-bottom:5px;padding-left:30px;padding-right:30px;padding-top:10px;">
+                                            <div style="color:#000000;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:20px;font-weight:700;line-height:180%;text-align:left;mso-line-height-alt:36px;">
+                                                <p style="margin: 0; word-break: break-word;"><strong>Thông tin đơn hàng</strong></p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-                    <h4>Sản Phẩm Trả</h4>
-                    <table id="datatable"
-                           class="table table-hover dt-responsive  nowrap w-100">
-                        <thead>
-                        <tr>
-                            <th scope="col">Sản phẩm</th>
-                            <th scope="col">Số Lượng</th>
-                            <th scope="col">Đơn Giá Gốc</th>
-                            <th scope="col">Khuyến Mại</th>
-                            <th scope="col">Đơn Giá Sau Giảm</th>
-                            <th scope="col">Tổng</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr ng-repeat="d in sanPhamTra">
-                            <td>
-                                <div class="d-flex justify-content-start">
-                                    <img src="/image/loadImage/product/{{d.anh}}"
-                                         style="width: 100px; height: 70px;">
-                                    <div>
-                                        <p style="font-weight: bold;padding-left: 10px; ">{{d.sanPham}}</p>
-                                        <i style="font-size: 10px;padding-left: 10px;">Size {{d.size}}</i>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{d.soLuong}}</td>
-                            <td>{{d.donGia | currency: "" : 1}} đ</td>
-                            <td>{{d.donGia - d.donGiaSauGiam | currency: "" : 1}} đ</td>
-                            <td>
-                                <div>{{d.donGiaSauGiam | currency: "" : 1}} đ
-                                </div>
-                            </td>
-                            <td>
-                                <div>{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
-                                    đ
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <table class="table" style="    border-top: 1px solid black">
-                    <tbody>
-                    <tr>
-                        <td>Tổng</td>
-                        <td colspan="4">
-                            <div class="d-flex justify-content-end">{{getTotalPrice() | currency: "" : 1}} đ
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Voucher</td>
-                        <td colspan="4">
-                            <div class="d-flex justify-content-end">
-                                {{donHang.tienGiam == null ? 0 : donHang.tienGiam | currency: "" : 1}} đ
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Phí giao hàng</td>
-                        <td colspan="4">
-                            <div class="d-flex justify-content-end">
-                                {{donHang.phiGiaoHang | currency: "" : 1}} đ
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Thành tiền</td>
-                        <td colspan="4">
-                            <div class="d-flex justify-content-end">
-                                {{(getTotalPrice() + donHang.phiGiaoHang) - donHang.tienGiam | currency: "" : 1}} đ
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+            <table class="row row-7" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000; width: 680px; margin: 0 auto;" width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-2" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#101112;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+                                                    <p style="margin: 0;"><strong>Sản phẩm</strong></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-3" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#101112;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+                                                    <p style="margin: 0;"><strong>Số lượng</strong></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-4" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#101112;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+                                                    <p style="margin: 0;"><strong>Đơn giá</strong></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-5" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#101112;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+                                                    <p style="margin: 0; margin-bottom: 2px;"><strong>Đơn giá</strong></p>
+                                                    <p style="margin: 0;"><strong>sau giảm</strong></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-6" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#101112;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+                                                    <p style="margin: 0;"><strong>Thành tiền</strong></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="row row-8" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
+                   th:each="p : ${products}" th:object="${p}">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000; width: 680px; margin: 0 auto;" width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="image_block block-1" width="100%" border="0" cellpadding="5" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div class="alignment" align="center" style="line-height:10px"><img class="fullWidth" th:src="@{|cid:*{anh}|}" style="display: block; height: auto; border: 0; max-width: 80px; width: 100%;" width="80" ></a></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-2" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#101112;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+                                                    <p style="margin: 0;" th:text="*{sanPham}"></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table class="paragraph_block block-2" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#101112;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:11px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:13.2px;">
+                                                    <p style="margin: 0;"><strong>Size: [[*{size}]]</strong></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-3" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#101112;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+                                                    <p style="margin: 0;"><strong>[[*{soLuong}]]</strong></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-4" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#101112;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+                                                    <p style="margin: 0;" th:text="${#numbers.formatDecimal(p.donGia, 0, 'COMMA', 1, 'POINT')+'đ'}"></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-5" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#101112;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+                                                    <p style="margin: 0;" th:text="${#numbers.formatDecimal(p.donGiaSauGiam, 0, 'COMMA', 1, 'POINT')+'đ'}"></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-6" width="16.666666666666668%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="paragraph_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#101112;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:13px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:15.6px;">
+                                                    <p style="margin: 0;" th:text="${#numbers.formatDecimal(p.donGiaSauGiam*p.soLuong, 0, 'COMMA', 1, 'POINT')+'đ'}"></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="row row-9" align="center" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                <tbody>
+                <tr>
+                    <td>
+                        <table class="row-content stack" align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000; width: 680px; margin: 0 auto;" width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1" width="25%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="empty_block block-1" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-2" width="75%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: middle; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;">
+                                    <table class="divider_block block-1" width="100%" border="0" cellpadding="10" cellspacing="0" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                        <tr>
+                                            <td class="pad">
+                                                <div class="alignment" align="center">
+                                                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                                                        <tr>
+                                                            <td class="divider_inner" style="font-size: 1px; line-height: 1px; border-top: 1px solid #000000;"><span>&#8202;</span></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-10"
+                   role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+                <tbody>
+                <tr>
+                    <td>
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               class="row-content stack" role="presentation"
+                               style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #fff; color: #000; width: 680px; margin: 0 auto;"
+                               width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-left: 10px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="25%">
+                                    <div class="spacer_block block-1 mobile_hide"
+                                         style="height:25px;line-height:25px;font-size:1px;"> </div>
+                                </td>
+                                <td class="column column-2"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="50%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-left:35px;padding-right:10px;padding-top:10px;">
+                                                <div
+                                                        style="color:#232323;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:14px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
+                                                    <p style="margin: 0; word-break: break-word;">
+                                                        <span>Tổng tiền:</span></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-3"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="25%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-left:30px;padding-right:10px;padding-top:10px;">
+                                                <div
+                                                        style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:14px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
+                                                    <p style="margin: 0; word-break: break-word;">[[${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 1, 'POINT')}]]đ</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-11"
+                   role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+                <tbody>
+                <tr>
+                    <td>
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               class="row-content stack" role="presentation"
+                               style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #fff; color: #000; width: 680px; margin: 0 auto;"
+                               width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-left: 10px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="25%">
+                                    <div class="spacer_block block-1 mobile_hide"
+                                         style="height:25px;line-height:25px;font-size:1px;"> </div>
+                                </td>
+                                <td class="column column-2"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="50%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-left:35px;padding-right:10px;padding-top:10px;">
+                                                <div
+                                                        style="color:#232323;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:14px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
+                                                    <p style="margin: 0; word-break: break-word;">
+                                                        <span>Phí giao hàng:</span></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-3"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="25%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-left:30px;padding-right:10px;padding-top:10px;">
+                                                <div
+                                                        style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:14px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
+                                                    <p style="margin: 0; word-break: break-word;" th:text="${#numbers.formatDecimal(donHangTra.donHangDto.phiGiaoHang, 0, 'COMMA', 1, 'POINT')+'đ'}"></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-12"
+                   role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+                <tbody>
+                <tr>
+                    <td>
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               class="row-content stack" role="presentation"
+                               style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #fff; color: #000; width: 680px; margin: 0 auto;"
+                               width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-left: 10px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="25%">
+                                    <div class="spacer_block block-1 mobile_hide"
+                                         style="height:25px;line-height:25px;font-size:1px;"> </div>
+                                </td>
+                                <td class="column column-2"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="50%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-left:35px;padding-right:10px;padding-top:10px;">
+                                                <div
+                                                        style="color:#232323;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:14px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
+                                                    <p style="margin: 0; word-break: break-word;">
+                                                        <span>Khuyến mại:</span></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-3"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="25%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-left:30px;padding-right:10px;padding-top:10px;">
+                                                <div
+                                                        style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:14px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
+                                                    <p  style="margin: 0; word-break: break-word;" th:text="${#numbers.formatDecimal(donHangTra.donHangDto.tienGiam, 0, 'COMMA', 1, 'POINT')+'đ'}"> </p>
+                                                    <!--                                                    <p th:if="${donHang.tienGiam!=null}" style="margin: 0; word-break: break-word;" > 0.0đ</p>-->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-13"
+                   role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+                <tbody>
+                <tr>
+                    <td>
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               class="row-content stack" role="presentation"
+                               style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #fff; color: #000; width: 680px; margin: 0 auto;"
+                               width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-left: 10px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="25%">
+                                    <div class="spacer_block block-1 mobile_hide"
+                                         style="height:25px;line-height:25px;font-size:1px;"> </div>
+                                </td>
+                                <td class="column column-2"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="50%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-left:35px;padding-right:10px;padding-top:10px;">
+                                                <div
+                                                        style="color:#232323;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:18px;line-height:120%;text-align:left;mso-line-height-alt:21.599999999999998px;">
+                                                    <p style="margin: 0; word-break: break-word;">
+                                                        <span>Thành tiền:</span></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-3"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="25%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-left:30px;padding-right:10px;padding-top:10px;">
+                                                <div
+                                                        style="color:#000000;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:18px;font-weight:700;line-height:120%;text-align:left;mso-line-height-alt:21.599999999999998px;">
+                                                    <p style="margin: 0; word-break: break-word;">
+                                                        <span th:text="${#numbers.formatDecimal(
+    ((donHangTra.donHangDto.phiGiaoHang ?: 0) + (totalPrice ?: 0)) - (donHangTra.donHangDto.tienGiam ?: 0),
+    0, 'COMMA', 1, 'POINT'
+) + 'đ'}">$ 46.99</span> </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-14"
+                   role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+                <tbody>
+                <tr>
+                    <td>
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               class="row-content stack" role="presentation"
+                               style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; width: 680px; margin: 0 auto;"
+                               width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="100%">
+                                    <div class="spacer_block block-1"
+                                         style="height:20px;line-height:20px;font-size:1px;"> </div>
+                                    <table border="0" cellpadding="10" cellspacing="0"
+                                           class="divider_block block-2" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad">
+                                                <div align="center" class="alignment">
+                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                           role="presentation"
+                                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
+                                                           width="100%">
+                                                        <tr>
+                                                            <td class="divider_inner"
+                                                                style="font-size: 1px; line-height: 1px; border-top: 1px solid #000000;">
+                                                                <span> </span></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="spacer_block block-3"
+                                         style="height:20px;line-height:20px;font-size:1px;"> </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-15"
+                   role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
+                <tbody>
+                <tr>
+                    <td>
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               class="row-content stack" role="presentation"
+                               style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-radius: 0; color: #000; width: 680px; margin: 0 auto;"
+                               width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="66.66666666666667%">
+                                    <table border="0" cellpadding="10" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad">
+                                                <div
+                                                        style="color:#444a5b;direction:ltr;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:20px;font-weight:700;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:24px;">
+                                                    <p style="margin: 0;">Thông tin giao hàng</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table border="0" cellpadding="10" cellspacing="0"
+                                           class="paragraph_block block-2" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad">
+                                                <div style="color:#444a5b;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
+                                                    <p style="color:#444a5b;margin: 0;" th:text="${donHangTra.donHangDto.thanhPhoName + ' - ' + donHangTra.donHangDto.quanHuyenName + ' - '  + donHangTra.donHangDto.xaPhuongName }"></p>
+                                                    <br>
+                                                    <p style="margin: 0;" th:text="${donHangTra.donHangDto.diaChiChiTiet }"></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-2"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="33.333333333333336%">
+                                    <table border="0" cellpadding="10" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad">
+                                                <div
+                                                        style="color:#444a5b;direction:ltr;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:20px;font-weight:700;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:24px;">
+                                                    <p style="margin: 0;">Hình thức thanh toán</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table border="0" cellpadding="10" cellspacing="0"
+                                           class="paragraph_block block-2" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad">
+                                                <div
+                                                        style="color:#444a5b;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
+                                                    <p style="margin: 0;" th:text="${donHangTra.donHangDto.phuongThucThanhToan == true ? 'Thanh toán khi nhận hàng' : 'Thanh toán khi nhận hàng'}"></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-16"
+                   role="presentation"
+                   style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #1c84ee;" width="100%">
+                <tbody>
+                <tr>
+                    <td>
+                        <table align="center" border="0" cellpadding="0" cellspacing="0"
+                               class="row-content stack" role="presentation"
+                               style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; color: #000; width: 680px; margin: 0 auto;"
+                               width="680">
+                            <tbody>
+                            <tr>
+                                <td class="column column-1"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="50%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-bottom:10px;padding-left:30px;padding-right:10px;padding-top:10px;">
+                                                <div
+                                                        style="color:#ffffff;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:18px;line-height:120%;text-align:left;mso-line-height-alt:21.599999999999998px;">
+                                                    <p style="margin: 0;">Liên Hệ</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="social_block block-2" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-bottom:10px;padding-left:30px;text-align:left;padding-right:0px;">
+                                                <div align="left" class="alignment">
+                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                           class="social-table" role="presentation"
+                                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block;"
+                                                           width="300px">
+                                                        <tr>
+                                                            <td class="pad"
+                                                                style="padding-bottom:10px;padding-right:10px;padding-top:10px;">
+                                                                <div
+                                                                        style="color:#ffffff;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:12px;line-height:120%;text-align:left;mso-line-height-alt:14.399999999999999px;">
+                                                                    <a style="color:#ffffff; text-decoration: none;"  onmouseover="this.style.textDecoration= 'underline'" onmouseout="this.style.textDecoration= 'none'" href="https://www.facebook.com/profile.php?id=61560867682262">
+                                                                        <p style="margin: 0; word-break: break-word;">Facebook: Alldy Sneaker Store</p></a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="pad"
+                                                                style="padding-bottom:10px;\padding-right:10px;padding-top:10px;">
+                                                                <div
+                                                                        style="color:#ffffff;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:12px;line-height:120%;text-align:left;mso-line-height-alt:14.399999999999999px;">
+                                                                    <p style="margin: 0; color:#ffffff;text-decoration:none;word-break: break-word;">Email: alldystoresneaker@gmail.com</p>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-2"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="50%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-bottom:10px;padding-left:30px;padding-right:10px;padding-top:10px;">
+                                                <div
+                                                        style="color:#ffffff;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:18px;line-height:120%;text-align:left;mso-line-height-alt:21.599999999999998px;">
+                                                    <p style="margin: 0; word-break: break-word;">
+                                                        <strong><span>Địa chỉ</span></strong></p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-2" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-bottom:10px;padding-left:30px;padding-right:10px;padding-top:10px;">
+                                                <div
+                                                        style="color:#ffffff;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:12px;line-height:120%;text-align:left;mso-line-height-alt:14.399999999999999px;">
+                                                    <p style="margin: 0; word-break: break-word;">136 Cầu Diễn -  Hà Nội </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table><!-- End -->
 </body>
+
 </html>

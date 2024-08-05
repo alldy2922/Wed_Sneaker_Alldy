@@ -594,8 +594,8 @@
                         <div class="col-8">
                             <div>
                                 <!-- chọn sản phẩm hoàn -->
-                                <h5>Danh sách sản phẩm đã mua</h5>
-                                <div class="col-6 m-t-5" ng-repeat="d in selectedDonHang.chiTietDonHang">
+                                <h5 style="margin-top: 20px;">Danh sách sản phẩm đã mua</h5>
+                                <div class="col-6" ng-repeat="d in selectedDonHang.chiTietDonHang">
                                     <h5 style="color: white;">Đơn hàng: {{selectedDonHang.ma}}</h5>
                                 </div>
                                 <table class="table table-hover dt-responsive  nowrap w-100">
@@ -703,6 +703,7 @@
                                     <strong>{{totalRefund | currency: "" : 1}} đ </strong>
                                 </h5>
                             </div>
+                            <br>
                             <style>
                                 .custom-modal {
                                     max-width: 80%;

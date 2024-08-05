@@ -2,6 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.service;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangTraDTOReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
@@ -17,24 +18,33 @@ public interface IDonHangService {
     List<DonHangDtoResponse> getAllByTrangThai(Integer trangThai);
 
     List<DonHangReponseUser> getAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai);
+    List<DonHangReponseUser> getAllByKhachHangAndTrangThaiTra(String nguoiSoHuu, Integer trangThai);
+    List<DonHangTraDTOReponse> getCTSPTra(String nguoiSoHuu, String ma);
+    List<DonHangTraDTOReponse> getAllByDonHangTra(String ma);
 
     Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber);
+    List<DonHangTraDTOReponse> getAllDonHangTra(Integer trangThai);
 
     DonHangDtoResponse checkOut(DonHangDTORequest donHangDTORequest);
 
     DonHangDtoResponse findByMa(String ma);
+
+    DonHangTraDTOReponse findByMaTra(String ma);
 
     DonHangReponseUser findByMaUser(String ma);
 
     Boolean existsByMa(String ma);
 
     void updateTrangThai(String maDonHang, Integer trangThai) throws MessagingException;
+    void updateTrangThaiTra(String maDonHangTra, Integer trangThai) throws MessagingException;
+
 
 //    void huyDonHang(String maDonHang, String lyDo) throws MessagingException;
 
 //    DonHangDtoResponse updateDonHang(DonHangDTORequest request);
 
     void huyTraHang(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
+    void huyTraHangNew(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
 
     void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
 
@@ -48,6 +58,10 @@ public interface IDonHangService {
             """)
     Long getTotalQauntityInOrdersWithDate(Date firstDate, Date lastDate);
 
+    void updateTrangThaiTraHang(String maDonHang, Integer trangThai) throws MessagingException;
+
+    void sendEmailRefundWithHtml()throws MessagingException;
+
     Long getQuantityOrdersWithDate(Date firstDate, Date lastDate);
 
     BigDecimal getTotalPriceInOrdersWithDate(Date firstDate, Date lastDate);
@@ -58,5 +72,8 @@ public interface IDonHangService {
 
     Map<String,Long> getQuantityProductInOrderDetailWithDate(Date firstDate, Date lastDate);
 
-    public void traDonHangUser(String maDonHang, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu) throws MessagingException;
+    void traDonHangUser(String maDonHang, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu) throws MessagingException;
+
+    DonHangDtoResponse traMotPhan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu);
+
 }

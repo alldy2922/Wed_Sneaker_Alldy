@@ -44,18 +44,147 @@ app.controller("ctrl", function ($scope, $http){
     }
     $scope.getSanPhamTon()
 
+    // --BIEU DO sp ban chay
+    $scope.chartStart = null;
+    $scope.chartEnd = null;
+    $scope.chartNum = 0;
+    // Hàm truy vấn thống kê
+    $scope.getChart = function () {
+        console.log("ok")
+        if ($scope.chartStart && $scope.chartEnd && $scope.chartStart <= $scope.chartEnd && $scope.chartNum > 0)
+            $http({
+                method: 'POST',
+                url: '/admin/thong-ke/san-pham-ban-chay',
+                params: { start: $scope.chartStart, end: $scope.chartEnd, num: $scope.chartNum },
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            }).then(
+                function successCallback(response) {
+                    const productNames = response.data.map(item => item.TenSP);
+                    const productQuantities = response.data.map(item => item.SoLuongSP);
+                    const productImages = response.data.map(item => item.TenAnh);
 
-    $scope.getChartMonth = function (){
+                    var options = {
+                        series: [{
+                            name: 'Số lượng sản phẩm',
+                            data: productQuantities
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 400
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                            }
+                        },
+                        dataLabels: {
+                            enabled: true
+                        },
+                        xaxis: {
+                            categories: productNames,
+                            labels: {
+                                show: true
+                            }
+                        },
+                        yaxis: {
+                            labels: {
+                                style: {
+                                    fontSize: '12px'
+                                }
+                            },
+                            title: {
+                                text: 'Số lượng',
+                                style: {
+                                    fontSize: '12px'
+                                }
+                            }
+                        },
+                        title: {
+                            text: 'Top sản phẩm bán chạy nhất',
+                            align: 'center',
+                        },
+                        tooltip: {
+                            enabled: true,
+                            custom: function({ series, seriesIndex, dataPointIndex, w }) {
+                                var imageUrl = productImages[dataPointIndex];
+                                var productName = productNames[dataPointIndex];
+                                var value = series[seriesIndex][dataPointIndex];
+                                return `
+                                    <div style="width: 280px; height: 245px; display: flex; flex-direction: column; padding: 10px">
+                                        <div style="word-wrap: break-word">${productName}</div>
+                                        <div style="padding: 5px 0">
+                                            ${value} sản phẩm
+                                        </div>
+                                        <div>
+                                            <img src="/image/loadImage/product/${imageUrl}" alt="Image" style="width: 100%; height: 50% ;" />
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        }
+                    };
 
+                    var chart = new ApexCharts(document.getElementById("spbanchay"), options);
+                    chart.render();
+                },
+                function errorCallback(response) {
+                    console.log(response)
+                }
+            )
+    }
+
+    var delay = 100;
+    setTimeout(function() {
+        $scope.chartNum = 10;
+        $scope.chartStart = new Date(2022, 0, 1);
+        $scope.chartEnd = new Date();
+        $scope.getChart();
+    }, delay);
+
+
+
+
+
+
+    $scope.getChartMonth = function () {
+        // var months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+        //     'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
         var donHang = [], sanPham = [], doanhThu = [], months = []
-
-
         $http.get("/admin/thong-ke/tong-quat-nam").then(r => {
-            sanPham = r.data.totalProducts
-            donHang = r.data.quantityOrders
-            doanhThu = r.data.revenue
-            months = r.data.months
-            console.log("asdad ",r.data)
+            // var donHang = new Array(12).fill(0);
+            // var sanPham = new Array(12).fill(0);
+            // var doanhThu = new Array(12).fill(0);
+            //
+            // r.data.totalProducts.forEach((value, index) => {
+            //     if (index < 12) sanPham[index] = value;
+            // });
+            // r.data.quantityOrders.forEach((value, index) => {
+            //     if (index < 12) donHang[index] = value;
+            // });
+            // r.data.revenue.forEach((value, index) => {
+            //     if (index < 12) doanhThu[index] = value;
+            // });
+
+            var data = r.data;
+
+            // Khởi tạo 12 tháng với giá trị mặc định là 0
+            for (var i = 0; i < 12; i++) {
+                donHang.push(0);
+                sanPham.push(0);
+                doanhThu.push(0);
+                months.push(`Tháng ${i + 1}`);
+            }
+
+            // Cập nhật giá trị từ dữ liệu nhận được
+            data.months.forEach((month, index) => {
+                var monthIndex = parseInt(month.split(" ")[1]) - 1;
+                donHang[monthIndex] = data.quantityOrders[index] || 0;
+                sanPham[monthIndex] = data.totalProducts[index] || 0;
+                doanhThu[monthIndex] = data.revenue[index] || 0;
+            });
+
+            // months = r.data.months
+            // console.log("asdad ", r.data)
 
             var options = {
                 series: [{
@@ -89,6 +218,13 @@ app.controller("ctrl", function ($scope, $http){
                 },
                 xaxis: {
                     categories: months,
+                    labels: {
+                        show: true,
+                        rotate: -45, // Giúp hiển thị các nhãn dễ đọc hơn
+                        rotateAlways: true,
+                        minHeight: 80
+                    },
+                    tickPlacement: 'between' // Đặt nhãn giữa các cột
                 },
                 yaxis: [
                     {
@@ -181,8 +317,8 @@ app.controller("ctrl", function ($scope, $http){
                 }
             };
 
-        var chart = new ApexCharts(document.getElementById("month"), options);
-        chart.render();
+            var chart = new ApexCharts(document.getElementById("month"), options);
+            chart.render();
 
         }).catch(e => console.log(e))
 

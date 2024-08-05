@@ -203,7 +203,13 @@ app.controller("cart-ctrl", function ($scope, $http) {
         if ($scope.hasSelectedProducts()) {
             window.location.href = '/thanh-toan';
         } else {
-            alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán.');
+            Swal.fire({
+                title: 'Thông báo',
+                text: 'Vui lòng chọn ít nhất một sản phẩm để thanh toán.',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            });
         }
     };
+
 });

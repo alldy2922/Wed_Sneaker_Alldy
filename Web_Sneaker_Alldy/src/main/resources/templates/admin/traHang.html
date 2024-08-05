@@ -104,7 +104,7 @@
                                                                                 id="checkAllChuaXacNhan">
                                                                         </div>
                                                                     </th>
-                                                                    <th scope="col">Mã</th>
+                                                                    <th scope="col">Mã đơn hàng</th>
                                                                     <th scope="col">Tên người nhận</th>
                                                                     <th scope="col">Số điện thoại</th>
                                                                     <th scope="col">Ngày hoàn</th>
@@ -309,8 +309,7 @@
                                                                             <input type="checkbox"
                                                                                 ng-click="checkAllChecked('checkDaXacNhan','checkAllDaXacNhan')"
                                                                                 class="form-check-input"
-                                                                                name="checkDaXacNhan"
-                                                                                value="{{d.ma}}">
+                                                                                name="checkDaXacNhan" value="{{d.ma}}">
                                                                         </div>
                                                                     </th>
                                                                     <td style="cursor: pointer"
@@ -355,8 +354,8 @@
                                                 <div class="card-footer">
                                                     <div class="row d-flex justify-content-end me-1  mb-2">
                                                         <button class="btn btn-danger me-1 col-1" id="huyAll2" disabled
-                                                            ng-click="daXacNhan.setAllIdDonHang()"
-                                                            data-toggle="modal" data-target="#lyDoTraHang">Hủy
+                                                            ng-click="daXacNhan.setAllIdDonHang()" data-toggle="modal"
+                                                            data-target="#lyDoTraHang">Hủy
                                                         </button>
                                                         <button class="btn btn-primary col-2" disabled id="xacNhanAll2"
                                                             ng-click="daXacNhan.chuyenGiaoDHAll()">Hoàn Tiền
@@ -376,8 +375,7 @@
                                                                             <span class="sr-only">First</span>
                                                                         </span>
                                                                     </li>
-                                                                    <li class="page-item"
-                                                                        ng-if="daXacNhan.page>0">
+                                                                    <li class="page-item" ng-if="daXacNhan.page>0">
                                                                         <span class="page-link" style="cursor: pointer"
                                                                             aria-label="Previous"
                                                                             ng-click="daXacNhan.getList(daXacNhan.page==0 ? 0 : daXacNhan.page-1)">
@@ -387,16 +385,14 @@
                                                                                         class="sr-only">Previous</span>
                                                                             </span>
                                                                     </li>
-                                                                    <li class="page-item"
-                                                                        ng-if="daXacNhan.page>2">
+                                                                    <li class="page-item" ng-if="daXacNhan.page>2">
                                                                         <span class="page-link">
                                                                             <span>...</span>
                                                                         </span>
                                                                     </li>
                                                                     <li class="page-item pageNumber"
                                                                         ng-repeat="p in daXacNhan.pages"
-                                                                        ng-click="daXacNhan.getList(p)"
-                                                                        id="{{p}}">
+                                                                        ng-click="daXacNhan.getList(p)">
                                                                         <span ng-if="p!=daXacNhan.page"
                                                                             class="page-link"
                                                                             style="cursor: pointer">{{p + 1}}</span>
@@ -498,9 +494,9 @@
                                                                         }}
                                                                     </td>
                                                                     <td style="cursor: pointer"
-                                                                    ng-click="hoanThanhTraHang.getDetail(d.ma)">
-                                                                    {{d.lyDoTraHang}}
-                                                                </td>
+                                                                        ng-click="hoanThanhTraHang.getDetail(d.ma)">
+                                                                        {{d.lyDoTraHang}}
+                                                                    </td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -757,158 +753,226 @@
                 </div>
             </div>
             <!-- Modal Chưa xác nhận-->
-            <div class="modal fade bd-example-modal-lg" id="chuaXacNhanTraHangDetail" tabindex="-1" role="dialog"
-                aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-xl">
+            <div class="modal fade bd-example-modal-lg full-screen-modal" id="chuaXacNhanTraHangDetail" tabindex="-1"
+                role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Thông tin đơn hàng</h5>
                             <button type="button" class="close btn" data-dismiss="modal" aria-label="Close"
-                                ng-click="closeModal('#chuaXacNhanDetail')">
+                                ng-click="closeModal('#chuaXacNhanTraHangDetail')">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body d-flex justify-content-start">
-                            <div class="me-2" style="width: 33%">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="mb-3">
-                                            <label>Mã đơn hàng</label>
-                                            <span class="form-control">{{chuaXacNhanTraHang.detail.ma}}</span>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Mã đơn hàng</label>
+                                                <span class="form-control">{{chuaXacNhanTraHang.detail.ma}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Ngày yêu cầu trả hàng</label>
+                                                <span class="form-control">{{chuaXacNhanTraHang.detail.ngayTraHang |
+                                                    date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="mb-3">
+                                                <label>Phương thức thanh toán khi mua</label>
+                                                <span class="form-control">
+                                                    {{ chuaXacNhanTraHang.detail.phuongThucThanhToan == 'true' ? 'Thanh
+                                                    Toán
+                                                    khi
+                                                    nhận hàng' : 'Thanh toán VNPAY' }}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="mb-3">
-                                            <label>Ngày yêu cầu trả hàng</label>
-                                            <span class="form-control">{{chuaXacNhanTraHang.detail.ngayTraHang |
-                                                date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Mã voucher</label>
+                                                <span class="form-control">{{chuaXacNhanTraHang.voucherCode == null ?
+                                                    'Không áp
+                                                    dụng' :
+                                                    chuaXacNhanTraHang.voucherCode}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Tên voucher</label>
+                                                <span class="form-control">{{chuaXacNhanTraHang.voucherName == null ?
+                                                    'Không áp
+                                                    dụng' :
+                                                    chuaXacNhanTraHang.voucherName}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Phương thức hoàn tiền đơn hàng</label>
+                                                <span
+                                                    class="form-control">{{chuaXacNhanTraHang.detail.phuongThucNhanTien=='true'?'Nhận
+                                                    Tại Quầy-Tiền Mặt':'Chuyển Khoản ngân hàng'}}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-3 col-12">
-                                        <label>Phương thức thanh toán khi mua</label>
-                                        <span class="form-control">
-                                            {{ chuaXacNhanTraHang.detail.phuongThucThanhToan == 'true' ? 'Thanh Toán khi nhận hàng' : 'Thanh toán VNPAY' }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-3 col-12">
-                                        <label>Phương thức nhận tiền hoàn hoàn đơn</label>
-                                        <span class="form-control">
-                                            {{ chuaXacNhanTraHang.detail.phuongThucNhanTien == 'true' ? 'Nhận Tại Quầy-Tiền Mặt' : 'Chuyển Khoản ngân hàng' }}
-                                    </span>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="mb-3">
-                                            <label>Mã voucher</label>
-                                            <span class="form-control">{{chuaXacNhanTraHang.detail.voucherCode == null ?
-                                                'Không
-                                                áp dụng' : chuaXacNhanTraHang.detail.voucherCode}}</span>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Tên người nhận</label>
+                                                <input class="form-control" ng-focus="er.tenNguoiNhan=''"
+                                                    ng-model="chuaXacNhanTraHang.detail.tenNguoiNhan">
+                                                <i class="er">{{er.tenNguoiNhan == undefined ? '' :
+                                                    er.tenNguoiNhan}}</i>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Số điện thoại</label>
+                                                <input class="form-control" ng-focus="er.soDienThoai=''"
+                                                    ng-model="chuaXacNhanTraHang.detail.soDienThoai">
+                                                <i class="er">{{er.soDienThoai == undefined ? '' : er.soDienThoai}}</i>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>email</label>
+                                                <input class="form-control" ng-focus="er.email=''"
+                                                    ng-model="chuaXacNhanTraHang.detail.email">
+                                                <i class="er">{{er.email == undefined ? '' : er.email}}</i>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <div class="mb-3">
-                                            <label>Tên voucher</label>
-                                            <span class="form-control">{{chuaXacNhanTraHang.detail.voucherName == null ?
-                                                'Không
-                                                áp dụng' : chuaXacNhanTraHang.detail.voucherName}}</span>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="mb-3">
+                                                <label>Thành phố</label>
+                                                <select class="form-control"
+                                                    ng-model="chuaXacNhanTraHang.detail.thanhPhoCode"
+                                                    ng-focus="er.thanhPhoCode=''"
+                                                    onchange="angular.element(this).scope().giaoHangNhanh.cityChange(this.value)">
+                                                    <option ng-repeat="c in giaoHangNhanh.citys"
+                                                        value="{{c.ProvinceID}}">
+                                                        {{c.ProvinceName}}
+                                                    </option>
+                                                </select>
+                                                <i class="er">{{er.thanhPhoCode == undefined ? '' :
+                                                    er.thanhPhoCode}}</i>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="mb-3">
+                                                <label>Quận huyện</label>
+                                                <select class="form-control"
+                                                    ng-model="chuaXacNhanTraHang.detail.quanHuyenCode"
+                                                    ng-focus="er.quanHuyenCode=''"
+                                                    onchange="angular.element(this).scope().giaoHangNhanh.districtChange(this.value)">
+                                                    <option ng-repeat="d in giaoHangNhanh.districts"
+                                                        value="{{d.DistrictID}}">
+                                                        {{d.DistrictName}}
+                                                    </option>
+                                                </select>
+                                                <i class="er">{{er.quanHuyenCode == undefined ? '' :
+                                                    er.quanHuyenCode}}</i>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="mb-3">
+                                                <label>Xã phường</label>
+                                                <select class="form-control"
+                                                    ng-model="chuaXacNhanTraHang.detail.xaPhuongCode"
+                                                    ng-focus="er.xaPhuongCode=''"
+                                                    onchange="angular.element(this).scope().giaoHangNhanh.getFeeShipped()">
+                                                    <option ng-repeat="w in giaoHangNhanh.wards" value="{{w.WardCode}}">
+                                                        {{w.WardName}}
+                                                    </option>
+                                                </select>
+                                                <i class="er">{{er.xaPhuongCode == undefined ? '' :
+                                                    er.xaPhuongCode}}</i>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="mb-3">
+                                                <label>Địa chỉ chi tiết</label>
+                                                <textarea class="form-control" rows="2" ng-focus="er.diaChiChiTiet=''"
+                                                    ng-model="chuaXacNhanTraHang.detail.diaChiChiTiet"></textarea>
+                                                <i class="er">{{er.diaChiChiTiet == undefined ? '' :
+                                                    er.diaChiChiTiet}}</i>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="mb-3">
-                                            <label>Tên người nhận</label>
-                                            <input class="form-control" ng-focus="er.tenNguoiNhan=''"
-                                                ng-model="chuaXacNhanTraHang.detail.tenNguoiNhan">
-                                            <i class="er">{{er.tenNguoiNhan == undefined ? '' : er.tenNguoiNhan}}</i>
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label>Thông tin nhận tiền hoàn (Chuyển Khoản)</label>
+                                            <textarea class="form-control" style="height: 70px;" rows="2"
+                                                ng-model="chuaXacNhanTraHang.detail.ghiChu"></textarea>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="mb-3">
-                                            <label>Số điện thoại</label>
-                                            <input class="form-control" ng-focus="er.soDienThoai=''"
-                                                ng-model="chuaXacNhanTraHang.detail.soDienThoai">
-                                            <i class="er">{{er.soDienThoai == undefined ? '' : er.soDienThoai}}</i>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="mb-3">
-                                            <label>email</label>
-                                            <input class="form-control" ng-focus="er.email=''"
-                                                ng-model="chuaXacNhanTraHang.detail.email">
-                                            <i class="er">{{er.email == undefined ? '' : er.email}}</i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="mb-3">
-                                            <label>Thành phố</label>
-                                            <select class="form-control"
-                                                ng-model="chuaXacNhanTraHang.detail.thanhPhoCode"
-                                                ng-focus="er.thanhPhoCode=''"
-                                                onchange="angular.element(this).scope().giaoHangNhanh.cityChange(this.value)">
-                                                <option ng-repeat="c in giaoHangNhanh.citys" value="{{c.ProvinceID}}">
-                                                    {{c.ProvinceName}}
-                                                </option>
-                                            </select>
-                                            <i class="er">{{er.thanhPhoCode == undefined ? '' : er.thanhPhoCode}}</i>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="mb-3">
-                                            <label>Quận huyện</label>
-                                            <select class="form-control"
-                                                ng-model="chuaXacNhanTraHang.detail.quanHuyenCode"
-                                                ng-focus="er.quanHuyenCode=''"
-                                                onchange="angular.element(this).scope().giaoHangNhanh.districtChange(this.value)">
-                                                <option ng-repeat="d in giaoHangNhanh.districts"
-                                                    value="{{d.DistrictID}}">
-                                                    {{d.DistrictName}}
-                                                </option>
-                                            </select>
-                                            <i class="er">{{er.quanHuyenCode == undefined ? '' : er.quanHuyenCode}}</i>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="mb-3">
-                                            <label>Xã phường</label>
-                                            <select class="form-control"
-                                                ng-model="chuaXacNhanTraHang.detail.xaPhuongCode"
-                                                ng-focus="er.xaPhuongCode=''"
-                                                onchange="angular.element(this).scope().giaoHangNhanh.getFeeShipped()">
-                                                <option ng-repeat="w in giaoHangNhanh.wards" value="{{w.WardCode}}">
-                                                    {{w.WardName}}
-                                                </option>
-                                            </select>
-                                            <i class="er">{{er.xaPhuongCode == undefined ? '' : er.xaPhuongCode}}</i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-3 col-6">
-                                        <label>Địa chỉ chi tiết</label>
-                                        <textarea class="form-control" rows="2" ng-focus="er.diaChiChiTiet=''"
-                                            ng-model="chuaXacNhanTraHang.detail.diaChiChiTiet"></textarea>
-                                        <i class="er">{{er.diaChiChiTiet == undefined ? '' : er.diaChiChiTiet}}</i>
-                                    </div>
-                                    <div class="mb-3 col-6">
-                                        <label>Thông tin nhận tiền hoàn (Chuyển Khoản)</label>
-                                        <textarea class="form-control" rows="2"
-                                            ng-model="chuaXacNhanTraHang.detail.ghiChu"></textarea>
                                     </div>
                                 </div>
 
 
-                            </div>
-                            <div style="width: 65%" class="d-flex flex-column">
-                                <div style="height: 430px;overflow-y: auto;">
+                                <div class="col-6">
+                                    <h4>Sản Phẩm Đã Mua</h4>
+                                    <div style="height: 215px;overflow-y: auto;">
+                                        <table class="table table-hover dt-responsive  nowrap w-100">
+                                            <thead>
+                                                <tr style="position: sticky;
+                                            top: 0;
+                                            z-index: 1;
+                                            background: white;">
+                                                    <th style="width: 250px;">Sản phẩm</th>
+                                                    <th style="width: 90px">Số lượng</th>
+                                                    <th style="width: 115px">Đơn giá</th>
+                                                    <th style="width: 115px">Đơn giá<br> sau giảm</th>
+                                                    <th style="width: 120px;">Thành tiền</th>
+                                                    <th style="width: 15px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <i class="er">{{er.soLuongSP == undefined ? '' : er.soLuongSP}}</i>
+                                                <tr ng-repeat="d in chiTietDonHang" style="vertical-align: middle">
+                                                    <td style="width: 260px;">
+                                                        <div class="d-flex justify-content-start">
+                                                            <div style="width: 70px;">
+                                                                <img src="/image/loadImage/product/{{d.anh}}"
+                                                                    style="width: 70px; height: 70px; border-radius: 10px">
+                                                            </div>
+                                                            <div>
+                                                                <p style="font-weight: bold;padding-left: 10px; ">
+                                                                    {{d.sanPham}}</p>
+                                                                <i style="font-size: 10px;padding-left: 10px;">Size
+                                                                    {{d.size}}</i>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center">
+                                                            {{d.soLuong}}
+                                                        </div>
+                                                    </td>
+                                                    <td>{{d.donGia | currency: "" : 0}} đ</td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
+                                                            currency: "" : 0}}đ
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-end">
+                                                            {{d.donGiaSauGiam * d.soLuong | currency: "" : 0}}đ
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <br>
+                                    <h4>Sản Phẩm Trả</h4>
                                     <table class="table table-hover dt-responsive  nowrap w-100">
                                         <thead>
                                             <tr style="position: sticky;
@@ -925,7 +989,7 @@
                                         </thead>
                                         <tbody>
                                             <i class="er">{{er.soLuongSP == undefined ? '' : er.soLuongSP}}</i>
-                                            <tr ng-repeat="d in chiTietDonHang" style="vertical-align: middle">
+                                            <tr ng-repeat="d in sanPhamTra" style="vertical-align: middle">
                                                 <td style="width: 260px;">
                                                     <div class="d-flex justify-content-start">
                                                         <div style="width: 70px;">
@@ -959,275 +1023,307 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <hr>
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight: bold; font-size: 2em;">Tổng Tiền Hoàn:</td>
+                                                <td colspan="4">
+                                                    <div class="d-flex justify-content-end"
+                                                        style="font-weight: bold; font-size: 2em;">
+                                                        {{getTotalPriceSanPhamTra() | currency: "" : 0}}
+                                                        đ
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <hr>
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td>Tổng</td>
-                                            <td colspan="4">
-                                                <div class="d-flex justify-content-end">{{getTotalPrice() | currency: ""
-                                                    : 1}} đ
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Khuyễn mại</td>
-                                            <td colspan="4">
-                                                <div class="d-flex justify-content-end">
-                                                    {{chuaXacNhanTraHang.detail.tienGiam == null ? 0 :
-                                                    chuaXacNhanTraHang.detail.tienGiam | currency: "" : 1}}
-                                                    đ
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Phí giao hàng</td>
-                                            <td colspan="4">
-                                                <div class="d-flex justify-content-end">
-                                                    {{chuaXacNhanTraHang.detail.phiGiaoHang | currency: "" : 1}} đ
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Thành tiền</td>
-                                            <td colspan="4">
-                                                <div class="d-flex justify-content-end">
-                                                    {{(getTotalPrice() + chuaXacNhanTraHang.detail.phiGiaoHang) -
-                                                    chuaXacNhanTraHang.detail.tienGiam | currency: "" : 1}}
-                                                    đ
-                                                </div>
-                                            </td>
-                                        </tr>
                             </div>
-                            </td>
-                            </tr>
-                            </tbody>
-                            </table>
                         </div>
-
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                ng-click="closeModal('#chuaXacNhanTraHangDetail')">Đóng
+                            </button>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                            ng-click="closeModal('#chuaXacNhanDetail')">Đóng
-                        </button>
+                </div>
+            </div>
+
+            <!-- Modal-->
+            <div class="modal fade bd-example-modal-lg full-screen-modal" id="donHangDetail" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="donHangDetailTitle">Thông tin đơn hàng {{donHang.ma}}</h5>
+                            <button type="button" class="close btn" data-dismiss="modal" aria-label="Close"
+                                ng-click="closeModal('#donHangDetail')">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <!-- thông tin -->
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label>Mã đơn hàng</label>
+                                                <span class="form-control">{{donHang.ma}}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 col-6">
+                                            <label>Phương thức thanh toán khi mua</label>
+                                            <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Thanh Toán
+                                                khi
+                                                nhận hàng':'Thanh Toán VNPAY'}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Mã voucher</label>
+                                                <span class="form-control">{{donHang.voucherCode == null ? 'Không áp
+                                                    dụng' :
+                                                    donHang.voucherCode}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Tên voucher</label>
+                                                <span class="form-control">{{donHang.voucherName == null ? 'Không áp
+                                                    dụng' :
+                                                    donHang.voucherName}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Phương thức hoàn tiền hoàn đơn</label>
+                                                <span class="form-control">{{donHang.phuongThucNhanTien=='true'?'Nhận
+                                                    Tại
+                                                    Quầy-Tiền Mặt':'Chuyển Khoản ngân hàng'}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Tên người nhận</label>
+                                                <span class="form-control">{{donHang.tenNguoiNhan}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Số điện thoại</label>
+                                                <span class="form-control">{{donHang.soDienThoai}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Email</label>
+                                                <span class="form-control">{{donHang.email}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Thành phố</label>
+                                                <span class="form-control">{{donHang.thanhPhoName}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Quận huyện</label>
+                                                <span class="form-control">{{donHang.quanHuyenName}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Xã phường</label>
+                                                <span class="form-control">{{donHang.xaPhuongName}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <div class="row">
+                                                <div class="mb-3 col-12">
+                                                    <label>Địa chỉ chi tiết</label>
+                                                    <span class="form-control">{{donHang.diaChiChiTiet}}</span>
+                                                </div>
+
+                                                <div class="mb-3 col-12">
+                                                    <label>Lý do hủy</label>
+                                                    <span class="form-control">{{donHang.lyDoTraHang}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label>Tài khoản nhận tiền hoàn</label>
+                                            <pre class="form-control" style="height: 120px;">{{donHang.ghiChu}}</pre>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- sản phẩm -->
+                                <div class="col-6">
+                                    <div style="max-height: 220px;overflow-y: auto;">
+                                        <table id="datatable"
+                                            class="table table-striped table-hover dt-responsive  nowrap w-100">
+                                            <thead>
+                                                <tr style="position: sticky;
+                                                    top: 0;
+                                                    z-index: 1;
+                                                    background: white;">
+                                                    <th>Sản phẩm</th>
+                                                    <th>Số lượng</th>
+                                                    <th>Đơn giá</th>
+                                                    <th>Đơn giá sau giảm</th>
+                                                    <th>Thành tiền</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="d in chiTietDonHang">
+                                                    <td>
+                                                        <div class="d-flex justify-content-start">
+                                                            <img src="/image/loadImage/product/{{d.anh}}"
+                                                                style="width: 100px; height: 70px;">
+                                                            <div>
+                                                                <p style="font-weight: bold;padding-left: 10px; ">
+                                                                    {{d.sanPham}}
+                                                                </p>
+                                                                <i style="font-size: 10px;padding-left: 10px;">Size
+                                                                    {{d.size}}</i>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{d.soLuong}}</td>
+                                                    <td>{{d.donGia | currency: "" : 1}} đ</td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
+                                                            currency: ""
+                                                            :
+                                                            1}}
+                                                            đ
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-end">
+                                                            {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
+                                                            đ
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <h4>Sản Phẩm Trả</h4>
+                                    <table id="datatable"
+                                        class="table table-striped table-hover dt-responsive  nowrap w-100">
+                                        <thead>
+                                            <tr style="position: sticky;
+                                                    top: 0;
+                                                    z-index: 1;
+                                                    background: white;">
+                                                <th>Sản phẩm</th>
+                                                <th>Số lượng</th>
+                                                <th>Đơn giá</th>
+                                                <th>Đơn giá sau giảm</th>
+                                                <th>Thành tiền</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="d in sanPhamTra">
+                                                <td>
+                                                    <div class="d-flex justify-content-start">
+                                                        <img src="/image/loadImage/product/{{d.anh}}"
+                                                            style="width: 100px; height: 70px;">
+                                                        <div>
+                                                            <p style="font-weight: bold;padding-left: 10px; ">
+                                                                {{d.sanPham}}
+                                                            </p>
+                                                            <i style="font-size: 10px;padding-left: 10px;">Size
+                                                                {{d.size}}</i>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{d.soLuong}}</td>
+                                                <td>{{d.donGia | currency: "" : 1}} đ</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
+                                                        currency: ""
+                                                        :
+                                                        1}}
+                                                        đ
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-end">
+                                                        {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
+                                                        đ
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="table" style="border-top: 1px solid black">
+                                        <tbody>
+                                            <tr>
+                                                <td style="font-weight: bold; font-size: 2em;">Tổng Tiền Hoàn:</td>
+                                                <td colspan="4">
+                                                    <div class="d-flex justify-content-end"
+                                                        style="font-weight: bold; font-size: 2em;">
+                                                        {{getTotalPriceSanPhamTra() | currency: "" : 0}}
+                                                        đ
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                ng-click="closeModal('#donHangDetail')">Đóng
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Modal-->
-        <div class="modal fade bd-example-modal-lg" id="donHangDetail" tabindex="-1" role="dialog"
-            aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="donHangDetailTitle">Thông tin đơn hàng</h5>
-                        <button type="button" class="close btn" data-dismiss="modal" aria-label="Close"
-                            ng-click="closeModal('#donHangDetail')">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="mb-3">
-                                    <label>Mã đơn hàng</label>
-                                    <span class="form-control">{{donHang.ma}}</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="mb-3">
-                                    <label ng-if="donHang.trangThai === 7">Ngày Kiểm Tra Hàng Hoàn</label>
-                                    <span class="form-control" ng-if="donHang.trangThai === 7">{{donHang.ngayKiemTraTraHang |
-                                        date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                                    <label ng-if="donHang.trangThai === 8">Ngày Hoàn Tiền</label>
-                                    <span class="form-control"
-                                        ng-if="donHang.trangThai === 8">{{donHang.ngayHoanThanhTraHang | date:'yyyy-MM-dd
-                                        HH:mm:ss'}}</span>
-                                    <label ng-if="donHang.trangThai === 9">Ngày Hủy</label>
-                                    <span class="form-control" ng-if="donHang.trangThai === 9">{{donHang.ngayHuyTraHang |
-                                        date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                                </div>
-                            </div>
 
-                            <div class="mb-3 col-4">
-                                <label>Phương thức thanh toán khi mua</label>
-                                <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Thanh Toán khi nhận hàng':'Thanh Toán VNPAY'}}</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="mb-3">
-                                    <label>Mã voucher</label>
-                                    <span class="form-control">{{donHang.voucherCode == null ? 'Không áp dụng' :
-                                        donHang.voucherCode}}</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="mb-3">
-                                    <label>Tên voucher</label>
-                                    <span class="form-control">{{donHang.voucherName == null ? 'Không áp dụng' :
-                                        donHang.voucherName}}</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="mb-3">
-                                    <label>Phương thức hoàn tiền hoàn đơn</label>
-                                    <span class="form-control">{{donHang.phuongThucNhanTien=='true'?'Nhận Tại Quầy-Tiền Mặt':'Chuyển Khoản ngân hàng'}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="mb-3">
-                                    <label>Tên người nhận</label>
-                                    <span class="form-control">{{donHang.tenNguoiNhan}}</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="mb-3">
-                                    <label>Số điện thoại</label>
-                                    <span class="form-control">{{donHang.soDienThoai}}</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="mb-3">
-                                    <label>Email</label>
-                                    <span class="form-control">{{donHang.email}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="mb-3">
-                                    <label>Thành phố</label>
-                                    <span class="form-control">{{donHang.thanhPhoName}}</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="mb-3">
-                                    <label>Quận huyện</label>
-                                    <span class="form-control">{{donHang.quanHuyenName}}</span>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="mb-3">
-                                    <label>Xã phường</label>
-                                    <span class="form-control">{{donHang.xaPhuongName}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-6">
-                                <label>Địa chỉ chi tiết</label>
-                                <span class="form-control">{{donHang.diaChiChiTiet}}</span>
-                            </div>
-                            <div class="mb-3 col-6">
-                                <label>Tài khoản nhận tiền hoàn</label>
-                                <textarea class="form-control" style="height: 37px;">{{donHang.ghiChu}}</textarea>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-12">
-                                <label>Lý do hủy</label>
-                                <span class="form-control">{{donHang.lyDoTraHang}}</span>
-                            </div>
-                        </div>
-                        <hr>
-                        <div style="max-height: 220px;overflow-y: auto;">
-                            <table id="datatable" class="table table-striped table-hover dt-responsive  nowrap w-100">
-                                <thead>
-                                    <tr style="position: sticky;
-                                            top: 0;
-                                            z-index: 1;
-                                            background: white;">
-                                        <th>Sản phẩm</th>
-                                        <th>Số lượng</th>
-                                        <th>Đơn giá</th>
-                                        <th>Đơn giá sau giảm</th>
-                                        <th>Thành tiền</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="d in chiTietDonHang">
-                                        <td>
-                                            <div class="d-flex justify-content-start">
-                                                <img src="/image/loadImage/product/{{d.anh}}"
-                                                    style="width: 100px; height: 70px;">
-                                                <div>
-                                                    <p style="font-weight: bold;padding-left: 10px; ">{{d.sanPham}}</p>
-                                                    <i style="font-size: 10px;padding-left: 10px;">Size {{d.size}}</i>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>{{d.soLuong}}</td>
-                                        <td>{{d.donGia | currency: "" : 1}} đ</td>
-                                        <td>
-                                            <div class="d-flex justify-content-end">{{d.donGiaSauGiam | currency: "" :
-                                                1}}
-                                                đ
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-end">
-                                                {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
-                                                đ
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <table class="table" style="border-top: 1px solid black">
-                            <tbody>
-                                <tr>
-                                    <td>Tổng</td>
-                                    <td colspan="4">
-                                        <div class="d-flex justify-content-end">{{getTotalPrice() | currency: "" : 1}} đ
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Khuyến mãi</td>
-                                    <td colspan="4">
-                                        <div class="d-flex justify-content-end">
-                                            {{donHang.tienGiam == null ? 0 : donHang.tienGiam | currency: "" : 1}} đ
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Phí giao hàng </td>
-                                    <td colspan="4">
-                                        <div class="d-flex justify-content-end">
-                                            {{donHang.phiGiaoHang | currency: "" : 1}} đ
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Thành tiền</td>
-                                    <td colspan="4">
-                                        <div class="d-flex justify-content-end">
-                                            {{(getTotalPrice() + donHang.phiGiaoHang) - donHang.tienGiam | currency: ""
-                                            : 1}}
-                                            đ
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                            ng-click="closeModal('#donHangDetail')">Đóng
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <style>
+            .full-screen-modal .modal-dialog {
+                width: 100vw;
+                /* Chiều rộng toàn bộ cửa sổ trình duyệt */
+                max-width: 100vw;
+                /* Đảm bảo không vượt quá chiều rộng cửa sổ */
+                height: auto;
+                /* Chiều cao toàn bộ cửa sổ trình duyệt */
+                margin: 0;
+                /* Loại bỏ khoảng cách mặc định */
+                padding: 0;
+                /* Loại bỏ khoảng đệm mặc định */
+            }
 
+            .full-screen-modal .modal-content {
+                height: auto;
+                /* Chiều cao toàn bộ modal */
+                border-radius: 0;
+                /* Loại bỏ góc bo tròn */
+            }
 
+            .full-screen-modal .modal-body {
+                overflow-y: auto;
+                /* Cho phép cuộn nội dung khi nội dung quá dài */
+            }
+        </style>
 
         <!-- End Page-content -->
 

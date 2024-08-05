@@ -1,14 +1,16 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.admin;
 
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
-import fpoly.duantotnghiep.shoppingweb.dto.reponse.VoucherReponse;
+import fpoly.duantotnghiep.shoppingweb.config.security.EmailParameters;
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.*;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
+import fpoly.duantotnghiep.shoppingweb.repository.IDonHangTraRepository;
+import fpoly.duantotnghiep.shoppingweb.service.IChiTietDonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
+import fpoly.duantotnghiep.shoppingweb.service.impl.DonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.LichSuThaoTacServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VnPayServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
@@ -39,13 +41,19 @@ public class DonHangRescontroller {
     @Autowired
     private IDonHangService donHangService;
     @Autowired
+    private DonHangService IdonHangService;
+    @Autowired
     private DonHangEntityManager donHangEntityManager;
+    @Autowired
+    private IChiTietDonHangService chiTietDonHangService;
     @Autowired
     private HttpServletRequest httpServletRequest;
     @Autowired
     private VnPayServiceImpl vnPayService;
     @Autowired
     private IDonHangResponsitory donHangResponsitory;
+    @Autowired
+    private IDonHangTraRepository donHangTraRepository;
     @Autowired
     private VoucherServiceImpl voucherService;
 
@@ -61,7 +69,14 @@ public class DonHangRescontroller {
         return donHangEntityManager.getDonHangByTrangThai(trangThai, pageNumber , limit, sdt,loai);
     }
 
+    @GetMapping("get-by-trangthai-tra")
+    public Page<DonHangDtoResponse>getTrangThaiTra(
+            @RequestParam(value = "trangThai", required = false) Integer trangThai,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer limit) {
 
+        return donHangEntityManager.getDonHangByTrangThaiTra(trangThai, pageNumber , limit);
+    }
 
     @GetMapping("/{ma}")
     public ResponseEntity<DonHangDtoResponse> getByMa(@PathVariable("ma") String ma) {
@@ -104,6 +119,63 @@ public class DonHangRescontroller {
             lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Hoàn Tiền Đơn Hàng Hoàn: "+ ma);
 
         }
+        if (trangThai == 6 || trangThai == 7) {
+            //Thiết lập tham số
+            String email = "alldystoresneaker@gmail.com";
+            donHangModel = donHangResponsitory.findById(ma).get();
+            List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(ma);
+            try {
+                EmailParameters.setParameters(email, ma, lstSanPham);
+                donHangService.sendEmailRefundWithHtml();
+
+                System.out.println("Đã gửi 1");
+
+                return ResponseEntity.ok().build();
+            } catch (MessagingException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(500).body("Failed to send email");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.status(500).body("Failed to update order status");
+            }
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("update-trang-thai-tra/{ma}")
+    public ResponseEntity<?> updatTrangThaiTra(@PathVariable("ma") String ma, @RequestParam("trangThai") Integer trangThai,Authentication authentication) throws MessagingException {
+        if (!donHangService.existsByMa(ma)) {
+            return ResponseEntity.notFound().build();
+        }
+
+
+        donHangService.updateTrangThaiTra(ma, trangThai);
+        if(trangThai==2){
+            lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Đơn Hàng Hoàn: "+ ma);
+
+        }   else if(trangThai==3){
+            lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Hoàn Tiền Đơn Hàng Hoàn: "+ ma);
+
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("update-trang-thai-tra")
+    public ResponseEntity<Integer> updatTrangThaiTraAll(@RequestBody List<String> ma, @RequestParam("trangThai") Integer trangThai,Authentication authentication) throws MessagingException {
+        ma.forEach(m -> {
+            try {
+                donHangService.updateTrangThaiTra(m, trangThai);
+                if(trangThai==2){
+                    lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Đơn Hàng Hoàn: "+ ma);
+
+                }   else if(trangThai==3){
+                    lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Hoàn Tiền Đơn Hàng Hoàn: "+ ma);
+
+                }
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        });
         return ResponseEntity.ok().build();
     }
 
@@ -152,6 +224,70 @@ public class DonHangRescontroller {
         lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Từ Chối Đơn Hàng Hoàn: "+ ma);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/tra-don-hang-test")
+    public ResponseEntity<Integer> huyTraDonHangNew(@RequestBody List<String> ma, @RequestParam("lyDoTraHang") String lyDoTraHang,Authentication authentication) throws MessagingException {
+        donHangService.huyTraHangNew(ma, lyDoTraHang);
+        lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Từ Chối Đơn Hàng Hoàn: "+ ma);
+        return ResponseEntity.ok().build();
+    }
+
+
+//    @GetMapping("update-trang-thai/{ma}")
+//    public ResponseEntity<?> updatTrangThai(@PathVariable("ma") String ma, @RequestParam("trangThai") Integer trangThai) throws MessagingException {
+//        if (!donHangService.existsByMa(ma)) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        DonHangModel donHangModel = donHangResponsitory.findById(ma).get();
+//        if (donHangModel.getLoai() == 1 && trangThai == 4) {
+//            if (donHangModel.getPhuongThucThanhToan() == false) {
+//                String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" + httpServletRequest.getServerPort();
+//                String vnpayUrl = vnPayService.createOrder(donHangModel.getMa(), baseUrl, donHangModel.getTongTien().multiply(BigDecimal.valueOf(100)).intValue() + "");
+//                Map<String, String> vnPayUrl = new HashMap<>();
+//                vnPayUrl.put("vnPayUrl", vnpayUrl);
+//                return ResponseEntity.ok(vnPayUrl);
+//            }
+//        }
+//        donHangService.updateTrangThaiTraHang(ma, trangThai);
+//
+//        if (trangThai == 6 || trangThai == 7) {
+//            //Thiết lập tham số
+//            String email = "alldystoresneaker@gmail.com";
+//            donHangModel = donHangResponsitory.findById(ma).get();
+//            List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangService.getByDonHang(ma);
+//            try {
+//                EmailParameters.setParameters(email, ma, lstSanPham);
+//                donHangService.sendEmailRefundWithHtml();
+//
+//                System.out.println("Đã gửi 1");
+//
+//                return ResponseEntity.ok().build();
+//            } catch (MessagingException e) {
+//                e.printStackTrace();
+//                return ResponseEntity.status(500).body("Failed to send email");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return ResponseEntity.status(500).body("Failed to update order status");
+//            }
+//
+//
+//        }
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @PutMapping("update-trang-thai-email")
+//    public ResponseEntity<?> updatTrangThaiAndSendMail(@PathVariable("ma") String ma, @RequestParam("trangThai") Integer trangThai) throws MessagingException {
+//        try {
+//            if (trangThai == 6 || trangThai == 7) {
+//                donHangService.updateTrangThaiTraHang(ma, trangThai);
+//            }
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Gửi Email thất bại");
+//        }
+//        return ResponseEntity.ok().build();
+//    }
 
 
     @PutMapping("")
@@ -235,6 +371,13 @@ public class DonHangRescontroller {
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("get-ctsp-tra")
+    public List<DonHangTraDTOReponse> getCtspTra(@RequestParam("ma")String ma) {
+
+        return IdonHangService.getAllByDonHangTra(ma);
+    }
+
     private String codeDonHang() {
         final String ALLOWED_CHARACTERS = "asdfghjklqwertyuiopzxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 

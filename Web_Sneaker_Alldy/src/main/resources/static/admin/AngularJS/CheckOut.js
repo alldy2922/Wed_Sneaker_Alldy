@@ -1,8 +1,8 @@
 var app = angular.module('checkOut', []);
 app.controller('checkOutCtrl', function ($scope, $http) {
     const token = "954c787d-2876-11ee-96dc-de6f804954c9";
-    const headers = {headers: {token: token}}
-    const headersShop = {headers: {token: token, ShopId: 4379549}}
+    const headers = { headers: { token: token } }
+    const headersShop = { headers: { token: token, ShopId: 4379549 } }
     $scope.feeShipped = 0
     $scope.giaGiam = 0
     $scope.sumTotal = 0
@@ -29,7 +29,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         $scope.deleteoAll();
     });
 
-    $scope.getDataSessions = function() {
+    $scope.getDataSessions = function () {
         const storedData = localStorage.getItem('selectedProducts');
         if (storedData) {
             $scope.dataSession = JSON.parse(storedData);
@@ -42,10 +42,10 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     $scope.getDataSessions();
 
     $http.post('/cart/add-to-cart-sp', $scope.dataSession)
-        .then(function(response) {
-            console.log("tata",response.data)
+        .then(function (response) {
+            console.log("tata", response.data)
         })
-        .catch(function(error) {
+        .catch(function (error) {
             // Handle error
         });
 
@@ -60,7 +60,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             document.getElementById('district').length = 0;
             document.getElementById('ward').length = 0;
         } else {
-            let data = {province_id: parseInt(id)}
+            let data = { province_id: parseInt(id) }
             $http.get("https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" + id, headers).then(res => {
                 $scope.districts = res.data.data;
                 // $scope.districtChange($scope.districts[0].DistrictID)
@@ -117,48 +117,75 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     })
 
 
-//    check-out
+    //    check-out
+    $scope.agreePolicy = false;
 
     $scope.create = function () {
-        alertify.confirm("Xác nhận thanh toán", function () {
-            // let tongTien = document.getElementById("tongTien").value
-            let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode)
-            let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode)
-            let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode)
-            console.log(indexWard)
+        // Kiểm tra xem checkbox đã được chọn chưa
+        if (!$scope.agreePolicy) {
+            // Hiển thị thông báo lỗi nếu checkbox chưa được chọn
+            Swal.fire({
+                title: 'Chú ý!',
+                text: 'Vui lòng đọc và đồng ý với chính sách của cửa hàng trước khi thanh toán.',
+                icon: 'warning',
+                confirmButtonText: 'Đã hiểu'
+            });
+            return; // Ngừng thực hiện nếu checkbox chưa được chọn
+        }
 
-            var donHang = {
-                tenNguoiNhan: $scope.nguoiNhan,
-                soDienThoai: $scope.soDienThoai,
-                email: $scope.email,
-                phuongThucThanhToan: $scope.phuongThucThanhToan,
-                voucher: $scope.voucherDH,
-                thanhPhoCode: $scope.thanhPhoCode,
-                thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
-                quanHuyenCode: $scope.quanHuyenCode,
-                quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
-                xaPhuongCode: $scope.xaPhuongCode,
-                xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
-                diaChiChiTiet: $scope.diaChiChiTiet,
-                ghiChu: $scope.ghiChu,
-                phiGiaoHang: $scope.feeShipped,
-                tienGiam: $scope.giaGiam,
-                tongTien: ($scope.sumTotal + $scope.feeShipped) * 100
-            }
-            var diaChi = {
-                thanhPhoCode: $scope.thanhPhoCode,
-                thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
-                quanHuyenCode: $scope.quanHuyenCode,
-                quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
-                xaPhuongCode: $scope.xaPhuongCode,
-                xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
-                diaChiChiTiet: $scope.diaChiChiTiet
-            }
-            if ($scope.isSelectSaveDC) {
-                $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
-                })
-            }
+        // Xác nhận thanh toán với SweetAlert2
+        Swal.fire({
+            title: 'Xác nhận thanh toán',
+            text: 'Bạn có chắc chắn muốn thanh toán không?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Xác nhận',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Tiến hành thanh toán
+                let indexCity = $scope.citys.findIndex(c => c.ProvinceID == $scope.thanhPhoCode);
+                let indexDistrict = $scope.districts.findIndex(d => d.DistrictID == $scope.quanHuyenCode);
+                let indexWard = $scope.wards.findIndex(w => w.WardCode == $scope.xaPhuongCode);
+                console.log(indexWard);
 
+                var donHang = {
+                    tenNguoiNhan: $scope.nguoiNhan,
+                    soDienThoai: $scope.soDienThoai,
+                    email: $scope.email,
+                    phuongThucThanhToan: $scope.phuongThucThanhToan,
+                    voucher: $scope.voucherDH,
+                    thanhPhoCode: $scope.thanhPhoCode,
+                    thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
+                    quanHuyenCode: $scope.quanHuyenCode,
+                    quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
+                    xaPhuongCode: $scope.xaPhuongCode,
+                    xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
+                    diaChiChiTiet: $scope.diaChiChiTiet,
+                    ghiChu: $scope.ghiChu,
+                    phiGiaoHang: $scope.feeShipped,
+                    tienGiam: $scope.giaGiam,
+                    tongTien: ($scope.sumTotal + $scope.feeShipped) * 100
+                };
+
+                var diaChi = {
+                    thanhPhoCode: $scope.thanhPhoCode,
+                    thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
+                    quanHuyenCode: $scope.quanHuyenCode,
+                    quanHuyenName: $scope.districts[indexDistrict] == undefined ? "" : $scope.districts[indexDistrict].DistrictName,
+                    xaPhuongCode: $scope.xaPhuongCode,
+                    xaPhuongName: $scope.wards[indexWard] == undefined ? "" : $scope.wards[indexWard].WardName,
+                    diaChiChiTiet: $scope.diaChiChiTiet
+                };
+
+                // Kiểm tra nếu chọn lưu địa chỉ
+                if ($scope.isSelectSaveDC) {
+                    $http.post("http://localhost:8080/dia-chi", diaChi).then(r => {
+                        // Xử lý phản hồi nếu cần thiết
+                    });
+                }
+
+                // Gửi đơn hàng đến máy chủ
                 $http.post("http://localhost:8080/check-out", donHang).then(r => {
                     if (r.data.vnPayUrl == undefined) {
                         Swal.fire({
@@ -168,6 +195,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                             timer: 1200,
                             showConfirmButton: false
                         }).then(() => {
+                            // Chuyển hướng dựa trên trạng thái đăng nhập
                             if ($scope.loginIn == false) {
                                 window.location.href = "/gio-hang";
                             } else {
@@ -175,28 +203,27 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                             }
                         });
                     } else {
-                        location.href = r.data.vnPayUrl
+                        // Chuyển hướng đến URL thanh toán
+                        location.href = r.data.vnPayUrl;
                     }
-
                 }).catch(err => {
-                    console.log(err)
+                    // Xử lý lỗi khi có lỗi xảy ra
+                    console.log(err);
                     if (err.data.erSoLuong != undefined) window.location.href = "http://localhost:8080/gio-hang";
-                    $scope.errNguoiNhan = err.data.tenNguoiNhan
-                    $scope.errTienGiam = err.data.tienGiam
-                    $scope.errSoDienThoai = err.data.soDienThoai
-                    $scope.errEmail = err.data.email
-                    $scope.errThanhPhoCode = err.data.thanhPhoCode
-                    $scope.errQuanHuyenCode = err.data.quanHuyenCode
-                    $scope.errXaPhuongCode = err.data.xaPhuongCode
-                    $scope.errDiaChiChiTiet = err.data.diaChiChiTiet
-                    alertify.error(err.data.tienGiam)
-                })
-                // Các thao tác khác
+                    $scope.errNguoiNhan = err.data.tenNguoiNhan;
+                    $scope.errTienGiam = err.data.tienGiam;
+                    $scope.errSoDienThoai = err.data.soDienThoai;
+                    $scope.errEmail = err.data.email;
+                    $scope.errThanhPhoCode = err.data.thanhPhoCode;
+                    $scope.errQuanHuyenCode = err.data.quanHuyenCode;
+                    $scope.errXaPhuongCode = err.data.xaPhuongCode;
+                    $scope.errDiaChiChiTiet = err.data.diaChiChiTiet;
+                    Swal.fire('Error', err.data.tienGiam, 'error');
+                });
+            }
+        });
+    };
 
-
-        }, function () {
-        })
-    }
 
     $scope.getDataAPI = function (maVC) {
         if ($scope.sumTotal == 0) {
@@ -230,23 +257,23 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             }
         }).catch(e => console.log(e))
     $http.get("/cart/check-login")
-        .then(function(response) {
+        .then(function (response) {
             if (response.data) {
                 // User is logged in, fetch the cart data from the database
                 $http.get("/cart/find-all-sp")
-                    .then(function(r) {
+                    .then(function (r) {
                         console.log(r.data);
                         $scope.cartUser = r.data;
                         console.log("soLuong:", $scope.cart);
 
                     })
-                    .catch(function(e) {
+                    .catch(function (e) {
                         console.log(e);
                     });
             }
         })
 
-    $scope.clearDataSession = function() {
+    $scope.clearDataSession = function () {
         localStorage.removeItem('selectedProducts');
         console.log("Data session cleared");
     };
@@ -256,12 +283,12 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         tien = ($scope.sumTotal + $scope.feeShipped) - $scope.giaGiam
         return tien
     }
-//    disabledVoucher
+    //    disabledVoucher
 
     // Gửi một yêu cầu đến máy chủ trước khi người dùng tải lại trang
     // Ngăn trình duyệt thực hiện hành động mặc định (rời khỏi trang)
     $http.get("/cart/check-login")
-        .then(function(response) {
+        .then(function (response) {
             if (response.data) {
                 // User is logged in, fetch the cart data from the database
                 window.addEventListener("unload", function (event) {
@@ -271,28 +298,21 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 });
             }
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.log('Error checking login status:', error);
         });
-    window.onbeforeunload = function (event) {
-        var message = "Bạn có chắc chắn muốn rời khỏi trang này? Dữ liệu chưa lưu sẽ bị mất.";
-        event.returnValue = message; // Hiển thị thông báo trên các trình duyệt cũ
-        return message; // Hiển thị thông báo trên các trình duyệt mới hơn
-    };
-    
 
-    
-
-
-
-
-
+    // window.onbeforeunload = function (event) {
+    //     var message = "Bạn có chắc chắn muốn rời khỏi trang này? Dữ liệu chưa lưu sẽ bị mất.";
+    //     event.returnValue = message; // Hiển thị thông báo trên các trình duyệt cũ
+    //     return message; // Hiển thị thông báo trên các trình duyệt mới hơn
+    // };
 
     $scope.deleteoAll = function () {
         $http.delete("/cart/removeLogin").then(function (response) {
             $scope.cart = response.data;
             console.log('Giỏ hàng đã được xóa:', response.data);
-        }, function(error) {
+        }, function (error) {
             console.error('Lỗi khi xóa giỏ hàng:', error);
         });
     };
@@ -350,7 +370,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         location.href = "/dang-nhap";
     }
 
-//    so sánh ngày bắt đầu với ngày hiên tại
+    //    so sánh ngày bắt đầu với ngày hiên tại
     $scope.isStartDateGreaterThanCurrentDate = function (startDate) {
         return new Date(startDate) > new Date();
     };

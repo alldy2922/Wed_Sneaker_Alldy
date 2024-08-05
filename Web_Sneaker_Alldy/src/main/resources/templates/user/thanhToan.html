@@ -138,7 +138,7 @@
                         <p class="form-text text-danger">{{errXaPhuongCode}}</p>
                     </div>
                     <div class="col-12">
-                        <input type="text" class="form-control rounded-4" placeholder="Ghi chú: ">
+                        <input type="text" class="form-control rounded-4" id="ghiChu" ng-model="ghiChu" placeholder="Ghi chú: ">
                     </div>
 <!--                    <div class="col-md-12 ml-3">-->
 <!--                        <input type="checkbox" ng-model="isSelectSaveDC" class="form-check-input" id="exampleCheck1">-->
@@ -156,7 +156,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="rounded-4 p-3 border" style="border-radius: 25px">
+                <!-- <div class="rounded-4 p-3 border" style="border-radius: 25px">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="paymentMethod" id="online"
                                value="1"
@@ -165,7 +165,7 @@
                             <img alt="" style="width: 100px;" src="/userStyle/images/icons/Logo-VNPAY-QR-768x143.webp">
                         </label>
                     </div>
-                </div>
+                </div> -->
 
             </div>
             <!--            giỏ hàng check out-->
@@ -194,7 +194,7 @@
                 </table>
                 <br>
                 <div class="container">
-                    <div class="row" style="background-color:#717fe0; height: 50px;">
+                    <div class="row" style="background-color:#3f3f3f; height: 50px;">
                         <div class="col-4" style="margin-top: 18px;">
                             <h6 style="color: aliceblue;"><b>Voucher</b></h6>
                         </div>
@@ -229,7 +229,7 @@
                             <h6><b>Giảm giá:</b></h6>
                         </div>
                         <div class="col-2 flex-r"><a ng-if="giaGiam > 0" ng-click="huyVoucher()"
-                                                     style="color: blue; cursor: pointer">Bỏ
+                                                     style="color: rgb(255, 0, 0); cursor: pointer">Bỏ
                             voucher</a>
                         </div>
                         <div class="col-4 flex-r">{{giaGiam | currency: "" : 1}}đ</div>
@@ -242,6 +242,114 @@
                         <div class="col-6 flex-r">{{totalpayment() | currency: "" : 1}}đ</div>
                     </div>
                     <br><br>
+                    <!-- Nút xem chính sách đổi trả -->
+                    <div>
+                        <!-- Checkbox đồng ý chính sách đổi trả -->
+                        <div class="checkChinhSach">
+                            <input type="checkbox" id="agreePolicy" ng-model="agreePolicy">
+                            <label for="agreePolicy" class="ml-2">Tôi đồng ý với chính sách của cửa
+                                hàng</label>
+                        </div>
+                        <style>
+                            .checkChinhSach {
+                                display: flex;
+                                align-items: center;
+                                /* Căn hàng theo chiều dọc */
+
+                            }
+
+                            .ml-2 {
+                                margin-left: 8px;
+                                /* Khoảng cách giữa checkbox và chữ */
+                            }
+
+                            input[type="checkbox"] {
+                                vertical-align: middle;
+                                /* Căn giữa checkbox với văn bản */
+                                margin-top: -5px;
+                                /* Điều chỉnh nếu cần */
+                            }
+                        </style>
+                        <button type="button" class="btn btn-link" style="color: black; text-align: left;font-size: 12px;"
+                            data-bs-toggle="modal" data-bs-target="#policyModal">
+                            Xem chính sách của cửa hàng
+                        </button>
+                        <!-- Nội dung chính sách đổi trả -->
+                        <div class="modal fade" id="policyModal" tabindex="-1" aria-labelledby="policyModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="policyModalLabel">Chính Sách Của Cửa Hàng
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+                                        <h6>1. Quy định đổi hàng:</h6>
+                                        <h6>1.1 Nội dung</h6>
+                                        <ol>
+                                            <li>Sản phẩm nguyên giá & giảm giá đến 30% được đổi size/màu hoặc
+                                                sản phẩm khác (nếu còn hàng), áp dụng 1 đổi 1, đổi 1 lần/1 đơn
+                                                hàng. Tổng giá trị các mặt hàng muốn đổi phải có giá trị tương
+                                                đương hoặc lớn hơn với mặt hàng trả lại. ALLDY STORE không hoàn
+                                                lại tiền thừa trong trường hợp sản phẩm mới có giá trị thấp hơn
+                                                sản phẩm đã mua.</li>
+                                            <li>Sản phẩm giảm giá trên 30% trở lên được đổi size (nếu còn hàng),
+                                                áp dụng 1 đổi 1, đổi 1 lần/1 đơn hàng.</li>
+                                            <li>Sản phẩm không áp dụng đổi bao gồm: sản phẩm được tặng kèm trong
+                                                các chương trình.</li>
+                                            <li>Khách hàng đổi tại cửa hàng đã mua hàng.</li>
+                                        </ol>
+                                        <h6>1.2 Điều kiện đổi sản phẩm</h6>
+                                        <ol>
+                                            <li>Đổi hàng trong vòng 07 ngày kể từ ngày khách hàng nhận được sản
+                                                phẩm.</li>
+                                            <li>Sản phẩm còn trong tình trạng ban đầu khi nhận hàng, còn nguyên
+                                                tem và nhãn mác.</li>
+                                            <li>Sản phẩm chưa qua giặt ủi hoặc bẩn, chưa bị hư hỏng, không bị
+                                                mùi lạ (nước hoa, cơ thể...), chưa qua sử dụng.</li>
+                                            <li>Khách hàng mang theo hóa đơn còn nguyên vẹn khi đổi hàng.</li>
+                                        </ol>
+                                        <h6>2. Quy Định Trả Hàng:</h6>
+                                        <h6>2.1 Chính sách trả hàng:</h6>
+                                        <ol>
+                                            <li>Khách hàng được trả sản phẩm trong trường hợp có lỗi phát sinh
+                                                từ nhà sản xuất và không có nhu cầu đổi sang sản phẩm khác.</li>
+                                            <li>Các trường hợp lỗi do nhà sản xuất gồm: đế giày không đều, phụ
+                                                kiện bị lỗi, in bong tróc, lỗi đường may.</li>
+                                            <li>Hoàn tiền lại sản phẩm gặp lỗi qua tài khoản ngân hàng hoặc nhận
+                                                tiền tại quầy cửa hàng.</li>
+                                            <li>ALLDY STORE chịu 100% chi phí vận chuyển trả lại hàng nếu sản
+                                                phẩm được xác định là lỗi sản phẩm.</li>
+                                            <li>Một hoặc một vài sản phẩm trong đơn hàng không thể giao cho
+                                                khách, hoàn tiền 1 lại sản phẩm không giao được (áp dụng mua
+                                                hàng online với thanh toán trả trước).</li>
+                                            <li>ALLDY STORE xác minh lỗi từ 01 - 03 ngày sau khi nhận được sản
+                                                phẩm và có phản hồi lại khách hàng thời gian xử lý tiếp theo với
+                                                từng trường hợp cụ thể.</li>
+                                            <li>Không trả sản phẩm với những sản phẩm có áp dụng Voucher.</li>
+                                            <li>Chỉ chấp nhận trả sản phẩm khi đúng với lý do trả hàng và mô tả
+                                                lỗi sản phẩm.</li>
+                                        </ol>
+                                        <h6>2.2 Điều kiện trả sản phẩm:</h6>
+                                        <ol>
+                                            <li>Trả sản phẩm trong vòng 10 ngày kể từ ngày nhận sản phẩm.</li>
+                                        </ol>
+                                        <h6>3. Chính sách hoàn tiền:</h6>
+                                        <ol>
+                                            <li>Đối với trường hợp thanh toán trước, khách hàng sẽ được hoàn
+                                                tiền khi hàng nhận bị lỗi do sản xuất và khách hàng không có nhu
+                                                cầu đổi sang sản phẩm khác.</li>
+                                            <li>Thời gian hoàn tiền từ 03 đến 05 ngày kể từ khi ALLDY STORE xác
+                                                minh sản phẩm bị lỗi sản xuất. Tiền được hoàn vào tài khoản cá
+                                                nhân của khách hàng.</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-6">
                             <button

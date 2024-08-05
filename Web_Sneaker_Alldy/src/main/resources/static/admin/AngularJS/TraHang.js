@@ -13,10 +13,6 @@ app.controller("trahang-ctrl", function ($scope, $http) {
     $scope.erAdd = {}
     $scope.sanPhamTra = [];
 
-    $http.get("/admin/don-hang/get-tra?trangThai=1" ).then(r => {
-       console.log(r)
-    })
-
 
     $scope.closeModal = function (id) {
         $(id).modal('hide')
@@ -383,7 +379,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         xacNhanDH(ma) {
             alertify.confirm("Xác nhận đơn hàng?", function () {
 
-                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=7").then(r => {
+                $http.get("/admin/don-hang/update-trang-thai-tra/" + ma + "?trangThai=2").then(r => {
                     if ($scope.chuaXacNhanTraHang.page == $scope.chuaXacNhanTraHang.totalPage - 1) {
                         if ($scope.chuaXacNhanTraHang.list.length == 1 && $scope.chuaXacNhanTraHang.page > 0) {
                             $scope.chuaXacNhanTraHang.page--;
@@ -413,7 +409,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                     }
                 })
 
-                $http.put("/admin/don-hang/update-trang-thai?trangThai=7", $scope.chuaXacNhanTraHang.id).then(r => {
+                $http.put("/admin/don-hang/update-trang-thai-tra?trangThai=2", $scope.chuaXacNhanTraHang.id).then(r => {
                     if ($scope.chuaXacNhanTraHang.page == $scope.chuaXacNhanTraHang.totalPage - 1) {
                         if ($scope.chuaXacNhanTraHang.list.length == 1 && $scope.chuaXacNhanTraHang.page > 0) {
                             $scope.chuaXacNhanTraHang.page--;
@@ -454,7 +450,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 return;
             }
 
-            $http.put("/admin/don-hang/tra-don-hang?lyDoTraHang=" + $scope.lyDoTraHang, this.id).then(r => {
+            $http.put("/admin/don-hang/tra-don-hang-test?lyDoTraHang=" + $scope.lyDoTraHang, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -544,7 +540,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         sdtSearch: "",
         init() {
             $scope.trangThaiDonHang = 7
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=7").then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=2").then(r => {
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -553,21 +549,30 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 7
             $scope.daXacNhan.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=7&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=2&pageNumber=" + pageNumber ).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
+                console.log("getLisst()", this.list);
             })
         },
+
         getDetail(ma) {
             $http.get("/admin/don-hang/" + ma).then(r => {
                 $scope.donHang = r.data;
+                console.log("$scope.donHang",$scope.donHang)
                 $('#donHangDetail').modal('show')
             }).catch(e => console.log(e))
 
             $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {
                 $scope.chiTietDonHang = r.data;
+                console.log("$scope.chiTietDonHang",$scope.chiTietDonHang)
             }).catch(e => console.log(e))
+            $http.get("/admin/don-hang/get-ctsp-tra?ma=" + ma).then(r => {
+                $scope.sanPhamTra = r.data;
+                console.log("spt",$scope.sanPhamTra)
+            }).catch(e => console.log(e))
+
         },
         setPageNumbers() {
 
@@ -592,8 +597,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         },
         chuyenGiao(ma) {
             alertify.confirm("Hoàn tiền đơn hàng?", function () {
-
-                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=8").then(r => {
+                $http.get("/admin/don-hang/update-trang-thai-tra/" + ma + "?trangThai=3").then(r => {
                     if ($scope.daXacNhan.page == $scope.daXacNhan.totalPage - 1) {
                         if ($scope.daXacNhan.list.length == 1 && $scope.daXacNhan.page > 0) {
                             $scope.daXacNhan.page--;
@@ -602,6 +606,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                     $scope.daXacNhan.getList($scope.daXacNhan.page)
                     $scope.daXacNhan.init()
                     document.getElementById('checkAllDaXacNhan').checked = false
+                    alertify.success("Hoàn tiền thành công")
                 }).catch(e => {
                     console.log(e)
                     alertify.success("Hoàn tiền thành công")
@@ -632,7 +637,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 return;
             }
 
-            $http.put("/admin/don-hang/tra-don-hang?lyDoTraHang=" + $scope.lyDoTraHang, this.id).then(r => {
+            $http.put("/admin/don-hang/tra-don-hang-test?lyDoTraHang=" + $scope.lyDoTraHang, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -650,6 +655,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 alertify.success("Hủy đơn hàng thành công");
             });           
         },
+
         chuyenGiaoDHAll() {
 
             alertify.confirm("Chuyển giao đơn hàng?", function () {
@@ -661,7 +667,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                     }
                 })
 
-                $http.put("/admin/don-hang/update-trang-thai?trangThai=8", $scope.daXacNhan.id).then(r => {
+                $http.put("/admin/don-hang/update-trang-thai-tra?trangThai=3", $scope.daXacNhan.id).then(r => {
                     if ($scope.daXacNhan.page == $scope.daXacNhan.totalPage - 1) {
                         if ($scope.daXacNhan.list.length == 1 && $scope.daXacNhan.page > 0) {
                             $scope.daXacNhan.page--;
@@ -671,8 +677,6 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                     $scope.daXacNhan.init()
                     $scope.daXacNhan.id = []
                     document.getElementById('checkAllDaXacNhan').checked = false
-
-                   
                 }).catch(e => {
                     console.log(e)
                     alertify.success("Chuyển giao thành công")
@@ -704,7 +708,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         pages: [],
         sdtSearch: "",
         init() {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=8&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=3&pageNumber=" + this.page ).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
@@ -714,7 +718,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 0
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=8&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=3&pageNumber=" + pageNumber ).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -728,6 +732,10 @@ app.controller("trahang-ctrl", function ($scope, $http) {
 
             $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {
                 $scope.chiTietDonHang = r.data;
+            }).catch(e => console.log(e))
+            $http.get("/admin/don-hang/get-ctsp-tra?ma=" + ma).then(r => {
+                $scope.sanPhamTra = r.data;
+                console.log("spt",$scope.sanPhamTra)
             }).catch(e => console.log(e))
         },
         setPageNumbers() {

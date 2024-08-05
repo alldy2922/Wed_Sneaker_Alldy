@@ -9,6 +9,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangTraDTORequest;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
+import fpoly.duantotnghiep.shoppingweb.service.impl.DonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.VoucherServiceImpl;
 import fpoly.duantotnghiep.shoppingweb.util.ValidateUtil;
 import jakarta.mail.MessagingException;
@@ -37,6 +38,9 @@ public class DonHangRestController {
     private IDonHangService donHangService;
 
     @Autowired
+    private DonHangService idonHangService;
+
+    @Autowired
     private VoucherServiceImpl voucherService;
 
     @Autowired
@@ -53,13 +57,26 @@ public class DonHangRestController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-//    @GetMapping("get-by-trangthai-khachhang-tra")
-//    public Page<DonHangTraDTOReponse> getTrangThaiTra(@RequestParam("trangThai") Integer trangThai,
-//                                                     @RequestParam(defaultValue = "0") Integer pageNumber,
-//                                                     @RequestParam(defaultValue = "10") Integer limit
-//    ) {
-//        return donHangEntityManager.getDonHangByTrangThaiTra(trangThai, pageNumber , limit);
-//    }
+    @GetMapping("get-by-trangthai-khachhang-tra")
+    public  ResponseEntity<List<DonHangReponseUser>>getTrangThaiTra(
+          @RequestParam(name = "trangThai",defaultValue = "0") Integer trangThai,
+          Authentication authentication) {
+
+        if (authentication != null) {
+            String khachHang = authentication.getName();
+            return ResponseEntity.ok(idonHangService.getAllByKhachHangAndTrangThaiTra(khachHang, trangThai));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    @GetMapping("get-ctsp-tra/{ma}")
+    public ResponseEntity<List<DonHangTraDTOReponse>> getCtspTra(@PathVariable("ma") String ma,Authentication authentication) {
+
+        if (authentication != null) {
+            String khachHang = authentication.getName();
+            return ResponseEntity.ok(idonHangService.getCTSPTra(khachHang, ma));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 //   @GetMapping("get-ctsp-user-tra")
 //    public ResponseEntity<?> getCtspTra(@RequestParam("idSP") String id,@RequestParam("trangThai")Integer trangThai) {
 //        return ResponseEntity.ok(donHangService.getAllByCTSP(id,trangThai));
@@ -104,7 +121,6 @@ public class DonHangRestController {
         }
         //khong co loi -> HTTP 200
         return ResponseEntity.ok(donHangService.traMotPhan(request, products, lyDoTraHang, phuongThucNhanTien, ghiChu));
-//        return null;
     }
 
     @GetMapping("/{ma}")
@@ -113,6 +129,15 @@ public class DonHangRestController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(donHangService.findByMaUser(ma));
+    }
+
+    @GetMapping("tra/{ma}")
+    public ResponseEntity<DonHangTraDTOReponse> getByMaTra(@PathVariable("ma") String ma) {
+        System.out.println("ma" + ma);
+        if (!donHangService.existsByMa(ma)) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(donHangService.findByMaTra(ma));
     }
 
 

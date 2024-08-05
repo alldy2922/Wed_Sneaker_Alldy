@@ -58,9 +58,17 @@ public class DonHangService implements IDonHangService {
 
     @Override
     public List<DonHangReponseUser> getAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai) {
-
         return donHangResponsitory.findAllByKhachHangAndTrangThai(nguoiSoHuu, trangThai).stream().map(d -> new DonHangReponseUser(d)).collect(Collectors.toList());
+    }
 
+    @Override
+    public List<DonHangReponseUser> getAllByKhachHangAndTrangThaiTra(String nguoiSoHuu, Integer trangThai) {
+        return donHangResponsitory.findAllByKhachHangAndTrangThaiTra(nguoiSoHuu, trangThai).stream().map(d -> new DonHangReponseUser(d)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DonHangTraDTOReponse> getCTSPTra(String nguoiSoHuu, String ma) {
+        return donHangTraRepository.findAllByKhachHangAndMaDonHang(nguoiSoHuu, ma).stream().map(d -> new DonHangTraDTOReponse(d)).collect(Collectors.toList());
     }
 
     @Override
@@ -70,8 +78,6 @@ public class DonHangService implements IDonHangService {
                 .map(d -> new DonHangTraDTOReponse(d))  // Tạo DTO từ entity
                 .collect(Collectors.toList());
     }
-
-
     @Override
     public Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber) {
 
@@ -85,7 +91,6 @@ public class DonHangService implements IDonHangService {
 
     @Override
     public List<DonHangTraDTOReponse> getAllDonHangTra(Integer trangThai) {
-
         List<DonHangTraModel> donHangTraModels = donHangTraRepository.getAllByTrangThai(trangThai);
         return donHangTraModels.stream()
                 .map(d -> new DonHangTraDTOReponse(d))  // Tạo DTO từ entity
@@ -110,6 +115,11 @@ public class DonHangService implements IDonHangService {
     @Override
     public DonHangDtoResponse findByMa(String ma) {
         return new DonHangDtoResponse(donHangResponsitory.findById(ma).orElse(new DonHangModel()));
+    }
+
+    @Override
+    public DonHangTraDTOReponse findByMaTra(String ma) {
+        return new DonHangTraDTOReponse(donHangTraRepository.findByMaDonHangN(ma));
     }
 
     @Override
@@ -188,7 +198,6 @@ public class DonHangService implements IDonHangService {
             for (ChiTietDonHangDtoResponse d : lstSanPham) {
                 tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
             }
-
             Context context = new Context();
             context.setVariable("donHang", new DonHangDtoResponse(model));
             context.setVariable("products", lstSanPham);
@@ -211,9 +220,11 @@ public class DonHangService implements IDonHangService {
     @Override
     public void updateTrangThaiTra(String maDonHangTra, Integer trangThai) throws MessagingException {
 //         donHangResponsitory.updateTrangThaiDonHang(trangThai,maDonHang);
-        DonHangTraModel model = donHangTraRepository.findById(maDonHangTra).get();
-        model.setTrangThai(trangThai);
+        System.out.println("service= " + maDonHangTra);
 
+        List<DonHangTraModel> models = donHangTraRepository.findByMaDonHang(maDonHangTra);
+        for (DonHangTraModel model : models) {
+            model.setTrangThai(trangThai);
             String subject = "";
             String messeger = "";
             String title = "";
@@ -225,20 +236,22 @@ public class DonHangService implements IDonHangService {
                 subject = "Kiểm tra hoàn hàng!";
                 title = "Đơn hàng đang được kiểm tra hoàn hàng";
                 model.setNgayKiemTra(new Date());
+                model.getDonHang().setNgayKiemTraTraHang(new Date());
                 messeger = "Xin chào " + model.getDonHang().getTenNguoiNhan() + ", đơn hàng của bạn đang được kiểm tra hoàn hàng. Chúng tôi sẽ thông báo cho bạn khi quá trình kiểm tra hoàn tất.";
             } else if (trangThai == 3) {
                 subject = "Hoàn tiền!";
                 title = "Đơn hàng đã được hoàn tiền";
                 model.setNgayHoanThanh(new Date());
+                model.getDonHang().setNgayHoanThanhTraHang(new Date());
                 messeger = "Xin chào " + model.getDonHang().getTenNguoiNhan() + ", đơn hàng của bạn đã được hoàn tiền. Số tiền hoàn lại sẽ sớm có trong tài khoản của bạn.";
                 //cộng lại sản phẩm
-//                List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
-//                ctdhModel.forEach(c -> {
-//                    int soLuongInDonHang = c.getSoLuong();
-//                    ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
-//                    sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
-//                    chiTietSanPhamRepository.save(sanPhamInDonHang);
-//                });
+                List<DonHangTraModel> ctdhModel = donHangTraRepository.findByMaDonHang(maDonHangTra);
+                ctdhModel.forEach(c -> {
+                    int soLuongInDonHang = c.getSoLuong();
+                    ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
+                    sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
+                    chiTietSanPhamRepository.save(sanPhamInDonHang);
+                });
             } else if (trangThai == 0) {
                 subject = "Từ chối Hoàn tiền!";
                 title = "Tư Chối hoàn tiền";
@@ -253,7 +266,7 @@ public class DonHangService implements IDonHangService {
             }
 
             Context context = new Context();
-            context.setVariable("donHang", new DonHangTraDTOReponse(model));
+            context.setVariable("donHangTra", new DonHangTraDTOReponse(model));
             context.setVariable("products", lstSanPham);
             context.setVariable("totalPrice", tongTien);
             context.setVariable("mess", messeger);
@@ -261,16 +274,16 @@ public class DonHangService implements IDonHangService {
             String finalSubject = subject;
             new Thread(() -> {
                 try {
-                    sendEmailDonHang(model.getDonHang().getEmail(), finalSubject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+                    sendEmailDonHang(model.getDonHang().getEmail(), finalSubject, "email/capNhatTrangThaiTra", context, lstSanPham);
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
             }).start();
-
-
-
-        donHangTraRepository.saveAndFlush(model);
+            donHangTraRepository.saveAndFlush(model);
+        }
     }
+
+
 
 
     @Override
@@ -326,7 +339,7 @@ public class DonHangService implements IDonHangService {
         maDonHang.forEach(ma -> {
             DonHangModel model = donHangResponsitory.findById(ma).get();
             model.setLyDoTraHang(lyDoTraHang);
-            model.setTrangThai(9);
+            model.setTrangThai(0);
             model.setNgayHuyTraHang(new Date());
 
             String subject = "Từ chối hoàn đơn hàng!";
@@ -334,14 +347,12 @@ public class DonHangService implements IDonHangService {
 
             List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
 
-
             if (model.getLoai() == 0) {
                 List<ChiTietDonHangDtoResponse> lstSanPham = ctdhModel.stream().map(m -> new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
                 BigDecimal tongTien = BigDecimal.valueOf(0);
                 for (ChiTietDonHangDtoResponse d : lstSanPham) {
                     tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
                 }
-
                 Context context = new Context();
                 context.setVariable("donHang", new DonHangDtoResponse(model));
                 context.setVariable("products", lstSanPham);
@@ -357,12 +368,9 @@ public class DonHangService implements IDonHangService {
                     }
                 }).start();
             }
-
-
             donHangResponsitory.saveAndFlush(model);
         });
     }
-
     @Override
     public void huyDonHangUser(String maDonHang, String lyDo) throws MessagingException {
         DonHangModel model = donHangResponsitory.findById(maDonHang).get();
@@ -378,8 +386,6 @@ public class DonHangService implements IDonHangService {
         });
         donHangResponsitory.save(model);
     }
-
-
     @Override
     public DonHangDtoResponse updateDonHang(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoThayDoi) {
         DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElse(null);
@@ -483,7 +489,6 @@ public class DonHangService implements IDonHangService {
 
         return new DonHangDtoResponse(donHangResponsitory.save(model));
     }
-
     @Override
     public void traDonHangUser(String maDonHang, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu) throws MessagingException {
         DonHangModel model = donHangResponsitory.findById(maDonHang).get();
@@ -523,6 +528,47 @@ public class DonHangService implements IDonHangService {
         donHangResponsitory.save(model);
     }
 
+
+    @Override
+    public void huyTraHangNew(List<String> maDonHang, String lyDoTraHang) throws MessagingException {
+        maDonHang.forEach(ma -> {
+            List<DonHangTraModel> models = donHangTraRepository.findByMaDonHang(ma);
+            models.forEach(model -> {
+                model.getDonHang().setLyDoTraHang(lyDoTraHang);
+                model.getDonHang().setNgayHuyTraHang(new Date());
+                model.setTrangThai(0);
+                model.getDonHang().setTrangThai(9);
+
+                String subject = "Từ chối hoàn đơn hàng!";
+                String messeger = "Xin chào " + model.getDonHang().getTenNguoiNhan() + ",yêu cầu đơn hàng của bạn đã bị hủy. Cảm ơn bạn đã ghé qua cửa hàng";
+
+                List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model.getDonHang());
+
+                if (model.getDonHang().getLoai() == 0) {
+                    List<ChiTietDonHangDtoResponse> lstSanPham = ctdhModel.stream().map(m -> new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
+                    BigDecimal tongTien = BigDecimal.valueOf(0);
+                    for (ChiTietDonHangDtoResponse d : lstSanPham) {
+                        tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
+                    }
+                    Context context = new Context();
+                    context.setVariable("products", lstSanPham);
+                    context.setVariable("donHang", new DonHangTraDTOReponse(model));
+                    context.setVariable("totalPrice", tongTien);
+                    context.setVariable("mess", messeger);
+                    context.setVariable("title", subject);
+                    context.setVariable("lyDoTraHang", lyDoTraHang);
+                new Thread(() -> {
+                    try {
+                        sendEmailDonHang(model.getDonHang().getEmail(), subject, "email/capNhatTrangThaiTra", context, lstSanPham);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+                }
+                donHangTraRepository.saveAndFlush(model);
+            });
+        });
+    }
     @Override
     public DonHangDtoResponse traMotPhan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu) {
         DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElseThrow(() -> new RuntimeException("Đơn hàng không tồn tại"));
@@ -532,11 +578,10 @@ public class DonHangService implements IDonHangService {
         model.setPhuongThucNhanTien(phuongThucNhanTien);
         model.setGhiChu(ghiChu);
 
-
         List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
         String maDHTra = codeDonHang();
 
-//        if (model.getLoai() == 0) {
+        //        if (model.getLoai() == 0) {
 //            List<ChiTietDonHangDtoResponse> lstSanPham = ctdhModel.stream().map(m -> new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
 //            BigDecimal tongTien = BigDecimal.valueOf(0);
 //            for (ChiTietDonHangDtoResponse d : lstSanPham) {
@@ -547,10 +592,9 @@ public class DonHangService implements IDonHangService {
 //        System.out.println("product"+products);
         //
         List<String> maCTSPNew = products.stream().map(c -> c.getId()).collect(Collectors.toList());
-
         List<ChiTietDonHangModel> ctdhModelOld = chiTietDonHangRepository.findAllByDonHang(model);
 
-//        ctdhModelOld.forEach(c -> {
+        //        ctdhModelOld.forEach(c -> {
 //            if (!maCTSPNew.contains(c.getId())) {
 //                //Thêm lại số lượng khi xóa sản phẩm khỏi đơn hàng
 //                ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).orElseThrow(() -> new RuntimeException("Chi tiết sản phẩm không tồn tại"));
@@ -581,10 +625,8 @@ public class DonHangService implements IDonHangService {
 //        });
         List<DonHangTraModel> donHangTraList = new ArrayList<>();
 
-
         products.forEach(p -> {
-            // Tạo một đối tượng DonHangTraModel mới trong
-            // mỗi vòng lặp
+            // Tạo một đối tượng DonHangTraModel mới trong mỗi vòng lặp
             DonHangTraModel donHangTra = new DonHangTraModel();
 
             donHangTra.setMaDonHangTra(maDHTra);
@@ -601,10 +643,9 @@ public class DonHangService implements IDonHangService {
             donHangTraList.add(donHangTra);
         });
 
-// In ra danh sách DonHangTraModel
+        // In ra danh sách DonHangTraModel
         System.out.println("dgr" + donHangTraList);
-
-// Lưu tất cả các đối tượng DonHangTraModel vào repository
+        // Lưu tất cả các đối tượng DonHangTraModel vào repository
         donHangTraRepository.saveAll(donHangTraList);
 
         if (donHangOld.getNguoiSoHuu() != null) {
@@ -612,7 +653,6 @@ public class DonHangService implements IDonHangService {
         } else {
             model.setNguoiSoHuu(null);
         }
-
 //        chiTietDonHangRepository.findAllByDonHang(model).forEach(c -> {
 //            c.setChiTietSanPham(chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get());
 //        });
@@ -621,7 +661,6 @@ public class DonHangService implements IDonHangService {
 //        for (ChiTietDonHangDtoResponse d : lstSanPham) {
 //            tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
 //        }
-
         return new DonHangDtoResponse(donHangResponsitory.save(model));
     }
 

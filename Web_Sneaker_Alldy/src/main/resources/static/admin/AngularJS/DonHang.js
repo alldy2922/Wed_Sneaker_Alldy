@@ -1315,9 +1315,21 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         })
     }
     //
-    $scope.loadMultipleDonHangUsers = function () {
+    $scope.donHangTraUser = [];
+    $scope.DonHangTraUsers = function (trangThai) {
+
+        $http.get("/don-hang/get-by-trangthai-khachhang-tra?trangThai=" + trangThai).then(resp => {
+
+            $scope.donHangTraUser = resp.data;
+            console.log("123",resp.data)
+        }).catch(err => {
+            console.log(err);
+        })
+    };
+
+    $scope.loadMultipleDonHangUsers = function() {
         let promises = [];
-        let trangThais = [1];
+        let trangThais = [1,2,3];
 
         trangThais.forEach(trangThai => {
             promises.push(
@@ -1333,7 +1345,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         Promise.all(promises).then(results => {
             // Hợp nhất kết quả từ các trạng thái khác nhau
             $scope.donHangChuaXacNhanKh = results.flat();
-            console.log($scope.donHangChuaXacNhanKh);
+            console.log("tra", $scope.donHangChuaXacNhanKh);
             // Đảm bảo giao diện được cập nhật
             $scope.$applyAsync();
         });
@@ -1344,6 +1356,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.findByMaDonHangUser = function (ma) {
         $http.get("/don-hang/" + ma).then(function (res) {
             const donHang = res.data;
+            console.log("donHang", donHang)
             $scope.maDonHang = donHang.ma
             $scope.nguoiNhan = donHang.tenNguoiNhan
             $scope.soDT = donHang.soDienThoai
@@ -1642,7 +1655,8 @@ console.log($scope.selectedProducts)
             return;
         }
 
-        let ghiChu = "";
+        $scope.ghiChu = "Ngân hàng: " + $scope.selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
+
 
         console.log("ma", maDonHang)
 

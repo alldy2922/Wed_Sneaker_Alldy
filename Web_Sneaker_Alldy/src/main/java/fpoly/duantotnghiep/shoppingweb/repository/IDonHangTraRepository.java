@@ -19,4 +19,15 @@ public interface IDonHangTraRepository extends JpaRepository<DonHangTraModel,Str
     @Query("SELECT d FROM DonHangTraModel d WHERE d.donHang.ma = ?1 ")
     List<DonHangTraModel> getAllByDonHang(String ma);
 
+    @Query("SELECT d FROM DonHangTraModel d WHERE d.donHang.ma = ?1")
+    List<DonHangTraModel> findByMaDonHang(String maDonHang);
+
+    @Query("SELECT d FROM DonHangTraModel d WHERE d.donHang.ma = ?1")
+    DonHangTraModel findByMaDonHangN(String maDonHang);
+
+    @Query("SELECT t FROM DonHangModel dh JOIN DonHangTraModel t on t.donHang.ma = dh.ma where dh.nguoiSoHuu.username = ?1 and t.donHang.ma = ?2 AND dh.loai = 0 ORDER BY dh.ngayDatHang DESC")
+    List<DonHangTraModel> findAllByKhachHangAndMaDonHang(String nguoiSoHuu, String ma);
+
+
+
 }

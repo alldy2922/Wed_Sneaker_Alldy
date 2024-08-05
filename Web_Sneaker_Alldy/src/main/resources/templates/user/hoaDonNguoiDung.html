@@ -449,7 +449,7 @@
                                             <button type="button" class="btn btn-warning ml-2 m-b-10 btn-danger"
                                                 ng-click="findByMaDonHangUserPartial(d)" data-bs-toggle="modal"
                                                 data-bs-target="#traHangMotPhanModal"
-                                                ng-if="isWithinSevenDays(d.ngayHoanThanh) === true">Trả Hàng Tùy Chọn
+                                                ng-if="isWithinSevenDays(d.ngayHoanThanh) === true && d.voucherCode === null" >Trả Hàng Tùy Chọn
                                             </button>
 
                                             <a href="/don-hang/chi-tiet-don-hang/{{d.ma}}" type="button"
@@ -524,18 +524,16 @@
                     <!--trả hàng-->
                     <div class="tab-pane" id="trahang" role="tabpanel">
                         <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
-                            <div class="row"
-                                style="height: 500px; display: flex; justify-content: center; align-items: center;">
+                            <div class="row" style="height: 500px; display: flex; justify-content: center; align-items: center;">
 
 
-                                <h4 class="m-t-2" style="text-align: center"><img style="height: 150px; width: 150px"
-                                        src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">Chưa
+                                <h4 class="m-t-2" style="text-align: center"><img style="height: 150px; width: 150px" src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">Chưa
                                     có đơn hàng</h4>
                             </div>
                         </div>
                         <div class="row"></div>
                         <div class="m-l-10 m-r-10 m-b-10" style="background-color: white;"
-                            ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0">
+                            ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length > 0">
                             <div class="row m-t-10 m-r-1 m-l-1" style="background-color: #717fe0; height: 50px">
                                 <div class="col-6">
                                     <h5 style="color: white;" class="m-t-5">Hóa đơn: {{d.ma}}</h5>

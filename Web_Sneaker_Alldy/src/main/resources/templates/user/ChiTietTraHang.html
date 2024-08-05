@@ -138,39 +138,39 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 m-t-80 m-b-80" ng-if="donHang.trangThai === 9">
+                <div class="col-6 m-t-80 m-b-80" ng-if="donHangTra.trangThai === 0">
                     <h4 class="m-l-20" style="color: red">Từ chối hoàn tiền</h4>
-                    <span class="m-l-20">{{donHang.ngayHuyTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                    <span class="m-l-20">{{donHangTra.ngayHuy | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                 </div>
                 <!--                trả hàng-->
-                <ul class="step-wizard-list" ng-if="donHang.trangThai != 0 && donHang.trangThai != 1 && donHang.trangThai != 2 && donHang.trangThai != 3 && donHang.trangThai != 4 && donHang.trangThai != 5&& donHang.trangThai != 9">
+                <ul class="step-wizard-list" ng-if="donHangTra.trangThai != 0">
                     <!--                    Chờ xác nhận trả hàng-->
                     <li class="step-wizard-item">
                         <span class="progress-count">1</span>
                         <span class="progress-label">Chờ xác nhận trả hàng</span>
-                        <span class="progress-label">{{donHang.ngayTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHangTra.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                     <!--                    Kiểm tra hàng hoàn-->
-                    <li class="step-wizard-item" ng-if="donHang.trangThai != 6">
+                    <li class="step-wizard-item" ng-if="donHangTra.trangThai != 1">
                         <span class="progress-count">2</span>
                         <span class="progress-label">Kiểm tra hàng hoàn</span>
-                        <span class="progress-label">{{donHang.ngayKiemTraTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHangTra.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
-                    <li class="step-wizard-item current-item" ng-if="donHang.trangThai === 6">
+                    <li class="step-wizard-item current-item" ng-if="donHangTra.trangThai === 1">
                         <span class="progress-count">2</span>
                         <span class="progress-label">Kiểm tra hàng hoàn</span>
-                        <span class="progress-label">{{donHang.ngayKiemTraTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHangTra.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                     <!--                   Hoàn tiền -->
-                    <li class="step-wizard-item" ng-if="donHang.trangThai != 7">
+                    <li class="step-wizard-item" ng-if="donHangTra.trangThai != 2">
                         <span class="progress-count">3</span>
                         <span class="progress-label">Hoàn tiền</span>
-                        <span class="progress-label">{{donHang.ngayHoanThanhTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHangTra.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
-                    <li class="step-wizard-item  current-item" ng-if="donHang.trangThai === 7">
+                    <li class="step-wizard-item  current-item" ng-if="donHangTra.trangThai === 2">
                         <span class="progress-count">3</span>
                         <span class="progress-label">Hoàn tiền</span>
-                        <span class="progress-label">{{donHang.ngayHoanThanhTraHang | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        <span class="progress-label">{{donHangTra.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </li>
                 </ul>
             </div>
@@ -287,6 +287,46 @@
                            </thead>
                         <tbody>
                         <tr ng-repeat="d in chiTietDonHang">
+                            <td>
+                                <div class="d-flex justify-content-start">
+                                    <img src="/image/loadImage/product/{{d.anh}}"
+                                         style="width: 100px; height: 70px;">
+                                    <div>
+                                        <p style="font-weight: bold;padding-left: 10px; ">{{d.sanPham}}</p>
+                                        <i style="font-size: 10px;padding-left: 10px;">Size {{d.size}}</i>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{d.soLuong}}</td>
+                            <td>{{d.donGia | currency: "" : 1}} đ</td>
+                            <td>{{d.donGia - d.donGiaSauGiam | currency: "" : 1}} đ</td>
+                            <td>
+                                <div>{{d.donGiaSauGiam | currency: "" : 1}} đ
+                                </div>
+                            </td>
+                            <td>
+                                <div>{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
+                                    đ
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h4>Sản Phẩm Trả</h4>
+                    <table id="datatable"
+                           class="table table-hover dt-responsive  nowrap w-100">
+                           <thead>
+                            <tr>
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col">Số Lượng</th>
+                                <th scope="col">Đơn Giá Gốc</th>
+                                <th scope="col">Khuyến Mại</th>
+                                <th scope="col">Đơn Giá Sau Giảm</th>
+                                <th scope="col">Tổng</th>
+                            </tr>
+                           </thead>
+                        <tbody>
+                        <tr ng-repeat="d in sanPhamTra">
                             <td>
                                 <div class="d-flex justify-content-start">
                                     <img src="/image/loadImage/product/{{d.anh}}"

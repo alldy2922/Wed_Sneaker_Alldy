@@ -25,6 +25,8 @@ public interface IDonHangService {
 
 
     List<DonHangReponseUser> getAllByKhachHangAndTrangThai(String nguoiSoHuu, Integer trangThai);
+    List<DonHangReponseUser> getAllByKhachHangAndTrangThaiTra(String nguoiSoHuu, Integer trangThai);
+    List<DonHangTraDTOReponse> getCTSPTra(String nguoiSoHuu, String ma);
 List<DonHangTraDTOReponse> getAllByDonHangTra(String ma);
 
     Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber);
@@ -34,6 +36,8 @@ List<DonHangTraDTOReponse> getAllByDonHangTra(String ma);
     DonHangDtoResponse checkOut(DonHangDTORequest donHangDTORequest);
 
     DonHangDtoResponse findByMa(String ma);
+
+    DonHangTraDTOReponse findByMaTra(String ma);
 
     DonHangReponseUser findByMaUser(String ma);
 
@@ -48,6 +52,7 @@ List<DonHangTraDTOReponse> getAllByDonHangTra(String ma);
 //    DonHangDtoResponse updateDonHang(DonHangDTORequest request);
 
     void huyTraHang(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
+    void huyTraHangNew(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
 
     void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
 

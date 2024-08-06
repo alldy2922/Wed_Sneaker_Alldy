@@ -578,12 +578,14 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
                     $scope.getSanPham()
                     $scope.inputProduct = ""
-                }).catch(e => {
-                    $scope.er = e.data
-                    console.log(e)
-                    alertify.error("Cập nhật thất bại")
                 })
-            }, function () {
+                // .catch(e => {
+                //     $scope.er = e.data
+                //     console.log(e)
+                //     alertify.error("Cập nhật thất bại")
+                // })
+            }, 
+            function () {
                 alertify.error("Cập nhật thất bại")
             })
 

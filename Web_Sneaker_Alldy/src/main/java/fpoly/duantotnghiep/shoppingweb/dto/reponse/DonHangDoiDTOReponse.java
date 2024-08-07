@@ -25,6 +25,7 @@ public class DonHangDoiDTOReponse {
     private Date ngayGiao;
     private Date ngayHuy;
     private Integer trangThai;
+    private String lyDoDoiHang;
     private DonHangDtoResponse donHangDto;
 
     public DonHangDoiDTOReponse(DonHangDoiModel model) {

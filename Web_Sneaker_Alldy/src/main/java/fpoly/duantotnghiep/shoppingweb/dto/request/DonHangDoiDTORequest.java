@@ -27,6 +27,7 @@ public class DonHangDoiDTORequest {
     private Date ngayHoanThanh;
     private Date ngayHuy;
     private Integer trangThai;
+    private String lyDoDoiHang;
     private DonHangModel donHang;
     private ChiTietSanPhamModel chiTietSanPhamModel;
 

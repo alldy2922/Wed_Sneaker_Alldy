@@ -188,7 +188,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             $scope.chuaXacNhan.checkButton()
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
-        } 
+        }
         // else if ($scope.trangThaiDonHang == 5) {
         //     $scope.chuaThanhToan.checkButton();
         // }
@@ -208,7 +208,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             $scope.chuaXacNhan.checkButton()
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
-        } 
+        }
         // else if ($scope.trangThaiDonHang == 5) {
         //     $scope.chuaThanhToan.checkButton();
         // }
@@ -584,10 +584,10 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 //     console.log(e)
                 //     alertify.error("Cập nhật thất bại")
                 // })
-            }, 
-            function () {
-                alertify.error("Cập nhật thất bại")
-            })
+            },
+                function () {
+                    alertify.error("Cập nhật thất bại")
+                })
 
         },
         setPageNumbers() {
@@ -1325,18 +1325,42 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         $http.get("/don-hang/get-by-trangthai-khachhang-tra?trangThai=" + trangThai).then(resp => {
 
             $scope.donHangTraUser = resp.data;
-            console.log("123",resp.data)
+            console.log("123", resp.data)
         }).catch(err => {
             console.log(err);
         })
     };
-    $scope.loadMultipleDonHangUsers = function () {
+    $scope.loadDanhSachTraHang = function () {
         let promises = [];
-        let trangThais = [1,2,3];
+        let trangThais = [1, 2, 3];
 
         trangThais.forEach(trangThai => {
             promises.push(
                 $http.get("/don-hang/get-by-trangthai-khachhang-tra?trangThai=" + trangThai).then(resp => {
+                    return resp.data;
+                }).catch(err => {
+                    console.log(err);
+                    return [];
+                })
+            );
+        });
+
+        Promise.all(promises).then(results => {
+            // Hợp nhất kết quả từ các trạng thái khác nhau
+            $scope.donHangChuaXacNhanKh = results.flat();
+            console.log($scope.donHangChuaXacNhanKh);
+            // Đảm bảo giao diện được cập nhật
+            $scope.$applyAsync();
+        });
+    };
+
+    $scope.loadDanhSachDoiHang = function () {
+        let promises = [];
+        let trangThais = [1, 2, 3, 4, 0];
+
+        trangThais.forEach(trangThai => {
+            promises.push(
+                $http.get("/don-hang/get-by-trangthai-khachhang-doi?trangThai=" + trangThai).then(resp => {
                     return resp.data;
                 }).catch(err => {
                     console.log(err);
@@ -1394,6 +1418,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     //         alertify.success("Yêu cầu trả đơn hàng thành công")
     //     })
     // }
+
     // Khai báo biến lyDoTraHang trong scope
     $scope.lyDoTraHang = "";
     $scope.phuongThucNhanTien = "";
@@ -1426,8 +1451,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         //Tính toán theo phút
         var timeDifference = ngayHienTai - ngayHoanThanhDate;
         var minuteDifference = timeDifference / (1000 * 60); // Chuyển đổi sự khác biệt sang phút
-        console.log("Sự khác biệt thời gian (ms)", timeDifference);
-        console.log("Sự khác biệt thời gian (phút)", minuteDifference);
+        // console.log("Sự khác biệt thời gian (ms)", timeDifference);
+        // console.log("Sự khác biệt thời gian (phút)", minuteDifference);
 
         // Kiểm tra nếu sự khác biệt là trong vòng 2 phút
         if (minuteDifference <= 100000) {
@@ -1669,7 +1694,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             xaPhuongName: $scope.selectedDonHang.xaPhuongName || "",
             loai: $scope.selectedDonHang.loai
         })], { type: "application/json" }));
-        console.log("loai",$scope.selectedDonHang)
+        console.log("loai", $scope.selectedDonHang)
         console.log(JSON.stringify({
             ma: maDonHang,
             voucher: $scope.selectedDonHang.voucher
@@ -1692,7 +1717,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         // Tạo danh sách JSON cho các chi tiết đơn hàng
         formData.append('chiTietDonHang', new Blob([JSON.stringify(chiTietDonHang)], { type: "application/json" }));
         console.log(JSON.stringify(selectedProducts));
-        $http.put("/don-hang/tra-mot-phan" , formData, {
+        $http.put("/don-hang/tra-mot-phan", formData, {
             transformRequest: angular.identity,
             headers: { 'Content-Type': undefined }
         })
@@ -1712,6 +1737,87 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     };
 
     // end
+
+    // hàm đổi 1 phần
+    $scope.selectedDonHang = null;
+    $scope.selectedProducts = [];
+    $scope.lyDoDoiHang = null;
+    //đổi hàng
+    $scope.doiMotPhan = function () {
+        const maDonHang = $scope.selectedDonHang.ma;
+        const lyDoDoiHang = $scope.lyDoDoiHang;
+
+
+        if (!lyDoDoiHang) {
+            alertify.error("Bạn cần nhập lý do đổi hàng");
+            return;
+        }
+        console.log("lyDoDoiHang", lyDoDoiHang)
+        console.log($scope.selectedProducts)
+        // Lấy danh sách sản phẩm đã chọn
+        const selectedProducts = $scope.selectedProducts;
+        if (selectedProducts.length === 0) {
+            alertify.error("Bạn cần chọn ít nhất một sản phẩm để đổi hàng");
+            return;
+        }
+        console.log("ma", maDonHang)
+
+        // Tạo đối tượng FormData
+        const formData = new FormData();
+        formData.append('donHang', new Blob([JSON.stringify({
+            ma: maDonHang,
+            voucher: $scope.selectedDonHang.voucher || "",
+            diaChiChiTiet: $scope.selectedDonHang.diaChiChiTiet || "",
+            email: $scope.selectedDonHang.email || "",
+            quanHuyenCode: $scope.selectedDonHang.quanHuyenCode || "",
+            quanHuyenName: $scope.selectedDonHang.quanHuyenName || "",
+            soDienThoai: $scope.selectedDonHang.soDienThoai || "",
+            tenNguoiNhan: $scope.selectedDonHang.tenNguoiNhan || "",
+            thanhPhoCode: $scope.selectedDonHang.thanhPhoCode || "",
+            thanhPhoName: $scope.selectedDonHang.thanhPhoName || "",
+            xaPhuongCode: $scope.selectedDonHang.xaPhuongCode || "",
+            xaPhuongName: $scope.selectedDonHang.xaPhuongName || "",
+            loai: $scope.selectedDonHang.loai
+        })], { type: "application/json" }));
+        console.log("loai", $scope.selectedDonHang)
+        console.log(JSON.stringify({
+            ma: maDonHang,
+            voucher: $scope.selectedDonHang.voucher
+        }));
+        formData.append('lyDoDoiHang', lyDoDoiHang);
+
+        let chiTietDonHang = [];
+        selectedProducts.forEach(c => {
+            chiTietDonHang.push({
+                id: c.id,
+                donHangID: maDonHang,
+                sanPhamCT: c.idChiTietSanPham,
+                soLuong: c.soLuong,
+                donGia: c.donGia,
+                donGiaSauGiam: c.donGiaSauGiam
+            })
+        })
+        // Tạo danh sách JSON cho các chi tiết đơn hàng
+        formData.append('chiTietDonHang', new Blob([JSON.stringify(chiTietDonHang)], { type: "application/json" }));
+        console.log(JSON.stringify(selectedProducts));
+        $http.put("/don-hang/doi-mot-phan", formData, {
+            transformRequest: angular.identity,
+            headers: { 'Content-Type': undefined }
+        })
+            .then(function (res) {
+                let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == maDonHang);
+                if (index !== -1) {
+                    $scope.donHangChuaXacNhanKh.splice(index, 1);
+                }
+                alertify.success("Yêu cầu đổi hàng thành công");
+                $('#doiHangModal').modal('hide');
+            })
+            .catch(function (error) {
+                console.error("Có lỗi xảy ra khi gửi yêu cầu đổi hàng:", error);
+                alertify.error("Có lỗi xảy ra khi gửi yêu cầu đổi hàng");
+            });
+
+    };
 
     // Kiểm tra và đảm bảo không khởi động $digest/$apply nếu đang diễn ra
     $('#traHangModal').on('hidden.bs.modal', function () {

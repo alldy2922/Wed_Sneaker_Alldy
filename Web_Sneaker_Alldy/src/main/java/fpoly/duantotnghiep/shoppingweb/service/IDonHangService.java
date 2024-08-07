@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.service;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDoiDTOReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangTraDTOReponse;
@@ -22,18 +23,20 @@ public interface IDonHangService {
     List<DonHangTraDTOReponse> getCTSPTra(String nguoiSoHuu, String ma);
     List<DonHangTraDTOReponse> getAllByDonHangTra(String ma);
     List<DonHangReponseUser> getAllByKhachHangAndTrangThaiDoi(String nguoiSoHuu, Integer trangThai);
-    List<DonHangTraDTOReponse> getCTSPDoi(String nguoiSoHuu, String ma);
-    List<DonHangTraDTOReponse> getAllByDonHangDoi(String ma);
+    List<DonHangDoiDTOReponse> getCTSPDoi(String nguoiSoHuu, String ma);
+    List<DonHangDoiDTOReponse> getAllByDonHangDoi(String ma);
 
     Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber);
     List<DonHangTraDTOReponse> getAllDonHangTra(Integer trangThai);
+    List<DonHangDoiDTOReponse> getAllDonHangDoi(Integer trangThai);
 
     DonHangDtoResponse checkOut(DonHangDTORequest donHangDTORequest);
 
     DonHangDtoResponse findByMa(String ma);
 
     DonHangTraDTOReponse findByMaTra(String ma);
-    DonHangTraDTOReponse findByMaDoi(String ma);
+//    DonHangDoiDTOReponse findByMaDoi(String ma);
+    List<DonHangDoiDTOReponse> findByMaDoi(String ma);
 
     DonHangReponseUser findByMaUser(String ma);
 
@@ -52,7 +55,6 @@ public interface IDonHangService {
     void huyTraHangNew(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
 
     void huyDoiHang(List<String> maDonHang, String lyDoDoiHang) throws MessagingException;
-    void huyDoiHangNew(List<String> maDonHang, String lyDoDoiHang) throws MessagingException;
 
     void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
 
@@ -84,8 +86,6 @@ public interface IDonHangService {
 
     DonHangDtoResponse traMotPhan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu);
 
-    void doiDonHangUser(String maDonHang, String lyDoDoiHang, Boolean phuongThucNhanTien, String ghiChu) throws MessagingException;
-
-    DonHangDtoResponse doiMotPhan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoDoiHang, Boolean phuongThucNhanTien, String ghiChu);
+    DonHangDtoResponse doiMotPhan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoDoiHang);
 
 }

@@ -159,6 +159,23 @@ public class DonHangRescontroller {
         }
         return ResponseEntity.ok().build();
     }
+    @GetMapping("update-trang-thai-doi/{ma}")
+    public ResponseEntity<?> updatTrangThaiDoi(@PathVariable("ma") String ma, @RequestParam("trangThai") Integer trangThai,Authentication authentication) throws MessagingException {
+        if (!donHangService.existsByMa(ma)) {
+            return ResponseEntity.notFound().build();
+        }
+
+
+        donHangService.updateTrangThaiTra(ma, trangThai);
+        if(trangThai==2){
+            lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Đơn Hàng Đổi: "+ ma);
+
+        }   else if(trangThai==4){
+            lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Đổi Sản Phẩm Đơn Hàng Đổi: "+ ma);
+
+        }
+        return ResponseEntity.ok().build();
+    }
 
     @PutMapping("update-trang-thai-tra")
     public ResponseEntity<Integer> updatTrangThaiTraAll(@RequestBody List<String> ma, @RequestParam("trangThai") Integer trangThai,Authentication authentication) throws MessagingException {
@@ -170,6 +187,25 @@ public class DonHangRescontroller {
 
                 }   else if(trangThai==3){
                     lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Hoàn Tiền Đơn Hàng Hoàn: "+ ma);
+
+                }
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        });
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("update-trang-thai-doi")
+    public ResponseEntity<Integer> updatTrangThaiDoiAll(@RequestBody List<String> ma, @RequestParam("trangThai") Integer trangThai,Authentication authentication) throws MessagingException {
+        ma.forEach(m -> {
+            try {
+                donHangService.updateTrangThaiTra(m, trangThai);
+                if(trangThai==2){
+                    lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Xác Nhận Đơn Hàng Đổi: "+ ma);
+
+                }   else if(trangThai==4){
+                    lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Đổi Sản Phẩm Đơn Hàng Đổi: "+ ma);
 
                 }
             } catch (MessagingException e) {
@@ -229,6 +265,13 @@ public class DonHangRescontroller {
     public ResponseEntity<Integer> huyTraDonHangNew(@RequestBody List<String> ma, @RequestParam("lyDoTraHang") String lyDoTraHang,Authentication authentication) throws MessagingException {
         donHangService.huyTraHangNew(ma, lyDoTraHang);
         lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Từ Chối Đơn Hàng Hoàn: "+ ma);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/doi-don-hang")
+    public ResponseEntity<Integer> huyDoiHang(@RequestBody List<String> ma, @RequestParam("lyDoDoiHang") String lyDoTraHang,Authentication authentication) throws MessagingException {
+        donHangService.huyTraHangNew(ma, lyDoTraHang);
+        lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Từ Chối Đơn Hàng Đổi: "+ ma);
         return ResponseEntity.ok().build();
     }
 
@@ -397,6 +440,12 @@ public class DonHangRescontroller {
 
         return code.toString();
     }
+    @GetMapping("get-ctsp-doi")
+    public List<DonHangDoiDTOReponse> getCtspDoi(@RequestParam("ma")String ma) {
+
+        return IdonHangService.getAllByDonHangDoi(ma);
+    }
+
 
 
 }

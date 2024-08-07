@@ -1,5 +1,6 @@
 package fpoly.duantotnghiep.shoppingweb.restcontroller.user;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDoiDTOReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangTraDTOReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
@@ -67,6 +68,26 @@ public class DonHangRestController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+    @GetMapping("get-by-trangthai-khachhang-doi")
+    public  ResponseEntity<List<DonHangReponseUser>>getTrangThaiDoi(
+            @RequestParam(name = "trangThai",defaultValue = "0") Integer trangThai,
+            Authentication authentication) {
+
+        if (authentication != null) {
+            String khachHang = authentication.getName();
+            return ResponseEntity.ok(idonHangService.getAllByKhachHangAndTrangThaiDoi(khachHang, trangThai));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+    @GetMapping("get-ctsp-doi/{ma}")
+    public ResponseEntity<List<DonHangDoiDTOReponse>> getCtspDoi(@PathVariable("ma") String ma, Authentication authentication) {
+
+        if (authentication != null) {
+            String khachHang = authentication.getName();
+            return ResponseEntity.ok(idonHangService.getCTSPDoi(khachHang, ma));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 
     @PutMapping("huy-don-hang-user")
     public ResponseEntity<?> huyDonHangUser(@RequestBody String lyDoHuy, @RequestParam String ma) throws MessagingException {
@@ -110,6 +131,30 @@ public class DonHangRestController {
         return ResponseEntity.ok(donHangService.traMotPhan(request, products, lyDoTraHang, phuongThucNhanTien, ghiChu));
     }
 
+    @PutMapping("doi-mot-phan")
+    @Transactional(rollbackFor = {Exception.class, Throwable.class})
+    public ResponseEntity<?> doiMotPhan(@Valid @RequestPart("donHang") DonHangDTORequest request,
+                                        BindingResult result,
+                                        @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products,
+                                        @RequestParam("lyDoDoiHang") String lyDoDoiHang) {
+        //sản phẩm trống -> thông báo lỗi
+        System.out.println("data"+products);
+        System.out.println("data1" + request.getLoai());
+        if(products.size()<=0){
+            result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn đổi"));
+        }
+        // xu ly loi neu co
+        if(result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
+        //khong tim duoc ma dontra -> HTTP 404
+        if (!donHangService.existsByMa(request.getMa())) {
+            return ResponseEntity.notFound().build();
+        }
+        //khong co loi -> HTTP 200
+        return ResponseEntity.ok(donHangService.doiMotPhan(request, products, lyDoDoiHang));
+    }
+
     @GetMapping("/{ma}")
     public ResponseEntity<DonHangReponseUser> getByMa(@PathVariable("ma") String ma) {
         if (!donHangService.existsByMa(ma)) {
@@ -125,6 +170,16 @@ public class DonHangRestController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(donHangService.findByMaTra(ma));
+    }
+
+    @GetMapping("doi/{ma}")
+    public ResponseEntity<List<DonHangDoiDTOReponse>> getByMaDoi(@PathVariable("ma") String ma) {
+        System.out.println("ma: " + ma);
+        if (!donHangService.existsByMa(ma)) {
+            return ResponseEntity.notFound().build();
+        }
+        List<DonHangDoiDTOReponse> responseList = donHangService.findByMaDoi(ma);
+        return ResponseEntity.ok(responseList);
     }
 
 }

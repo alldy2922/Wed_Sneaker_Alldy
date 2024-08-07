@@ -45,7 +45,7 @@ app.controller("ctdhdoi-ctrl", function ($scope, $http) {
 
     //hiện chi tiết đơn đổi
     $http.get("/don-hang/doi" + maDH).then(r => {
-        $scope.donHangDoi = r.data
+        $scope.donHangDoijs = r.data
         console.log("$donHangDoi", $scope.donHangDoi = r.data)
         console.log("trangThai", $scope.donHangDoi.trangThai);
         console.log("$MaHangDoi", maDH)

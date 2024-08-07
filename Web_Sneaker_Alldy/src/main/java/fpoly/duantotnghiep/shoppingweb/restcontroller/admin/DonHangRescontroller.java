@@ -77,6 +77,14 @@ public class DonHangRescontroller {
 
         return donHangEntityManager.getDonHangByTrangThaiTra(trangThai, pageNumber , limit);
     }
+    @GetMapping("get-by-trangthai-doi")
+    public Page<DonHangDtoResponse>getTrangThaiDoi(
+            @RequestParam(value = "trangThai", required = false) Integer trangThai,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
+            @RequestParam(defaultValue = "10") Integer limit) {
+
+        return donHangEntityManager.getDonHangByTrangThaiDoi(trangThai, pageNumber , limit);
+    }
 
     @GetMapping("/{ma}")
     public ResponseEntity<DonHangDtoResponse> getByMa(@PathVariable("ma") String ma) {
@@ -260,14 +268,14 @@ public class DonHangRescontroller {
         lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Từ Chối Đơn Hàng Hoàn: "+ ma);
         return ResponseEntity.ok().build();
     }
-
+//hủy trả hàng đã sửa
     @PutMapping("/tra-don-hang-test")
     public ResponseEntity<Integer> huyTraDonHangNew(@RequestBody List<String> ma, @RequestParam("lyDoTraHang") String lyDoTraHang,Authentication authentication) throws MessagingException {
         donHangService.huyTraHangNew(ma, lyDoTraHang);
         lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Từ Chối Đơn Hàng Hoàn: "+ ma);
         return ResponseEntity.ok().build();
     }
-
+//hủy đổi hàng
     @PutMapping("/doi-don-hang")
     public ResponseEntity<Integer> huyDoiHang(@RequestBody List<String> ma, @RequestParam("lyDoDoiHang") String lyDoTraHang,Authentication authentication) throws MessagingException {
         donHangService.huyTraHangNew(ma, lyDoTraHang);

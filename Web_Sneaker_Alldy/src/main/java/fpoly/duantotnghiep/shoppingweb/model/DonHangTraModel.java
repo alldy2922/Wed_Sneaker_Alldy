@@ -47,13 +47,13 @@ public class DonHangTraModel {
     @Column(name = "ngayxacnhan")
     private Date ngayXacNhan;
 
-  @Column(name = "ngaykiemtra")
+    @Column(name = "ngaykiemtra")
     private Date ngayKiemTra;
 
-  @Column(name = "ngayhoanthanh")
+    @Column(name = "ngayhoanthanh")
     private Date ngayHoanThanh;
 
-  @Column(name = "trangthai")
+    @Column(name = "trangthai")
     private Integer trangThai;
 
 }

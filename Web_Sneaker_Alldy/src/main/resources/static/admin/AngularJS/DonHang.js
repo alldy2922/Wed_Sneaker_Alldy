@@ -1465,8 +1465,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 return;
             }
             console.log("ma", maDonHang)
-
-
             $scope.ghiChu = "Ngân hàng: " + $scope.selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
             // Sử dụng encodeURIComponent để mã hóa ghiChu
             const encodedGhiChu = encodeURIComponent($scope.ghiChu);
@@ -1622,42 +1620,41 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         const maDonHang = $scope.selectedDonHang.ma;
         const lydoTraHang = $scope.lyDoTraHang;
         const phuongThucNhanTien = $scope.phuongThucNhanTien;
-        const selectedNganHang = $scope.selectedNganHang;
-        const soTaiKhoan = $scope.soTaiKhoan;
-        const tenNguoiNhan = $scope.tenNguoiNhan;
 
         if (!lydoTraHang) {
             alertify.error("Bạn cần nhập lý do trả hàng");
             return;
         }
+        if (!phuongThucNhanTien) {
+            alertify.error("Bạn cần chọn phương thức hoàn tiền");
+            return;
+        }
         console.log("lydotrahang", lydoTraHang)
         if (phuongThucNhanTien === 'false') {
-            if (!soTaiKhoan) {
-                alertify.error("Bạn cần nhập số tài khoản");
-                return;
-            }
-
-            if (!tenNguoiNhan) {
-                alertify.error("Bạn cần nhập tên người nhận");
-                return;
-            }
-
+            const selectedNganHang = $scope.selectedNganHang;
+            const soTaiKhoan = $scope.soTaiKhoan;
+            const tenNguoiNhan = $scope.tenNguoiNhan;
             if (!selectedNganHang || !selectedNganHang.name) {
                 alertify.error("Bạn cần chọn ngân hàng");
                 return;
             }
+            if (!soTaiKhoan) {
+                alertify.error("Bạn cần nhập số tài khoản");
+                return;
+            }
+            if (!tenNguoiNhan) {
+                alertify.error("Bạn cần nhập tên người nhận");
+                return;
+            }
+            $scope.ghiChu = "Ngân hàng: " + $scope.selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
         }
-console.log($scope.selectedProducts)
+        console.log($scope.selectedProducts)
         // Lấy danh sách sản phẩm đã chọn
         const selectedProducts = $scope.selectedProducts;
         if (selectedProducts.length === 0) {
             alertify.error("Bạn cần chọn ít nhất một sản phẩm để trả hàng");
             return;
         }
-
-        $scope.ghiChu = "Ngân hàng: " + $scope.selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
-
-
         console.log("ma", maDonHang)
 
         // Tạo đối tượng FormData
@@ -1682,6 +1679,7 @@ console.log($scope.selectedProducts)
             ma: maDonHang,
             voucher: $scope.selectedDonHang.voucher
         }));
+
         formData.append('lyDoTraHang', lydoTraHang);
         formData.append('phuongThucNhanTien', phuongThucNhanTien);
         formData.append('ghiChu', $scope.ghiChu || '');
@@ -1700,6 +1698,7 @@ console.log($scope.selectedProducts)
         // Tạo danh sách JSON cho các chi tiết đơn hàng
         formData.append('chiTietDonHang', new Blob([JSON.stringify(chiTietDonHang)], { type: "application/json" }));
         console.log(JSON.stringify(selectedProducts));
+
         $http.put("/don-hang/tra-mot-phan" , formData, {
             transformRequest: angular.identity,
             headers: { 'Content-Type': undefined }
@@ -1710,7 +1709,7 @@ console.log($scope.selectedProducts)
                     $scope.donHangChuaXacNhanKh.splice(index, 1);
                 }
                 alertify.success("Yêu cầu trả đơn hàng thành công");
-                $('#traHangModal').modal('hide');
+                $('#traHangMotPhanModal').modal('hide');
             })
             .catch(function (error) {
                 console.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng:", error);

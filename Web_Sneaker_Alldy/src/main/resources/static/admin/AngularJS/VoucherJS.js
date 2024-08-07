@@ -13,7 +13,7 @@ app.controller("voucher-ctrl", function ($scope, $http) {
         }
         $scope.voucherAdd.loaiMucGiam = 'TIEN';
         $scope.khachHangVoucher = function (dieuKien) {
-            $http.get("http://localhost:8080/admin/khach-hang/khach-hang-voucher?dieuKien=" + dieuKien).then(function (res) {
+            $http.get("http://localhost:8080/admin/khach-hang/voucher?dieuKien=" + dieuKien).then(function (res) {
                 console.log("k",res.data)
                 $scope.findAllKhachHang = res.data
                 $scope.findAllKhachHang.forEach(k => $scope.voucherAdd.danhSachKhach.forEach(k1 => {
@@ -23,7 +23,6 @@ app.controller("voucher-ctrl", function ($scope, $http) {
                 }))
             }).catch(err => console.log(err))
             console.log("khách ")
-
         }
         //    chi tiet
         $http.get("http://localhost:8080/admin/voucher" + id).then(function (res) {

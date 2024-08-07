@@ -396,6 +396,7 @@ app.controller("hoaDon-ctrl", function ($scope, $http) {
                 formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
                     type: 'application/json'
                 }))
+                formData.append("lyDoThayDoi", "");
                 console.log(data)
                 $http.put("/admin/don-hang", formData, {
                     transformRequest: angular.identity,

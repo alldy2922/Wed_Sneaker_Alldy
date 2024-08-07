@@ -1066,7 +1066,6 @@
                 </div>
             </div>
             <div class="modal fade bd-example-modal-lg" id="donHangDetail" tabindex="-1" role="dialog"
-
                  aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">
@@ -1085,20 +1084,20 @@
                                         <span class="form-control">{{donHang.ma}}</span>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="mb-3">
-                                        <label ng-if="donHang.trangThai === 7">Ngày Kiểm Tra Hàng Hoàn</label>
-                                        <span class="form-control" ng-if="donHang.trangThai === 7">{{donHang.ngayKiemTraTraHang |
-                                        date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                                        <label ng-if="donHang.trangThai === 8">Ngày Hoàn Tiền</label>
-                                        <span class="form-control"
-                                              ng-if="donHang.trangThai === 8">{{donHang.ngayHoanThanhTraHang | date:'yyyy-MM-dd
-                                        HH:mm:ss'}}</span>
-                                        <label ng-if="donHang.trangThai === 9">Ngày Hủy</label>
-                                        <span class="form-control" ng-if="donHang.trangThai === 9">{{donHang.ngayHuyTraHang |
-                                        date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                                    </div>
-                                </div>
+<!--                                <div class="col-sm-4">-->
+<!--                                    <div class="mb-3">-->
+<!--                                        <label ng-if="donHangTra.trangThai === 2">Ngày Kiểm Tra Hàng Hoàn</label>-->
+<!--                                        <span class="form-control" ng-if="donHangTra.trangThai === 2">{{donHangTra.ngayKiemTraTraHang |-->
+<!--                                        date:'yyyy-MM-dd HH:mm:ss'}}</span>-->
+<!--                                        <label ng-if="donHangTra.trangThai === 3">Ngày Hoàn Tiền</label>-->
+<!--                                        <span class="form-control"-->
+<!--                                              ng-if="donHangTra.trangThai === 3">{{donHang.ngayHoanThanhTraHang | date:'yyyy-MM-dd-->
+<!--                                        HH:mm:ss'}}</span>-->
+<!--                                        <label ng-if="donHangTra.trangThai === 0">Ngày Hủy</label>-->
+<!--                                        <span class="form-control" ng-if="donHang.trangThai === 9">{{donHang.ngayHuyTraHang |-->
+<!--                                        date:'yyyy-MM-dd HH:mm:ss'}}</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
                                 <div class="mb-3 col-4">
                                     <label>Phương thức thanh toán khi mua</label>
@@ -1319,14 +1318,8 @@
                 </div>
             </div>
         </div>
-
         <!-- Modal-->
-
-
-
-
         <!-- End Page-content -->
-
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row">

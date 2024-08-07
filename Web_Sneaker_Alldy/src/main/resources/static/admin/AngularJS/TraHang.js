@@ -14,6 +14,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
     $scope.sanPhamTra = [];
 
 
+
     $scope.closeModal = function (id) {
         $(id).modal('hide')
         $scope.donHang = {}
@@ -529,6 +530,8 @@ app.controller("trahang-ctrl", function ($scope, $http) {
     $scope.chuaXacNhanTraHang.init()
     $scope.chuaXacNhanTraHang.getList(0)
 
+    //hiện chi tiết đơn trả
+
     $scope.daXacNhan = {
         list: [],
         detail: {},
@@ -538,6 +541,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         pages: [],
         id: [],
         sdtSearch: "",
+
         init() {
             $scope.trangThaiDonHang = 7
             $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=2").then(r => {
@@ -572,6 +576,11 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 $scope.sanPhamTra = r.data;
                 console.log("spt",$scope.sanPhamTra)
             }).catch(e => console.log(e))
+            // $http.get("/don-hang/tra/" + ma).then(r => {
+            //     $scope.donHangTra = r.data
+            //     console.log("$donHangTra", $scope.donHangTra = r.data)
+            //     console.log("$MaHangTra", ma)
+            // }).catch(e => console.log(e));
 
         },
         setPageNumbers() {
@@ -770,7 +779,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         pages: [],
         sdtSearch: "",
         init() {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=9&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=0&pageNumber=" + this.page).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
@@ -780,7 +789,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 9
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=9&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=0&pageNumber=" + pageNumber).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()

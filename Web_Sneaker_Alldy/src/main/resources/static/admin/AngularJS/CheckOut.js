@@ -23,11 +23,11 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     }
 
     $scope.dataSession = [];
-    window.addEventListener('beforeunload', function () {
-
-        localStorage.removeItem('selectedProducts');
-        $scope.deleteoAll();
-    });
+    // window.addEventListener('beforeunload', function () {
+    //
+    //     localStorage.removeItem('selectedProducts');
+    //     $scope.deleteoAll();
+    // });
 
     $scope.getDataSessions = function() {
         const storedData = localStorage.getItem('selectedProducts');
@@ -145,6 +145,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 tienGiam: $scope.giaGiam,
                 tongTien: ($scope.sumTotal + $scope.feeShipped) * 100
             }
+            console.log("ghiChu", $scope.ghiChu);
             var diaChi = {
                 thanhPhoCode: $scope.thanhPhoCode,
                 thanhPhoName: $scope.citys[indexCity] == undefined ? "" : $scope.citys[indexCity].ProvinceName,
@@ -279,7 +280,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
         event.returnValue = message; // Hiển thị thông báo trên các trình duyệt cũ
         return message; // Hiển thị thông báo trên các trình duyệt mới hơn
     };
-    
+
 
     
 

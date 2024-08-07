@@ -61,13 +61,15 @@
                                 <li class="nav-item" ng-click="hoanThanh.getList(hoanThanh.page)">
                                     <a class="nav-link" data-bs-toggle="tab" href="#hoanThanh" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block">Hoàn thành</span>
+                                        <span class="d-none d-sm-block">Hoàn thành<span class="badge bg-danger ms-1"
+                                            style="font-size: 11px">{{hoanThanh.totalElement}}</span></span>
                                     </a>
                                 </li>
                                 <li class="nav-item" ng-click="huy.getList(huy.page)">
                                     <a class="nav-link" data-bs-toggle="tab" href="#donhangHuy" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block">Hủy</span>
+                                        <span class="d-none d-sm-block">Hủy<span class="badge bg-danger ms-1"
+                                            style="font-size: 11px">{{huy.totalElement}}</span></span>
                                     </a>
                                 </li>
                                 <!-- <li class="nav-item" ng-click="chuaThanhToan.getList(chuaThanhToan.page)">

@@ -181,15 +181,13 @@ app.controller("doihang-ctrl", function ($scope, $http) {
             })
         }
         if ($scope.trangThaiDonHang == 1) {
-            $scope.daXacNhan.checkButton();
+            $scope.chuaXacNhan.checkButton();
         } else if ($scope.trangThaiDonHang == 2) {
-            $scope.chuaXacNhan.checkButton()
+            $scope.daXacNhan.checkButton()
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
         }
-        // else if ($scope.trangThaiDonHang == 5) {
-        //     $scope.chuaThanhToan.checkButton();
-        // }
+        
     }
     $scope.checkAllChecked = function (name, idCheckBoxSetAll) {
         let checkBox = document.getElementsByName(name)
@@ -201,15 +199,13 @@ app.controller("doihang-ctrl", function ($scope, $http) {
         })
         document.getElementById(idCheckBoxSetAll).checked = check
         if ($scope.trangThaiDonHang == 1) {
-            $scope.daXacNhan.checkButton();
+            $scope.chuaXacNhan.checkButton();
         } else if ($scope.trangThaiDonHang == 2) {
-            $scope.chuaXacNhan.checkButton()
+            $scope.daXacNhan.checkButton()
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
         }
-        // else if ($scope.trangThaiDonHang == 5) {
-        //     $scope.chuaThanhToan.checkButton();
-        // }
+        
     }
 
     ////////////////////////////////////////
@@ -451,11 +447,11 @@ app.controller("doihang-ctrl", function ($scope, $http) {
         },
         huyDH() {
 
-            if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
+            if (!$scope.lyDoDoiHang || $scope.lyDoDoiHang.trim().length === 0) {
                 $scope.messLyDo = "Không để trống lý do hủy"
                 alertify.error("Hủy đơn hàng thất bại")
                 return
-            } else if ($scope.lyDo.length == 200) {
+            } else if ($scope.lyDoDoiHang.length == 200) {
                 $scope.messLyDo = "Lý do hủy chỉ tối đa 200 ký tự"
                 alertify.error("Hủy đơn hàng thất bại")
                 return;
@@ -581,7 +577,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
         }
     }
     $scope.chuaXacNhan.init()
-    $scope.chuaXacNhan.getList(1)
+    $scope.chuaXacNhan.getList(0)
 
     $scope.daXacNhan = {
         list: [],
@@ -676,7 +672,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
             })
         },
         huyDH() {
-            if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
+            if (!$scope.lyDoDoiHang || $scope.lyDoDoiHang.trim().length === 0) {
                 $scope.messLyDo = "Không để trống lý do hủy"
                 return
             } else if ($scope.lyDo.length == 200) {
@@ -900,7 +896,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
             document.getElementById("xacNhanAll3").disabled = check;
         }
     }
-    $scope.dangGiao.init(0)
+    $scope.dangGiao.init()
 
     $scope.hoanThanh = {
         list: [],
@@ -959,6 +955,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
 
         }
     }
+    $scope.hoanThanh.init()
 
     $scope.huy = {
         list: [],
@@ -1016,6 +1013,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
             this.pages = numbers;
         }
     }
+    $scope.huy.init()
     // $scope.trangThaiDonHang = 5
 
     //don hang user

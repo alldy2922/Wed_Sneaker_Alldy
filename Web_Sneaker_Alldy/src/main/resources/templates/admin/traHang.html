@@ -50,13 +50,15 @@
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                         <span class="d-none d-sm-block">Kiểm Tra Hàng Hoàn <span
                                                 class="badge bg-danger ms-1"
-                                                style="font-size: 11px">{{daXacNhanTraHang.totalElement}}</span></span>
+                                                style="font-size: 11px">{{daXacNhan.totalElement}}</span></span>
                                     </a>
                                 </li>
                                 <li class="nav-item" ng-click="hoanThanhTraHang.getList(hoanThanhTraHang.page)">
                                     <a class="nav-link" data-bs-toggle="tab" href="#hoanThanh" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block">Hoàn Tiền</span>
+                                        <span class="d-none d-sm-block">Hoàn Tiền<span
+                                            class="badge bg-danger ms-1"
+                                            style="font-size: 11px">{{hoanThanhTraHang.totalElement}}</span></span>
                                     </a>
                                 </li>
                                 <li class="nav-item" ng-click="huyTraHang.getList(huyTraHang.page)">

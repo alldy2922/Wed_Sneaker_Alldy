@@ -48,7 +48,7 @@
                                 <li class="nav-item" ng-click="daXacNhan.getList(daXacNhan.page)">
                                     <a class="nav-link" data-bs-toggle="tab" href="#donhang2" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block">Kiểm Tra Hàng Hoàn/Đổi Hàng <span
+                                        <span class="d-none d-sm-block">Kiểm Tra Hàng Đổi <span
                                                 class="badge bg-danger ms-1"
                                                 style="font-size: 11px">{{daXacNhan.totalElement}}</span></span>
                                     </a>
@@ -63,13 +63,15 @@
                                 <li class="nav-item" ng-click="hoanThanh.getList(hoanThanh.page)">
                                     <a class="nav-link" data-bs-toggle="tab" href="#hoanThanh" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block">Hoàn thành</span>
+                                        <span class="d-none d-sm-block">Hoàn thành<span class="badge bg-danger ms-1"
+                                            style="font-size: 11px">{{hoanThanh.totalElement}}</span></span>
                                     </a>
                                 </li>
                                 <li class="nav-item" ng-click="huy.getList(huy.page)">
                                     <a class="nav-link" data-bs-toggle="tab" href="#donhangHuy" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block">Hủy</span>
+                                        <span class="d-none d-sm-block">Hủy<span class="badge bg-danger ms-1"
+                                            style="font-size: 11px">{{huy.totalElement}}</span></span>
                                     </a>
                                 </li>
                             </ul>
@@ -113,7 +115,7 @@
                                                                     <th scope="col">Mã</th>
                                                                     <th scope="col">Tên người nhận</th>
                                                                     <th scope="col">Số điện thoại</th>
-                                                                    <th scope="col">Ngày đặt</th>
+                                                                    <th scope="col">Ngày gửi yêu cầu đổi</th>
                                                                     <th scope="col">Lý Do Đổi</th>
                                                                     <th style="width: 80px; min-width: 80px;"></th>
                                                                 </tr>
@@ -156,7 +158,8 @@
                                                                     </td>
                                                                     <td style="width: 200px" id="action{{d.ma}}">
                                                                         <button class="btn btn-danger me-1"
-                                                                            data-toggle="modal" data-target="#lyDoDoiHang"
+                                                                            data-toggle="modal"
+                                                                            data-target="#lyDoDoiHang"
                                                                             ng-click="chuaXacNhan.setIdDonHang(d.ma)">Hủy
                                                                         </button>
                                                                         <button class="btn btn-primary"
@@ -293,8 +296,8 @@
                                                                     <th scope="col">Mã</th>
                                                                     <th scope="col">Tên người nhận</th>
                                                                     <th scope="col">Số điện thoại</th>
-                                                                    <th scope="col">Ngày xác nhận</th>
-                                                                    <th scope="col">Ngày xác nhận</th>
+                                                                    <th scope="col">Ngày Kiểm Tra</th>
+                                                                    <th scope="col">Lý Do Đổi</th>
                                                                     <th></th>
                                                                 </tr>
                                                             </thead>
@@ -329,9 +332,13 @@
                                                                         ng-click="daXacNhan.getDetail(d.ma)">
                                                                         {{d.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss' }}
                                                                     </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="chuaXacNhan.getDetail(d.ma)">
+                                                                        {{d.lyDoDoiHang}}
+                                                                    </td>
                                                                     <td style="width: 200px">
                                                                         <button class="btn btn-danger me-1"
-                                                                            data-toggle="modal" data-target="#lyDo"
+                                                                            data-toggle="modal" data-target="#lyDoDoiHang"
                                                                             ng-click="daXacNhan.setIdDonHang(d.ma)">Hủy
                                                                         </button>
                                                                         <button class="btn btn-primary"
@@ -502,9 +509,13 @@
                                                                         ng-click="daXacNhan.getDetail(d.ma)">
                                                                         {{d.ngayGiaoHang | date:'yyyy-MM-dd HH:mm:ss' }}
                                                                     </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="chuaXacNhan.getDetail(d.ma)">
+                                                                        {{d.lyDoDoiHang}}
+                                                                    </td>
                                                                     <td style="width: 200px">
                                                                         <button class="btn btn-danger me-1"
-                                                                            data-toggle="modal" data-target="#lyDo"
+                                                                            data-toggle="modal" data-target="#lyDoDoiHang"
                                                                             ng-click="dangGiao.setIdDonHang(d.ma)">Hủy
                                                                         </button>
                                                                         <button class="btn btn-primary"
@@ -627,9 +638,10 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col">Mã</th>
-                                                                    <th scope="col">Tên người nhận</th>
-                                                                    <th scope="col">Số điện thoại</th>
-                                                                    <th scope="col">Ngày hoàn thành</th>
+                                                                    <th scope="col">Tên Người Nhận</th>
+                                                                    <th scope="col">Số Điện Thoại</th>
+                                                                    <th scope="col">Ngày Hoàn Thành</th>
+                                                                    <th scope="col">Lý Do Đổi</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -655,6 +667,10 @@
                                                                         ng-click="daXacNhan.getDetail(d.ma)">
                                                                         {{d.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'
                                                                         }}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="chuaXacNhan.getDetail(d.ma)">
+                                                                        {{d.lyDoDoiHang}}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -799,7 +815,7 @@
                                                                     <!--                                                            </td>-->
                                                                     <td style="cursor: pointer"
                                                                         ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        <p class="nameProduct">{{d.lyDoHuy}}</p>
+                                                                        <p class="nameProduct">{{d.lyDoDoiHang}}</p>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -886,18 +902,18 @@
             </div> <!-- container-fluid -->
 
             <!--        Modal lý do hủy đơn-->
-            <div class="modal fade" id="lyDo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="lyDoDoiHang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Lý do</h5>
+                            <h5 class="modal-title">Lý do từ chối đổi hàng</h5>
                             <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <input ng-model="lyDo" class="form-control">
+                            <input ng-model="lyDoDoiHang" class="form-control">
                             <i style="color: red">{{messLyDo}}</i>
                         </div>
                         <div class="modal-footer">
@@ -1603,6 +1619,8 @@
                     </div>
                 </div>
             </div>
+
+
             <!-- Modal-->
             <div class="modal fade bd-example-modal-lg full-screen-modal" id="donHangDetail" tabindex="-1" role="dialog"
                 aria-labelledby="myLargeModalLabel" aria-hidden="true">

@@ -1249,7 +1249,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
         }
     }
-
+    $scope.hoanThanh.init()
+    
     $scope.huy = {
         list: [],
         detail: {},
@@ -1306,6 +1307,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             this.pages = numbers;
         }
     }
+    $scope.huy.init()
     // $scope.trangThaiDonHang = 5
 
     //don hang user

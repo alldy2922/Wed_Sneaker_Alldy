@@ -23,11 +23,11 @@ app.controller('checkOutCtrl', function ($scope, $http) {
     }
 
     $scope.dataSession = [];
-    // window.addEventListener('beforeunload', function () {
+    window.addEventListener('beforeunload', function () {
 
-    //     localStorage.removeItem('selectedProducts');
-    //     $scope.deleteoAll();
-    // });
+        localStorage.removeItem('selectedProducts');
+        $scope.deleteoAll();
+    });
 
     $scope.getDataSessions = function () {
         const storedData = localStorage.getItem('selectedProducts');

@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +32,10 @@ public class ChiTietSanPhamRestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.ok(chiTietSanPhamService.finById(id).getSoLuong());
+    }
+    @GetMapping("/check-login")
+    public ResponseEntity<Boolean> checkLoginStatus(Authentication authentication) {
+        boolean isLoggedIn = authentication != null && authentication.isAuthenticated();
+        return ResponseEntity.ok(isLoggedIn);
     }
 }

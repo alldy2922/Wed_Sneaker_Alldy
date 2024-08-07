@@ -11,10 +11,7 @@ import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangTraModel;
-import fpoly.duantotnghiep.shoppingweb.repository.IChiTietDonHangRepository;
-import fpoly.duantotnghiep.shoppingweb.repository.IChiTietSanPhamRepository;
-import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
-import fpoly.duantotnghiep.shoppingweb.repository.IDonHangTraRepository;
+import fpoly.duantotnghiep.shoppingweb.repository.*;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietDonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import jakarta.mail.MessagingException;
@@ -48,6 +45,8 @@ public class DonHangService implements IDonHangService {
     @Autowired
     private IDonHangTraRepository donHangTraRepository;
     @Autowired
+    private IDonHangDoiRepository donHangDoiRepository;
+    @Autowired
     private JavaMailSender javaMailSender;
     @Autowired
     private TemplateEngine templateEngine;
@@ -65,6 +64,10 @@ public class DonHangService implements IDonHangService {
     @Override
     public List<DonHangReponseUser> getAllByKhachHangAndTrangThaiTra(String nguoiSoHuu, Integer trangThai) {
         return donHangResponsitory.findAllByKhachHangAndTrangThaiTra(nguoiSoHuu, trangThai).stream().map(d -> new DonHangReponseUser(d)).collect(Collectors.toList());
+    }
+    @Override
+    public List<DonHangReponseUser> getAllByKhachHangAndTrangThaiDoi(String nguoiSoHuu, Integer trangThai) {
+        return donHangResponsitory.findAllByKhachHangAndTrangThaiDoi(nguoiSoHuu, trangThai).stream().map(d -> new DonHangReponseUser(d)).collect(Collectors.toList());
     }
 
     @Override

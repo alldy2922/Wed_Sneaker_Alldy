@@ -21,6 +21,9 @@ public interface IDonHangService {
     List<DonHangReponseUser> getAllByKhachHangAndTrangThaiTra(String nguoiSoHuu, Integer trangThai);
     List<DonHangTraDTOReponse> getCTSPTra(String nguoiSoHuu, String ma);
     List<DonHangTraDTOReponse> getAllByDonHangTra(String ma);
+    List<DonHangReponseUser> getAllByKhachHangAndTrangThaiDoi(String nguoiSoHuu, Integer trangThai);
+    List<DonHangTraDTOReponse> getCTSPDoi(String nguoiSoHuu, String ma);
+    List<DonHangTraDTOReponse> getAllByDonHangDoi(String ma);
 
     Page<DonHangDtoResponse> getAllByTrangThai(Integer trangThai, Integer limit, Integer pageNumber);
     List<DonHangTraDTOReponse> getAllDonHangTra(Integer trangThai);
@@ -30,6 +33,7 @@ public interface IDonHangService {
     DonHangDtoResponse findByMa(String ma);
 
     DonHangTraDTOReponse findByMaTra(String ma);
+    DonHangTraDTOReponse findByMaDoi(String ma);
 
     DonHangReponseUser findByMaUser(String ma);
 
@@ -37,6 +41,7 @@ public interface IDonHangService {
 
     void updateTrangThai(String maDonHang, Integer trangThai) throws MessagingException;
     void updateTrangThaiTra(String maDonHangTra, Integer trangThai) throws MessagingException;
+    void updateTrangThaiDoi(String maDonHangDoi, Integer trangThai) throws MessagingException;
 
 
 //    void huyDonHang(String maDonHang, String lyDo) throws MessagingException;
@@ -45,6 +50,9 @@ public interface IDonHangService {
 
     void huyTraHang(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
     void huyTraHangNew(List<String> maDonHang, String lyDoTraHang) throws MessagingException;
+
+    void huyDoiHang(List<String> maDonHang, String lyDoDoiHang) throws MessagingException;
+    void huyDoiHangNew(List<String> maDonHang, String lyDoDoiHang) throws MessagingException;
 
     void huyDonHang(List<String> maDonHang, String lyDo) throws MessagingException;
 
@@ -75,5 +83,9 @@ public interface IDonHangService {
     void traDonHangUser(String maDonHang, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu) throws MessagingException;
 
     DonHangDtoResponse traMotPhan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu);
+
+    void doiDonHangUser(String maDonHang, String lyDoDoiHang, Boolean phuongThucNhanTien, String ghiChu) throws MessagingException;
+
+    DonHangDtoResponse doiMotPhan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoDoiHang, Boolean phuongThucNhanTien, String ghiChu);
 
 }

@@ -868,7 +868,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 1
             this.page = pageNumber;
-            $http.get("/admin/don-hang/san-pham-doi?trangThai=3 &pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch ).then(r => {
+            $http.get("/admin/don-hang/san-pham-doi?trangThai=3 &pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.sanPhamDoi;
                 console.log(r.data.sanPhamDoi)
                 this.totalPage = r.data.totalPages;
@@ -1141,6 +1141,22 @@ app.controller("doihang-ctrl", function ($scope, $http) {
     }
     $scope.huy.init()
     // $scope.trangThaiDonHang = 5
+
+    // tách sản phẩm với số lượng
+    $scope.expandedChiTietDonHang = [];
+
+    $scope.expandProducts = function () {
+        $scope.expandedChiTietDonHang = [];
+        $scope.chiTietDonHang.forEach(function (item) {
+            for (var i = 0; i < item.soLuong; i++) {
+                $scope.expandedChiTietDonHang.push(angular.copy(item));
+            }
+        });
+    };
+
+    // Gọi hàm này khi bạn muốn chuẩn bị danh sách tạm thời
+    $scope.expandProducts();
+
 
     //don hang user
     $scope.donHangChuaXacNhanKh = []

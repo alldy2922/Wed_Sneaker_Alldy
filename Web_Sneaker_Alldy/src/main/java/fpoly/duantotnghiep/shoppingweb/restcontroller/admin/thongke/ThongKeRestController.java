@@ -98,6 +98,7 @@ public class ThongKeRestController {
         return ResponseEntity.ok(result);
     }
 
+
     @GetMapping("san-pham-ban-chay")
     public ResponseEntity<?> getSanPhamBanChay(){
         return ResponseEntity.ok(sanPhamEntityManager.getSanPhamBanChay());

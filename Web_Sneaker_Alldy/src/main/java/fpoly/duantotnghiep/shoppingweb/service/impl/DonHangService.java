@@ -323,13 +323,13 @@ public class DonHangService implements IDonHangService {
                 model.setNgayKiemTra(new Date());
                 messeger = "Xin chào " + model.getDonHang().getTenNguoiNhan() + ", đơn hàng của bạn đang được kiểm tra hàng hoàn. Chúng tôi sẽ thông báo cho bạn khi quá trình kiểm tra hoàn tất.";
                 //cộng lại sản phẩm
-                List<DonHangDoiModel> ctdhModel = donHangDoiRepository.findByMaDonHang(maDonHangDoi);
-                ctdhModel.forEach(c -> {
-                    int soLuongInDonHang = c.getSoLuong();
-                    ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
-                    sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
-                    chiTietSanPhamRepository.save(sanPhamInDonHang);
-                });
+//                List<DonHangDoiModel> ctdhModel = donHangDoiRepository.findByMaDonHang(maDonHangDoi);
+//                ctdhModel.forEach(c -> {
+//                    int soLuongInDonHang = c.getSoLuong();
+//                    ChiTietSanPhamModel sanPhamInDonHang = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
+//                    sanPhamInDonHang.setSoLuong(soLuongInDonHang + sanPhamInDonHang.getSoLuong());
+//                    chiTietSanPhamRepository.save(sanPhamInDonHang);
+//                });
             } else if (trangThai == 3) {
                 subject = "Đơn Hàng Đổi Đang Được Giao!";
                 title = "Đơn hàng đã được đổi hàng";

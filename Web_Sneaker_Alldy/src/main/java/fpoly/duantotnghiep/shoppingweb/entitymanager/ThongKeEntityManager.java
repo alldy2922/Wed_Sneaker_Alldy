@@ -2,10 +2,7 @@ package fpoly.duantotnghiep.shoppingweb.entitymanager;
 
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.thongKe.ChiTietSanPhamThongKeDto;
-import fpoly.duantotnghiep.shoppingweb.dto.thongKe.SanPhamBanChayDto;
-import fpoly.duantotnghiep.shoppingweb.dto.thongKe.SanPhamDaBanDto;
-import fpoly.duantotnghiep.shoppingweb.dto.thongKe.SanPhamTraDTO;
+import fpoly.duantotnghiep.shoppingweb.dto.thongKe.*;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
 import jakarta.persistence.EntityManager;
@@ -131,6 +128,7 @@ public class ThongKeEntityManager {
                 })
                 .collect(Collectors.toList());
     }
+
 //tổng số tiền phải trả khách hàng
     public Map<String, String> getDoanhThuTra(Date firstDate, Date lastDate) {
         Map<String, String> result = new HashMap<>();

@@ -459,6 +459,15 @@ public class DonHangRescontroller {
         return IdonHangService.getAllByDonHangDoi(ma);
     }
 
+    @GetMapping("san-pham-doi")
+    public ResponseEntity<?> getQuantityOrderDoi(@RequestParam("trangThai")Integer trangThai){
+
+
+        Map<String,List> result = new HashMap<>();
+        result.put("sanPhamDoi",donHangEntityManager.getChiTietSanPhamDoi(trangThai));
+
+        return ResponseEntity.ok(result);
+    }
 
 
 }

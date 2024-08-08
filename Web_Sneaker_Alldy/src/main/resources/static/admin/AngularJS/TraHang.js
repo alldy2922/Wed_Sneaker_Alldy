@@ -497,6 +497,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 $scope.sanPhamTra = r.data;
             }).catch(e => console.log(e))
         },
+
         setPageNumbers() {
             let numbers = [];
             let i = this.page

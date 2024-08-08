@@ -31,6 +31,7 @@ public class DonHangDoiDTORequest {
     private DonHangModel donHang;
     private ChiTietSanPhamModel chiTietSanPhamModel;
 
+
     public DonHangDoiModel mapModel() {
         DonHangDoiModel model = new DonHangDoiModel();
         ChiTietSanPhamModel chiTietSanPhamModel = new ChiTietSanPhamModel();
@@ -51,6 +52,7 @@ public class DonHangDoiDTORequest {
         model.setTrangThai(trangThai);
         model.setDonHang(donHang);
         model.setChiTietSanPham(chiTietSanPhamModel);
+
         return model;
     }
 }

@@ -19,10 +19,10 @@ import java.util.Map;
 
 public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String> {
     //Câu truy vấn thống kê sp bán chạy
-    @Query(nativeQuery = true, value="WITH TempTableAnh AS (\n" +
+    @Query(nativeQuery = true, value = "WITH TempTableAnh AS ( " +
             "    SELECT " +
             "        SP.Ma AS SanPham, " +
-            "        TTA.ten AS TenAnh " +
+            "        MAX(TTA.ten) AS TenAnh " +
             "    FROM " +
             "        anh AS TTA " +
             "    JOIN sanpham AS SP ON SP.Ma = TTA.SanPham " +
@@ -42,13 +42,11 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
             "    HD.trangthai != 4 " +
             "    AND HD.ngayhoanthanh BETWEEN ?1 AND ?2 " +
             "GROUP BY " +
-            "    SPCT.id " +
+            "    SP.ten, SPCT.size, TTA.TenAnh " +
             "ORDER BY " +
             "    SoLuongSP DESC " +
             "LIMIT ?3")
-
     ArrayList<Map<String, Object>> thongKeSanPhamBanChay(Date start, Date end, int num);
-
     @Query("""
             SELECT d FROM DonHangModel d WHERE d.trangThai = ?1 ORDER BY d.ngayDatHang DESC 
             """)

@@ -33,7 +33,7 @@ public class ChiTietSanPhamRestController {
         }
         return ResponseEntity.ok(chiTietSanPhamService.finById(id).getSoLuong());
     }
-    @GetMapping("/check-login")
+    @GetMapping("check-login")
     public ResponseEntity<Boolean> checkLoginStatus(Authentication authentication) {
         boolean isLoggedIn = authentication != null && authentication.isAuthenticated();
         return ResponseEntity.ok(isLoggedIn);

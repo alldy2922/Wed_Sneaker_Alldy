@@ -134,6 +134,10 @@ public class DonHangModel {
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
 
+
+
+
+
     public String trangThaiDetail() {
         if (trangThai == 1) {
             return "Đã xác nhận";

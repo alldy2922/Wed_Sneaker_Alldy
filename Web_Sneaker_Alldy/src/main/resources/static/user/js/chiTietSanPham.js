@@ -126,12 +126,19 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.showImg = function (nameImg) {
         document.getElementById("show-Img").src = "/image/loadImage/product/" + nameImg
     }
+    $http.get("/cart/check-login")
+        .then(function (response) {
+            $scope.checkLogin = response.data
+
+        })
+        .catch(function (error) {
+            console.log('Error checking login status:', error);
+        });
+ $scope.checkLogin = false;
     //add to cart
     $scope.addToCart = function () {
-        if(!$scope.loginIn){
-            $('#dangNhap').modal('show') // hiển thị modal
-            alertify.error("Thêm sản phẩm vào giỏ hàng thất bại vui lòng đăng nhập để mua hàng!!!")
-        }else{
+
+        if($scope.checkLogin == true){
             let idCtsp = form.elements["ctsp"].value
             // if (idCtsp == null) {
             //     return;
@@ -156,12 +163,19 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
 
                 })
             },function (){})
+
+        }else {
+            $('#dangNhap').modal('show') // hiển thị modal
+            alertify.error("Thêm sản phẩm vào giỏ hàng thất bại vui lòng đăng nhập để mua hàng!!!")
         }
-    }
+
+        }
+
 
     //Mua Ngay
     $scope.muaNgay = function () {
-        if(!$scope.loginIn){
+
+        if($scope.checkLogin == false){
             $('#dangNhap').modal('show') // hiển thị moda
             alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
         }else {

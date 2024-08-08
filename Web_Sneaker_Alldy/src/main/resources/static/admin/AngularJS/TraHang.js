@@ -377,6 +377,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
             this.page = pageNumber;
             $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=1&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
+                console.log("data", this.list)
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
@@ -779,7 +780,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 0
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=0&pageNumber=" + pageNumber ).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-tra?trangThai=0&pageNumber=" + pageNumber).then(r => {
                 this.list = r.data.content;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()

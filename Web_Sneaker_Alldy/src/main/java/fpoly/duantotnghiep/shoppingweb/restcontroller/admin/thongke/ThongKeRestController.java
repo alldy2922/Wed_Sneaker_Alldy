@@ -65,6 +65,9 @@ public class ThongKeRestController {
         result.put("doanhThuTaiQuayDetail",thongKeEntityManager.getDoanhThuDetailByDate(firstDate,lastDate,1));
         result.put("ordersDetail",thongKeEntityManager.getDetailOrdersByDate(firstDate,lastDate));
         result.put("ordersTaiQuayDetail",thongKeEntityManager.getDetailOrdersTaiQuayByDate(firstDate,lastDate));
+        //api lấy tổng số tiền trả
+        result.put("doanhThuTra",thongKeEntityManager.getDoanhThuTra(firstDate,lastDate));
+
 
         return ResponseEntity.ok(result);
     }
@@ -81,6 +84,16 @@ public class ThongKeRestController {
         result.put("quantityOrders",thongKeEntityManager.getQuantityOrderByYear(year).entrySet().stream().map(m -> m.getValue()).collect(Collectors.toList()));
         result.put("months",thongKeEntityManager.getQuantityOrderByYear(year).entrySet().stream().map(m -> "Tháng " + m.getKey()).collect(Collectors.toList()));
 
+
+        return ResponseEntity.ok(result);
+    }
+    //api lấy sản phẩm bị trả nhiều nhất
+    @GetMapping("san-pham-tra")
+    public ResponseEntity<?> getQuantityOrderTra(){
+
+
+        Map<String,List> result = new HashMap<>();
+        result.put("sanPhamTra",thongKeEntityManager.getChiTietSanPhamTra());
 
         return ResponseEntity.ok(result);
     }

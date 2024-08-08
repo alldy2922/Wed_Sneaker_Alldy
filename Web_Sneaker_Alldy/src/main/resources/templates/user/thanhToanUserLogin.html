@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>Thanh toán</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-     <!-- SweetAlert2 -->
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .coupon .kanan {
             border-left: 1px dashed #717fe0;
@@ -37,6 +37,23 @@
         .coupon .time {
             font-size: 1.6rem;
         }
+
+        a.btn {
+            display: inline-block;
+            padding: 4px 13px;
+            background-color: #3f3f3f;
+            color: white;
+            text-align: center;
+            border-radius: 20px;
+            /* Bo tròn nhiều hơn */
+            font-size: 12px;
+            /* Kích thước chữ nhỏ hơn */
+            text-decoration: none;
+        }
+
+        a.btn:hover {
+            background-color: #5c5c5c;
+        }
     </style>
 </head>
 
@@ -59,9 +76,9 @@
                         </div>
                         <div class="col-6 flex-r" ng-if="loginIn">
                             <p style="margin-bottom: 10px;">
-                                <a href="/dang-nhap" data-bs-toggle="modal" data-bs-target="#myModalDiaChi">Chọn địa chỉ
-                                    có
-                                    sẵn</a>
+                                <a href="/dang-nhap" data-bs-toggle="modal" data-bs-target="#myModalDiaChi"
+                                    class="btn btn-primary">
+                                    Chọn địa chỉ có sẵn</a>
                             </p>
                         </div>
                         <div class="col-6 flex-r" ng-if="!loginIn">
@@ -135,6 +152,7 @@
                         <!--                        <label class="form-check-label" for="exampleCheck1">Lưu địa chỉ cho lần sau</label>-->
                         <!--                    </div>-->
                     </form>
+                    <br> <br>
 
                     <h3 style="margin-bottom: 30px; margin-top: 30px;">Phương thức thanh toán</h3>
                     <div class="rounded-4 p-3 border"
@@ -258,8 +276,9 @@
                                     /* Điều chỉnh nếu cần */
                                 }
                             </style>
-                            <button type="button" class="btn btn-link" style="color: black; text-align: left;font-size: 12px;"
-                                data-bs-toggle="modal" data-bs-target="#policyModal">
+                            <button type="button" class="btn btn-link"
+                                style="color: black; text-align: left;font-size: 12px;" data-bs-toggle="modal"
+                                data-bs-target="#policyModal">
                                 Xem chính sách của cửa hàng
                             </button>
                             <!-- Nội dung chính sách đổi trả -->
@@ -346,7 +365,7 @@
                                 </button>
                             </div>
                             <div class="col-6 flex-r">
-                                <button ng-click="create()" 
+                                <button ng-click="create()"
                                     class="flex-c-m stext-80 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                     Thanh toán
                                 </button>

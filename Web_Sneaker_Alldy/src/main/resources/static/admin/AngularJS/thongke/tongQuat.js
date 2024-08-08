@@ -4,6 +4,7 @@ app.controller("ctrl", function ($scope, $http){
     $scope.sanPhamBanChay = [];
     $scope.sanPhamTon = [];
     $scope.chiTietBanChay = []
+    $scope.sanPhamDaTra = [];
 
     $scope.getTongQuat = function (firstDay,lastDay){
         $http.get("/admin/thong-ke/tong-quat?firstDate="+firstDay+"&lastDate="+lastDay).then(r => {
@@ -28,6 +29,15 @@ app.controller("ctrl", function ($scope, $http){
 
     }
     $scope.getSanPhamBanChay()
+    //fun gọi api sản phẩm trả nhiều nhất
+    $scope.getSanPhamTra = function (){
+        $http.get("/admin/thong-ke/san-pham-tra").then(r => {
+            $scope.sanPhamDaTra = r.data
+            console.log("data",$scope.sanPhamDaTra)
+        }).catch(e => console.log(e))
+
+    }
+    $scope.getSanPhamTra()
 
     $scope.getChiTietSpBanChay = function (maSP){
         $http.get("/admin/thong-ke/san-pham-ban-chay/"+maSP).then(r => {

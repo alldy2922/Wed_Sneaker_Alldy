@@ -1634,15 +1634,12 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             product.soLuongHoan--;
         }
     };
-
     //hàm trả hàng 1 phần
-
     $scope.traMotPhan = function () {
         const maDonHang = $scope.selectedDonHang.ma;
         const lydoTraHang = $scope.lyDoTraHang;
         const phuongThucNhanTien = $scope.phuongThucNhanTien;
-
-
+    
         if (!lydoTraHang) {
             alertify.error("Bạn cần nhập lý do trả hàng");
             return;
@@ -1651,11 +1648,12 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             alertify.error("Bạn cần chọn phương thức hoàn tiền");
             return;
         }
-        console.log("lydotrahang", lydoTraHang)
+        
         if (phuongThucNhanTien === 'false') {
             const selectedNganHang = $scope.selectedNganHang;
             const soTaiKhoan = $scope.soTaiKhoan;
             const tenNguoiNhan = $scope.tenNguoiNhan;
+            
             if (!selectedNganHang || !selectedNganHang.name) {
                 alertify.error("Bạn cần chọn ngân hàng");
                 return;
@@ -1668,18 +1666,15 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 alertify.error("Bạn cần nhập tên người nhận");
                 return;
             }
-            $scope.ghiChu = "Ngân hàng: " + $scope.selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
+            $scope.ghiChu = "Ngân hàng: " + selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
         }
-        console.log($scope.selectedProducts)
-        // Lấy danh sách sản phẩm đã chọn
+        
         const selectedProducts = $scope.selectedProducts;
         if (selectedProducts.length === 0) {
             alertify.error("Bạn cần chọn ít nhất một sản phẩm để trả hàng");
             return;
         }
-        console.log("ma", maDonHang)
-
-        // Tạo đối tượng FormData
+        
         const formData = new FormData();
         formData.append('donHang', new Blob([JSON.stringify({
             ma: maDonHang,
@@ -1696,29 +1691,25 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             xaPhuongName: $scope.selectedDonHang.xaPhuongName || "",
             loai: $scope.selectedDonHang.loai
         })], { type: "application/json" }));
-        console.log("loai", $scope.selectedDonHang)
-        console.log(JSON.stringify({
-            ma: maDonHang,
-            voucher: $scope.selectedDonHang.voucher
-        }));
+    
         formData.append('lyDoTraHang', lydoTraHang);
         formData.append('phuongThucNhanTien', phuongThucNhanTien);
         formData.append('ghiChu', $scope.ghiChu || '');
-
+    
         let chiTietDonHang = [];
         selectedProducts.forEach(c => {
             chiTietDonHang.push({
                 id: c.id,
                 donHangID: maDonHang,
                 sanPhamCT: c.idChiTietSanPham,
-                soLuong: c.soLuong,
+                soLuong: c.selectedQuantity,
                 donGia: c.donGia,
                 donGiaSauGiam: c.donGiaSauGiam
-            })
-        })
-        // Tạo danh sách JSON cho các chi tiết đơn hàng
+            });
+        });
+    
         formData.append('chiTietDonHang', new Blob([JSON.stringify(chiTietDonHang)], { type: "application/json" }));
-        console.log(JSON.stringify(selectedProducts));
+    
         $http.put("/don-hang/tra-mot-phan", formData, {
             transformRequest: angular.identity,
             headers: { 'Content-Type': undefined }
@@ -1735,8 +1726,107 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 console.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng:", error);
                 alertify.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng");
             });
-
     };
+    
+
+    // $scope.traMotPhan = function () {
+    //     const maDonHang = $scope.selectedDonHang.ma;
+    //     const lydoTraHang = $scope.lyDoTraHang;
+    //     const phuongThucNhanTien = $scope.phuongThucNhanTien;
+    //     if (!lydoTraHang) {
+    //         alertify.error("Bạn cần nhập lý do trả hàng");
+    //         return;
+    //     }
+    //     if (!phuongThucNhanTien) {
+    //         alertify.error("Bạn cần chọn phương thức hoàn tiền");
+    //         return;
+    //     }
+    //     console.log("lydotrahang", lydoTraHang)
+    //     if (phuongThucNhanTien === 'false') {
+    //         const selectedNganHang = $scope.selectedNganHang;
+    //         const soTaiKhoan = $scope.soTaiKhoan;
+    //         const tenNguoiNhan = $scope.tenNguoiNhan;
+    //         if (!selectedNganHang || !selectedNganHang.name) {
+    //             alertify.error("Bạn cần chọn ngân hàng");
+    //             return;
+    //         }
+    //         if (!soTaiKhoan) {
+    //             alertify.error("Bạn cần nhập số tài khoản");
+    //             return;
+    //         }
+    //         if (!tenNguoiNhan) {
+    //             alertify.error("Bạn cần nhập tên người nhận");
+    //             return;
+    //         }
+    //         $scope.ghiChu = "Ngân hàng: " + $scope.selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
+    //     }
+    //     console.log($scope.selectedProducts)
+    //     // Lấy danh sách sản phẩm đã chọn
+    //     const selectedProducts = $scope.selectedProducts;
+    //     if (selectedProducts.length === 0) {
+    //         alertify.error("Bạn cần chọn ít nhất một sản phẩm để trả hàng");
+    //         return;
+    //     }
+    //     console.log("ma", maDonHang)
+
+    //     // Tạo đối tượng FormData
+    //     const formData = new FormData();
+    //     formData.append('donHang', new Blob([JSON.stringify({
+    //         ma: maDonHang,
+    //         voucher: $scope.selectedDonHang.voucher || "",
+    //         diaChiChiTiet: $scope.selectedDonHang.diaChiChiTiet || "",
+    //         email: $scope.selectedDonHang.email || "",
+    //         quanHuyenCode: $scope.selectedDonHang.quanHuyenCode || "",
+    //         quanHuyenName: $scope.selectedDonHang.quanHuyenName || "",
+    //         soDienThoai: $scope.selectedDonHang.soDienThoai || "",
+    //         tenNguoiNhan: $scope.selectedDonHang.tenNguoiNhan || "",
+    //         thanhPhoCode: $scope.selectedDonHang.thanhPhoCode || "",
+    //         thanhPhoName: $scope.selectedDonHang.thanhPhoName || "",
+    //         xaPhuongCode: $scope.selectedDonHang.xaPhuongCode || "",
+    //         xaPhuongName: $scope.selectedDonHang.xaPhuongName || "",
+    //         loai: $scope.selectedDonHang.loai
+    //     })], { type: "application/json" }));
+    //     console.log("loai", $scope.selectedDonHang)
+    //     console.log(JSON.stringify({
+    //         ma: maDonHang,
+    //         voucher: $scope.selectedDonHang.voucher
+    //     }));
+    //     formData.append('lyDoTraHang', lydoTraHang);
+    //     formData.append('phuongThucNhanTien', phuongThucNhanTien);
+    //     formData.append('ghiChu', $scope.ghiChu || '');
+
+    //     let chiTietDonHang = [];
+    //     selectedProducts.forEach(c => {
+    //         chiTietDonHang.push({
+    //             id: c.id,
+    //             donHangID: maDonHang,
+    //             sanPhamCT: c.idChiTietSanPham,
+    //             soLuong: c.soLuong,
+    //             donGia: c.donGia,
+    //             donGiaSauGiam: c.donGiaSauGiam
+    //         })
+    //     })
+    //     // Tạo danh sách JSON cho các chi tiết đơn hàng
+    //     formData.append('chiTietDonHang', new Blob([JSON.stringify(chiTietDonHang)], { type: "application/json" }));
+    //     console.log(JSON.stringify(selectedProducts));
+    //     $http.put("/don-hang/tra-mot-phan", formData, {
+    //         transformRequest: angular.identity,
+    //         headers: { 'Content-Type': undefined }
+    //     })
+    //         .then(function (res) {
+    //             let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == maDonHang);
+    //             if (index !== -1) {
+    //                 $scope.donHangChuaXacNhanKh.splice(index, 1);
+    //             }
+    //             alertify.success("Yêu cầu trả đơn hàng thành công");
+    //             $('#traHangMotPhanModal').modal('hide');
+    //         })
+    //         .catch(function (error) {
+    //             console.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng:", error);
+    //             alertify.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng");
+    //         });
+
+    // };
 
     // end
 
@@ -1794,7 +1884,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 id: c.id,
                 donHangID: maDonHang,
                 sanPhamCT: c.idChiTietSanPham,
-                soLuong: c.soLuong,
+                soLuong: c.selectedQuantity,
                 donGia: c.donGia,
                 donGiaSauGiam: c.donGiaSauGiam
             })

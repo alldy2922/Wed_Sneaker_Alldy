@@ -12,6 +12,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
     $scope.khachHang = []
     $scope.erAdd = {}
     $scope.sanPhamTra = [];
+    $scope.selectedProducts = [];
 
 
 
@@ -818,6 +819,100 @@ app.controller("trahang-ctrl", function ($scope, $http) {
             this.pages = numbers;
         }
     }
+
+
+    //lấy danh sách đc chọn để trả
+    $scope.selectedProducts = []; // Khởi tạo danh sách sản phẩm đã chọn
+
+    // Hàm để chọn sản phẩm và lưu vào localStorage
+    $scope.selectProduct = function (product) {
+        const existingProduct = $scope.selectedProducts.find(p => p.id === product.id);
+
+        if (existingProduct) {
+            // Nếu sản phẩm đã tồn tại, chỉ cập nhật số lượng
+            existingProduct.selectedQuantity += product.soLuong;
+            existingProduct.totalPrice = existingProduct.donGiaSauGiam * existingProduct.selectedQuantity;
+        } else {
+            // Nếu sản phẩm chưa tồn tại, thêm mới vào danh sách
+            $scope.selectedProducts.push({
+                ...product,
+                selectedQuantity: product.soLuong,
+                totalPrice: product.donGiaSauGiam * product.soLuong
+            });
+        }
+
+        // Lưu danh sách sản phẩm đã chọn vào localStorage
+        localStorage.setItem('selectedProducts', JSON.stringify($scope.selectedProducts));
+        console.log("Sản phẩm đã chọn sau khi thêm:", $scope.selectedProducts);
+    };
+    $scope.changeQuantity = function (product, change) {
+        if (!product.selectedQuantity) {
+            product.selectedQuantity = 1;
+        }
+
+        var newQuantity = product.selectedQuantity + change;
+
+        if (newQuantity < 1) {
+            newQuantity = 1;
+        } else if (newQuantity > product.soLuong) {
+            newQuantity = product.soLuong;
+            alertify.error("Số lượng không được vượt quá số lượng hiện có");
+        }
+
+        product.selectedQuantity = newQuantity;
+        product.totalPrice = product.selectedQuantity * product.donGiaSauGiam; // Cập nhật tổng tiền
+
+        // Cập nhật danh sách sản phẩm đã chọn
+        var index = $scope.selectedProducts.findIndex(p => p.id === product.id);
+        if (index > -1) {
+            $scope.selectedProducts[index] = product;
+        } else {
+            $scope.selectedProducts.push(product);
+        }
+
+        // Cập nhật tổng tiền hoàn
+        $scope.getTotalRefund();
+    };
+
+    $scope.getTotalRefund = function () {
+        let totalRefund = 0;
+        $scope.selectedProducts.forEach(product => {
+            totalRefund += product.totalPrice;
+        });
+        return totalRefund;
+    };
+
+    $scope.getTotalPrice = function () {
+        let total = 0;
+        $scope.chiTietDonHang.forEach(c => total += (c.donGiaSauGiam * c.soLuong))
+        return total
+    }
+
+    // Giả sử có một nút hoặc một sự kiện để lưu lại danh sách sản phẩm đã chọn
+    $scope.saveSelectedProducts = function () {
+        localStorage.setItem('selectedProducts', JSON.stringify($scope.selectedProducts));
+    };
+
+    // Tải danh sách sản phẩm đã chọn từ localStorage
+    $scope.loadSelectedProducts = function () {
+        const storedProducts = localStorage.getItem('selectedProducts');
+        if (storedProducts) {
+            $scope.selectedProducts = JSON.parse(storedProducts);
+
+            // Tính toán lại totalPrice cho mỗi sản phẩm
+            $scope.selectedProducts.forEach(product => {
+                product.totalPrice = product.donGiaSauGiam * product.selectedQuantity;
+            });
+
+            console.log("Danh sách sản phẩm đã chọn sau khi tải:", $scope.selectedProducts);
+        } else {
+            console.log("Không có sản phẩm nào được chọn.");
+            $scope.selectedProducts = [];
+        }
+    };
+
+    // Gọi hàm loadSelectedProducts() khi khởi tạo controller
+    $scope.loadSelectedProducts();
 
 
     //don hang user

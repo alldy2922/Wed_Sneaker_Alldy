@@ -1185,10 +1185,18 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-                                                        <p id="{{d.idChiTietSanPham}}">
-                                                            {{chiTietDonHang[$index].soLuong }}
-                                                        </p>                                                    
-                                                    </div>
+                                                        <input id="{{d.idChiTietSanPham}}"
+                                                            ng-model="chiTietDonHang[$index].soLuong"
+                                                            onchange="angular.element(this).scope().daXacNhan.updateSoLuong(this.id,this.value)"
+                                                            class="form-control me-1" readonly >
+                                                        <div>
+                                                            <span class="rounded-circle mb-1"
+                                                                style="cursor: pointer; border: 1px solid #ced4da;padding: 1px;"
+                                                                ng-click="daXacNhan.addSoLuong(d.idChiTietSanPham)">+</span>
+                                                            <span class="rounded-circle"
+                                                                style="cursor: pointer;border: 1px solid #ced4da;padding: 1px;"
+                                                                ng-click="daXacNhan.subtractSoLuong(d.idChiTietSanPham)">-</span>
+                                                        </div>
                                                 </td>
                                                 <!-- <td>{{d.donGia | currency: "" : 1}} đ</td>
                                                 <td>
@@ -1207,7 +1215,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <h4>Sản Phẩm Đổi</h4>
+                                    <h4>Sản Phẩm Yêu Cầu Đổi</h4>
                                     <table id="datatable"
                                         class="table table-striped table-hover dt-responsive  nowrap w-100">
                                         <thead>
@@ -1416,7 +1424,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <h4>Sản Phẩm Đổi</h4>
+                                    <h4>Sản Phẩm Yêu Cầu Đổi</h4>
                                     <table id="datatable"
                                         class="table table-striped table-hover dt-responsive  nowrap w-100">
                                         <thead>

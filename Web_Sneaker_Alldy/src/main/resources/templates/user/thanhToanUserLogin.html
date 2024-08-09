@@ -181,17 +181,29 @@
                 <div class="col-6">
                     <h3 style="margin-bottom: 10px;">Đơn hàng</h3>
                     <table class="table table-striped mt-2">
+                        <thead>
+                            <tr style="background: #3f3f3f; z-index: 1;">
+                                <th>Ảnh Sản phẩm</th>
+                                <th>Tên Sản phẩm</th>
+                                <th style="width: 90px;">Số lượng</th>
+                                <th>Đơn giá sau giảm</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
                         <tbody>
                             <tr ng-repeat="i in cart">
                                 <th scope="row">
                                     <img style="width: 100px; height: 100px" src="/image/loadImage/product/{{i.anh}}"
                                         alt="product-img" title="product-img" class="avatar-md" />
                                 </th>
-                                <td>{{i.tenSanPham}}
+                                <td>
+                                    <p style="font-weight: bold; ">{{i.tenSanPham}}</p>
                                     <p>_size:{{i.size}}</p>
                                 </td>
                                 <td>
-                                    <p>{{i.soLuong}}</p>
+                                    <div class="d-flex justify-content-center">
+                                        <p>{{i.soLuong}}</p>
+                                    </div>
                                 </td>
 
                                 <td>{{i.donGiaSauGiam | currency: "" : 1}}đ</td>

@@ -723,9 +723,35 @@ app.controller("doihang-ctrl", function ($scope, $http) {
                         $scope.chiTietDonHang[index].soLuong = r.data.soLuong
                     }).catch(e => console.log(e))
                 }
-                alertify.error("số lượng đã vượt quá số lượng sản phẩm!")
+                alertify.error("Đã vượt quá số lượng sản phẩm trong đơn hàng!")
             })
 
+
+        },
+         subtractSoLuong(idCTSP) {
+            let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)
+            let chiTietDonHang = $scope.chiTietDonHang[index]
+            let soLuong = chiTietDonHang.soLuong - 1
+
+
+            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + chiTietDonHang.idChiTietSanPham + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id == undefined ? "" : chiTietDonHang.id)).then(r => {
+                $scope.chiTietDonHang[index].soLuong = soLuong
+            }).catch(e => {
+                alertify.error("Số lượng sản phẩm đã đạt giá trị tối thiểu trong đơn hàng")
+            })
+
+
+        },
+        addSoLuong(idCTSP) {
+            let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)
+            let chiTietDonHang = $scope.chiTietDonHang[index]
+            let soLuong = parseInt(chiTietDonHang.soLuong) + 1
+
+            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + chiTietDonHang.idChiTietSanPham + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id == undefined ? "" : chiTietDonHang.id)).then(r => {
+                $scope.chiTietDonHang[index].soLuong = soLuong
+            }).catch(e => {
+                alertify.error("Số lượng sản phẩm đã đạt giá trị tối đa trong đơn hàng")
+            })
 
         },
         capNhat() {
@@ -754,6 +780,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
                     ngayDatHang: $scope.daXacNhan.detail.ngayDatHang,
                     trangThai: $scope.daXacNhan.detail.trangThai,
                     ghiChu: $scope.daXacNhan.detail.ghiChu,
+                    ghiChu: $scope.daXacNhan.detail.lyDoDoiHang,
                     // lyDoThayDoi: $scope.daXacNhan.detail.lyDoThayDoi,
                     tienGiam: $scope.daXacNhan.detail.tienGiam,
                     phiGiaoHang: $scope.daXacNhan.detail.phiGiaoHang,

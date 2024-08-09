@@ -1276,32 +1276,43 @@
             </div>
         </div>
 
-
         <style>
-            .full-screen-modal .modal-dialog {
-                width: 100vw;
-                /* Chiều rộng toàn bộ cửa sổ trình duyệt */
-                max-width: 100vw;
-                /* Đảm bảo không vượt quá chiều rộng cửa sổ */
-                height: auto;
-                /* Chiều cao toàn bộ cửa sổ trình duyệt */
-                margin: 0;
-                /* Loại bỏ khoảng cách mặc định */
-                padding: 0;
-                /* Loại bỏ khoảng đệm mặc định */
-            }
+          .modal.show .modal-dialog {
+                    display: flex;
+                    align-items: center;
+                    /* Căn giữa theo chiều dọc */
+                    justify-content: center;
+                    /* Căn giữa theo chiều ngang */
+                    margin: auto;
+                    /* Đảm bảo modal nằm giữa */
+                    height: auto;
+                    /* Điều chỉnh chiều cao tự động */
+                }
 
-            .full-screen-modal .modal-content {
-                height: auto;
-                /* Chiều cao toàn bộ modal */
-                border-radius: 0;
-                /* Loại bỏ góc bo tròn */
-            }
+                .full-screen-modal .modal-dialog {
+                    width: 70%;
+                    /* Chiều rộng toàn bộ cửa sổ trình duyệt */
+                    max-width: 100vw;
+                    /* Đảm bảo không vượt quá chiều rộng cửa sổ */
+                    height: auto;
+                    /* Chiều cao toàn bộ cửa sổ trình duyệt */
+                    margin: 0;
+                    /* Loại bỏ khoảng cách mặc định */
+                    padding: 0;
+                    /* Loại bỏ khoảng đệm mặc định */
+                }
 
-            .full-screen-modal .modal-body {
-                overflow-y: auto;
-                /* Cho phép cuộn nội dung khi nội dung quá dài */
-            }
+                .full-screen-modal .modal-content {
+                    height: auto;
+                    /* Chiều cao toàn bộ modal */
+                    border-radius: 15px;
+                    /* Loại bỏ góc bo tròn */
+                }
+
+                .full-screen-modal .modal-body {
+                    overflow-y: auto;
+                    /* Cho phép cuộn nội dung khi nội dung quá dài */
+                }
         </style>
 
         <!-- End Page-content -->

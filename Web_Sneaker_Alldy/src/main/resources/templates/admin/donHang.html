@@ -62,14 +62,14 @@
                                     <a class="nav-link" data-bs-toggle="tab" href="#hoanThanh" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                         <span class="d-none d-sm-block">Hoàn thành<span class="badge bg-danger ms-1"
-                                            style="font-size: 11px">{{hoanThanh.totalElement}}</span></span>
+                                                style="font-size: 11px">{{hoanThanh.totalElement}}</span></span>
                                     </a>
                                 </li>
                                 <li class="nav-item" ng-click="huy.getList(huy.page)">
                                     <a class="nav-link" data-bs-toggle="tab" href="#donhangHuy" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                         <span class="d-none d-sm-block">Hủy<span class="badge bg-danger ms-1"
-                                            style="font-size: 11px">{{huy.totalElement}}</span></span>
+                                                style="font-size: 11px">{{huy.totalElement}}</span></span>
                                     </a>
                                 </li>
                                 <!-- <li class="nav-item" ng-click="chuaThanhToan.getList(chuaThanhToan.page)">
@@ -1283,11 +1283,13 @@
                                                     </div>
                                                     <div class="col-sm-3 d-flex justify-content-center">
                                                         <i style="text-decoration: line-through;"
-                                                            ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan | currency: "đ" : 0}}</i>
+                                                            ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan
+                                                            | currency: "đ" : 0}}</i>
                                                     </div>
                                                     <div class="col-sm-3 d-flex justify-content-center"
                                                         style="margin-top: 15px">
-                                                        <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet | currency: "đ" : 0}}</p>
+                                                        <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet |
+                                                            currency: "đ" : 0}}</p>
                                                     </div>
                                                 </div>
                                                 <!--                                            /////////////////////////////////////////-->
@@ -1317,11 +1319,13 @@
                                                     </div>
                                                     <div class="col-sm-3 d-flex justify-content-center">
                                                         <i style="text-decoration: line-through;"
-                                                            ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan | currency: "đ" : 0}}</i>
+                                                            ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan
+                                                            | currency: "đ" : 0}}</i>
                                                     </div>
                                                     <div class="col-sm-3 d-flex justify-content-center"
                                                         style="margin-top: 15px">
-                                                        <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet | currency: "đ" : 0}}</p>
+                                                        <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet |
+                                                            currency: "đ" : 0}}</p>
                                                     </div>
                                                 </div>
                                                 <hr>
@@ -1948,11 +1952,11 @@
                                                     <td>{{d.soLuong}}</td>
                                                     <td>{{d.donGia | currency: "" : 1}} đ</td>
                                                     <td>
-                                                        {{d.donGiaSauGiam | currency: "" : 1}} đ                                                      
+                                                        {{d.donGiaSauGiam | currency: "" : 1}} đ
                                                     </td>
                                                     <td>
-                                                            {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
-                                                            đ
+                                                        {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
+                                                        đ
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -2012,8 +2016,20 @@
                 </div>
             </div>
             <style>
+                .modal.show .modal-dialog {
+                    display: flex;
+                    align-items: center;
+                    /* Căn giữa theo chiều dọc */
+                    justify-content: center;
+                    /* Căn giữa theo chiều ngang */
+                    margin: auto;
+                    /* Đảm bảo modal nằm giữa */
+                    height: auto;
+                    /* Điều chỉnh chiều cao tự động */
+                }
+
                 .full-screen-modal .modal-dialog {
-                    width: 100vw;
+                    width: 70%;
                     /* Chiều rộng toàn bộ cửa sổ trình duyệt */
                     max-width: 100vw;
                     /* Đảm bảo không vượt quá chiều rộng cửa sổ */
@@ -2028,7 +2044,7 @@
                 .full-screen-modal .modal-content {
                     height: auto;
                     /* Chiều cao toàn bộ modal */
-                    border-radius: 0;
+                    border-radius: 15px;
                     /* Loại bỏ góc bo tròn */
                 }
 

@@ -780,8 +780,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
                     ngayDatHang: $scope.daXacNhan.detail.ngayDatHang,
                     trangThai: $scope.daXacNhan.detail.trangThai,
                     ghiChu: $scope.daXacNhan.detail.ghiChu,
-                    ghiChu: $scope.daXacNhan.detail.lyDoDoiHang,
-                    // lyDoThayDoi: $scope.daXacNhan.detail.lyDoThayDoi,
+                    lyDoDoiHang: $scope.daXacNhan.detail.lyDoDoiHang,
                     tienGiam: $scope.daXacNhan.detail.tienGiam,
                     phiGiaoHang: $scope.daXacNhan.detail.phiGiaoHang,
                     trangThaiDetail: $scope.daXacNhan.detail.trangThai,
@@ -1062,7 +1061,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 4
             this.page = pageNumber;
-            $http.get("/admin/don-hang/san-pham-doi?trangThai=4").then(r => {
+            $http.get("/admin/don-hang/san-pham-doi?trangThai=4&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.sanPhamDoi;
                 console.log(r.data.sanPhamDoi)
                 this.totalPage = r.data.totalPages;
@@ -1125,7 +1124,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 0
             this.page = pageNumber;
-            $http.get("/admin/don-hang/san-pham-doi?trangThai=0").then(r => {
+            $http.get("/admin/don-hang/san-pham-doi?trangThai=0&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.sanPhamDoi;
                 console.log(r.data.sanPhamDoi)
                 this.totalPage = r.data.totalPages;

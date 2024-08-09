@@ -1059,12 +1059,27 @@
                                         <i class="er">{{er.diaChiChiTiet == undefined ? '' : er.diaChiChiTiet}}</i>
                                     </div>
                                     <div class="mb-3 col-6">
-                                        <label>Ghi chú đổi hàng</label>
-                                        <textarea class="form-control" rows="2"
-                                            ng-model="daXacNhan.detail.lyDoDoiHang"></textarea>
+                                        <div style="width: 100%;">
+                                            <label>Ghi chú mua hàng</label>
+                                            <input class="form-control" rows="2"
+                                                ng-model="daXacNhan.detail.ghiChu" readonly>
+                                        </div> <br>
+                                        <div style="width: 100%;">
+                                            <label>Ghi chú đổi hàng</label>
+                                            <input class="form-control" rows="2"
+                                                ng-model="daXacNhan.detail.lyDoDoiHang" readonly>
+                                        </div>
                                     </div>
                                 </div>
-
+                               
+                                <div class="row" ng-if="daXacNhan.detail.nhanVienDtoResponse.hoVaTen != null">
+                                    <div class="mb-3 col-12">
+                                        <label>Người thay đổi</label>
+                                            <div class="d-flex justify-content-end">
+                                                <i>{{daXacNhan.detail.nhanVienDtoResponse.hoVaTen}}</i>
+                                            </div>
+                                    </div>
+                                </div>
 
                             </div>
                             <div style="width: 40%" class="d-flex flex-column">
@@ -1376,6 +1391,14 @@
                                         <div class="mb-3 col-12">
                                             <label>Lý do hủy</label>
                                             <span class="form-control">{{donHang.lyDoHuy}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="donHang.nhanVienDtoResponse.hoVaTen != null">
+                                        <div class="mb-3 col-12">
+                                            <label>Người thay đổi</label>
+                                                <div class="d-flex justify-content-end">
+                                                    <i>{{donHang.nhanVienDtoResponse.hoVaTen}}</i>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>

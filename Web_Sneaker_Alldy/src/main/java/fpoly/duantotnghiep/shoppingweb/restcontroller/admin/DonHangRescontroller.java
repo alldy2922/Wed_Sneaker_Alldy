@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.*;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
+import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamDoi;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangResponsitory;
 import fpoly.duantotnghiep.shoppingweb.repository.IDonHangTraRepository;
@@ -459,14 +460,33 @@ public class DonHangRescontroller {
         return IdonHangService.getAllByDonHangDoi(ma);
     }
 
+//    @GetMapping("san-pham-doi")
+//    public ResponseEntity<?> getQuantityOrderDoi(@RequestParam("trangThai")Integer trangThai){
+//
+//
+//        Map<String,List> result = new HashMap<>();
+//        result.put("sanPhamDoi",donHangEntityManager.getChiTietSanPhamDoi(trangThai));
+//
+//        return ResponseEntity.ok(result);
+//    }
     @GetMapping("san-pham-doi")
-    public ResponseEntity<?> getQuantityOrderDoi(@RequestParam("trangThai")Integer trangThai){
+    public ResponseEntity<?> getQuantityOrderDoi(
+            @RequestParam("trangThai") Integer trangThai,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "limit", defaultValue = "10") Integer limit,
+            @RequestParam(value = "sdt", required = false) String sdt) {
 
+        // Gọi phương thức getChiTietSanPhamDoi với các tham số mới
+        Page<ChiTietSanPhamDoi> resultPage = donHangEntityManager.getChiTietSanPhamDoi(trangThai, page, limit, sdt);
 
-        Map<String,List> result = new HashMap<>();
-        result.put("sanPhamDoi",donHangEntityManager.getChiTietSanPhamDoi(trangThai));
+        // Trả về kết quả dưới dạng ResponseEntity với thông tin phân trang
+        Map<String, Object> response = new HashMap<>();
+        response.put("sanPhamDoi", resultPage.getContent());
+        response.put("currentPage", resultPage.getNumber());
+        response.put("totalItems", resultPage.getTotalElements());
+        response.put("totalPages", resultPage.getTotalPages());
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(response);
     }
 
 

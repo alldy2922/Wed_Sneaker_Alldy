@@ -662,7 +662,7 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 checkBox.forEach(c => {
                     if (c.checked == true) {
                         $scope.daXacNhan.id.push(c.value)
-                        // $scope.dangGiao.totalElement++
+                        $scope.hoanThanhTraHang.totalElement++
                     }
                 })
 

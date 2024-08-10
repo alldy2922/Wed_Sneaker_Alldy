@@ -131,7 +131,7 @@
                                                                     <th scope="row">
                                                                         <div class="form-check font-size-16">
                                                                             <input type="checkbox"
-                                                                                ng-click="checkAllChecked('checkChuaXacNhan','checkAllchuaXacNhan')"
+                                                                                ng-click="checkAllChecked('checkChuaXacNhan','checkAllChuaXacNhan')"
                                                                                 class="form-check-input"
                                                                                 name="checkChuaXacNhan"
                                                                                 value="{{d.ma}}">
@@ -1061,23 +1061,23 @@
                                     <div class="mb-3 col-6">
                                         <div style="width: 100%;">
                                             <label>Ghi chú mua hàng</label>
-                                            <input class="form-control" rows="2"
-                                                ng-model="daXacNhan.detail.ghiChu" readonly>
+                                            <input class="form-control" rows="2" ng-model="daXacNhan.detail.ghiChu"
+                                                readonly>
                                         </div> <br>
                                         <div style="width: 100%;">
                                             <label>Ghi chú đổi hàng</label>
-                                            <input class="form-control" rows="2"
-                                                ng-model="daXacNhan.detail.lyDoDoiHang" readonly>
+                                            <input class="form-control" rows="2" ng-model="daXacNhan.detail.lyDoDoiHang"
+                                                readonly>
                                         </div>
                                     </div>
                                 </div>
-                               
+
                                 <div class="row" ng-if="daXacNhan.detail.nhanVienDtoResponse.hoVaTen != null">
                                     <div class="mb-3 col-12">
                                         <label>Nhân Viên Đổi Hàng</label>
-                                            <div>
-                                                <i>{{daXacNhan.detail.nhanVienDtoResponse.hoVaTen}}</i>
-                                            </div>
+                                        <div>
+                                            <i>{{daXacNhan.detail.nhanVienDtoResponse.hoVaTen}}</i>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -1169,8 +1169,8 @@
                                 </div>
                                 <div style="height: auto;overflow-y: auto;">
                                     <h4>Sản Phẩm Trong Đơn</h4>
-                                    <table class="table table-hover dt-responsive  nowrap w-100" 
-                                    style="height: auto;overflow-y: auto;">
+                                    <table class="table table-hover dt-responsive  nowrap w-100"
+                                        style="height: auto;overflow-y: auto;">
                                         <thead>
                                             <tr style="position: sticky;
                                             top: 0;
@@ -1189,8 +1189,8 @@
                                             <i class="er">{{er.soLuongSP == undefined ? '' : er.soLuongSP}}</i>
                                             <tr ng-repeat="d in chiTietDonHang" style="vertical-align: middle">
                                                 <td>
-                                                            <img src="/image/loadImage/product/{{d.anh}}"
-                                                                style="width: 70px; height: 70px; border-radius: 10px">
+                                                    <img src="/image/loadImage/product/{{d.anh}}"
+                                                        style="width: 70px; height: 70px; border-radius: 10px">
                                                 </td>
                                                 <td>
                                                     <p style="font-weight: bold;">
@@ -1203,7 +1203,7 @@
                                                         <input id="{{d.idChiTietSanPham}}"
                                                             ng-model="chiTietDonHang[$index].soLuong"
                                                             onchange="angular.element(this).scope().daXacNhan.updateSoLuong(this.id,this.value)"
-                                                            class="form-control me-1" readonly >
+                                                            class="form-control me-1" readonly>
                                                         <div>
                                                             <span class="rounded-circle mb-1"
                                                                 style="cursor: pointer; border: 1px solid #ced4da;padding: 1px;"
@@ -1249,8 +1249,8 @@
                                         <tbody>
                                             <tr ng-repeat="d in sanPhamDoi">
                                                 <td>
-                                                        <img src="/image/loadImage/product/{{d.anh}}"
-                                                            style="width: 70px; height: 70px;border-radius: 10px">
+                                                    <img src="/image/loadImage/product/{{d.anh}}"
+                                                        style="width: 70px; height: 70px;border-radius: 10px">
                                                 </td>
                                                 <td>
                                                     <p style="font-weight: bold; ">
@@ -1260,7 +1260,9 @@
                                                         {{d.size}}</i>
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex justify-content-center"><p>{{d.soLuong}}</p></div>
+                                                    <div class="d-flex justify-content-center">
+                                                        <p>{{d.soLuong}}</p>
+                                                    </div>
                                                 </td>
                                                 <!-- <td>{{d.donGia | currency: "" : 1}} đ</td>
                                                 <td>
@@ -1396,9 +1398,9 @@
                                     <div class="row" ng-if="donHang.nhanVienDtoResponse.hoVaTen != null">
                                         <div class="mb-3 col-12">
                                             <label>Nhân viên thay đổi</label>
-                                                <div class="d-flex justify-content-end">
-                                                    <i>{{donHang.nhanVienDtoResponse.hoVaTen}}</i>
-                                                </div>
+                                            <div class="d-flex justify-content-end">
+                                                <i>{{donHang.nhanVienDtoResponse.hoVaTen}}</i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

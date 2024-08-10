@@ -362,7 +362,7 @@ public class DonHangService implements IDonHangService {
             String finalSubject = subject;
             new Thread(() -> {
                 try {
-                    sendEmailDonHang(model.getDonHang().getEmail(), finalSubject, "email/capNhatTrangThaiTra", context, lstSanPham);
+                    sendEmailDonHang(model.getDonHang().getEmail(), finalSubject, "email/capNhatTrangThaiDoi", context, lstSanPham);
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
@@ -450,7 +450,7 @@ public class DonHangService implements IDonHangService {
                 context.setVariable("lyDoTraHang", lyDoTraHang);
                 new Thread(() -> {
                     try {
-                        sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+                        sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHangTra", context, lstSanPham);
                     } catch (MessagingException e) {
                         e.printStackTrace();
                     }
@@ -502,8 +502,6 @@ public class DonHangService implements IDonHangService {
         }else{
             model.setTrangThai(donHangOld.getTrangThai());
         }
-//        model.setPhuongThucThanhToan(donHangOld.getPhuongThucThanhToan());
-
         List<String> maCTSPNew = products.stream().map(c -> c.getId()).collect(Collectors.toList());
         List<ChiTietDonHangModel> ctdhModelOld = chiTietDonHangRepository.findAllByDonHang(model);
         ctdhModelOld.forEach(c -> {
@@ -516,7 +514,6 @@ public class DonHangService implements IDonHangService {
                 chiTietDonHangRepository.deleteById(c.getId());//xóa khỏi đơn hàng
             }
         });
-
         products.forEach(p -> {
             if (p.getId() != null) {
                 ChiTietDonHangModel chiTietDHOld = chiTietDonHangRepository.findById(p.getId()).get();

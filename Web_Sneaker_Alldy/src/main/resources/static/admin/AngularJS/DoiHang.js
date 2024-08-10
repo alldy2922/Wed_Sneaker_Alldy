@@ -151,7 +151,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
     ///////Hàm dùng chung
     //hủy đơn 
     $scope.id = []
-    $scope.trangThaiDonHang = 0
+    $scope.trangThaiDonHang = 1
     $scope.huyDH = function () {
         console.log($scope.trangThaiDonHang)
         if ($scope.trangThaiDonHang == 2) {
@@ -470,7 +470,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
                 $scope.messLyDo = "";
                 this.id = []
                 $('#closeHuy').click()
-                document.getElementById('checkAllchuaXacNhan').checked = false
+                document.getElementById('checkAllChuaXacNhan').checked = false
                 alertify.erorr("Hủy đơn hàng đổi thất bại")
             }).catch(e => {
                 alertify.success("Hủy đơn hàng đổi thành công")
@@ -935,7 +935,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
             })
         },
         getList(pageNumber) {
-            $scope.trangThaiDonHang = 1
+            $scope.trangThaiDonHang = 3
             this.page = pageNumber;
             $http.get("/admin/don-hang/san-pham-doi?trangThai=3 &pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.sanPhamDoi;

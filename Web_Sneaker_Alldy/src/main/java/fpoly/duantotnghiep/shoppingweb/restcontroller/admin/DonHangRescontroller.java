@@ -285,7 +285,7 @@ public class DonHangRescontroller {
     @PutMapping("/doi-don-hang")
     public ResponseEntity<Integer> huyDoiHang(@RequestBody List<String> ma, @RequestParam("lyDoDoiHang") String lyDoDoiHang,Authentication authentication) throws MessagingException {
         donHangService.huyDoiHang(ma, lyDoDoiHang);
-        lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Từ Chối Đơn Hàng Đổi: "+ ma);
+        lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Đã Từ Chối Đơn Đổi Hàng: "+ ma);
         return ResponseEntity.ok().build();
     }
 

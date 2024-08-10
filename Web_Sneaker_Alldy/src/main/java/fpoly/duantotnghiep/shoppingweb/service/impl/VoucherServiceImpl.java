@@ -140,7 +140,7 @@ public class VoucherServiceImpl implements VoucherService {
                     context.setVariable("voucher", voucher);
                     new Thread(() -> {
                         try {
-                            EmailUtil.sendEmailWithHtml(mail.getEmail(), "HYDRA SNEAKER tặng bạn voucher giảm giá", "email/voucherTang", context);
+                            EmailUtil.sendEmailWithHtml(mail.getEmail(), "ALLDY SNEAKER tặng bạn voucher giảm giá", "email/voucherTang", context);
                         } catch (MessagingException e) {
                             e.printStackTrace();
                         }
@@ -211,7 +211,7 @@ public class VoucherServiceImpl implements VoucherService {
                             context.setVariable("voucher", vc);
                             new Thread(() -> {
                                 try {
-                                    EmailUtil.sendEmailWithHtml(mail.getEmail(), "HYDRA SNEAKER Voucher của bạn sắp hết hạn", "email/voucherTangHetHan", context);
+                                    EmailUtil.sendEmailWithHtml(mail.getEmail(), "ALLDY SNEAKER Voucher của bạn sắp hết hạn", "email/voucherTangHetHan", context);
                                 } catch (MessagingException e) {
                                     e.printStackTrace();
                                 }
@@ -266,7 +266,7 @@ public class VoucherServiceImpl implements VoucherService {
                                 context.setVariable("voucher", voucherUp);
                                 new Thread(() -> {
                                     try {
-                                        EmailUtil.sendEmailWithHtml(mail.getEmail(), "HYDRA SNEAKER tặng bạn voucher giảm giá", "email/voucherTang", context);
+                                        EmailUtil.sendEmailWithHtml(mail.getEmail(), "ALLDY SNEAKER tặng bạn voucher giảm giá", "email/voucherTang", context);
                                     } catch (MessagingException e) {
                                         e.printStackTrace();
                                     }

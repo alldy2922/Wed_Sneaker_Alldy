@@ -19,10 +19,10 @@ import java.util.Map;
 
 public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String> {
     //Câu truy vấn thống kê sp bán chạy
-    @Query(nativeQuery = true, value="WITH TempTableAnh AS (\n" +
+    @Query(nativeQuery = true, value = "WITH TempTableAnh AS ( " +
             "    SELECT " +
             "        SP.Ma AS SanPham, " +
-            "        TTA.ten AS TenAnh " +
+            "        MAX(TTA.ten) AS TenAnh " +
             "    FROM " +
             "        anh AS TTA " +
             "    JOIN sanpham AS SP ON SP.Ma = TTA.SanPham " +
@@ -42,13 +42,11 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
             "    HD.trangthai != 4 " +
             "    AND HD.ngayhoanthanh BETWEEN ?1 AND ?2 " +
             "GROUP BY " +
-            "    SPCT.id " +
+            "    SP.ten, SPCT.size, TTA.TenAnh " +
             "ORDER BY " +
             "    SoLuongSP DESC " +
             "LIMIT ?3")
-
     ArrayList<Map<String, Object>> thongKeSanPhamBanChay(Date start, Date end, int num);
-
     @Query("""
             SELECT d FROM DonHangModel d WHERE d.trangThai = ?1 ORDER BY d.ngayDatHang DESC 
             """)
@@ -85,6 +83,9 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
     @Query("SELECT dh FROM DonHangModel dh JOIN DonHangTraModel t on t.donHang.ma = dh.ma where dh.nguoiSoHuu.username = ?1 and t.trangThai = ?2 AND dh.loai = 0 ORDER BY dh.ngayDatHang DESC")
      List<DonHangModel> findAllByKhachHangAndTrangThaiTra(String nguoiSoHuu, Integer trangThai);
 
+    @Query("SELECT dh FROM DonHangModel dh JOIN DonHangDoiModel t on t.donHang.ma = dh.ma where dh.nguoiSoHuu.username = ?1 and t.trangThai = ?2 AND dh.loai = 0 ORDER BY dh.ngayDatHang DESC")
+    List<DonHangModel> findAllByKhachHangAndTrangThaiDoi(String nguoiSoHuu, Integer trangThai);
+
     @Query("SELECT dh FROM DonHangModel dh WHERE dh.ngayDatHang <= :cutoffTime and dh.trangThai = 5 ")
     List<DonHangModel> findDonHangWithOlderStock(@Param("cutoffTime") Date cutoffTime);
 
@@ -93,5 +94,10 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
                 WHERE c.donHang.ngayDatHang between ?1 and ?2 AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5 AND c.donHang.loai = ?3
             """)
     Long getTotalQauntityInOrdersWithDateAndLoai(Date firstDate, Date lastDate,Integer loai);
+    @Query("""
+                SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c join DonHangModel dh on dh.ma = c.donHang.ma
+                WHERE dh.ma = ?1  AND dh.trangThai = 4
+            """)
+    Long getTotalQauntitySum(String maDonHang);
 
 }

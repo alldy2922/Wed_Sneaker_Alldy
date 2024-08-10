@@ -30,7 +30,7 @@
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Đơn Hàng Hoàn</h4>
+                            <h4 class="card-title">Đơn Hàng Trả/Hoàn Tiền</h4>
                         </div><!-- end card header -->
 
                         <div class="card-body">
@@ -50,13 +50,15 @@
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                         <span class="d-none d-sm-block">Kiểm Tra Hàng Hoàn <span
                                                 class="badge bg-danger ms-1"
-                                                style="font-size: 11px">{{daXacNhanTraHang.totalElement}}</span></span>
+                                                style="font-size: 11px">{{daXacNhan.totalElement}}</span></span>
                                     </a>
                                 </li>
                                 <li class="nav-item" ng-click="hoanThanhTraHang.getList(hoanThanhTraHang.page)">
                                     <a class="nav-link" data-bs-toggle="tab" href="#hoanThanh" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block">Hoàn Tiền</span>
+                                        <span class="d-none d-sm-block">Hoàn Tiền<span
+                                            class="badge bg-danger ms-1"
+                                            style="font-size: 11px">{{hoanThanhTraHang.totalElement}}</span></span>
                                     </a>
                                 </li>
                                 <li class="nav-item" ng-click="huyTraHang.getList(huyTraHang.page)">
@@ -901,7 +903,7 @@
                                             <div class="mb-3">
                                                 <label>Địa chỉ chi tiết</label>
                                                 <textarea class="form-control" rows="2" ng-focus="er.diaChiChiTiet=''"
-                                                    ng-model="chuaXacNhanTraHang.detail.diaChiChiTiet"></textarea>
+                                                    ng-model="chuaXacNhanTraHang.detail.diaChiChiTiet" style="height: 40px;"></textarea>
                                                 <i class="er">{{er.diaChiChiTiet == undefined ? '' :
                                                     er.diaChiChiTiet}}</i>
                                             </div>
@@ -952,20 +954,15 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="d-flex justify-content-center">
-                                                            {{d.soLuong}}
-                                                        </div>
+                                                        {{d.soLuong}}
                                                     </td>
                                                     <td>{{d.donGia | currency: "" : 0}} đ</td>
                                                     <td>
-                                                        <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
-                                                            currency: "" : 0}}đ
-                                                        </div>
+                                                        {{d.donGiaSauGiam |
+                                                        currency: "" : 0}}đ
                                                     </td>
                                                     <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            {{d.donGiaSauGiam * d.soLuong | currency: "" : 0}}đ
-                                                        </div>
+                                                       {{d.donGiaSauGiam * d.soLuong | currency: "" : 0}}đ
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -1004,21 +1001,16 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <div class="d-flex justify-content-center">
-                                                        {{d.soLuong}}
-                                                    </div>
+                                                <td>                                                   
+                                                        {{d.soLuong}}                                                 
                                                 </td>
                                                 <td>{{d.donGia | currency: "" : 0}} đ</td>
                                                 <td>
-                                                    <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
-                                                        currency: "" : 0}}đ
-                                                    </div>
+                                                {{d.donGiaSauGiam |
+                                                        currency: "" : 0}}đ 
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex justify-content-end">
                                                         {{d.donGiaSauGiam * d.soLuong | currency: "" : 0}}đ
-                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -1172,6 +1164,7 @@
                                 <!-- sản phẩm -->
                                 <div class="col-6">
                                     <div style="max-height: 220px;overflow-y: auto;">
+                                        <h4>Sản Phẩm Đã Mua</h4>
                                         <table id="datatable"
                                             class="table table-striped table-hover dt-responsive  nowrap w-100">
                                             <thead>
@@ -1204,22 +1197,15 @@
                                                     <td>{{d.soLuong}}</td>
                                                     <td>{{d.donGia | currency: "" : 1}} đ</td>
                                                     <td>
-                                                        <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
-                                                            currency: ""
-                                                            :
-                                                            1}}
-                                                            đ
-                                                        </div>
+                                                       {{d.donGiaSauGiam | currency: "" : 1}} đ
                                                     </td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
+                                                    <td>                                                     
                                                             {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
                                                             đ
-                                                        </div>
                                                     </td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table> 
                                     </div>
                                     <h4>Sản Phẩm Trả</h4>
                                     <table id="datatable"
@@ -1254,18 +1240,11 @@
                                                 <td>{{d.soLuong}}</td>
                                                 <td>{{d.donGia | currency: "" : 1}} đ</td>
                                                 <td>
-                                                    <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
-                                                        currency: ""
-                                                        :
-                                                        1}}
-                                                        đ
-                                                    </div>
+                                                    {{d.donGiaSauGiam | currency: ""  : 1}}  đ
+                                                    
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex justify-content-end">
-                                                        {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
-                                                        đ
-                                                    </div>
+                                                    {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}  đ
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -1297,32 +1276,43 @@
             </div>
         </div>
 
-
         <style>
-            .full-screen-modal .modal-dialog {
-                width: 100vw;
-                /* Chiều rộng toàn bộ cửa sổ trình duyệt */
-                max-width: 100vw;
-                /* Đảm bảo không vượt quá chiều rộng cửa sổ */
-                height: auto;
-                /* Chiều cao toàn bộ cửa sổ trình duyệt */
-                margin: 0;
-                /* Loại bỏ khoảng cách mặc định */
-                padding: 0;
-                /* Loại bỏ khoảng đệm mặc định */
-            }
+          .modal.show .modal-dialog {
+                    display: flex;
+                    align-items: center;
+                    /* Căn giữa theo chiều dọc */
+                    justify-content: center;
+                    /* Căn giữa theo chiều ngang */
+                    margin: auto;
+                    /* Đảm bảo modal nằm giữa */
+                    height: auto;
+                    /* Điều chỉnh chiều cao tự động */
+                }
 
-            .full-screen-modal .modal-content {
-                height: auto;
-                /* Chiều cao toàn bộ modal */
-                border-radius: 0;
-                /* Loại bỏ góc bo tròn */
-            }
+                .full-screen-modal .modal-dialog {
+                    width: 70%;
+                    /* Chiều rộng toàn bộ cửa sổ trình duyệt */
+                    max-width: 100vw;
+                    /* Đảm bảo không vượt quá chiều rộng cửa sổ */
+                    height: auto;
+                    /* Chiều cao toàn bộ cửa sổ trình duyệt */
+                    margin: 0;
+                    /* Loại bỏ khoảng cách mặc định */
+                    padding: 0;
+                    /* Loại bỏ khoảng đệm mặc định */
+                }
 
-            .full-screen-modal .modal-body {
-                overflow-y: auto;
-                /* Cho phép cuộn nội dung khi nội dung quá dài */
-            }
+                .full-screen-modal .modal-content {
+                    height: auto;
+                    /* Chiều cao toàn bộ modal */
+                    border-radius: 15px;
+                    /* Loại bỏ góc bo tròn */
+                }
+
+                .full-screen-modal .modal-body {
+                    overflow-y: auto;
+                    /* Cho phép cuộn nội dung khi nội dung quá dài */
+                }
         </style>
 
         <!-- End Page-content -->

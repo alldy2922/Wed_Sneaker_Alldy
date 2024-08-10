@@ -82,7 +82,7 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
                 let index = $scope.maSpInDSYT.findIndex(m => m == id + "");// xóa thì xóa mã sản phẩm ở trong list $scope.maSpInDSYT ko cần gọi lại api
                 $scope.maSpInDSYT.splice(index, 1)
 
-                alertify.success("Đã xóa sản phẩm ra khỏi yêu thích!")
+                alertify.error("Đã xóa sản phẩm ra khỏi yêu thích!")
             }).catch(e => {
                 heartButton.className = "fas fa-heart"//lỗi thì ko đổi giữ nguyên icon
 
@@ -126,62 +126,89 @@ app.controller("ctsp-ctrl", function ($scope, $http) {
     $scope.showImg = function (nameImg) {
         document.getElementById("show-Img").src = "/image/loadImage/product/" + nameImg
     }
+    $http.get("/cart/check-login")
+        .then(function (response) {
+            $scope.checkLogin = response.data
+
+        })
+        .catch(function (error) {
+            console.log('Error checking login status:', error);
+        });
+ $scope.checkLogin = false;
     //add to cart
     $scope.addToCart = function () {
-        let idCtsp = form.elements["ctsp"].value
-        // if (idCtsp == null) {
-        //     return;
-        // }
-        let sl = parseInt(document.getElementById("soLuong").value)
-        console.log("sốluong: " + sl)
-        alertify.confirm("Thêm sản phẩm vào giỏ hàng?", function () {
-            $http.post("/cart/add-to-cart?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
-                console.log(response.data)
+
+        if($scope.checkLogin == true){
+            let idCtsp = form.elements["ctsp"].value
+            // if (idCtsp == null) {
+            //     return;
+            // }
+            let sl = parseInt(document.getElementById("soLuong").value)
+            console.log("sốluong: " + sl)
+            alertify.confirm("Thêm sản phẩm vào giỏ hàng?", function () {
+                $http.post("/cart/add-to-cart?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
+                    console.log(response.data)
 
 
-                if (response.data == null || response.data.length == 0) {
-                    alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
-                } else {
-                    alertify.success("Thêm thành công vào giỏ hàng")
-                    $scope.cartShow()
-                }
-            }).catch(e => {
-                document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
-                alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
-                console.log(e)
-            })
-        },function (){})
-    }
+                    if (response.data == null || response.data.length == 0) {
+                        alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
+                    } else {
+                        alertify.success("Thêm thành công vào giỏ hàng")
+                        $scope.cartShow()
+                    }
+                }).catch(e => {
+                    document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
+                    alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
+                    console.log(e)
+
+                })
+            },function (){})
+
+        }else {
+            $('#dangNhap').modal('show') // hiển thị modal
+            alertify.error("Thêm sản phẩm vào giỏ hàng thất bại vui lòng đăng nhập để mua hàng!!!")
+        }
+
+        }
+
+
     //Mua Ngay
     $scope.muaNgay = function () {
-        let idCtsp = form.elements["ctsp"].value
-        // if (idCtsp == null) {
-        //     return;
-        // }
-        let sl = parseInt(document.getElementById("soLuong").value)
-        console.log("sốluong: " + sl)
-        // let alertify;
-        alertify.confirm("Bạn Có Muốn Mua Ngay Không ?", function () {
-            $http.post("/cart/mua-ngay?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
-                console.log(response.data)
-                if (response.data == null || response.data.length == 0) {
-                    alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
-                } else {
-                    alertify.success("Thêm thành công vào giỏ hàng")
-                    $scope.cartShow()
-                    location.href = "/thanh-toan";
-                }
 
-            }).catch(e => {
-                document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
-                alertify.error("Mua Ngay thất bại!!!")
-                console.log(e)
-            })
+        if($scope.checkLogin == false){
+            $('#dangNhap').modal('show') // hiển thị moda
+            alertify.error("Thêm sản phẩm vào giỏ hàng thất bại!!!")
+        }else {
+            let idCtsp = form.elements["ctsp"].value
+            // if (idCtsp == null) {
+            //     return;
+            // }
+            let sl = parseInt(document.getElementById("soLuong").value)
+            console.log("sốluong: " + sl)
+            // let alertify;
+            alertify.confirm("Bạn Có Muốn Mua Ngay Không ?", function () {
+                $http.post("/cart/mua-ngay?idCTSP=" + idCtsp + "&sl=" + sl).then(function (response) {
+                    console.log(response.data)
+                    if (response.data == null || response.data.length == 0) {
+                        alertify.error("Phân loại của sản phẩm không đủ số lượng!!!")
+                    } else {
+                        alertify.success("Thêm thành công vào giỏ hàng")
+                        $scope.cartShow()
+                        location.href = "/thanh-toan";
+                    }
 
+                }).catch(e => {
 
-        },function (){})
+                    document.getElementById("eSize").innerText = e.data.eSize == undefined ? "" : e.data.eSize
+                    alertify.error("Mua Ngay thất bại!!!")
+                    console.log(e)
+                    if (e.status === "401") {//Bắt lỗi chưa đăng nhập
+                        $('#dangNhap').modal('show') // hiển thị modal
+                    }
+                })
+            },function (){})
+        }
     }
-
     $scope.getSoLuong = function (idCTSP) {
         $http.get("/chi-tiet-san-pham/1/" + idCTSP).then(r => {
             $scope.soLuong = "Còn lại " + r.data + " sản phẩm"

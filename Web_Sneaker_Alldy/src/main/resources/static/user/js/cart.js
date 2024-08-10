@@ -47,7 +47,8 @@ app.controller("cart-ctrl", function ($scope, $http) {
     };
 
     $scope.checkThanhToan = function () {
-        $http.get("/cart/find-all-sp")
+        if(response.data){
+            $http.get("/cart/find-all-sp")
             .then(function (r) {
                 console.log(r.data);
                 $scope.cart = r.data;
@@ -56,6 +57,17 @@ app.controller("cart-ctrl", function ($scope, $http) {
             .catch(function (e) {
                 console.log(e);
             });
+        } else{
+            $http.get("/cart/find-all")
+            .then(function (r) {
+                console.log(r.data);
+                $scope.cart = r.data;
+                console.log("soLuong:", $scope.cart);
+            })
+            .catch(function (e) {
+                console.log(e);
+            });
+        }
     };
 
     $scope.updateTotal = function () {
@@ -203,13 +215,7 @@ app.controller("cart-ctrl", function ($scope, $http) {
         if ($scope.hasSelectedProducts()) {
             window.location.href = '/thanh-toan';
         } else {
-            Swal.fire({
-                title: 'Thông báo',
-                text: 'Vui lòng chọn ít nhất một sản phẩm để thanh toán.',
-                icon: 'warning',
-                confirmButtonText: 'OK'
-            });
+            alert('Vui lòng chọn ít nhất một sản phẩm để thanh toán.');
         }
     };
-
 });

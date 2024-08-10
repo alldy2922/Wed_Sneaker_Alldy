@@ -1,11 +1,11 @@
-var app = angular.module("ctdh-app", [])
-app.controller("ctdh-ctrl", function ($scope, $http) {
+var app = angular.module("ctdhdoi-app", [])
+app.controller("ctdhdoi-ctrl", function ($scope, $http) {
     $scope.donHang = {}
     $scope.chiTietDonHang = []
     const pathName = location.pathname;
     const maDH = pathName.substring(pathName.lastIndexOf("/"))
     $scope.cart = [];
-    $scope.sanPhamTra = []
+    $scope.sanPhamDoi = []
     $http.get("/cart/check-login")
         .then(function(response) {
             if (response.data) {
@@ -43,14 +43,20 @@ app.controller("ctdh-ctrl", function ($scope, $http) {
 
     }).catch(e => console.log(e));
 
+    //hiện chi tiết đơn đổi
+    $http.get("/don-hang/doi" + maDH).then(r => {
+        $scope.donHangDoijs = r.data
+        console.log("$donHangDoi", $scope.donHangDoi = r.data)
+        console.log("trangThai", $scope.donHangDoi.trangThai);
+        console.log("$MaHangDoi", maDH)
+    }).catch(e => console.log(e));
+    //
     $http.get("/chi-tiet-don-hang" + maDH).then(r => {
         $scope.chiTietDonHang = r.data;
     }).catch(e => console.log(e))
-
-    $scope.getTotalPrice = function () {
-        let total = 0;
-        $scope.chiTietDonHang.forEach(c => total += (c.donGiaSauGiam * c.soLuong))
-        return total
-    }
-
+    //hiện chi tiết sản phẩm trả
+    $http.get("/don-hang/get-ctsp-doi" + maDH).then(r => {
+        $scope.sanPhamDoi = r.data;
+        console.log("spt",$scope.sanPhamDoi)
+    }).catch(e => console.log(e))
 })

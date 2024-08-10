@@ -1641,9 +1641,8 @@ button.mfp-close {
 }
 
 .tab01 .nav-link {
-  font-family: Poppins-Regular;
   font-size: 15px;
-  color: #888;
+  color: black;
   line-height: 1.2;
 
   padding: 0;

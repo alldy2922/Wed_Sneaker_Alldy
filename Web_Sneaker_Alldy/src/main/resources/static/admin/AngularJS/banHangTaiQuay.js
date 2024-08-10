@@ -382,7 +382,7 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
             checkBox.forEach(c => {
                 if (c.checked == true) {
                     this.id.push(c.value)
-                }
+                }  
             })
         },
         huyDH() {
@@ -435,7 +435,7 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
                     nguoiSoHuu: {username: $scope.chuaXacNhan.detail.nguoiSoHuu},
                     tenNguoiNhan: $scope.chuaXacNhan.detail.tenNguoiNhan,
                     soDienThoai: $scope.chuaXacNhan.detail.soDienThoai,
-                    email: "baphuoc03@gmail.com",
+                    email: "quocthanh2929@gmail.com",
                     thanhPhoName: "a",
                     thanhPhoCode: 1,
                     quanHuyenName: "a",
@@ -467,7 +467,7 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
                 formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
                     type: 'application/json'
                 }))
-                formData.append("lyDoThayDoi", "update");
+                // formData.append("lyDoThayDoi", "update");
                 console.log(data)
                 $http.put("/admin/don-hang", formData, {
                     transformRequest: angular.identity,
@@ -480,11 +480,12 @@ $scope.addChiTietDonHang = function (item, selectedSize) {
                     $scope.inputProduct = ""
                     $scope.chuaXacNhan.init()
                     $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
-                }).catch(e => {
-                    $scope.er = e.data
-                    console.log(e)
-                    alertify.error("Cập nhật thất bại")
                 })
+                // .catch(e => {
+                //     $scope.er = e.data
+                //     console.log(e)
+                //     alertify.error("Cập nhật thất bại")
+                // })
             }, function () {
                 alertify.error("Cập nhật thất bại")
             })

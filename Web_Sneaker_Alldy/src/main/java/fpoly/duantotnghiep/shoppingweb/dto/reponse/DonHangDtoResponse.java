@@ -36,6 +36,7 @@ public class DonHangDtoResponse {
     private String lyDoHuy;
     private String lyDoThayDoi;
     private String lyDoTraHang;
+    private String lyDoDoiHang;
     private String voucherCode;
     private String voucherName;
     private Date ngayXacNhan;
@@ -77,6 +78,7 @@ public class DonHangDtoResponse {
         this.lyDoHuy = model.getLyDoHuy();
         this.lyDoThayDoi = model.getLyDoThayDoi();
         this.lyDoTraHang = model.getLyDoTraHang();
+        this.lyDoDoiHang = model.getLyDoDoiHang();
 
         this.loai = model.getLoai();
 
@@ -98,5 +100,6 @@ public class DonHangDtoResponse {
         if(model.getNhanVien()!=null){
             nhanVienDtoResponse = new NhanVienDtoResponse(model.getNhanVien());
         }
+
     }
 }

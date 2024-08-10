@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>ALLDY STORE | Chi Tiết Trả Hàng</title>
+    <title>ALLDY STORE | Chi Tiết Đổi Hàng</title>
     <style>
         .step-wizard-list {
             background: white;
@@ -129,7 +129,7 @@
 </head>
 
 <body>
-    <div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" ng-app="ctdhtra-app" ng-controller="ctdhtra-ctrl">
+    <div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" ng-app="ctdhdoi-app" ng-controller="ctdhdoi-ctrl">
         <div class="page-content container-fulid" style="background-color: #f9f9fa">
             <div class="container bg-white">
                 <div class="card-header row" style="background-color: #3f3f3f">
@@ -140,49 +140,59 @@
 
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6 m-t-80 m-b-80" ng-if="donHangTra.trangThai === 0">
-                        <h4 class="m-l-20" style="color: red">Từ chối hoàn tiền</h4>
-                        <span class="m-l-20">{{donHangTra.ngayHuy | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                <div class="row" ng-repeat="donHangDoi in donHangDoijs track by $index">
+                    <!-- hủy -->
+                    <div class="col-6 m-t-80 m-b-80" ng-if="donHangDoi.trangThai === 0  && $index === 0">
+                        <h4 class="m-l-20" style="color: red">Từ chối đổi hàng</h4>
+                        <span class="m-l-20">{{donHangDoi.ngayHuy | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                     </div>
-                    <!--                trả hàng-->
-                    <ul class="step-wizard-list" ng-if="donHangTra.trangThai != 0">
+                    <!--                đổi hàng-->
+                    <ul class="step-wizard-list" ng-if="donHangDoi.trangThai != 0  && $index === 0">
                         <!--                    Chờ xác nhận trả hàng-->
                         <li class="step-wizard-item">
                             <span class="progress-count">1</span>
-                            <span class="progress-label">Chờ xác nhận trả hàng</span>
-                            <span class="progress-label">{{donHangTra.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                            <span class="progress-label">Chờ xác nhận đổi hàng</span>
+                            <span class="progress-label">{{donHangDoi.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                         </li>
                         <!--                    Kiểm tra hàng hoàn-->
-                        <li class="step-wizard-item" ng-if="donHangTra.trangThai != 1">
+                        <li class="step-wizard-item" ng-if="donHangDoi.trangThai != 1">
                             <span class="progress-count">2</span>
-                            <span class="progress-label">Kiểm tra hàng hoàn</span>
-                            <span class="progress-label">{{donHangTra.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                            <span class="progress-label">Kiểm tra hàng đổi</span>
+                            <span class="progress-label">{{donHangDoi.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                         </li>
-                        <li class="step-wizard-item current-item" ng-if="donHangTra.trangThai === 1">
+                        <li class="step-wizard-item current-item" ng-if="donHangDoi.trangThai === 1">
                             <span class="progress-count">2</span>
-                            <span class="progress-label">Kiểm tra hàng hoàn</span>
-                            <span class="progress-label">{{donHangTra.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                            <span class="progress-label">Kiểm tra hàng đổi</span>
+                            <span class="progress-label">{{donHangDoi.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                         </li>
-                        <!--                   Hoàn tiền -->
-                        <li class="step-wizard-item" ng-if="donHangTra.trangThai != 2">
+                        <!--                   Giao Hàng -->
+                        <li class="step-wizard-item" ng-if="donHangDoi.trangThai != 2">
                             <span class="progress-count">3</span>
-                            <span class="progress-label">Hoàn tiền</span>
-                            <span class="progress-label">{{donHangTra.ngayHoanThanh | date:'yyyy-MM-dd
-                                HH:mm:ss'}}</span>
+                            <span class="progress-label">Đang Giao</span>
+                            <span class="progress-label">{{donHangDoi.ngayGiao | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                         </li>
-                        <li class="step-wizard-item  current-item" ng-if="donHangTra.trangThai === 2">
+                        <li class="step-wizard-item  current-item" ng-if="donHangDoi.trangThai === 2">
                             <span class="progress-count">3</span>
-                            <span class="progress-label">Hoàn tiền</span>
-                            <span class="progress-label">{{donHangTra.ngayHoanThanh | date:'yyyy-MM-dd
-                                HH:mm:ss'}}</span>
+                            <span class="progress-label">Đang Giao</span>
+                            <span class="progress-label">{{donHangDoi.ngayGiao | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </li>
+                        <!--                   Đổi Hàng Thành Công -->
+                        <li class="step-wizard-item" ng-if="donHangDoi.trangThai != 3">
+                            <span class="progress-count">4</span>
+                            <span class="progress-label">Đổi Thành Công</span>
+                            <span class="progress-label">{{donHangDoi.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </li>
+                        <li class="step-wizard-item  current-item" ng-if="donHangDoi.trangThai === 3">
+                            <span class="progress-count">4</span>
+                            <span class="progress-label">Đổi Thành Công</span>
+                            <span class="progress-label">{{donHangDoi.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                         </li>
                     </ul>
                 </div>
                 <div class="card-body">
                     <h4 class="m-t-20 m-b-20">Thông tin đơn hàng</h4>
                     <div class="row">
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <div class="mb-3">
                                 <label>Mã đơn hàng</label>
                                 <span class="form-control">{{donHang.ma}}</span>
@@ -196,18 +206,12 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="mb-3">
-                                <label>Phương thức nhận tiền hoàn đơn</label>
-                                <span class="form-control">{{donHang.phuongThucNhanTien}}</span>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="mb-3">
                                 <label>Mã voucher</label>
                                 <span class="form-control">{{donHang.voucherCode == null ? 'Không áp dụng' :
                                     donHang.voucherCode}}</span>
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-3">
                             <div class="mb-3">
                                 <label>Tên voucher</label>
                                 <span class="form-control">{{donHang.voucherName == null ? 'Không áp dụng' :
@@ -264,18 +268,9 @@
                         </div>
                     </div>
                     <div class="row">
-
                         <div class="col-sm-6">
-                            <div class="mb-3">
-                                <label>Số Tài Khoản Nhận Tiền Hoàn Đơn</label>
-                                <pre class="form-control" style="white-space: pre-wrap;">{{donHang.ghiChu}}</pre>
-                            </div>
-                        </div>
-
-
-                        <div class="col-sm-6">
-                            <label>Lý do hoàn hàng</label>
-                            <textarea class="form-control">{{donHang.lyDoTraHang}}</textarea>
+                            <label>Lý do đổi hàng</label>
+                            <textarea class="form-control">{{donHang.lyDoDoiHang}}</textarea>
                         </div>
 
                     </div>
@@ -323,7 +318,7 @@
                     </div>
 
                     <!-- sp trả đc chọn -->
-                    <h4>Sản Phẩm Trả</h4>
+                    <h4>Sản Phẩm Đổi</h4>
                     <table id="datatable" class="table table-hover dt-responsive  nowrap w-100">
                         <thead>
                             <tr>
@@ -336,7 +331,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="d in sanPhamTra">
+                            <tr ng-repeat="d in sanPhamDoi">
                                 <td>
                                     <div class="d-flex justify-content-start">
                                         <img src="/image/loadImage/product/{{d.anh}}"
@@ -356,20 +351,6 @@
                                 </td>
                                 <td>
                                     <div>{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}đ
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-
-                    <table class="table" style="    border-top: 1px solid black">
-                        <tbody>
-                            <tr>
-                                <td style="font-weight: bold; font-size: 2em;">Hoàn tiền đơn hàng:</td>
-                                <td colspan="4">
-                                    <div class="d-flex justify-content-end" style="font-weight: bold; font-size: 2em;">
-                                        {{getTotalPriceSanPhamTra() | currency: "" : 1}} đ
                                     </div>
                                 </td>
                             </tr>

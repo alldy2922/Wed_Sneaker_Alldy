@@ -1,5 +1,5 @@
-var app = angular.module("donhang-app", [])
-app.controller("donhang-ctrl", function ($scope, $http) {
+var app = angular.module("doihang-app", [])
+app.controller("doihang-ctrl", function ($scope, $http) {
     $scope.donHang = {}
     $scope.donHangAdd = {
         phuongThucThanhToan: "0"
@@ -11,10 +11,11 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.dateNow = new Date().getTime();
     $scope.khachHang = []
     $scope.erAdd = {}
-
+    $scope.sanPhamDoi = [];
     $scope.showPolicy = false;
     $scope.agreePolicy = false;
 
+        $scope.SumSanPham = {};
 
     $scope.closeModal = function (id) {
         $(id).modal('hide')
@@ -150,17 +151,15 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     ///////Hàm dùng chung
     //hủy đơn 
     $scope.id = []
-    $scope.trangThaiDonHang = 2
+    $scope.trangThaiDonHang = 1
     $scope.huyDH = function () {
         console.log($scope.trangThaiDonHang)
-        if ($scope.trangThaiDonHang == 1) {
+        if ($scope.trangThaiDonHang == 2) {
             $scope.daXacNhan.huyDH();
-        } else if ($scope.trangThaiDonHang == 2) {
+        } else if ($scope.trangThaiDonHang == 1) {
             $scope.chuaXacNhan.huyDH();
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.huyDH();
-        } else if ($scope.trangThaiDonHang == 5) {
-            $scope.chuaThanhToan.huyDH();
         }
         $scope.getSanPham()
         $scope.inputProduct = ""
@@ -183,15 +182,13 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             })
         }
         if ($scope.trangThaiDonHang == 1) {
-            $scope.daXacNhan.checkButton();
+            $scope.chuaXacNhan.checkButton();
         } else if ($scope.trangThaiDonHang == 2) {
-            $scope.chuaXacNhan.checkButton()
+            $scope.daXacNhan.checkButton()
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
         }
-        // else if ($scope.trangThaiDonHang == 5) {
-        //     $scope.chuaThanhToan.checkButton();
-        // }
+
     }
     $scope.checkAllChecked = function (name, idCheckBoxSetAll) {
         let checkBox = document.getElementsByName(name)
@@ -203,15 +200,13 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         })
         document.getElementById(idCheckBoxSetAll).checked = check
         if ($scope.trangThaiDonHang == 1) {
-            $scope.daXacNhan.checkButton();
+            $scope.chuaXacNhan.checkButton();
         } else if ($scope.trangThaiDonHang == 2) {
-            $scope.chuaXacNhan.checkButton()
+            $scope.daXacNhan.checkButton()
         } else if ($scope.trangThaiDonHang == 3) {
             $scope.dangGiao.checkButton();
         }
-        // else if ($scope.trangThaiDonHang == 5) {
-        //     $scope.chuaThanhToan.checkButton();
-        // }
+
     }
 
     ////////////////////////////////////////
@@ -369,8 +364,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         pages: [],
         sdtSearch: "",
         init() {
-            $scope.trangThaiDonHang = 2
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=2").then(r => {
+            $scope.trangThaiDonHang = 1
+            $http.get("/admin/don-hang/get-by-trangthai-doi?trangThai=1").then(r => {
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -378,10 +373,11 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
         },
         getList(pageNumber) {
-            $scope.trangThaiDonHang = 2
+            $scope.trangThaiDonHang = 1
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=2&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
-                this.list = r.data.content;
+            $http.get("/admin/don-hang/san-pham-doi?trangThai=1 & pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
+                this.list = r.data.sanPhamDoi;
+                console.log(r.data.sanPhamDoi)
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
@@ -389,7 +385,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         xacNhanDH(ma) {
             alertify.confirm("Xác nhận đơn hàng?", function () {
 
-                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=1").then(r => {
+                $http.get("/admin/don-hang/update-trang-thai-doi/" + ma + "?trangThai=2").then(r => {
                     if ($scope.chuaXacNhan.page == $scope.chuaXacNhan.totalPage - 1) {
                         if ($scope.chuaXacNhan.list.length == 1 && $scope.chuaXacNhan.page > 0) {
                             $scope.chuaXacNhan.page--;
@@ -419,7 +415,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     }
                 })
 
-                $http.put("/admin/don-hang/update-trang-thai?trangThai=1", $scope.chuaXacNhan.id).then(r => {
+                $http.put("/admin/don-hang/update-trang-thai-doi?trangThai=2", $scope.chuaXacNhan.id).then(r => {
                     if ($scope.chuaXacNhan.page == $scope.chuaXacNhan.totalPage - 1) {
                         if ($scope.chuaXacNhan.list.length == 1 && $scope.chuaXacNhan.page > 0) {
                             $scope.chuaXacNhan.page--;
@@ -452,18 +448,17 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             })
         },
         huyDH() {
-
-            if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
+            if (!$scope.lyDoDoiHang || $scope.lyDoDoiHang.trim().length === 0) {
                 $scope.messLyDo = "Không để trống lý do hủy"
                 alertify.error("Hủy đơn hàng thất bại")
                 return
-            } else if ($scope.lyDo.length == 200) {
+            } else if ($scope.lyDoDoiHang.length == 200) {
                 $scope.messLyDo = "Lý do hủy chỉ tối đa 200 ký tự"
                 alertify.error("Hủy đơn hàng thất bại")
                 return;
             }
 
-            $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
+            $http.put("/admin/don-hang/doi-don-hang?lyDoDoiHang=" + $scope.lyDoDoiHang, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -471,124 +466,29 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 }
                 this.getList(this.page)
                 this.init()
-                $scope.lyDo = null;
+                $scope.lyDoDoiHang = null;
                 $scope.messLyDo = "";
                 this.id = []
                 $('#closeHuy').click()
                 document.getElementById('checkAllChuaXacNhan').checked = false
-                alertify.success("Hủy đơn hàng thành công")
+                alertify.erorr("Hủy đơn hàng đổi thất bại")
             }).catch(e => {
-                alertify.error("Hủy đơn hàng thất bại")
+                alertify.success("Hủy đơn hàng đổi thành công")
                 console.log(e)
             })
         },
         getDetail(ma) {
             $http.get("/admin/don-hang/" + ma).then(r => {
-                this.detail = r.data;
-                this.detail.thanhPhoCode = this.detail.thanhPhoCode + ""
-
-                //Lấy quận huyện
-                $scope.giaoHangNhanh.getDistricts(this.detail.thanhPhoCode)//hàm lấy quận huyện truyền vào thành phố
-                this.detail.quanHuyenCode = this.detail.quanHuyenCode + "" // set selected quận huyện
-
-                $scope.giaoHangNhanh.getWards(this.detail.quanHuyenCode)//hàm lấy xã truyền vào quận huyện
-                this.detail.xaPhuongCode = this.detail.xaPhuongCode + "" //set selected xã
-
-                $('#chuaXacNhanDetail').modal('show')
+                $scope.donHang = r.data;
+                $('#donHangDetail').modal('show')
             }).catch(e => console.log(e))
 
             $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {
                 $scope.chiTietDonHang = r.data;
             }).catch(e => console.log(e))
-        },
-        capNhat() {
-            if ($scope.chuaXacNhan.detail.lyDoThayDoi == null || $scope.chuaXacNhan.detail.lyDoThayDoi == 0 || $scope.chuaXacNhan.detail.lyDoThayDoi == undefined) {
-                $scope.messLyDoThayDoi = "Không để trống lý do thay đổi thông tin đơn hàng"
-                alertify.error("Cập nhật đơn hàng thất bại")
-                return
-            } else if ($scope.chuaXacNhan.detail.lyDoThayDoi.length >= 200) {
-                $scope.messLyDoThayDoi = "Lý do thay đổi thông tin đơn hàng tối đa 200 ký tự"
-                alertify.error("Cập nhật đơn hàng thất bại")
-                return;
-            }
-            alertify.confirm("Cập nhật đơn hàng?", function () {
-                // if($scope.chuaXacNhan.detail.phiGiaoHang<0){
-                //     alertify.error("Phí giao hàng phải >= 0")
-                //     return
-                // }
-                let indexCity = $scope.giaoHangNhanh.citys.findIndex(c => c.ProvinceID == $scope.chuaXacNhan.detail.thanhPhoCode)
-                let indexDistrict = $scope.giaoHangNhanh.districts.findIndex(d => d.DistrictID == $scope.chuaXacNhan.detail.quanHuyenCode)
-                let indexWard = $scope.giaoHangNhanh.wards.findIndex(w => w.WardCode == $scope.chuaXacNhan.detail.xaPhuongCode)
-
-                $scope.chuaXacNhan.detail.thanhPhoName = $scope.giaoHangNhanh.citys[indexCity] == undefined ? "" : $scope.giaoHangNhanh.citys[indexCity].ProvinceName;
-                $scope.chuaXacNhan.detail.quanHuyenName = $scope.giaoHangNhanh.districts[indexDistrict] == undefined ? "" : $scope.giaoHangNhanh.districts[indexDistrict].DistrictName;
-                $scope.chuaXacNhan.detail.xaPhuongName = $scope.giaoHangNhanh.wards[indexWard] == undefined ? "" : $scope.giaoHangNhanh.wards[indexWard].WardName
-                let data = {
-                    ma: $scope.chuaXacNhan.detail.ma,
-                    nguoiSoHuu: { username: $scope.chuaXacNhan.detail.nguoiSoHuu },
-                    voucherCode: $scope.chuaXacNhan.detail.voucherCode,
-                    tenNguoiNhan: $scope.chuaXacNhan.detail.tenNguoiNhan,
-                    soDienThoai: $scope.chuaXacNhan.detail.soDienThoai,
-                    email: $scope.chuaXacNhan.detail.email,
-                    thanhPhoName: $scope.chuaXacNhan.detail.thanhPhoName,
-                    thanhPhoCode: $scope.chuaXacNhan.detail.thanhPhoCode,
-                    quanHuyenName: $scope.chuaXacNhan.detail.quanHuyenName,
-                    quanHuyenCode: $scope.chuaXacNhan.detail.quanHuyenCode,
-                    xaPhuongName: $scope.chuaXacNhan.detail.xaPhuongName,
-                    xaPhuongCode: $scope.chuaXacNhan.detail.xaPhuongCode,
-                    diaChiChiTiet: $scope.chuaXacNhan.detail.diaChiChiTiet,
-                    ngayDatHang: $scope.chuaXacNhan.detail.ngayDatHang,
-                    trangThai: $scope.chuaXacNhan.detail.trangThai,
-                    ghiChu: $scope.chuaXacNhan.detail.ghiChu,
-                    lyDoThayDoi: $scope.chuaXacNhan.detail.lyDoThayDoi,
-                    tienGiam: $scope.chuaXacNhan.detail.tienGiam,
-                    phiGiaoHang: $scope.chuaXacNhan.detail.phiGiaoHang,
-                    trangThaiDetail: $scope.chuaXacNhan.detail.trangThai,
-                    phuongThucThanhToan: $scope.chuaXacNhan.detail.phuongThucThanhToan == 'true' ? 0 : 1
-                }
-                let chiTietDonHang = [];
-                $scope.chiTietDonHang.forEach(c => {
-                    chiTietDonHang.push({
-                        id: c.id,
-                        donHangID: $scope.chuaXacNhan.detail.ma,
-                        sanPhamCT: c.idChiTietSanPham,
-                        soLuong: c.soLuong,
-                        donGia: c.donGia,
-                        donGiaSauGiam: c.donGiaSauGiam
-                    })
-                })
-                let formData = new FormData();
-                formData.append("donHang", new Blob([JSON.stringify(data)], {
-                    type: 'application/json'
-                }))
-                formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
-                    type: 'application/json'
-                }))
-                formData.append("lyDoThayDoi", $scope.chuaXacNhan.detail.lyDoThayDoi);
-                $http.put("/admin/don-hang", formData, {
-                    transformRequest: angular.identity,
-                    headers: { 'Content-Type': undefined }
-                }).then(r => {
-                    let index = $scope.chuaXacNhan.list.findIndex(d => d.ma == $scope.chuaXacNhan.detail.ma)
-                    $scope.chuaXacNhan.list[index] = $scope.chuaXacNhan.detail
-                    alertify.success("Cập nhật thành công")
-                    $scope.chuaThanhToan.init()
-                    $scope.chuaXacNhan.init()
-                    $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
-                    $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
-                    $scope.getSanPham()
-                    $scope.inputProduct = ""
-                })
-                // .catch(e => {
-                //     $scope.er = e.data
-                //     console.log(e)
-                //     alertify.error("Cập nhật thất bại")
-                // })
-            },
-                function () {
-                    alertify.error("Cập nhật thất bại")
-                })
-
+            $http.get("/admin/don-hang/get-ctsp-doi?ma=" + ma).then(r => {
+                $scope.sanPhamDoi = r.data;
+            }).catch(e => console.log(e))
         },
         setPageNumbers() {
             let numbers = [];
@@ -674,183 +574,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     $scope.chuaXacNhan.init()
     $scope.chuaXacNhan.getList(0)
 
-    // $scope.chuaThanhToan = {
-    //     list: [],
-    //     detail: {},
-    //     totalElement: 0,
-    //     totalPage: 0,
-    //     page: 0,
-    //     id: [],
-    //     pages: [],
-    //     sdtSearch: "",
-    //     init() {
-    //         $scope.trangThaiDonHang = 5
-    //         $http.get("/admin/don-hang/get-by-trangthai?trangThai=5").then(r => {
-    //             this.totalElement = r.data.totalElements;
-    //             this.totalPage = r.data.totalPages;
-    //             this.setPageNumbers()
-    //         })
-    //     },
-    //     getList(pageNumber) {
-    //         $scope.trangThaiDonHang = 5
-    //         this.page = pageNumber;
-    //         $http.get("/admin/don-hang/get-by-trangthai?trangThai=5&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
-    //             this.list = r.data.content;
-    //             this.totalPage = r.data.totalPages;
-    //             this.setPageNumbers()
-    //         })
-    //     },
-    //     xacNhanDH(ma) {
-    //         alertify.confirm("Xác nhận thanh toán đơn hàng?", function () {
-
-    //             $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=1").then(r => {
-    //                 if ($scope.chuaThanhToan.page == $scope.chuaThanhToan.totalPage - 1) {
-    //                     if ($scope.chuaThanhToan.list.length == 1 && $scope.chuaThanhToan.page > 0) {
-    //                         $scope.chuaThanhToan.page--;
-    //                     }
-    //                 }
-    //                 $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
-    //                 $scope.chuaThanhToan.init()
-    //                 document.getElementById('checkAllChuaTT').checked = false
-    //                 $scope.daXacNhan.totalElement++
-    //                 alertify.success("Xác nhận thanh toán thành công")
-    //             }).catch(e => {
-    //                 console.log(e)
-    //                 alertify.error("Xác nhận thanh toán thất bại")
-    //             })
-    //         }, function () {
-    //             alertify.error("Xóa thất bại")
-    //         })
-    //     },
-    //     xacNhanDHAll() {
-    //         alertify.confirm("Xác nhận thanh toán đơn hàng?", function () {
-    //             let checkBox = document.getElementsByName('checkChuaTT')
-    //             checkBox.forEach(c => {
-    //                 if (c.checked == true) {
-    //                     $scope.chuaThanhToan.id.push(c.value)
-    //                     $scope.daXacNhan.totalElement++
-    //                 }
-    //             })
-
-    //             $http.put("/admin/don-hang/update-trang-thai?trangThai=1", $scope.chuaThanhToan.id).then(r => {
-    //                 if ($scope.chuaThanhToan.page == $scope.chuaThanhToan.totalPage - 1) {
-    //                     if ($scope.chuaThanhToan.list.length == 1 && $scope.chuaThanhToan.page > 0) {
-    //                         $scope.chuaThanhToan.page--;
-    //                     }
-    //                 }
-    //                 $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
-    //                 $scope.chuaThanhToan.init()
-    //                 $scope.chuaThanhToan.id = []
-    //                 document.getElementById('checkAllChuaTT').checked = false
-    //                 alertify.success("Xác nhận thanh toán thành công")
-    //             }).catch(e => {
-    //                 console.log(e)
-    //                 alertify.error("Xác nhận thanh toán thất bại")
-    //             })
-    //         }, function () {
-    //             alertify.error("Xóa thất bại")
-    //         })
-    //     },
-    //     setIdDonHang(id) {
-    //         this.id = []
-    //         this.id.push(id)
-    //     },
-    //     setAllIdDonHang() {
-    //         this.id = []
-    //         let checkBox = document.getElementsByName('checkChuaTT')
-    //         checkBox.forEach(c => {
-    //             if (c.checked == true) {
-    //                 this.id.push(c.value)
-    //             }
-    //         })
-    //     },
-    //     huyDH() {
-
-    //         if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
-    //             $scope.messLyDo = "Không để trống lý do hủy"
-    //             alertify.error("Xác nhận thanh toán thất bại")
-    //             return
-    //         } else if ($scope.lyDo.length == 200) {
-    //             $scope.messLyDo = "Lý do hủy chỉ tối đa 200 ký tự"
-    //             alertify.error("Xác nhận thanh toán thất bại")
-    //             return;
-    //         }
-
-    //         $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
-    //             if (this.page == this.totalPage - 1) {
-    //                 if (this.list.length == 1 && this.page > 0) {
-    //                     this.page--;
-    //                 }
-    //             }
-    //             this.getList(this.page)
-    //             this.init()
-    //             $scope.lyDo = null;
-    //             $scope.messLyDo = "";
-    //             this.id = []
-    //             $('#closeHuy').click()
-    //             document.getElementById('checkAllChuaTT').checked = false
-    //             alertify.success("Xác nhận thanh toán thành công")
-    //         }).catch(e => {
-    //             console.log(e)
-    //             alertify.error("Xác nhận thanh toán thất bại")
-    //         })
-    //     },
-    //     getDetail(ma) {
-    //         $http.get("/admin/don-hang/" + ma).then(r => {
-    //             this.detail = r.data;
-    //             $scope.chuaXacNhan.detail = r.data
-    //             this.detail.thanhPhoCode = this.detail.thanhPhoCode + ""
-
-    //             //Lấy quận huyện
-    //             $scope.giaoHangNhanh.getDistricts(this.detail.thanhPhoCode)//hàm lấy quận huyện truyền vào thành phố
-    //             this.detail.quanHuyenCode = this.detail.quanHuyenCode + "" // set selected quận huyện
-
-    //             $scope.giaoHangNhanh.getWards(this.detail.quanHuyenCode)//hàm lấy xã truyền vào quận huyện
-    //             this.detail.xaPhuongCode = this.detail.xaPhuongCode + "" //set selected xã
-
-    //             $('#chuaXacNhanDetail').modal('show')
-    //         }).catch(e => console.log(e))
-
-    //         $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {
-    //             $scope.chiTietDonHang = r.data;
-    //         }).catch(e => console.log(e))
-    //     },
-    //     setPageNumbers() {
-
-    //         let numbers = [];
-    //         let i = this.page
-    //         let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
-    //         let lengthFirst = this.totalPage >= 2 ? this.page - 2 : 0
-
-    //         if (lengthLast > this.totalPage) {
-    //             lengthLast = this.totalPage
-    //             i = lengthLast - 2
-    //         }
-    //         if (lengthFirst < 0) lengthFirst = 0
-
-    //         for (lengthFirst; i > lengthFirst; lengthFirst++) {
-    //             numbers.push(lengthFirst)
-    //         }
-    //         for (i; i < lengthLast; i++) {
-    //             numbers.push(i)
-    //         }
-    //         this.pages = numbers;
-
-    //     },
-    //     checkButton() {
-    //         let checkboxs = document.getElementsByName('checkChuaTT')
-    //         let check = true;
-    //         checkboxs.forEach(c => {
-    //             if (c.checked == true) {
-    //                 check = false;
-    //             }
-    //         })
-    //         document.getElementById("huyAll5").disabled = check;
-    //         document.getElementById("xacNhanAll5").disabled = check;
-    //     }
-    // }
-    // $scope.chuaThanhToan.init()
-
     $scope.daXacNhan = {
         list: [],
         detail: {},
@@ -861,30 +584,48 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         id: [],
         sdtSearch: "",
         init() {
-            $scope.trangThaiDonHang = 1
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=1").then(r => {
+            $scope.trangThaiDonHang = 2
+            $http.get("/admin/don-hang/get-by-trangthai-doi?trangThai=2").then(r => {
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
         },
         getList(pageNumber) {
-            $scope.trangThaiDonHang = 1
-            $scope.daXacNhan.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=1&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
-                this.list = r.data.content;
+            $scope.trangThaiDonHang = 2
+            this.page = pageNumber;
+            $http.get("/admin/don-hang/san-pham-doi?trangThai=2 &pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
+                this.list = r.data.sanPhamDoi;
+                console.log(r.data.sanPhamDoi)
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
         },
         getDetail(ma) {
             $http.get("/admin/don-hang/" + ma).then(r => {
-                $scope.donHang = r.data;
-                $('#donHangDetail').modal('show')
+                this.detail = r.data;
+                this.detail.thanhPhoCode = this.detail.thanhPhoCode + ""
+
+                //Lấy quận huyện
+                $scope.giaoHangNhanh.getDistricts(this.detail.thanhPhoCode)//hàm lấy quận huyện truyền vào thành phố
+                this.detail.quanHuyenCode = this.detail.quanHuyenCode + "" // set selected quận huyện
+
+                $scope.giaoHangNhanh.getWards(this.detail.quanHuyenCode)//hàm lấy xã truyền vào quận huyện
+                this.detail.xaPhuongCode = this.detail.xaPhuongCode + "" //set selected xã
+
+                $('#XacNhanDetail').modal('show')
             }).catch(e => console.log(e))
 
             $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {
                 $scope.chiTietDonHang = r.data;
+            }).catch(e => console.log(e))
+            $http.get("/admin/don-hang/get-ctsp-doi?ma=" + ma).then(r => {
+                $scope.sanPhamDoi = r.data;
+            }).catch(e => console.log(e))
+            $http.get("/admin/don-hang/get-sum-by-ma?ma=" + ma).then(r => {
+                console.log("ma",ma)
+                $scope.SumSanPham = r.data;
+                console.log("111",$scope.SumSanPham)
             }).catch(e => console.log(e))
         },
         setPageNumbers() {
@@ -911,7 +652,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         chuyenGiao(ma) {
             alertify.confirm("Chuyển giao đơn hàng?", function () {
 
-                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=3").then(r => {
+                $http.get("/admin/don-hang/update-trang-thai-doi/" + ma + "?trangThai=3").then(r => {
                     if ($scope.daXacNhan.page == $scope.daXacNhan.totalPage - 1) {
                         if ($scope.daXacNhan.list.length == 1 && $scope.daXacNhan.page > 0) {
                             $scope.daXacNhan.page--;
@@ -943,38 +684,18 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 }
             })
         },
-        huy(ma) {
-            alertify.confirm("Hủy đơn hàng?", function () {
-
-                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=2").then(r => {
-                    if ($scope.daXacNhan.page == $scope.daXacNhan.totalPage - 1) {
-                        if ($scope.daXacNhan.list.length == 1 && $scope.daXacNhan.page > 0) {
-                            $scope.daXacNhan.page--;
-                        }
-                    }
-                    $scope.daXacNhan.getList($scope.daXacNhan.page)
-                    $scope.daXacNhan.init()
-                    // document.getElementById('checkAllChuaXacNhan').checked = false
-                    $scope.dangGiao.totalElement++
-                    alertify.success("Hủy thành công")
-                }).catch(e => {
-                    console.log(e)
-                    alertify.error("Hủy thất bại")
-                })
-            }, function () {
-                alertify.error("Hủy thất bại")
-            })
-        },
         huyDH() {
-            if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
+            if (!$scope.lyDoDoiHang || $scope.lyDoDoiHang.trim().length === 0) {
                 $scope.messLyDo = "Không để trống lý do hủy"
+                alertify.error("Hủy đơn hàng thất bại")
                 return
-            } else if ($scope.lyDo.length == 200) {
+            } else if ($scope.lyDoDoiHang.length == 200) {
                 $scope.messLyDo = "Lý do hủy chỉ tối đa 200 ký tự"
+                alertify.error("Hủy đơn hàng thất bại")
                 return;
             }
 
-            $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
+            $http.put("/admin/don-hang/doi-don-hang?lyDoDoiHang=" + $scope.lyDoDoiHang, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -982,16 +703,174 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 }
                 this.getList(this.page)
                 this.init()
-                $scope.lyDo = null;
+                $scope.lyDoDoiHang = null;
                 $scope.messLyDo = "";
                 this.id = []
                 $('#closeHuy').click()
                 document.getElementById('checkAlldaXacNhan').checked = false
-                alertify.success("Hủy đơn hàng thành công")
+                alertify.success("Hủy đơn hàng đổi thành công")
             }).catch(e => {
+                alertify.error("Hủy đơn hàng đổi thất bại")
                 console.log(e)
-                alertify.error("Hủy đơn hàng thất bại")
             })
+        },
+        updateSoLuong(idCTSP, soLuong) {
+            let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)
+            let chiTietDonHang = $scope.chiTietDonHang[index]
+            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + idCTSP + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id == undefined ? "" : chiTietDonHang.id)).then(r => {
+                $scope.chiTietDonHang[index].soLuong = soLuong
+                $scope.getTotalPrice()
+            }).catch(e => {
+                if (chiTietDonHang.id == undefined) {
+                    chiTietDonHang.soLuong = 1
+                } else {
+                    $http.get("/admin/chi-tiet-don-hang/detail/" + chiTietDonHang.id).then(r => {
+                        $scope.chiTietDonHang[index].soLuong = r.data.soLuong
+                    }).catch(e => console.log(e))
+                }
+                alertify.error("Đã vượt quá số lượng sản phẩm trong đơn hàng!")
+            })
+
+
+        },
+         subtractSoLuong(idCTSP) {
+            let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)
+            let chiTietDonHang = $scope.chiTietDonHang[index]
+            let soLuong = chiTietDonHang.soLuong - 1
+
+
+            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + chiTietDonHang.idChiTietSanPham + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id == undefined ? "" : chiTietDonHang.id)).then(r => {
+                $scope.chiTietDonHang[index].soLuong = soLuong
+            }).catch(e => {
+                alertify.error("Số lượng sản phẩm đã đạt giá trị tối thiểu trong đơn hàng")
+            })
+
+
+        },
+        addSoLuong(idCTSP) {
+            // Tìm đối tượng trong mảng chiTietDonHang với idChiTietSanPham tương ứng
+            let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP);
+            if (index === -1) {
+                console.error("Không tìm thấy sản phẩm với id:", idCTSP);
+                return;
+            }
+
+            // Lấy đối tượng chi tiết đơn hàng và cập nhật số lượng
+            let chiTietDonHang = $scope.chiTietDonHang[index];
+            let soLuong = parseInt(chiTietDonHang.soLuong, 10) + 1;
+            let tongSoLuongMoi;
+
+            // Gửi yêu cầu cập nhật số lượng qua HTTP
+            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + chiTietDonHang.idChiTietSanPham + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id === undefined ? "" : chiTietDonHang.id))
+                .then(r => {
+                    // Cập nhật số lượng trong mảng chiTietDonHang
+
+
+                    // Tính tổng số lượng mới sau khi cập nhật
+                    tongSoLuongMoi = $scope.chiTietDonHang.reduce((sum, item) => sum + parseInt(item.soLuong, 10), 0) +1;
+
+                    if (tongSoLuongMoi > $scope.SumSanPham.hoaDon) {
+                        alertify.error("Số lượng sản phẩm đã đạt giá trị tối đa trong đơn hàng");
+                        // Đặt số lượng lại về giá trị cũ nếu cần
+                    } else {
+                        // In tổng số lượng mới
+                        console.log("Tổng số lượng mới:", tongSoLuongMoi);
+                        $scope.chiTietDonHang[index].soLuong = soLuong;
+                    }
+                })
+                .catch(e => {
+
+                    // Xử lý lỗi khi số lượng sản phẩm đã đạt giá trị tối đa
+                    alertify.error("Số lượng sản phẩm đã đạt giá trị tối đa trong Kho");
+                });
+        },
+        capNhat() {
+            let tongSoLuongMoi;
+            tongSoLuongMoi = $scope.chiTietDonHang.reduce((sum, item) => sum + parseInt(item.soLuong, 10), 0) ;
+
+
+            if(tongSoLuongMoi < $scope.SumSanPham.hoaDon) {
+                alertify.error("Số lượng sản phẩm thấp hơn giá trị tối đa trong đơn hàng");
+                console.log(tongSoLuongMoi)
+            }
+            else {
+                alertify.confirm("Cập nhật đơn hàng?", function () {
+                        let indexCity = $scope.giaoHangNhanh.citys.findIndex(c => c.ProvinceID == $scope.daXacNhan.detail.thanhPhoCode)
+                        let indexDistrict = $scope.giaoHangNhanh.districts.findIndex(d => d.DistrictID == $scope.daXacNhan.detail.quanHuyenCode)
+                        let indexWard = $scope.giaoHangNhanh.wards.findIndex(w => w.WardCode == $scope.daXacNhan.detail.xaPhuongCode)
+
+                        $scope.daXacNhan.detail.thanhPhoName = $scope.giaoHangNhanh.citys[indexCity] == undefined ? "" : $scope.giaoHangNhanh.citys[indexCity].ProvinceName;
+                        $scope.daXacNhan.detail.quanHuyenName = $scope.giaoHangNhanh.districts[indexDistrict] == undefined ? "" : $scope.giaoHangNhanh.districts[indexDistrict].DistrictName;
+                        $scope.daXacNhan.detail.xaPhuongName = $scope.giaoHangNhanh.wards[indexWard] == undefined ? "" : $scope.giaoHangNhanh.wards[indexWard].WardName
+                        let data = {
+                            ma: $scope.daXacNhan.detail.ma,
+                            nguoiSoHuu: { username: $scope.daXacNhan.detail.nguoiSoHuu },
+                            voucherCode: $scope.daXacNhan.detail.voucherCode,
+                            tenNguoiNhan: $scope.daXacNhan.detail.tenNguoiNhan,
+                            soDienThoai: $scope.daXacNhan.detail.soDienThoai,
+                            email: $scope.daXacNhan.detail.email,
+                            thanhPhoName: $scope.daXacNhan.detail.thanhPhoName,
+                            thanhPhoCode: $scope.daXacNhan.detail.thanhPhoCode,
+                            quanHuyenName: $scope.daXacNhan.detail.quanHuyenName,
+                            quanHuyenCode: $scope.daXacNhan.detail.quanHuyenCode,
+                            xaPhuongName: $scope.daXacNhan.detail.xaPhuongName,
+                            xaPhuongCode: $scope.daXacNhan.detail.xaPhuongCode,
+                            diaChiChiTiet: $scope.daXacNhan.detail.diaChiChiTiet,
+                            ngayDatHang: $scope.daXacNhan.detail.ngayDatHang,
+                            trangThai: $scope.daXacNhan.detail.trangThai,
+                            ghiChu: $scope.daXacNhan.detail.ghiChu,
+                            ghiChu: $scope.daXacNhan.detail.lyDoDoiHang,
+                            // lyDoThayDoi: $scope.daXacNhan.detail.lyDoThayDoi,
+                            tienGiam: $scope.daXacNhan.detail.tienGiam,
+                            phiGiaoHang: $scope.daXacNhan.detail.phiGiaoHang,
+                            trangThaiDetail: $scope.daXacNhan.detail.trangThai,
+                            phuongThucThanhToan: $scope.daXacNhan.detail.phuongThucThanhToan == 'true' ? 0 : 1
+                        }
+                        let chiTietDonHang = [];
+                        $scope.chiTietDonHang.forEach(c => {
+                            chiTietDonHang.push({
+                                id: c.id,
+                                donHangID: $scope.daXacNhan.detail.ma,
+                                sanPhamCT: c.idChiTietSanPham,
+                                soLuong: c.soLuong,
+                                donGia: c.donGia,
+                                donGiaSauGiam: c.donGiaSauGiam
+                            })
+                        })
+                        let formData = new FormData();
+                        formData.append("donHang", new Blob([JSON.stringify(data)], {
+                            type: 'application/json'
+                        }))
+                        formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
+                            type: 'application/json'
+                        }))
+                        formData.append("lyDoThayDoi", $scope.daXacNhan.detail.lyDoThayDoi);
+                        $http.put("/admin/don-hang/doi", formData, {
+                            transformRequest: angular.identity,
+                            headers: { 'Content-Type': undefined }
+                        }).then(r => {
+                            let index = $scope.daXacNhan.list.findIndex(d => d.ma == $scope.daXacNhan.detail.ma)
+                            $scope.daXacNhan.list[index] = $scope.daXacNhan.detail
+                            alertify.success("Cập nhật thành công")
+                            $scope.chuaThanhToan.init()
+                            $scope.daXacNhan.init()
+                            $scope.daXacNhan.getList($scope.daXacNhan.page)
+                            // $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
+                            $scope.getSanPham()
+                            $scope.inputProduct = ""
+                        })
+                        // .catch(e => {
+                        //     $scope.er = e.data
+                        //     console.log(e)
+                        //     alertify.error("Cập nhật thất bại")
+                        // })
+                    },
+                    function () {
+                        alertify.error("Cập nhật thất bại")
+                    })
+            }
+
+
         },
         chuyenGiaoDHAll() {
 
@@ -1004,7 +883,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     }
                 })
 
-                $http.put("/admin/don-hang/update-trang-thai?trangThai=3", $scope.daXacNhan.id).then(r => {
+                $http.put("/admin/don-hang/update-trang-thai-doi?trangThai=3", $scope.daXacNhan.id).then(r => {
                     if ($scope.daXacNhan.page == $scope.daXacNhan.totalPage - 1) {
                         if ($scope.daXacNhan.list.length == 1 && $scope.daXacNhan.page > 0) {
                             $scope.daXacNhan.page--;
@@ -1049,7 +928,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         sdtSearch: "",
         init() {
             $scope.trangThaiDonHang = 3
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=3").then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-doi?trangThai=3").then(r => {
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
@@ -1058,8 +937,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 3
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=3&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
-                this.list = r.data.content;
+            $http.get("/admin/don-hang/san-pham-doi?trangThai=3 &pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
+                this.list = r.data.sanPhamDoi;
+                console.log(r.data.sanPhamDoi)
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
@@ -1088,7 +968,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         hoanThanh(ma) {
             alertify.confirm("Xác nhận đơn hàng hoàn thành?", function () {
 
-                $http.get("/admin/don-hang/update-trang-thai/" + ma + "?trangThai=4").then(r => {
+                $http.get("/admin/don-hang/update-trang-thai-doi/" + ma + "?trangThai=4").then(r => {
                     if ($scope.dangGiao.page == $scope.dangGiao.totalPage - 1) {
                         if ($scope.dangGiao.list.length == 1 && $scope.dangGiao.page > 0) {
                             $scope.dangGiao.page--;
@@ -1120,17 +1000,17 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             })
         },
         huyDH() {
-            if ($scope.lyDo == null || $scope.length == 0 || $scope.lyDo == undefined) {
+            if (!$scope.lyDoDoiHang || $scope.lyDoDoiHang.trim().length === 0) {
                 $scope.messLyDo = "Không để trống lý do hủy"
                 alertify.error("Hủy đơn hàng thất bại")
                 return
-            } else if ($scope.lyDo.length == 200) {
+            } else if ($scope.lyDoDoiHang.length == 200) {
                 $scope.messLyDo = "Lý do hủy chỉ tối đa 200 ký tự"
                 alertify.error("Hủy đơn hàng thất bại")
                 return;
             }
 
-            $http.put("/admin/don-hang/huy-don-hang?lyDo=" + $scope.lyDo, this.id).then(r => {
+            $http.put("/admin/don-hang/doi-don-hang?lyDoDoiHang=" + $scope.lyDoDoiHang, this.id).then(r => {
                 if (this.page == this.totalPage - 1) {
                     if (this.list.length == 1 && this.page > 0) {
                         this.page--;
@@ -1138,15 +1018,15 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 }
                 this.getList(this.page)
                 this.init()
-                $scope.lyDo = null;
+                $scope.lyDoDoiHang = null;
                 $scope.messLyDo = "";
                 this.id = []
                 $('#closeHuy').click()
                 document.getElementById('checkAllDangGiao').checked = false
-                alertify.success("Hủy đơn hàng thành công")
+                alertify.success("Hủy đơn hàng đổi thành công")
             }).catch(e => {
+                alertify.error("Hủy đơn hàng đổi thất bại")
                 console.log(e)
-                alertify.error("Hủy đơn hàng thất bại")
             })
         },
         hoanThanhDHAll() {
@@ -1159,7 +1039,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                     }
                 })
 
-                $http.put("/admin/don-hang/update-trang-thai?trangThai=4", $scope.dangGiao.id).then(r => {
+                $http.put("/admin/don-hang/update-trang-thai-doi?trangThai=4", $scope.dangGiao.id).then(r => {
                     if ($scope.dangGiao.page == $scope.dangGiao.totalPage - 1) {
                         if ($scope.dangGiao.list.length == 1 && $scope.dangGiao.page > 0) {
                             $scope.dangGiao.page--;
@@ -1178,6 +1058,19 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 alertify.error("Xác nhận đơn hàng hoàn thành thất bại")
             })
         },
+        getDetail(ma) {
+            $http.get("/admin/don-hang/" + ma).then(r => {
+                $scope.donHang = r.data;
+                $('#donHangDetail').modal('show')
+            }).catch(e => console.log(e))
+
+            $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {
+                $scope.chiTietDonHang = r.data;
+            }).catch(e => console.log(e))
+            $http.get("/admin/don-hang/get-ctsp-doi?ma=" + ma).then(r => {
+                $scope.sanPhamDoi = r.data;
+            }).catch(e => console.log(e))
+        },
         checkButton() {
             let checkboxs = document.getElementsByName('checkDangGiao')
             let check = true;
@@ -1190,7 +1083,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             document.getElementById("xacNhanAll3").disabled = check;
         }
     }
-    $scope.dangGiao.init(0)
+    $scope.dangGiao.init()
 
     $scope.hoanThanh = {
         list: [],
@@ -1201,7 +1094,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         pages: [],
         sdtSearch: "",
         init() {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-doi?trangThai=4&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
@@ -1209,10 +1102,11 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             })
         },
         getList(pageNumber) {
-            $scope.trangThaiDonHang = 0
+            $scope.trangThaiDonHang = 4
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=4&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
-                this.list = r.data.content;
+            $http.get("/admin/don-hang/san-pham-doi?trangThai=4&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
+                this.list = r.data.sanPhamDoi;
+                console.log(r.data.sanPhamDoi)
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
@@ -1225,6 +1119,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
             $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {
                 $scope.chiTietDonHang = r.data;
+            }).catch(e => console.log(e))
+            $http.get("/admin/don-hang/get-ctsp-doi?ma=" + ma).then(r => {
+                $scope.sanPhamDoi = r.data;
             }).catch(e => console.log(e))
         },
         setPageNumbers() {
@@ -1250,7 +1147,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         }
     }
     $scope.hoanThanh.init()
-    
+
     $scope.huy = {
         list: [],
         detail: {},
@@ -1260,7 +1157,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         pages: [],
         sdtSearch: "",
         init() {
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
+            $http.get("/admin/don-hang/get-by-trangthai-doi?trangThai=0&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
                 this.list = r.data.content;
                 this.totalElement = r.data.totalElements;
                 this.totalPage = r.data.totalPages;
@@ -1270,8 +1167,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         getList(pageNumber) {
             $scope.trangThaiDonHang = 0
             this.page = pageNumber;
-            $http.get("/admin/don-hang/get-by-trangthai?trangThai=0&pageNumber=" + pageNumber + "&sdt=" + this.sdtSearch).then(r => {
-                this.list = r.data.content;
+            $http.get("/admin/don-hang/san-pham-doi?trangThai=0&pageNumber=" + this.page + "&sdt=" + this.sdtSearch).then(r => {
+                this.list = r.data.sanPhamDoi;
+                console.log(r.data.sanPhamDoi)
                 this.totalPage = r.data.totalPages;
                 this.setPageNumbers()
             })
@@ -1284,6 +1182,9 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
             $http.get("/admin/chi-tiet-don-hang/" + ma).then(r => {
                 $scope.chiTietDonHang = r.data;
+            }).catch(e => console.log(e))
+            $http.get("/admin/don-hang/get-ctsp-doi?ma=" + ma).then(r => {
+                $scope.sanPhamDoi = r.data;
             }).catch(e => console.log(e))
         },
         setPageNumbers() {
@@ -1309,6 +1210,22 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     }
     $scope.huy.init()
     // $scope.trangThaiDonHang = 5
+
+    // tách sản phẩm với số lượng
+    $scope.expandedChiTietDonHang = [];
+
+    $scope.expandProducts = function () {
+        $scope.expandedChiTietDonHang = [];
+        $scope.chiTietDonHang.forEach(function (item) {
+            for (var i = 0; i < item.soLuong; i++) {
+                $scope.expandedChiTietDonHang.push(angular.copy(item));
+            }
+        });
+    };
+
+    // Gọi hàm này khi bạn muốn chuẩn bị danh sách tạm thời
+    $scope.expandProducts();
+
 
     //don hang user
     $scope.donHangChuaXacNhanKh = []
@@ -1634,12 +1551,15 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             product.soLuongHoan--;
         }
     };
+
     //hàm trả hàng 1 phần
+
     $scope.traMotPhan = function () {
         const maDonHang = $scope.selectedDonHang.ma;
         const lydoTraHang = $scope.lyDoTraHang;
         const phuongThucNhanTien = $scope.phuongThucNhanTien;
-    
+
+
         if (!lydoTraHang) {
             alertify.error("Bạn cần nhập lý do trả hàng");
             return;
@@ -1648,12 +1568,11 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             alertify.error("Bạn cần chọn phương thức hoàn tiền");
             return;
         }
-        
+        console.log("lydotrahang", lydoTraHang)
         if (phuongThucNhanTien === 'false') {
             const selectedNganHang = $scope.selectedNganHang;
             const soTaiKhoan = $scope.soTaiKhoan;
             const tenNguoiNhan = $scope.tenNguoiNhan;
-            
             if (!selectedNganHang || !selectedNganHang.name) {
                 alertify.error("Bạn cần chọn ngân hàng");
                 return;
@@ -1666,15 +1585,18 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 alertify.error("Bạn cần nhập tên người nhận");
                 return;
             }
-            $scope.ghiChu = "Ngân hàng: " + selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
+            $scope.ghiChu = "Ngân hàng: " + $scope.selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
         }
-        
+        console.log($scope.selectedProducts)
+        // Lấy danh sách sản phẩm đã chọn
         const selectedProducts = $scope.selectedProducts;
         if (selectedProducts.length === 0) {
             alertify.error("Bạn cần chọn ít nhất một sản phẩm để trả hàng");
             return;
         }
-        
+        console.log("ma", maDonHang)
+
+        // Tạo đối tượng FormData
         const formData = new FormData();
         formData.append('donHang', new Blob([JSON.stringify({
             ma: maDonHang,
@@ -1691,25 +1613,29 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             xaPhuongName: $scope.selectedDonHang.xaPhuongName || "",
             loai: $scope.selectedDonHang.loai
         })], { type: "application/json" }));
-    
+        console.log("loai", $scope.selectedDonHang)
+        console.log(JSON.stringify({
+            ma: maDonHang,
+            voucher: $scope.selectedDonHang.voucher
+        }));
         formData.append('lyDoTraHang', lydoTraHang);
         formData.append('phuongThucNhanTien', phuongThucNhanTien);
         formData.append('ghiChu', $scope.ghiChu || '');
-    
+
         let chiTietDonHang = [];
         selectedProducts.forEach(c => {
             chiTietDonHang.push({
                 id: c.id,
                 donHangID: maDonHang,
                 sanPhamCT: c.idChiTietSanPham,
-                soLuong: c.selectedQuantity,
+                soLuong: c.soLuong,
                 donGia: c.donGia,
                 donGiaSauGiam: c.donGiaSauGiam
-            });
-        });
-    
+            })
+        })
+        // Tạo danh sách JSON cho các chi tiết đơn hàng
         formData.append('chiTietDonHang', new Blob([JSON.stringify(chiTietDonHang)], { type: "application/json" }));
-    
+        console.log(JSON.stringify(selectedProducts));
         $http.put("/don-hang/tra-mot-phan", formData, {
             transformRequest: angular.identity,
             headers: { 'Content-Type': undefined }
@@ -1726,107 +1652,8 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 console.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng:", error);
                 alertify.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng");
             });
+
     };
-    
-
-    // $scope.traMotPhan = function () {
-    //     const maDonHang = $scope.selectedDonHang.ma;
-    //     const lydoTraHang = $scope.lyDoTraHang;
-    //     const phuongThucNhanTien = $scope.phuongThucNhanTien;
-    //     if (!lydoTraHang) {
-    //         alertify.error("Bạn cần nhập lý do trả hàng");
-    //         return;
-    //     }
-    //     if (!phuongThucNhanTien) {
-    //         alertify.error("Bạn cần chọn phương thức hoàn tiền");
-    //         return;
-    //     }
-    //     console.log("lydotrahang", lydoTraHang)
-    //     if (phuongThucNhanTien === 'false') {
-    //         const selectedNganHang = $scope.selectedNganHang;
-    //         const soTaiKhoan = $scope.soTaiKhoan;
-    //         const tenNguoiNhan = $scope.tenNguoiNhan;
-    //         if (!selectedNganHang || !selectedNganHang.name) {
-    //             alertify.error("Bạn cần chọn ngân hàng");
-    //             return;
-    //         }
-    //         if (!soTaiKhoan) {
-    //             alertify.error("Bạn cần nhập số tài khoản");
-    //             return;
-    //         }
-    //         if (!tenNguoiNhan) {
-    //             alertify.error("Bạn cần nhập tên người nhận");
-    //             return;
-    //         }
-    //         $scope.ghiChu = "Ngân hàng: " + $scope.selectedNganHang.name + "\nSố Tài Khoản: " + soTaiKhoan + "\nTên người nhận: " + tenNguoiNhan;
-    //     }
-    //     console.log($scope.selectedProducts)
-    //     // Lấy danh sách sản phẩm đã chọn
-    //     const selectedProducts = $scope.selectedProducts;
-    //     if (selectedProducts.length === 0) {
-    //         alertify.error("Bạn cần chọn ít nhất một sản phẩm để trả hàng");
-    //         return;
-    //     }
-    //     console.log("ma", maDonHang)
-
-    //     // Tạo đối tượng FormData
-    //     const formData = new FormData();
-    //     formData.append('donHang', new Blob([JSON.stringify({
-    //         ma: maDonHang,
-    //         voucher: $scope.selectedDonHang.voucher || "",
-    //         diaChiChiTiet: $scope.selectedDonHang.diaChiChiTiet || "",
-    //         email: $scope.selectedDonHang.email || "",
-    //         quanHuyenCode: $scope.selectedDonHang.quanHuyenCode || "",
-    //         quanHuyenName: $scope.selectedDonHang.quanHuyenName || "",
-    //         soDienThoai: $scope.selectedDonHang.soDienThoai || "",
-    //         tenNguoiNhan: $scope.selectedDonHang.tenNguoiNhan || "",
-    //         thanhPhoCode: $scope.selectedDonHang.thanhPhoCode || "",
-    //         thanhPhoName: $scope.selectedDonHang.thanhPhoName || "",
-    //         xaPhuongCode: $scope.selectedDonHang.xaPhuongCode || "",
-    //         xaPhuongName: $scope.selectedDonHang.xaPhuongName || "",
-    //         loai: $scope.selectedDonHang.loai
-    //     })], { type: "application/json" }));
-    //     console.log("loai", $scope.selectedDonHang)
-    //     console.log(JSON.stringify({
-    //         ma: maDonHang,
-    //         voucher: $scope.selectedDonHang.voucher
-    //     }));
-    //     formData.append('lyDoTraHang', lydoTraHang);
-    //     formData.append('phuongThucNhanTien', phuongThucNhanTien);
-    //     formData.append('ghiChu', $scope.ghiChu || '');
-
-    //     let chiTietDonHang = [];
-    //     selectedProducts.forEach(c => {
-    //         chiTietDonHang.push({
-    //             id: c.id,
-    //             donHangID: maDonHang,
-    //             sanPhamCT: c.idChiTietSanPham,
-    //             soLuong: c.soLuong,
-    //             donGia: c.donGia,
-    //             donGiaSauGiam: c.donGiaSauGiam
-    //         })
-    //     })
-    //     // Tạo danh sách JSON cho các chi tiết đơn hàng
-    //     formData.append('chiTietDonHang', new Blob([JSON.stringify(chiTietDonHang)], { type: "application/json" }));
-    //     console.log(JSON.stringify(selectedProducts));
-    //     $http.put("/don-hang/tra-mot-phan", formData, {
-    //         transformRequest: angular.identity,
-    //         headers: { 'Content-Type': undefined }
-    //     })
-    //         .then(function (res) {
-    //             let index = $scope.donHangChuaXacNhanKh.findIndex(d => d.ma == maDonHang);
-    //             if (index !== -1) {
-    //                 $scope.donHangChuaXacNhanKh.splice(index, 1);
-    //             }
-    //             alertify.success("Yêu cầu trả đơn hàng thành công");
-    //             $('#traHangMotPhanModal').modal('hide');
-    //         })
-    //         .catch(function (error) {
-    //             console.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng:", error);
-    //             alertify.error("Có lỗi xảy ra khi gửi yêu cầu trả đơn hàng");
-    //         });
-
-    // };
 
     // end
 
@@ -1884,7 +1711,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 id: c.id,
                 donHangID: maDonHang,
                 sanPhamCT: c.idChiTietSanPham,
-                soLuong: c.selectedQuantity,
+                soLuong: c.soLuong,
                 donGia: c.donGia,
                 donGiaSauGiam: c.donGiaSauGiam
             })

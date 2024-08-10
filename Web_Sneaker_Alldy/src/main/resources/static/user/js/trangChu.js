@@ -19,6 +19,7 @@ app.controller("ctrl", function ($scope, $http) {
     }
     $scope.getSanPham(0)
 
+
     $scope.getMaSanPhamInDSTY = function () {
         $http.get("/danh-sach-yeu-thich/get-ma-san-pham-in-dsyt").then(r => {
             $scope.maSpInDSYT = r.data

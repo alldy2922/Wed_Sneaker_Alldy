@@ -181,7 +181,7 @@
                         <li>
                             <a th:href="@{/admin/don-hang}">
                                 <i class="bi bi-bag-heart"></i>
-                                <span data-key="t-chat">Hóa Đơn Online</span>
+                                <span data-key="t-chat">Đơn Hàng Online</span>
                             </a>
                         </li>
                         <li th:if="${hasAdmin}">
@@ -191,7 +191,7 @@
                             </a>
                         </li>
                         <li th:if="${hasAdmin}">
-                            <a>
+                            <a th:href="@{/admin/doi-hang}">
                                 <i class="bi bi-arrow-left-right"></i>
                                 <span data-key="t-chat">Đổi Hàng</span>
                             </a>
@@ -396,10 +396,10 @@
     <script src="/admin/AngularJS/ThuongHieuJS.js"></script>
     <script src="/admin/AngularJS/DonHang.js"></script>
     <script src="/admin/AngularJS/TraHang.js"></script>
+    <script src="/admin/AngularJS/DoiHang.js"></script>
     <script src="/admin/AngularJS/banHangTaiQuay.js"></script>
     <script src="/admin/AngularJS/hoaDon.js"></script>
     <script src="/admin/AngularJS/LichSuThaoTac.js"></script>
-
     <script src="/admin/assets/libs/rater-js/index.js"></script>
     <script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
     <script th:src="@{/admin/AngularJS/ResetPassword.js}"></script>

@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.GioHangDtoReponse;
 import fpoly.duantotnghiep.shoppingweb.model.KhachHangModel;
 import fpoly.duantotnghiep.shoppingweb.service.IChiTietSanPhamService;
 import fpoly.duantotnghiep.shoppingweb.service.IGioHangService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,18 @@ public class GioHangRestController {
         return new ResponseEntity<>(cartContents, HttpStatus.OK);
 
     }
+    // public ResponseEntity<List<GioHangDtoReponse>> getCartContents(HttpSession session) {
+    //     // Kiểm tra xem giỏ hàng đã có trong session hay chưa
+    //     List<GioHangDtoReponse> cartContents = (List<GioHangDtoReponse>) session.getAttribute("cartContents");
+
+    //     // Nếu chưa có, lấy giỏ hàng từ service và lưu vào session
+    //     if (cartContents == null) {
+    //         cartContents = service.laySpTrongGio();
+    //         session.setAttribute("cartContents", cartContents);
+    //     }
+
+    //     return new ResponseEntity<>(cartContents, HttpStatus.OK);
+    // }
     @GetMapping("/check-login")
     public ResponseEntity<Boolean> checkLoginStatus(Authentication authentication) {
         boolean isLoggedIn = authentication != null && authentication.isAuthenticated();
@@ -48,7 +61,8 @@ public class GioHangRestController {
 
     }
     @GetMapping("/find-sp")
-    public ResponseEntity<List<GioHangDtoReponse>> getCartContentsUserProductId(Authentication authentication,@RequestParam(value = "id",required = false)String id) {
+    public ResponseEntity<List<GioHangDtoReponse>> getCartContentsUserProductId(Authentication authentication,
+    @RequestParam(value = "id",required = false)String id) {
 
         // Đã đăng nhập, lấy giỏ hàng từ database
         if (authentication == null || !authentication.isAuthenticated()) {

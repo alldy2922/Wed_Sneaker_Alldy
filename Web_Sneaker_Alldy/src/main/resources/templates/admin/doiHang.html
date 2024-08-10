@@ -131,7 +131,7 @@
                                                                     <th scope="row">
                                                                         <div class="form-check font-size-16">
                                                                             <input type="checkbox"
-                                                                                ng-click="checkAllChecked('checkChuaXacNhan','checkAllChuaXacNhan')"
+                                                                                ng-click="checkAllChecked('checkChuaXacNhan','checkAllchuaXacNhan')"
                                                                                 class="form-check-input"
                                                                                 name="checkChuaXacNhan"
                                                                                 value="{{d.ma}}">
@@ -181,7 +181,7 @@
                                                     <div class="row d-flex justify-content-end me-1  mb-2">
                                                         <button class="btn btn-danger me-1 col-1" id="huyAll1" disabled
                                                             ng-click="chuaXacNhan.setAllIdDonHang()" data-toggle="modal"
-                                                            data-target="#lyDo">Hủy
+                                                            data-target="#lyDoDoiHang">Hủy
                                                         </button>
                                                         <button class="btn btn-primary col-2" disabled id="xacNhanAll1"
                                                             ng-click="chuaXacNhan.xacNhanDHAll()">Xác nhận
@@ -360,7 +360,7 @@
                                                     <div class="row d-flex justify-content-end me-1  mb-2">
                                                         <button class="btn btn-danger me-1 col-1" id="huyAll2" disabled
                                                             ng-click="daXacNhan.setAllIdDonHang()" data-toggle="modal"
-                                                            data-target="#lyDo">Hủy
+                                                            data-target="#lyDoDoiHang">Hủy
                                                         </button>
                                                         <button class="btn btn-primary col-2" disabled id="xacNhanAll2"
                                                             ng-click="daXacNhan.chuyenGiaoDHAll()">Chuyển giao
@@ -540,7 +540,7 @@
                                                     <div class="row d-flex justify-content-end me-1  mb-2">
                                                         <button class="btn btn-danger me-1 col-1" id="huyAll3" disabled
                                                             ng-click="dangGiao.setAllIdDonHang()" data-toggle="modal"
-                                                            data-target="#lyDo">Hủy
+                                                            data-target="#lyDoDoiHang">Hủy
                                                         </button>
                                                         <button class="btn btn-primary col-2" disabled id="xacNhanAll3"
                                                             ng-click="dangGiao.hoanThanhDHAll()">Hoàn thành
@@ -1055,7 +1055,7 @@
                                     <div class="mb-3 col-6">
                                         <label>Địa chỉ chi tiết</label>
                                         <textarea class="form-control" rows="2" ng-focus="er.diaChiChiTiet=''"
-                                            ng-model="daXacNhan.detail.diaChiChiTiet"></textarea>
+                                            ng-model="daXacNhan.detail.diaChiChiTiet" style="height: 120px;"></textarea>
                                         <i class="er">{{er.diaChiChiTiet == undefined ? '' : er.diaChiChiTiet}}</i>
                                     </div>
                                     <div class="mb-3 col-6">
@@ -1074,8 +1074,8 @@
                                
                                 <div class="row" ng-if="daXacNhan.detail.nhanVienDtoResponse.hoVaTen != null">
                                     <div class="mb-3 col-12">
-                                        <label>Người thay đổi</label>
-                                            <div class="d-flex justify-content-end">
+                                        <label>Nhân Viên Đổi Hàng</label>
+                                            <div>
                                                 <i>{{daXacNhan.detail.nhanVienDtoResponse.hoVaTen}}</i>
                                             </div>
                                     </div>
@@ -1395,7 +1395,7 @@
                                     </div>
                                     <div class="row" ng-if="donHang.nhanVienDtoResponse.hoVaTen != null">
                                         <div class="mb-3 col-12">
-                                            <label>Người thay đổi</label>
+                                            <label>Nhân viên thay đổi</label>
                                                 <div class="d-flex justify-content-end">
                                                     <i>{{donHang.nhanVienDtoResponse.hoVaTen}}</i>
                                                 </div>

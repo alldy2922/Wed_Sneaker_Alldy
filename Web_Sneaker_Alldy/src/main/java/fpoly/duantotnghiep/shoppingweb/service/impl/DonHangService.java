@@ -574,6 +574,98 @@ public class DonHangService implements IDonHangService {
         }).start();
 
         return new DonHangDtoResponse(donHangResponsitory.save(model));
+    } @Override
+    public DonHangDtoResponse updateDonHangDoi(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoThayDoi) {
+        DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElse(null);
+        DonHangModel model = request.mapModel();
+        model.setLyDoThayDoi(lyDoThayDoi);
+        if (donHangOld.getLoai() == 1) {
+            model.setEmail(null);
+        }
+        model.setLoai(donHangOld.getLoai());
+        Boolean phuongThucThanhToan = model.getPhuongThucThanhToan();
+        if(donHangOld.getLoai()==0){
+            if (phuongThucThanhToan) {
+                model.setTrangThai(4);
+                System.out.println("ASDASDASDASDASD");
+            } else {
+                model.setTrangThai(5);
+            }
+        }else{
+            model.setTrangThai(donHangOld.getTrangThai());
+        }
+//        model.setPhuongThucThanhToan(donHangOld.getPhuongThucThanhToan());
+
+        List<String> maCTSPNew = products.stream().map(c -> c.getId()).collect(Collectors.toList());
+        List<ChiTietDonHangModel> ctdhModelOld = chiTietDonHangRepository.findAllByDonHang(model);
+        ctdhModelOld.forEach(c -> {
+            if (!maCTSPNew.contains(c.getId())) {
+                //Thêm lại số lượng khi xóa sản phẩm khỏi đơn hàng
+                ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get();
+                chiTietSanPhamModel.setSoLuong(chiTietSanPhamModel.getSoLuong() + c.getSoLuong());
+                chiTietSanPhamRepository.saveAndFlush(chiTietSanPhamModel);
+
+                chiTietDonHangRepository.deleteById(c.getId());//xóa khỏi đơn hàng
+            }
+        });
+
+        products.forEach(p -> {
+            if (p.getId() != null) {
+                ChiTietDonHangModel chiTietDHOld = chiTietDonHangRepository.findById(p.getId()).get();
+                ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(p.getSanPhamCT()).get();
+                Long soLuong = chiTietSanPhamModel.getSoLuong() - (p.getSoLuong() - chiTietDHOld.getSoLuong());
+                chiTietSanPhamModel.setSoLuong(soLuong);
+                chiTietSanPhamRepository.saveAndFlush(chiTietSanPhamModel);
+            } else {
+                ChiTietSanPhamModel chiTietSanPhamModel = chiTietSanPhamRepository.findById(p.getSanPhamCT()).get();
+                Long soLuong = chiTietSanPhamModel.getSoLuong() - p.getSoLuong();
+                chiTietSanPhamModel.setSoLuong(soLuong);
+                chiTietSanPhamRepository.saveAndFlush(chiTietSanPhamModel);
+            }
+        });
+
+        products.forEach(p -> chiTietDonHangRepository.saveAndFlush(p.mapModel()));
+
+        if (donHangOld.getVoucher() != null) {
+            model.setVoucher(donHangOld.getVoucher());
+        }
+        if (donHangOld.getNguoiSoHuu() != null) {
+            model.setNguoiSoHuu(donHangOld.getNguoiSoHuu());
+        } else {
+            model.setNguoiSoHuu(null);
+        }
+
+        if (model.getLoai() == 1 || model.getLoai() == 0) {
+            return new DonHangDtoResponse(donHangResponsitory.save(model));
+        }
+
+        String subject = "Cập nhật thông tin đơn hàng!";
+        String messeger = "Xin chào " + model.getTenNguoiNhan() + ", đơn hàng của bạn vừa cập nhật thông tin!";
+        chiTietDonHangRepository.findAllByDonHang(model).forEach(c -> {
+            c.setChiTietSanPham(chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).get());
+        });
+        List<ChiTietDonHangDtoResponse> lstSanPham = chiTietDonHangRepository.findAllByDonHang(model).stream().map(m -> new ChiTietDonHangDtoResponse(m)).collect(Collectors.toList());
+        BigDecimal tongTien = BigDecimal.valueOf(0);
+        for (ChiTietDonHangDtoResponse d : lstSanPham) {
+            tongTien = tongTien.add(d.getDonGiaSauGiam().multiply(BigDecimal.valueOf(d.getSoLuong())));
+        }
+
+        Context context = new Context();
+        context.setVariable("donHang", new DonHangDtoResponse(model));
+        context.setVariable("products", lstSanPham);
+        context.setVariable("totalPrice", tongTien);
+        context.setVariable("mess", messeger);
+        context.setVariable("title", subject);
+        context.setVariable("lyDoThayDoi", lyDoThayDoi);
+        new Thread(() -> {
+            try {
+                sendEmailDonHang(model.getEmail(), subject, "email/capNhatTrangThaiDonHang", context, lstSanPham);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        return new DonHangDtoResponse(donHangResponsitory.save(model));
     }
 
     //bản cũ
@@ -706,6 +798,7 @@ public class DonHangService implements IDonHangService {
         model.setLyDoTraHang(lyDoTraHang);
         model.setPhuongThucNhanTien(phuongThucNhanTien);
         model.setGhiChu(ghiChu);
+        model.setTrangThai(4);
 
         List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
         String maDHTra = codeDonHang();
@@ -747,7 +840,7 @@ public class DonHangService implements IDonHangService {
         DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElseThrow(() -> new RuntimeException("Đơn hàng không tồn tại"));
         DonHangModel model = request.mapModel();
         model.setLyDoDoiHang(lyDoDoiHang);
-
+        model.setTrangThai(4);
         List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
         String maDHDoi = codeDonHang();
         List<String> maCTSPNew = products.stream().map(c -> c.getId()).collect(Collectors.toList());
@@ -1071,7 +1164,15 @@ public class DonHangService implements IDonHangService {
         result.put("hoaDonTaiQuay",hoaDonTaiQuay);
         return result;
     }
+    @Override
+    public  Map<String,Long> getSoLuongSanPhamHoaDon(String maDonHang) {
+        Long hoaDon =  donHangResponsitory.getTotalQauntitySum(maDonHang);
 
+        Map<String,Long> result = new HashMap<>();
+        result.put("hoaDon",hoaDon);
+
+        return result;
+    }
     private String codeDonHang() {
         final String ALLOWED_CHARACTERS = "asdfghjklqwertyuiopzxcvbnmABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 

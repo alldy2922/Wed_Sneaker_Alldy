@@ -15,6 +15,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
     $scope.showPolicy = false;
     $scope.agreePolicy = false;
 
+        $scope.SumSanPham = {};
 
     $scope.closeModal = function (id) {
         $(id).modal('hide')
@@ -150,7 +151,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
     ///////Hàm dùng chung
     //hủy đơn 
     $scope.id = []
-    $scope.trangThaiDonHang = 2
+    $scope.trangThaiDonHang = 0
     $scope.huyDH = function () {
         console.log($scope.trangThaiDonHang)
         if ($scope.trangThaiDonHang == 2) {
@@ -447,7 +448,6 @@ app.controller("doihang-ctrl", function ($scope, $http) {
             })
         },
         huyDH() {
-
             if (!$scope.lyDoDoiHang || $scope.lyDoDoiHang.trim().length === 0) {
                 $scope.messLyDo = "Không để trống lý do hủy"
                 alertify.error("Hủy đơn hàng thất bại")
@@ -470,7 +470,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
                 $scope.messLyDo = "";
                 this.id = []
                 $('#closeHuy').click()
-                document.getElementById('checkAllChuaXacNhan').checked = false
+                document.getElementById('checkAllchuaXacNhan').checked = false
                 alertify.success("Hủy đơn hàng đổi thành công")
             }).catch(e => {
                 alertify.error("Hủy đơn hàng đổi thất bại")
@@ -622,6 +622,11 @@ app.controller("doihang-ctrl", function ($scope, $http) {
             $http.get("/admin/don-hang/get-ctsp-doi?ma=" + ma).then(r => {
                 $scope.sanPhamDoi = r.data;
             }).catch(e => console.log(e))
+            $http.get("/admin/don-hang/get-sum-by-ma?ma=" + ma).then(r => {
+                console.log("ma",ma)
+                $scope.SumSanPham = r.data;
+                console.log("111",$scope.SumSanPham)
+            }).catch(e => console.log(e))
         },
         setPageNumbers() {
 
@@ -743,91 +748,129 @@ app.controller("doihang-ctrl", function ($scope, $http) {
 
         },
         addSoLuong(idCTSP) {
-            let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP)
-            let chiTietDonHang = $scope.chiTietDonHang[index]
-            let soLuong = parseInt(chiTietDonHang.soLuong) + 1
+            // Tìm đối tượng trong mảng chiTietDonHang với idChiTietSanPham tương ứng
+            let index = $scope.chiTietDonHang.findIndex(c => c.idChiTietSanPham == idCTSP);
+            if (index === -1) {
+                console.error("Không tìm thấy sản phẩm với id:", idCTSP);
+                return;
+            }
 
-            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + chiTietDonHang.idChiTietSanPham + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id == undefined ? "" : chiTietDonHang.id)).then(r => {
-                $scope.chiTietDonHang[index].soLuong = soLuong
-            }).catch(e => {
-                alertify.error("Số lượng sản phẩm đã đạt giá trị tối đa trong đơn hàng")
-            })
+            // Lấy đối tượng chi tiết đơn hàng và cập nhật số lượng
+            let chiTietDonHang = $scope.chiTietDonHang[index];
+            let soLuong = parseInt(chiTietDonHang.soLuong, 10) + 1;
+            let tongSoLuongMoi;
 
+            // Gửi yêu cầu cập nhật số lượng qua HTTP
+            $http.get("/admin/san-pham/1/kiem-tra-so-luong/" + chiTietDonHang.idChiTietSanPham + "?soLuong=" + soLuong + "&idCTDH=" + (chiTietDonHang.id === undefined ? "" : chiTietDonHang.id))
+                .then(r => {
+                    // Cập nhật số lượng trong mảng chiTietDonHang
+
+
+                    // Tính tổng số lượng mới sau khi cập nhật
+                    tongSoLuongMoi = $scope.chiTietDonHang.reduce((sum, item) => sum + parseInt(item.soLuong, 10), 0) +1;
+
+                    if (tongSoLuongMoi > $scope.SumSanPham.hoaDon) {
+                        alertify.error("Số lượng sản phẩm đã đạt giá trị tối đa trong đơn hàng");
+                        // Đặt số lượng lại về giá trị cũ nếu cần
+                    } else {
+                        // In tổng số lượng mới
+                        console.log("Tổng số lượng mới:", tongSoLuongMoi);
+                        $scope.chiTietDonHang[index].soLuong = soLuong;
+                    }
+                })
+                .catch(e => {
+
+                    // Xử lý lỗi khi số lượng sản phẩm đã đạt giá trị tối đa
+                    alertify.error("Số lượng sản phẩm đã đạt giá trị tối đa trong Kho");
+                });
         },
         capNhat() {
-            alertify.confirm("Cập nhật đơn hàng?", function () {
-                let indexCity = $scope.giaoHangNhanh.citys.findIndex(c => c.ProvinceID == $scope.daXacNhan.detail.thanhPhoCode)
-                let indexDistrict = $scope.giaoHangNhanh.districts.findIndex(d => d.DistrictID == $scope.daXacNhan.detail.quanHuyenCode)
-                let indexWard = $scope.giaoHangNhanh.wards.findIndex(w => w.WardCode == $scope.daXacNhan.detail.xaPhuongCode)
+            let tongSoLuongMoi;
+            tongSoLuongMoi = $scope.chiTietDonHang.reduce((sum, item) => sum + parseInt(item.soLuong, 10), 0) ;
 
-                $scope.daXacNhan.detail.thanhPhoName = $scope.giaoHangNhanh.citys[indexCity] == undefined ? "" : $scope.giaoHangNhanh.citys[indexCity].ProvinceName;
-                $scope.daXacNhan.detail.quanHuyenName = $scope.giaoHangNhanh.districts[indexDistrict] == undefined ? "" : $scope.giaoHangNhanh.districts[indexDistrict].DistrictName;
-                $scope.daXacNhan.detail.xaPhuongName = $scope.giaoHangNhanh.wards[indexWard] == undefined ? "" : $scope.giaoHangNhanh.wards[indexWard].WardName
-                let data = {
-                    ma: $scope.daXacNhan.detail.ma,
-                    nguoiSoHuu: { username: $scope.daXacNhan.detail.nguoiSoHuu },
-                    voucherCode: $scope.daXacNhan.detail.voucherCode,
-                    tenNguoiNhan: $scope.daXacNhan.detail.tenNguoiNhan,
-                    soDienThoai: $scope.daXacNhan.detail.soDienThoai,
-                    email: $scope.daXacNhan.detail.email,
-                    thanhPhoName: $scope.daXacNhan.detail.thanhPhoName,
-                    thanhPhoCode: $scope.daXacNhan.detail.thanhPhoCode,
-                    quanHuyenName: $scope.daXacNhan.detail.quanHuyenName,
-                    quanHuyenCode: $scope.daXacNhan.detail.quanHuyenCode,
-                    xaPhuongName: $scope.daXacNhan.detail.xaPhuongName,
-                    xaPhuongCode: $scope.daXacNhan.detail.xaPhuongCode,
-                    diaChiChiTiet: $scope.daXacNhan.detail.diaChiChiTiet,
-                    ngayDatHang: $scope.daXacNhan.detail.ngayDatHang,
-                    trangThai: $scope.daXacNhan.detail.trangThai,
-                    ghiChu: $scope.daXacNhan.detail.ghiChu,
-                    lyDoDoiHang: $scope.daXacNhan.detail.lyDoDoiHang,
-                    tienGiam: $scope.daXacNhan.detail.tienGiam,
-                    phiGiaoHang: $scope.daXacNhan.detail.phiGiaoHang,
-                    trangThaiDetail: $scope.daXacNhan.detail.trangThai,
-                    phuongThucThanhToan: $scope.daXacNhan.detail.phuongThucThanhToan == 'true' ? 0 : 1
-                }
-                let chiTietDonHang = [];
-                $scope.chiTietDonHang.forEach(c => {
-                    chiTietDonHang.push({
-                        id: c.id,
-                        donHangID: $scope.daXacNhan.detail.ma,
-                        sanPhamCT: c.idChiTietSanPham,
-                        soLuong: c.soLuong,
-                        donGia: c.donGia,
-                        donGiaSauGiam: c.donGiaSauGiam
+
+            if(tongSoLuongMoi < $scope.SumSanPham.hoaDon) {
+                alertify.error("Số lượng sản phẩm thấp hơn giá trị tối đa trong đơn hàng");
+                console.log(tongSoLuongMoi)
+            }
+            else {
+                alertify.confirm("Cập nhật đơn hàng?", function () {
+                        let indexCity = $scope.giaoHangNhanh.citys.findIndex(c => c.ProvinceID == $scope.daXacNhan.detail.thanhPhoCode)
+                        let indexDistrict = $scope.giaoHangNhanh.districts.findIndex(d => d.DistrictID == $scope.daXacNhan.detail.quanHuyenCode)
+                        let indexWard = $scope.giaoHangNhanh.wards.findIndex(w => w.WardCode == $scope.daXacNhan.detail.xaPhuongCode)
+
+                        $scope.daXacNhan.detail.thanhPhoName = $scope.giaoHangNhanh.citys[indexCity] == undefined ? "" : $scope.giaoHangNhanh.citys[indexCity].ProvinceName;
+                        $scope.daXacNhan.detail.quanHuyenName = $scope.giaoHangNhanh.districts[indexDistrict] == undefined ? "" : $scope.giaoHangNhanh.districts[indexDistrict].DistrictName;
+                        $scope.daXacNhan.detail.xaPhuongName = $scope.giaoHangNhanh.wards[indexWard] == undefined ? "" : $scope.giaoHangNhanh.wards[indexWard].WardName
+                        let data = {
+                            ma: $scope.daXacNhan.detail.ma,
+                            nguoiSoHuu: { username: $scope.daXacNhan.detail.nguoiSoHuu },
+                            voucherCode: $scope.daXacNhan.detail.voucherCode,
+                            tenNguoiNhan: $scope.daXacNhan.detail.tenNguoiNhan,
+                            soDienThoai: $scope.daXacNhan.detail.soDienThoai,
+                            email: $scope.daXacNhan.detail.email,
+                            thanhPhoName: $scope.daXacNhan.detail.thanhPhoName,
+                            thanhPhoCode: $scope.daXacNhan.detail.thanhPhoCode,
+                            quanHuyenName: $scope.daXacNhan.detail.quanHuyenName,
+                            quanHuyenCode: $scope.daXacNhan.detail.quanHuyenCode,
+                            xaPhuongName: $scope.daXacNhan.detail.xaPhuongName,
+                            xaPhuongCode: $scope.daXacNhan.detail.xaPhuongCode,
+                            diaChiChiTiet: $scope.daXacNhan.detail.diaChiChiTiet,
+                            ngayDatHang: $scope.daXacNhan.detail.ngayDatHang,
+                            trangThai: $scope.daXacNhan.detail.trangThai,
+                            ghiChu: $scope.daXacNhan.detail.ghiChu,
+                            ghiChu: $scope.daXacNhan.detail.lyDoDoiHang,
+                            // lyDoThayDoi: $scope.daXacNhan.detail.lyDoThayDoi,
+                            tienGiam: $scope.daXacNhan.detail.tienGiam,
+                            phiGiaoHang: $scope.daXacNhan.detail.phiGiaoHang,
+                            trangThaiDetail: $scope.daXacNhan.detail.trangThai,
+                            phuongThucThanhToan: $scope.daXacNhan.detail.phuongThucThanhToan == 'true' ? 0 : 1
+                        }
+                        let chiTietDonHang = [];
+                        $scope.chiTietDonHang.forEach(c => {
+                            chiTietDonHang.push({
+                                id: c.id,
+                                donHangID: $scope.daXacNhan.detail.ma,
+                                sanPhamCT: c.idChiTietSanPham,
+                                soLuong: c.soLuong,
+                                donGia: c.donGia,
+                                donGiaSauGiam: c.donGiaSauGiam
+                            })
+                        })
+                        let formData = new FormData();
+                        formData.append("donHang", new Blob([JSON.stringify(data)], {
+                            type: 'application/json'
+                        }))
+                        formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
+                            type: 'application/json'
+                        }))
+                        formData.append("lyDoThayDoi", $scope.daXacNhan.detail.lyDoThayDoi);
+                        $http.put("/admin/don-hang/doi", formData, {
+                            transformRequest: angular.identity,
+                            headers: { 'Content-Type': undefined }
+                        }).then(r => {
+                            let index = $scope.daXacNhan.list.findIndex(d => d.ma == $scope.daXacNhan.detail.ma)
+                            $scope.daXacNhan.list[index] = $scope.daXacNhan.detail
+                            alertify.success("Cập nhật thành công")
+                            $scope.chuaThanhToan.init()
+                            $scope.daXacNhan.init()
+                            $scope.daXacNhan.getList($scope.daXacNhan.page)
+                            // $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
+                            $scope.getSanPham()
+                            $scope.inputProduct = ""
+                        })
+                        // .catch(e => {
+                        //     $scope.er = e.data
+                        //     console.log(e)
+                        //     alertify.error("Cập nhật thất bại")
+                        // })
+                    },
+                    function () {
+                        alertify.error("Cập nhật thất bại")
                     })
-                })
-                let formData = new FormData();
-                formData.append("donHang", new Blob([JSON.stringify(data)], {
-                    type: 'application/json'
-                }))
-                formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
-                    type: 'application/json'
-                }))
-                formData.append("lyDoThayDoi", $scope.daXacNhan.detail.lyDoThayDoi);
-                $http.put("/admin/don-hang", formData, {
-                    transformRequest: angular.identity,
-                    headers: { 'Content-Type': undefined }
-                }).then(r => {
-                    let index = $scope.daXacNhan.list.findIndex(d => d.ma == $scope.daXacNhan.detail.ma)
-                    $scope.daXacNhan.list[index] = $scope.daXacNhan.detail
-                    alertify.success("Cập nhật thành công")
-                    $scope.chuaThanhToan.init()
-                    $scope.daXacNhan.init()
-                    $scope.daXacNhan.getList($scope.daXacNhan.page)
-                    // $scope.chuaThanhToan.getList($scope.chuaThanhToan.page)
-                    $scope.getSanPham()
-                    $scope.inputProduct = ""
-                })
-                // .catch(e => {
-                //     $scope.er = e.data
-                //     console.log(e)
-                //     alertify.error("Cập nhật thất bại")
-                // })
-            },
-                function () {
-                    alertify.error("Cập nhật thất bại")
-                })
+            }
+
+
         },
         chuyenGiaoDHAll() {
 

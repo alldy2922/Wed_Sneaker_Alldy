@@ -384,6 +384,43 @@ public class DonHangRescontroller {
 
         return ResponseEntity.ok(donHangService.updateDonHang(request, products, lyDoThayDoi));
     }
+    @PutMapping("doi")
+    @Transactional(rollbackFor = {Exception.class, Throwable.class})
+    public ResponseEntity<?> updateDonHangDoi(@Valid @RequestPart("donHang") DonHangDTORequest request,
+                                              BindingResult result,
+                                              @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products,
+                                              @RequestParam("lyDoThayDoi") String lyDoThayDoi,
+                                              Authentication authentication) {
+        if(products.size()<=0){
+            result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn hàng"));
+        }else{
+            if(request.getVoucher() != null && !request.getVoucher().isBlank()){
+                VoucherReponse voucherReponse = voucherService.findById(request.getVoucher());
+                BigDecimal tongTien = BigDecimal.valueOf(0);
+                for (var p: products ) {
+                    tongTien = tongTien.add(p.getDonGiaSauGiam());
+                }
+
+                if(tongTien.compareTo(BigDecimal.valueOf(voucherReponse.getGiaTriDonHang())) < 0){
+                    NumberFormat numberFM = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                    result.addError(new FieldError("soLuongSP","soLuongSP","Voucher đã sử dụng chỉ áp dụng cho đơn hàng từ " + numberFM.format(voucherReponse.getGiaTriDonHang()) + " đ" ) );
+                }
+            }
+        }
+
+        if(result.hasErrors()){
+            return ValidateUtil.getErrors(result);
+        }
+        if (!donHangService.existsByMa(request.getMa())) {
+            return ResponseEntity.notFound().build();
+        }
+
+        request.setNhanVien(authentication.getName());
+        lichSuThaoTacService.addActivity(authentication.getName(),"Tài Khoản: "+ authentication.getName()+" Vừa Cập Nhât Đơn Hàng: "+ request.getMa());
+
+
+        return ResponseEntity.ok(donHangService.updateDonHangDoi(request, products, lyDoThayDoi));
+    }
     @PostMapping("")
     @Transactional(rollbackFor = {Exception.class, Throwable.class})
     public ResponseEntity<?> themDonHang(@Valid @RequestPart("donHang") DonHangDTORequest request,
@@ -488,6 +525,11 @@ public class DonHangRescontroller {
 
         return ResponseEntity.ok(response);
     }
+    @GetMapping("get-sum-by-ma")
+    public ResponseEntity<?> getSumByMa(@RequestParam("ma") String ma) {
+        return ResponseEntity.ok(IdonHangService.getSoLuongSanPhamHoaDon(ma));
+    }
+
 
 
 }

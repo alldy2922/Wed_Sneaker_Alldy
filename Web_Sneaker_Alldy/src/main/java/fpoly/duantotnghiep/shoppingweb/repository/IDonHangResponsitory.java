@@ -94,5 +94,10 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
                 WHERE c.donHang.ngayDatHang between ?1 and ?2 AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5 AND c.donHang.loai = ?3
             """)
     Long getTotalQauntityInOrdersWithDateAndLoai(Date firstDate, Date lastDate,Integer loai);
+    @Query("""
+                SELECT SUM(c.soLuong) FROM ChiTietDonHangModel c join DonHangModel dh on dh.ma = c.donHang.ma
+                WHERE dh.ma = ?1  AND dh.trangThai = 4
+            """)
+    Long getTotalQauntitySum(String maDonHang);
 
 }

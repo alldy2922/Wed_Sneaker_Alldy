@@ -87,6 +87,8 @@ public interface IDonHangService {
     DonHangDtoResponse traMotPhan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu);
 
     DonHangDtoResponse doiMotPhan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoDoiHang);
+    DonHangDtoResponse updateDonHangDoi(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoThayDoi);
 
+    Map<String,Long> getSoLuongSanPhamHoaDon(String maDonHang);
 
 }

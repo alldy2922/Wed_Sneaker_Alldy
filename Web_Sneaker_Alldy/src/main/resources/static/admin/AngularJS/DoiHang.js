@@ -471,7 +471,6 @@ app.controller("doihang-ctrl", function ($scope, $http) {
                 this.id = []
                 $('#closeHuy').click()
                 document.getElementById('checkAllChuaXacNhan').checked = false
-                alertify.erorr("Hủy đơn hàng đổi thất bại")
             }).catch(e => {
                 alertify.success("Hủy đơn hàng đổi thành công")
                 console.log(e)

@@ -354,7 +354,7 @@ public class DonHangService implements IDonHangService {
             }
 
             Context context = new Context();
-            context.setVariable("donHangTra", new DonHangDoiDTOReponse(model));
+            context.setVariable("donHangDoi", new DonHangDoiDTOReponse(model));
             context.setVariable("products", lstSanPham);
             context.setVariable("totalPrice", tongTien);
             context.setVariable("mess", messeger);
@@ -728,7 +728,7 @@ public class DonHangService implements IDonHangService {
                     }
                     Context context = new Context();
                     context.setVariable("products", lstSanPham);
-                    context.setVariable("donHang", new DonHangTraDTOReponse(model));
+                    context.setVariable("donHangTra", new DonHangTraDTOReponse(model));
                     context.setVariable("totalPrice", tongTien);
                     context.setVariable("mess", messeger);
                     context.setVariable("title", subject);
@@ -754,7 +754,7 @@ public class DonHangService implements IDonHangService {
                 model.getDonHang().setLyDoDoiHang(lyDoDoiHang);
                 model.setNgayHuy(new Date());
                 model.setTrangThai(0);
-                model.getDonHang().setTrangThai(9);
+                model.getDonHang().setTrangThai(4);
 
                 String subject = "Từ chối đổi hàng!";
                 String messeger = "Xin chào " + model.getDonHang().getTenNguoiNhan() + ",yêu cầu đơn hàng của bạn đã bị hủy. Cảm ơn bạn đã ghé qua cửa hàng";
@@ -769,7 +769,7 @@ public class DonHangService implements IDonHangService {
                     }
                     Context context = new Context();
                     context.setVariable("products", lstSanPham);
-                    context.setVariable("donHang", new DonHangDoiDTOReponse(model));
+                    context.setVariable("donHangDoi", new DonHangDoiDTOReponse(model));
                     context.setVariable("totalPrice", tongTien);
                     context.setVariable("mess", messeger);
                     context.setVariable("title", subject);

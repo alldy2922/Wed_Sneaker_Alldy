@@ -24,6 +24,13 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
+            .not-editable {
+                background-color: #8a8a8a; /* Màu xám nhạt cho hàng không thể chỉnh sửa */
+                color: #a0a0a0; /* Màu chữ xám để phù hợp với màu nền */
+            }
+            .editable {
+                background-color: #ffffff; /* Màu nền trắng cho hàng có thể chỉnh sửa */
+            }
         </style>
         <div class="page-content" ng-app="doihang-app" ng-controller="doihang-ctrl">
             <div class="container-fluid">
@@ -1186,48 +1193,39 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <i class="er">{{er.soLuongSP == undefined ? '' : er.soLuongSP}}</i>
-                                            <tr ng-repeat="d in chiTietDonHang" style="vertical-align: middle">
-                                                <td>
-                                                    <img src="/image/loadImage/product/{{d.anh}}"
-                                                        style="width: 70px; height: 70px; border-radius: 10px">
-                                                </td>
-                                                <td>
-                                                    <p style="font-weight: bold;">
-                                                        {{d.sanPham}}</p>
-                                                    <i style="font-size: 10px;">Size
-                                                        {{d.size}}</i>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex justify-content-center">
-                                                        <input id="{{d.idChiTietSanPham}}"
-                                                            ng-model="chiTietDonHang[$index].soLuong"
-                                                            onchange="angular.element(this).scope().daXacNhan.updateSoLuong(this.id,this.value)"
-                                                            class="form-control me-1" readonly>
-                                                        <div>
-                                                            <span class="rounded-circle mb-1"
-                                                                style="cursor: pointer; border: 1px solid #ced4da;padding: 1px;"
-                                                                ng-click="daXacNhan.addSoLuong(d.idChiTietSanPham)">+</span>
-                                                            <span class="rounded-circle"
-                                                                style="cursor: pointer;border: 1px solid #ced4da;padding: 1px;"
-                                                                ng-click="daXacNhan.subtractSoLuong(d.idChiTietSanPham)">-</span>
-                                                        </div>
-                                                </td>
-                                                <!-- <td>{{d.donGia | currency: "" : 1}} đ</td>
-                                                <td>
-                                                    {{d.donGiaSauGiam | currency: "" : 1}} đ
-                                                </td>
-                                                <td>
-
-                                                    {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}} đ
-                                                </td> -->
-                                                <td>
-                                                    <span style="font-size: 13px;color:red;cursor: pointer"
-                                                        ng-click="chuaXacNhan.removeSanPham(d.id)">
-                                                        <i class=" bx bx-trash"></i>
-                                                    </span>
-                                                </td>
-                                            </tr>
+                                        <tr ng-repeat="d in chiTietDonHang" ng-class="{'not-editable': !d.editable, 'editable': d.editable}" style="vertical-align: middle">
+                                            <td>
+                                                <img src="/image/loadImage/product/{{d.anh}}"
+                                                     style="width: 70px; height: 70px; border-radius: 10px">
+                                            </td>
+                                            <td>
+                                                <p style="font-weight: bold;">{{d.sanPham}}</p>
+                                                <i style="font-size: 10px;">Size {{d.size}}</i>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex justify-content-center">
+                                                    <input id="{{d.idChiTietSanPham}}"
+                                                           ng-model="d.soLuong"
+                                                           ng-disabled="!d.editable"
+                                                           onchange="angular.element(this).scope().daXacNhan.updateSoLuong(this.id, this.value)"
+                                                           class="form-control me-1">
+                                                    <div>
+                            <span class="rounded-circle mb-1"
+                                  style="cursor: pointer; border: 1px solid #ced4da; padding: 1px;"
+                                  ng-click="d.editable && daXacNhan.addSoLuong(d.idChiTietSanPham)">+</span>
+                                                        <span class="rounded-circle"
+                                                              style="cursor: pointer; border: 1px solid #ced4da; padding: 1px;"
+                                                              ng-click="d.editable && daXacNhan.subtractSoLuong(d.idChiTietSanPham)">-</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                    <span style="font-size: 13px; color: red; cursor: pointer;"
+                          ng-click="d.editable && chuaXacNhan.removeSanPham(d.id)">
+                        <i class="bx bx-trash"></i>
+                    </span>
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                     <h4>Sản Phẩm Yêu Cầu Đổi</h4>

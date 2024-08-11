@@ -44,16 +44,32 @@ app.controller("doihang-ctrl", function ($scope, $http) {
     }
     $scope.getSanPham()
     $scope.addChiTietDonHang = function (item) {
-        $scope.chiTietDonHang.push({
-            sanPham: item.sanPham,
-            anh: item.sanPhamDTO.anh.length == 0 ? "default.png" : item.sanPhamDTO.anh[0],
-            size: item.size,
-            soLuong: 1,
-            donGia: item.sanPhamDTO.giaBan,
-            donGiaSauGiam: item.sanPhamDTO.giaNiemYet,
-            idChiTietSanPham: item.id
-        })
-        $scope.er.soLuongSP = ""
+        const isProductFound = $scope.sanPhamDoi.some(e => item.sanPham === e.sanPham);
+
+        if (!isProductFound) {
+            alertify.error("Vui Lòng Chọn Đúng Loại Sản Phẩm Cần Đổi");
+            $scope.checksp = false;
+            return;
+        } else {
+            $scope.chiTietDonHang.push({
+                sanPham: item.sanPham,
+                anh: item.sanPhamDTO.anh.length === 0 ? "default.png" : item.sanPhamDTO.anh[0],
+                size: item.size,
+                soLuong: 1,
+                donGia: item.sanPhamDTO.giaBan,
+                donGiaSauGiam: item.sanPhamDTO.giaNiemYet,
+                idChiTietSanPham: item.id
+            });
+            $scope.er.soLuongSP = "";
+
+            // Gọi hàm kiểm tra sau khi thêm sản phẩm
+            $scope.checkEditableProducts();
+        }
+        // Add the item to chiTietDonHang
+
+
+        // Clear any error related to quantity
+
     }
     $scope.searchSanPham = function () {
         $http.get("/admin/san-pham/1/get-all-ctsp?keyWord=" + $scope.inputProduct).then(r => {
@@ -573,6 +589,21 @@ app.controller("doihang-ctrl", function ($scope, $http) {
     $scope.chuaXacNhan.init()
     $scope.chuaXacNhan.getList(0)
 
+    $scope.checkEditableProducts = function() {
+        // Convert sanPhamDoi to a Set of IDs for quick lookup
+        const sanPhamDoiIds = new Set($scope.sanPhamDoi.map(sp => sp.idChiTietSanPham));
+
+        $scope.chiTietDonHang.forEach(product => {
+            // Đầu tiên kiểm tra idChiTietSanPham
+            if (product.idChiTietSanPham && sanPhamDoiIds.has(product.idChiTietSanPham)) {
+                product.editable = true;
+            } else {
+                // Nếu không khớp idChiTietSanPham, kiểm tra sanPham
+                product.editable = $scope.sanPhamDoi.some(sp => sp.sanPham === product.sanPham);
+            }
+        });
+    };
+
     $scope.daXacNhan = {
         list: [],
         detail: {},
@@ -626,6 +657,21 @@ app.controller("doihang-ctrl", function ($scope, $http) {
                 $scope.SumSanPham = r.data;
                 console.log("111",$scope.SumSanPham)
             }).catch(e => console.log(e))
+            $http.get("/admin/chi-tiet-don-hang/" + ma)
+                .then(detailedOrderResponse => {
+                    $scope.chiTietDonHang = detailedOrderResponse.data;
+
+                    return $http.get("/admin/don-hang/get-ctsp-doi?ma=" + ma);
+                })
+                .then(productExchangeResponse => {
+                    $scope.sanPhamDoi = productExchangeResponse.data;
+
+                    // Check and mark editable products
+                    $scope.checkEditableProducts();
+
+                    // Handle other data if needed
+                })
+                .catch(e => console.log('Error fetching data:', e));
         },
         setPageNumbers() {
 
@@ -818,7 +864,7 @@ app.controller("doihang-ctrl", function ($scope, $http) {
                             ngayDatHang: $scope.daXacNhan.detail.ngayDatHang,
                             trangThai: $scope.daXacNhan.detail.trangThai,
                             ghiChu: $scope.daXacNhan.detail.ghiChu,
-                            ghiChu: $scope.daXacNhan.detail.lyDoDoiHang,
+                            lyDoDoiHang: $scope.daXacNhan.detail.lyDoDoiHang,
                             // lyDoThayDoi: $scope.daXacNhan.detail.lyDoThayDoi,
                             tienGiam: $scope.daXacNhan.detail.tienGiam,
                             phiGiaoHang: $scope.daXacNhan.detail.phiGiaoHang,

@@ -186,12 +186,13 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 c.checked = false
             })
         }
-        if ($scope.trangThaiDonHang == 7) {
-            $scope.daXacNhan.checkButton();
-        } else if ($scope.trangThaiDonHang == 6) {
+        if ($scope.trangThaiDonHang == 6) {
             $scope.chuaXacNhanTraHang.checkButton();
+        } else if ($scope.trangThaiDonHang == 7) {
+            $scope.daXacNhan.checkButton();
         }
     }
+
     $scope.checkAllChecked = function (name, idCheckBoxSetAll) {
         let checkBox = document.getElementsByName(name)
         let check = true;
@@ -470,7 +471,6 @@ app.controller("trahang-ctrl", function ($scope, $http) {
                 this.id = [];
                 $('#closeHuy').click();
                 document.getElementById('checkAllChuaXacNhanTraHang').checked = false;
-
             }).catch(e => {
                 console.log(e);
                 alertify.success("Hủy đơn hàng thành công");

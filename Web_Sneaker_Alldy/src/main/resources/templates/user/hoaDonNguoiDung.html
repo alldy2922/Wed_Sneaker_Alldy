@@ -871,7 +871,7 @@
                                                         ng-click="changeQuantity(ct, -1)">-</button>
                                                     <input type="text" class="form-control"
                                                         ng-model="ct.selectedQuantity"
-                                                        style="width: 60px; text-align: center;"
+                                                        style="width: 50px; text-align: center;"
                                                         ng-init="ct.selectedQuantity = 1" readonly />
                                                     <button type="button" class="btn btn-sm btn-secondary"
                                                         ng-click="changeQuantity(ct, 1)">+</button>
@@ -902,32 +902,40 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Sản phẩm</th>
-                                            <th scope="col">Số Lượng Hoàn</th>
+                                            <th scope="col">Chọn size</th>
+                                            <th scope="col">Số Lượng</th>
                                             <th scope="col">Đơn Giá Sau Giảm</th>
                                             <th scope="col">Tổng</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="ct in selectedProducts">
-                                            <td>
-                                                <div class="d-flex justify-content-start">
-                                                    <img src="/image/loadImage/product/{{ct.anh}}"
-                                                        style="width: 100px; height: 70px;">
-                                                    <div>
-                                                        <p style="font-weight: bold;padding-left: 10px;">
-                                                            {{ct.sanPham}}
-                                                        </p>
-                                                        <i style="font-size: 10px;padding-left: 10px;">Size
-                                                            {{ct.size}}</i>
-                                                    </div>
+                                    <tr ng-repeat="ct in selectedProducts" ng-init="getProductDetails(ct.maSanPham)">
+                                        <td>
+                                            <div class="d-flex justify-content-start">
+                                                <img src="/image/loadImage/product/{{ct.anh}}"
+                                                     style="width: 100px; height: 70px;">
+                                                <div>
+                                                    <p style="font-weight: bold;padding-left: 10px;">
+                                                        {{ct.sanPham}}
+                                                    </p>
                                                 </div>
-                                            </td>
-                                            <td>{{ct.selectedQuantity}}</td>
-                                            <td>{{ct.donGiaSauGiam | currency: "" : 1}} đ</td>
-                                            <td>
-                                                <div>{{ct.totalPrice | currency: "" : 1}} đ</div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </td>
+                                        <td style="width: 100px;text-align: center;">
+                                            <select class="form-select"
+                                                    ng-model="selectedSize[ct.idChiTietSanPham]"
+                                                    ng-options="size as size.size for size in productDetails[ct.maSanPham]"
+                                                    ng-change="getSizes(selectedSize[ct.idChiTietSanPham], ct.idChiTietSanPham)">
+                                                <!-- <option value="">Chọn Size</option> -->
+                                            </select>
+
+                                        </td>
+                                        <td style="text-align: center;">{{ct.selectedQuantity}}</td>
+                                        <td>{{ct.donGiaSauGiam | currency: "" : 1}} đ</td>
+                                        <td>
+                                            <div>{{ct.totalPrice | currency: "" : 1}} đ</div>
+                                        </td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>

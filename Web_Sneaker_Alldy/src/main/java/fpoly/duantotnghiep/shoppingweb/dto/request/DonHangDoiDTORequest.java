@@ -30,7 +30,7 @@ public class DonHangDoiDTORequest {
     private String lyDoDoiHang;
     private DonHangModel donHang;
     private ChiTietSanPhamModel chiTietSanPhamModel;
-
+    private String sanPhamDoi;
 
     public DonHangDoiModel mapModel() {
         DonHangDoiModel model = new DonHangDoiModel();
@@ -52,7 +52,7 @@ public class DonHangDoiDTORequest {
         model.setTrangThai(trangThai);
         model.setDonHang(donHang);
         model.setChiTietSanPham(chiTietSanPhamModel);
-
+        model.setSanPhamDoi(sanPhamDoi);
         return model;
     }
 }

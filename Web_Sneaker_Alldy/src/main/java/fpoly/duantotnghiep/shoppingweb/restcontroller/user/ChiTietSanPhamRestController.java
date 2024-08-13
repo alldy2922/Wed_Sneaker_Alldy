@@ -25,6 +25,11 @@ public class ChiTietSanPhamRestController {
 
         return ResponseEntity.ok(chiTietSanPhamService.getAllBySanPhamMa(maSP));
     }
+    @GetMapping("get-all-luong")
+    public ResponseEntity<List<ChiTietSanPhamDtoResponse>> getAllBySoLuong(@PathVariable("maSP")String maSP){
+
+        return ResponseEntity.ok(chiTietSanPhamService.getAllBySanPhamMa(maSP));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Long> getSoLuong(@PathVariable("id")String id){

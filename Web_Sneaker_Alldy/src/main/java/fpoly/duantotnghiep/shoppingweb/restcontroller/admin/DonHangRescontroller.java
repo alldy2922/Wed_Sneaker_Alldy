@@ -72,20 +72,22 @@ public class DonHangRescontroller {
     }
 
     @GetMapping("get-by-trangthai-tra")
-    public Page<DonHangDtoResponse>getTrangThaiTra(
+    public Page<?>getTrangThaiTra(
             @RequestParam(value = "trangThai", required = false) Integer trangThai,
             @RequestParam(defaultValue = "0") Integer pageNumber,
-            @RequestParam(defaultValue = "10") Integer limit) {
+            @RequestParam(defaultValue = "10") Integer limit,
+            @RequestParam(required = false)String sdt) {
 
-        return donHangEntityManager.getDonHangByTrangThaiTra(trangThai, pageNumber , limit);
+        return donHangEntityManager.getChiTietSanPhamTra(trangThai, pageNumber , limit,sdt);
     }
     @GetMapping("get-by-trangthai-doi")
-    public Page<DonHangDtoResponse>getTrangThaiDoi(
+    public Page<?>getTrangThaiDoi(
             @RequestParam(value = "trangThai", required = false) Integer trangThai,
             @RequestParam(defaultValue = "0") Integer pageNumber,
-            @RequestParam(defaultValue = "10") Integer limit) {
+            @RequestParam(defaultValue = "10") Integer limit,
+            @RequestParam(required = false)String sdt) {
 
-        return donHangEntityManager.getDonHangByTrangThaiDoi(trangThai, pageNumber , limit);
+        return donHangEntityManager.getChiTietSanPhamDoi(trangThai, pageNumber , limit,sdt);
     }
 
     @GetMapping("/{ma}")

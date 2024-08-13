@@ -27,6 +27,7 @@ public class DonHangDoiDTOReponse {
     private Integer trangThai;
     private String lyDoDoiHang;
     private DonHangDtoResponse donHangDto;
+    private String sanPhamDoi;
 
     public DonHangDoiDTOReponse(DonHangDoiModel model) {
         this.maSanPham = model.getChiTietSanPham().getSanPham().getMa();
@@ -46,5 +47,6 @@ public class DonHangDoiDTOReponse {
         this.ngayHuy = model.getNgayHuy();
         this.trangThai = model.getTrangThai();
         this.donHangDto = new DonHangDtoResponse(model.getDonHang());
+        this.sanPhamDoi = model.getSanPhamDoi();
     }
 }

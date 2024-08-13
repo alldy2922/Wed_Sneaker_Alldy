@@ -249,7 +249,7 @@
                                                     <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:42px;width:212px;v-text-anchor:middle;" arcsize="10%" stroke="false" fillcolor="#1c84ee"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, sans-serif; font-size:16px"><![endif]-->
                                                     <div
                                                             style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#1c84ee;border-radius:4px;width:auto;border-top:0px solid transparent;font-weight:400;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;">
-                                                        <a th:href="@{|http://localhost:8080/don-hang/get-ctsp-tra?ma=${donHangTra.maDonHang}|}" style="color: white;">
+                                                        <a th:href="@{|http://localhost:8080/don-hang/get-ctsp-tra?ma=${donHangDoi.maDonHang}|}" style="color: white;">
                                                                             <span
                                                                                     style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;letter-spacing:normal;"><span
                                                                                     style="word-break: break-word; line-height: 32px;">Xem
@@ -621,7 +621,7 @@
                                                 style="padding-left:30px;padding-right:10px;padding-top:10px;">
                                                 <div
                                                         style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:14px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
-                                                    <p style="margin: 0; word-break: break-word;" th:text="${#numbers.formatDecimal(donHangTra.donHangDto.phiGiaoHang, 0, 'COMMA', 1, 'POINT')+'đ'}"></p>
+                                                    <p style="margin: 0; word-break: break-word;" th:text="${#numbers.formatDecimal(donHangDoi.donHangDto.phiGiaoHang, 0, 'COMMA', 1, 'POINT')+'đ'}"></p>
                                                 </div>
                                             </td>
                                         </tr>
@@ -682,7 +682,7 @@
                                                 style="padding-left:30px;padding-right:10px;padding-top:10px;">
                                                 <div
                                                         style="color:#555555;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:14px;line-height:120%;text-align:left;mso-line-height-alt:16.8px;">
-                                                    <p  style="margin: 0; word-break: break-word;" th:text="${#numbers.formatDecimal(donHangTra.donHangDto.tienGiam, 0, 'COMMA', 1, 'POINT')+'đ'}"> </p>
+                                                    <p  style="margin: 0; word-break: break-word;" th:text="${#numbers.formatDecimal(donHangDoi.donHangDto.tienGiam, 0, 'COMMA', 1, 'POINT')+'đ'}"> </p>
                                                     <!--                                                    <p th:if="${donHang.tienGiam!=null}" style="margin: 0; word-break: break-word;" > 0.0đ</p>-->
                                                 </div>
                                             </td>
@@ -746,7 +746,7 @@
                                                         style="color:#000000;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:18px;font-weight:700;line-height:120%;text-align:left;mso-line-height-alt:21.599999999999998px;">
                                                     <p style="margin: 0; word-break: break-word;">
                                                         <span th:text="${#numbers.formatDecimal(
-    ((donHangTra.donHangDto.phiGiaoHang ?: 0) + (totalPrice ?: 0)) - (donHangTra.donHangDto.tienGiam ?: 0),
+    ((donHangDoi.donHangDto.phiGiaoHang ?: 0) + (totalPrice ?: 0)) - (donHangDoi.donHangDto.tienGiam ?: 0),
     0, 'COMMA', 1, 'POINT'
 ) + 'đ'}">$ 46.99</span> </div>
                                             </td>
@@ -841,9 +841,9 @@
                                         <tr>
                                             <td class="pad">
                                                 <div style="color:#444a5b;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
-                                                    <p style="color:#444a5b;margin: 0;" th:text="${donHangTra.donHangDto.thanhPhoName + ' - ' + donHangTra.donHangDto.quanHuyenName + ' - '  + donHangTra.donHangDto.xaPhuongName }"></p>
+                                                    <p style="color:#444a5b;margin: 0;" th:text="${donHangDoi.donHangDto.thanhPhoName + ' - ' + donHangDoi.donHangDto.quanHuyenName + ' - '  + donHangDoi.donHangDto.xaPhuongName }"></p>
                                                     <br>
-                                                    <p style="margin: 0;" th:text="${donHangTra.donHangDto.diaChiChiTiet }"></p>
+                                                    <p style="margin: 0;" th:text="${donHangDoi.donHangDto.diaChiChiTiet }"></p>
                                                 </div>
                                             </td>
                                         </tr>
@@ -873,7 +873,7 @@
                                             <td class="pad">
                                                 <div
                                                         style="color:#444a5b;direction:ltr;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;font-weight:400;letter-spacing:0px;line-height:120%;text-align:left;mso-line-height-alt:19.2px;">
-                                                    <p style="margin: 0;" th:text="${donHangTra.donHangDto.phuongThucThanhToan == true ? 'Thanh toán khi nhận hàng' : 'Thanh toán khi nhận hàng'}"></p>
+                                                    <p style="margin: 0;" th:text="${donHangDoi.donHangDto.phuongThucThanhToan == true ? 'Thanh toán khi nhận hàng' : 'Thanh toán khi nhận hàng'}"></p>
                                                 </div>
                                             </td>
                                         </tr>

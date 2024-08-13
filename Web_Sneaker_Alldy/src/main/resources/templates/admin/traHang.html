@@ -128,38 +128,38 @@
                                                                                 ng-click="checkAllChecked('checkChuaXacNhan','checkAllChuaXacNhan')"
                                                                                 class="form-check-input"
                                                                                 name="checkChuaXacNhan"
-                                                                                value="{{d.ma}}">
+                                                                                value="{{d.donHangDtoResponse.ma}}">
                                                                         </div>
                                                                     </th>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
-                                                                        {{d.ma}}
+                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.ma}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.tenNguoiNhan}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
-                                                                        {{d.tenNguoiNhan}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
-                                                                        {{d.soDienThoai}}
+                                                                        {{d.donHangDtoResponse.soDienThoai}}
                                                                     </td>
                                                                     <!-- ngày hoàn hàng -->
                                                                     <td style="cursor: pointer"
                                                                         ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
-                                                                        {{d.ngayTraHang | date:'yyyy-MM-dd HH:mm:ss'}}
+                                                                        {{d.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
-                                                                        {{d.lyDoTraHang}}
+                                                                        {{d.donHangDtoResponse.lyDoTraHang}}
                                                                     </td>
                                                                     <td style="width: 200px">
                                                                         <button class="btn btn-danger me-1"
                                                                             data-toggle="modal"
                                                                             data-target="#lyDoTraHang"
-                                                                            ng-click="chuaXacNhanTraHang.setIdDonHang(d.ma)">Hủy
+                                                                            ng-click="chuaXacNhanTraHang.setIdDonHang(d.donHangDtoResponse.ma)">Hủy
                                                                         </button>
                                                                         <button class="btn btn-primary"
-                                                                            ng-click="chuaXacNhanTraHang.xacNhanDH(d.ma)">Xác
+                                                                            ng-click="chuaXacNhanTraHang.xacNhanDH(d.donHangDtoResponse.ma)">Xác
                                                                             nhận
                                                                         </button>
                                                                     </td>
@@ -311,38 +311,38 @@
                                                                             <input type="checkbox"
                                                                                 ng-click="checkAllChecked('checkDaXacNhan','checkAllDaXacNhan')"
                                                                                 class="form-check-input"
-                                                                                name="checkDaXacNhan" value="{{d.ma}}">
+                                                                                name="checkDaXacNhan" value="{{d.donHangDtoResponse.ma}}">
                                                                         </div>
                                                                     </th>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.ma}}
+                                                                        ng-click="daXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.ma}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="daXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.tenNguoiNhan}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="daXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.soDienThoai}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.tenNguoiNhan}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.soDienThoai}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.ngayKiemTraTraHang | date:'yyyy-MM-dd
+                                                                        {{d.ngayKiemTra | date:'yyyy-MM-dd
                                                                         HH:mm:ss' }}
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.lyDoTraHang}}
+                                                                        {{d.donHangDtoResponse.lyDoTraHang}}
                                                                     </td>
                                                                     <td style="width: 200px">
                                                                         <button class="btn btn-danger me-1"
                                                                             data-toggle="modal"
                                                                             data-target="#lyDoTraHang"
-                                                                            ng-click="daXacNhan.setIdDonHang(d.ma)">Hủy
+                                                                            ng-click="daXacNhan.setIdDonHang(d.donHangDtoResponse.ma)">Hủy
                                                                         </button>
                                                                         <button class="btn btn-primary"
-                                                                            ng-click="daXacNhan.chuyenGiao(d.ma)">Hoàn
+                                                                            ng-click="daXacNhan.chuyenGiao(d.donHangDtoResponse.ma)">Hoàn
                                                                             Tiền
                                                                         </button>
                                                                     </td>
@@ -478,26 +478,26 @@
                                                                 </tr>
                                                                 <tr ng-repeat="d in hoanThanhTraHang.list">
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="hoanThanhTraHang.getDetail(d.ma)">
-                                                                        {{d.ma}}
+                                                                        ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.ma}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="hoanThanhTraHang.getDetail(d.ma)">
-                                                                        {{d.tenNguoiNhan}}
+                                                                        {{d.donHangDtoResponse.tenNguoiNhan}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="hoanThanhTraHang.getDetail(d.ma)">
-                                                                        {{d.soDienThoai}}
+                                                                        ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.soDienThoai}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="hoanThanhTraHang.getDetail(d.ma)">
-                                                                        {{d.ngayHoanThanhTraHang | date:'yyyy-MM-dd
+                                                                        ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.ngayHoanThanh | date:'yyyy-MM-dd
                                                                         HH:mm:ss'
                                                                         }}
                                                                     </td>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="hoanThanhTraHang.getDetail(d.ma)">
-                                                                        {{d.lyDoTraHang}}
+                                                                        ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.lyDoTraHang}}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -617,34 +617,36 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr ng-if="huyTraHang.list.length == 0">
-                                                                    <td colspan="8">
-                                                                        <h4 class="text-center col-12 mt-5">Không có đơn
-                                                                            hàng liên quan</h4>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr ng-repeat="d in huyTraHang.list">
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="huyTraHang.getDetail(d.ma)">{{d.ma}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="huyTraHang.getDetail(d.ma)">
-                                                                        {{d.tenNguoiNhan}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="huyTraHang.getDetail(d.ma)">
-                                                                        {{d.soDienThoai}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="huyTraHang.getDetail(d.ma)">
-                                                                        {{d.ngayHuyTraHang | date:'yyyy-MM-dd HH:mm:ss'
-                                                                        }}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="huyTrahang.getDetail(d.ma)">
-                                                                        <p class="nameProduct">{{d.lyDoTraHang}}</p>
-                                                                    </td>
-                                                                </tr>
+                                                            <tr ng-if="hoanThanhTraHang.list.length == 0">
+                                                                <td colspan="8">
+                                                                    <h4 class="text-center col-12 mt-5">Không có đơn
+                                                                        hàng liên quan</h4>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-repeat="d in hoanThanhTraHang.list">
+                                                                <td style="cursor: pointer"
+                                                                    ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    {{d.donHangDtoResponse.ma}}
+                                                                </td>
+                                                                <td style="cursor: pointer"
+                                                                    ng-click="hoanThanhTraHang.getDetail(d.ma)">
+                                                                    {{d.donHangDtoResponse.tenNguoiNhan}}
+                                                                </td>
+                                                                <td style="cursor: pointer"
+                                                                    ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    {{d.donHangDtoResponse.soDienThoai}}
+                                                                </td>
+                                                                <td style="cursor: pointer"
+                                                                    ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    {{d.ngayHuy | date:'yyyy-MM-dd
+                                                                HH:mm:ss'
+                                                                    }}
+                                                                </td>
+                                                                <td style="cursor: pointer"
+                                                                    ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    {{d.donHangDtoResponse.lyDoTraHang}}
+                                                                </td>
+                                                            </tr>
                                                             </tbody>
                                                         </table>
                                                         <!-- end table -->

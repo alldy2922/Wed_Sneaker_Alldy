@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangTraDTOReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
+import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDoiDTORequest;
 import fpoly.duantotnghiep.shoppingweb.entitymanager.DonHangEntityManager;
 import fpoly.duantotnghiep.shoppingweb.service.IDonHangService;
 import fpoly.duantotnghiep.shoppingweb.service.impl.DonHangService;
@@ -135,18 +136,15 @@ public class DonHangRestController {
     @Transactional(rollbackFor = {Exception.class, Throwable.class})
     public ResponseEntity<?> doiMotPhan(@Valid @RequestPart("donHang") DonHangDTORequest request,
                                         BindingResult result,
-                                        @RequestPart("chiTietDonHang") List<ChiTietDonHangDTORequest> products,
+                                        @RequestPart("chiTietDonHang") List<DonHangDoiDTORequest> products,
                                         @RequestParam("lyDoDoiHang") String lyDoDoiHang) {
         //sản phẩm trống -> thông báo lỗi
-        System.out.println("data"+products);
-        System.out.println("data1" + request.getLoai());
+
+        System.out.println("sâs"+products);
         if(products.size()<=0){
             result.addError(new FieldError("soLuongSP","soLuongSP","Không có sản phẩm trong đơn đổi"));
         }
         // xu ly loi neu co
-        if(result.hasErrors()){
-            return ValidateUtil.getErrors(result);
-        }
         //khong tim duoc ma dontra -> HTTP 404
         if (!donHangService.existsByMa(request.getMa())) {
             return ResponseEntity.notFound().build();

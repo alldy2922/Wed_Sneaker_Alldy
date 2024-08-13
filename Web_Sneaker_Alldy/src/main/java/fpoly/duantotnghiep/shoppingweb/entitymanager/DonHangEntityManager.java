@@ -4,6 +4,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangTraDTOReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DongSanPhamResponese;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamDoi;
+import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamTra;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangModel;
 import fpoly.duantotnghiep.shoppingweb.model.DonHangTraModel;
 import jakarta.persistence.EntityManager;
@@ -52,79 +53,79 @@ public class DonHangEntityManager {
         return new PageImpl(resultModel.stream().skip(pageable.getOffset()).limit(limit).map(d -> new DonHangDtoResponse(d)).collect(Collectors.toList()),
                 pageable,resultModel.size());
     }
-    public Page<DonHangDtoResponse> getDonHangByTrangThaiTra(Integer trangThai, Integer page, Integer limit){
-        Pageable pageable = PageRequest.of(page,limit);
-        StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d join DonHangTraModel t on d.ma = t.donHang.ma WHERE t.trangThai  ="+trangThai);
-
-        if(trangThai == 1){
-            jpql.append(" ORDER BY t.ngayXacNhan DESC ");
-        }else if(trangThai == 2){
-            jpql.append(" ORDER BY t.ngayKiemTra DESC ");
-        }else if(trangThai == 3){
-            jpql.append(" ORDER BY t.ngayHoanThanh DESC ");
-        }else if(trangThai == 0) {
-            jpql.append(" ORDER BY d.ngayHuyTraHang DESC ");
-        }
-//        else if(trangThai == 9){
-//                jpql.append(" ORDER BY d.ngayHuyTraHang DESC ");
-//    }
-        List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();
-
-        for (DonHangModel donHang : resultModel) {
-            System.out.println(donHang);
-        }
-
-        return new PageImpl(resultModel.stream().skip(pageable.getOffset()).limit(limit).map(d -> new DonHangDtoResponse(d)).collect(Collectors.toList()),
-                pageable,resultModel.size());
-    }
-
-    public Page<DonHangDtoResponse> getDonHangByTrangThaiDoi(Integer trangThai, Integer page, Integer limit){
-        Pageable pageable = PageRequest.of(page,limit);
-        StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d join DonHangDoiModel t on d.ma = t.donHang.ma WHERE t.trangThai  ="+trangThai);
-
-        if(trangThai == 1){
-            jpql.append(" ORDER BY t.ngayXacNhan DESC ");
-        }else if(trangThai == 2){
-            jpql.append(" ORDER BY t.ngayKiemTra DESC ");
-        }else if(trangThai == 3) {
-            jpql.append(" ORDER BY t.ngayGiao DESC ");
-        }else if(trangThai == 4){
-                jpql.append(" ORDER BY t.ngayHoanThanh DESC ");
-        }else if(trangThai == 0) {
-            jpql.append(" ORDER BY t.ngayHuy DESC ");
-        }
-//        else if(trangThai == 9){
-//                jpql.append(" ORDER BY d.ngayHuyTraHang DESC ");
-//    }
-        List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();
-
-        for (DonHangModel donHang : resultModel) {
-            System.out.println(donHang);
-        }
-
-        return new PageImpl(resultModel.stream().skip(pageable.getOffset()).limit(limit).map(d -> new DonHangDtoResponse(d)).collect(Collectors.toList()),
-                pageable,resultModel.size());
-    }
-    public List<DonHangDtoResponse> getAllByTrangThaiTra(Integer trangThai){
-        StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d join DonHangTraModel t on d.ma = t.donHang.ma WHERE t.trangThai  ="+trangThai);
-
-        if(trangThai == 1){
-            jpql.append(" ORDER BY t.ngayXacNhan DESC ");
-        }else if(trangThai == 2){
-            jpql.append(" ORDER BY t.ngayKiemTra DESC ");
-        }else if(trangThai == 3){
-            jpql.append(" ORDER BY t.ngayHoanThanh DESC ");
-   }
-//        else if(trangThai == 0){
+//    public Page<DonHangDtoResponse> getDonHangByTrangThaiTra(Integer trangThai, Integer page, Integer limit){
+//        Pageable pageable = PageRequest.of(page,limit);
+//        StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d join DonHangTraModel t on d.ma = t.donHang.ma WHERE t.trangThai  ="+trangThai);
+//
+//        if(trangThai == 1){
+//            jpql.append(" ORDER BY t.ngayXacNhan DESC ");
+//        }else if(trangThai == 2){
+//            jpql.append(" ORDER BY t.ngayKiemTra DESC ");
+//        }else if(trangThai == 3){
+//            jpql.append(" ORDER BY t.ngayHoanThanh DESC ");
+//        }else if(trangThai == 0) {
 //            jpql.append(" ORDER BY d.ngayHuyTraHang DESC ");
 //        }
-
-
-        List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();
-        List<DonHangDtoResponse> donHangDtoResponses = resultModel.stream().map(model -> new DonHangDtoResponse(model)).collect(Collectors.toList());
-        return donHangDtoResponses;
-
-    }
+////        else if(trangThai == 9){
+////                jpql.append(" ORDER BY d.ngayHuyTraHang DESC ");
+////    }
+//        List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();
+//
+//        for (DonHangModel donHang : resultModel) {
+//            System.out.println(donHang);
+//        }
+//
+//        return new PageImpl(resultModel.stream().skip(pageable.getOffset()).limit(limit).map(d -> new DonHangDtoResponse(d)).collect(Collectors.toList()),
+//                pageable,resultModel.size());
+//    }
+//
+//    public Page<DonHangDtoResponse> getDonHangByTrangThaiDoi(Integer trangThai, Integer page, Integer limit){
+//        Pageable pageable = PageRequest.of(page,limit);
+//        StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d join DonHangDoiModel t on d.ma = t.donHang.ma WHERE t.trangThai  ="+trangThai);
+//
+//        if(trangThai == 1){
+//            jpql.append(" ORDER BY t.ngayXacNhan DESC ");
+//        }else if(trangThai == 2){
+//            jpql.append(" ORDER BY t.ngayKiemTra DESC ");
+//        }else if(trangThai == 3) {
+//            jpql.append(" ORDER BY t.ngayGiao DESC ");
+//        }else if(trangThai == 4){
+//                jpql.append(" ORDER BY t.ngayHoanThanh DESC ");
+//        }else if(trangThai == 0) {
+//            jpql.append(" ORDER BY t.ngayHuy DESC ");
+//        }
+////        else if(trangThai == 9){
+////                jpql.append(" ORDER BY d.ngayHuyTraHang DESC ");
+////    }
+//        List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();
+//
+//        for (DonHangModel donHang : resultModel) {
+//            System.out.println(donHang);
+//        }
+//
+//        return new PageImpl(resultModel.stream().skip(pageable.getOffset()).limit(limit).map(d -> new DonHangDtoResponse(d)).collect(Collectors.toList()),
+//                pageable,resultModel.size());
+//    }
+//    public List<DonHangDtoResponse> getAllByTrangThaiTra(Integer trangThai){
+//        StringBuilder jpql = new StringBuilder("SELECT d FROM DonHangModel d join DonHangTraModel t on d.ma = t.donHang.ma WHERE t.trangThai  ="+trangThai);
+//
+//        if(trangThai == 1){
+//            jpql.append(" ORDER BY t.ngayXacNhan DESC ");
+//        }else if(trangThai == 2){
+//            jpql.append(" ORDER BY t.ngayKiemTra DESC ");
+//        }else if(trangThai == 3){
+//            jpql.append(" ORDER BY t.ngayHoanThanh DESC ");
+//   }
+////        else if(trangThai == 0){
+////            jpql.append(" ORDER BY d.ngayHuyTraHang DESC ");
+////        }
+//
+//
+//        List<DonHangModel> resultModel = entityManager.createQuery(jpql.toString()).getResultList();
+//        List<DonHangDtoResponse> donHangDtoResponses = resultModel.stream().map(model -> new DonHangDtoResponse(model)).collect(Collectors.toList());
+//        return donHangDtoResponses;
+//
+//    }
 
 
 //    public List<ChiTietSanPhamDoi> getChiTietSanPhamDoi(Integer trangThai) {
@@ -267,6 +268,72 @@ public Page<ChiTietSanPhamDoi> getChiTietSanPhamDoi(Integer trangThai, Integer p
                 Date ngayHuy = trangThai == 0 ? (Date) tuple.get("ngayHuy") : null;
 
                 return new ChiTietSanPhamDoi(chitiet, ngayXN, ngayKT, ngayGiao, ngayHT, ngayHuy);
+            })
+            .collect(Collectors.toList());
+
+    return new PageImpl<>(result, pageable, resultList.size());
+}public Page<ChiTietSanPhamTra> getChiTietSanPhamTra(Integer trangThai, Integer page, Integer limit, String sdt) {
+    Pageable pageable = PageRequest.of(page, limit);
+    StringBuilder selectClause = new StringBuilder();
+
+    selectClause.append("SELECT dh AS chitiet");
+
+    if (trangThai == 1) {
+        selectClause.append(", tr.ngayXacNhan AS ngayXN ");
+    } else if (trangThai == 2) {
+        selectClause.append(", tr.ngayKiemTra AS ngayKT ");
+    }  else if (trangThai == 3) {
+        selectClause.append(", tr.ngayHoanThanh AS ngayHT ");
+    } else if (trangThai == 0) {
+        selectClause.append(", tr.ngayHuy AS ngayHuy ");
+    }
+
+    selectClause.append("FROM DonHangModel dh ");
+    selectClause.append("LEFT JOIN DonHangTraModel tr ON tr.donHang.ma = dh.ma ");
+    selectClause.append("WHERE tr.trangThai = :trangThai ");
+
+    // Thêm điều kiện tìm kiếm theo số điện thoại hoặc mã đơn hàng
+    if (sdt != null && !sdt.isEmpty()) {
+        selectClause.append("AND (dh.soDienThoai LIKE :sdt OR dh.ma LIKE :sdt) ");
+    }
+
+    // Thêm điều kiện sắp xếp theo trang thái
+    if (trangThai == 1) {
+        selectClause.append("GROUP BY dh.ma, tr.ngayXacNhan ");
+        selectClause.append("ORDER BY tr.ngayXacNhan DESC ");
+    } else if (trangThai == 2) {
+        selectClause.append("GROUP BY dh.ma, tr.ngayKiemTra ");
+        selectClause.append("ORDER BY tr.ngayKiemTra DESC ");
+    } else if (trangThai == 3) {
+        selectClause.append("GROUP BY dh.ma, tr.ngayHoanThanh ");
+        selectClause.append("ORDER BY tr.ngayHoanThanh DESC ");
+    } else if (trangThai == 0) {
+        selectClause.append("GROUP BY dh.ma, tr.ngayHuy ");
+        selectClause.append("ORDER BY tr.ngayHuy DESC ");
+    }
+
+    // Tạo truy vấn JPQL và thêm tham số
+    Query query = entityManager.createQuery(selectClause.toString(), Tuple.class);
+    query.setParameter("trangThai", trangThai);
+
+    if (sdt != null && !sdt.isEmpty()) {
+        query.setParameter("sdt", "%" + sdt + "%");
+    }
+
+    List<Tuple> resultList = query.getResultList();
+
+    // Áp dụng phân trang cho kết quả
+    List<ChiTietSanPhamTra> result = resultList.stream()
+            .skip(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .map(tuple -> {
+                DonHangDtoResponse chitiet = new DonHangDtoResponse((DonHangModel) tuple.get("chitiet"));
+                Date ngayXN = trangThai == 1 ? (Date) tuple.get("ngayXN") : null;
+                Date ngayKT = trangThai == 2 ? (Date) tuple.get("ngayKT") : null;
+                Date ngayHT = trangThai == 3 ? (Date) tuple.get("ngayHT") : null;
+                Date ngayHuy = trangThai == 0 ? (Date) tuple.get("ngayHuy") : null;
+
+                return new ChiTietSanPhamTra(chitiet, ngayXN, ngayKT, ngayHT, ngayHuy);
             })
             .collect(Collectors.toList());
 

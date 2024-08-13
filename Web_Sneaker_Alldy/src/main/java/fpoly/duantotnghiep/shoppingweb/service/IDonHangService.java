@@ -5,6 +5,7 @@ import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangReponseUser;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.DonHangTraDTOReponse;
 import fpoly.duantotnghiep.shoppingweb.dto.request.ChiTietDonHangDTORequest;
+import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDoiDTORequest;
 import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 import fpoly.duantotnghiep.shoppingweb.dto.request.DonHangDTORequest;
@@ -86,7 +87,7 @@ public interface IDonHangService {
 
     DonHangDtoResponse traMotPhan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoTraHang, Boolean phuongThucNhanTien, String ghiChu);
 
-    DonHangDtoResponse doiMotPhan(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoDoiHang);
+    DonHangDtoResponse doiMotPhan(DonHangDTORequest request, List<DonHangDoiDTORequest> products, String lyDoDoiHang);
     DonHangDtoResponse updateDonHangDoi(DonHangDTORequest request, List<ChiTietDonHangDTORequest> products, String lyDoThayDoi);
 
     Map<String,Long> getSoLuongSanPhamHoaDon(String maDonHang);

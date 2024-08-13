@@ -60,4 +60,8 @@ public class DonHangDoiModel {
     @Column(name = "trangthai")
     private Integer trangThai;
 
+    @Column(name = "sanphamdoi")
+    private String sanPhamDoi;
+
+
 }

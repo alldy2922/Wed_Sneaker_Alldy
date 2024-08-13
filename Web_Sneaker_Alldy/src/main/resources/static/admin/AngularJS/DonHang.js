@@ -1462,7 +1462,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         } else {
             result = false;
         }
-        console.log("donHang", result)
+
         return result;
     };
     $scope.isWithinSevenDays()
@@ -1606,20 +1606,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
 
     // Cập nhật danh sách sản phẩm đã chọn
-    $scope.updateSelectedProducts = function (product) {
-        if (product.selected) {
-            product.selectedQuantity = 1;
-            product.totalPrice = product.selectedQuantity * product.donGiaSauGiam;
-            $scope.selectedProducts.push(product);
-            $scope.calculateTotalRefund(); // Tính tổng tiền khi sản phẩm được thêm vào
-        } else {
-            var index = $scope.selectedProducts.indexOf(product);
-            if (index > -1) {
-                $scope.selectedProducts.splice(index, 1);
-                $scope.calculateTotalRefund(); // Cập nhật tổng tiền khi sản phẩm bị loại bỏ
-            }
-        }
-    };
 
     // Tăng số lượng hoàn
     $scope.incrementQuantity = function (product) {
@@ -1829,8 +1815,61 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     // };
 
     // end
+    $scope.productDetails =[]
+    $scope.getProductDetails = function(maSP) {
+        $http.get("/chi-tiet-san-pham/" + maSP + "/get-all-luong").then(r => {
+            $scope.productDetails[maSP] = r.data;
+            console.log( 'sss', $scope.productDetails[maSP])
+        }).catch(e => console.log(e));
+    };
+    $scope.updateSelectedProducts = function(product) {
+        if (product.selected) {
+            // Tìm sản phẩm dựa trên mã sản phẩm và kích thước
+            var existingProduct = $scope.selectedProducts.find(p => p.maSanPham === product.maSanPham && p.selectedSize === product.selectedSize);
 
+
+            // Thêm sản phẩm vào danh sách nếu chưa có
+            product.selectedQuantity = 1;
+            product.totalPrice = product.selectedQuantity * product.donGiaSauGiam;
+            $scope.selectedProducts.push(product);
+
+            console.log("Danh sách sản phẩm đã chọn:", $scope.selectedProducts);
+            $scope.calculateTotalRefund(); // Tính tổng tiền khi sản phẩm được thêm vào
+        } else {
+            // Loại bỏ sản phẩm dựa trên mã sản phẩm và kích thước
+            var index = $scope.selectedProducts.findIndex(p => p.maSanPham === product.maSanPham && p.selectedSize === product.selectedSize);
+            if (index > -1) {
+                $scope.selectedProducts.splice(index, 1);
+                $scope.calculateTotalRefund(); // Cập nhật tổng tiền khi sản phẩm bị loại bỏ
+            }
+        }
+    };
+
+    $scope.ChiTietSizeDoi = []
+
+    $scope.selectedSizes = {};
     // hàm đổi 1 phần
+    $scope.getSizes = function(size, idChiTietSanPham) {
+        // Tìm sản phẩm dựa trên idChiTietSanPham
+        var product = $scope.selectedProducts.find(p => p.idChiTietSanPham === idChiTietSanPham);
+
+        if (product) {
+            // Cập nhật kích thước đã chọn cho sản phẩm
+            product.selectedSize = size;
+            console.log("Kích thước đã chọn cho sản phẩm", idChiTietSanPham, ":", product.selectedSize);
+        } else {
+            // Nếu sản phẩm chưa có trong danh sách, bạn có thể thêm sản phẩm mới vào danh sách
+            $scope.selectedProducts.push({
+                idChiTietSanPham: idChiTietSanPham,
+                selectedSize: size,
+                selectedQuantity: 1, // Hoặc giá trị mặc định khác
+                donGia: productDetails[idChiTietSanPham].donGia, // Giá sản phẩm
+                donGiaSauGiam: productDetails[idChiTietSanPham].donGiaSauGiam, // Giá sau giảm
+                totalPrice: 1 * productDetails[idChiTietSanPham].donGiaSauGiam // Tổng giá
+            });
+            console.log("Danh sách sản phẩm đã chọn:", $scope.selectedProducts);
+        }
+    };
     $scope.selectedDonHang = null;
     $scope.selectedProducts = [];
     $scope.lyDoDoiHang = null;
@@ -1841,19 +1880,19 @@ app.controller("donhang-ctrl", function ($scope, $http) {
 
 
         if (!lyDoDoiHang) {
+            // Tiếp tục xử lý nếu lý do đổi hàng không tồn tại
+            console.log("Lý do đổi hàng không được cung cấp.");
+        }
+        if (!lyDoDoiHang) {
             alertify.error("Bạn cần nhập lý do đổi hàng");
             return;
         }
-        console.log("lyDoDoiHang", lyDoDoiHang)
-        console.log($scope.selectedProducts)
-        // Lấy danh sách sản phẩm đã chọn
-        const selectedProducts = $scope.selectedProducts;
-        if (selectedProducts.length === 0) {
+
+        if ($scope.selectedProducts.length === 0) {
             alertify.error("Bạn cần chọn ít nhất một sản phẩm để đổi hàng");
             return;
         }
-        console.log("ma", maDonHang)
-
+        console.log($scope.selectedSizes)
         // Tạo đối tượng FormData
         const formData = new FormData();
         formData.append('donHang', new Blob([JSON.stringify({
@@ -1871,27 +1910,40 @@ app.controller("donhang-ctrl", function ($scope, $http) {
             xaPhuongName: $scope.selectedDonHang.xaPhuongName || "",
             loai: $scope.selectedDonHang.loai
         })], { type: "application/json" }));
-        console.log("loai", $scope.selectedDonHang)
-        console.log(JSON.stringify({
-            ma: maDonHang,
-            voucher: $scope.selectedDonHang.voucher
-        }));
         formData.append('lyDoDoiHang', lyDoDoiHang);
 
-        let chiTietDonHang = [];
-        selectedProducts.forEach(c => {
-            chiTietDonHang.push({
-                id: c.id,
-                donHangID: maDonHang,
-                sanPhamCT: c.idChiTietSanPham,
-                soLuong: c.selectedQuantity,
-                donGia: c.donGia,
-                donGiaSauGiam: c.donGiaSauGiam
-            })
-        })
+        let chiTietSanPhamCanDoi = [];
+
+        console.log("ChiTietSanPham:", $scope.ChiTietSanPham);
+        console.log("Selected Products:", $scope.selectedProducts);
+
+        $scope.selectedProducts.forEach(p => {
+            // Tìm sản phẩm tương ứng trong $scope.ChiTietSanPham
+            console.log("Size selected:", p.selectedSize);
+
+            // Kiểm tra nếu sản phẩm có kích thước đã chọn
+            if (p.selectedSize) {
+                chiTietSanPhamCanDoi.push({
+                    id: p.id,
+                    donHangID: maDonHang,
+                    sanPhamCT: p.selectedSize.id, // Lấy id của kích thước
+                    soLuong: p.selectedQuantity,
+                    donGia: p.donGia,
+                    donGiaSauGiam: p.donGiaSauGiam,
+                    sanPhamDoi: p.idChiTietSanPham
+                });
+            }
+        });
+
+
+        if (chiTietSanPhamCanDoi.length === 0) {
+            alertify.error("Bạn cần chọn kích thước cho ít nhất một sản phẩm để đổi hàng");
+            return;
+        }
         // Tạo danh sách JSON cho các chi tiết đơn hàng
-        formData.append('chiTietDonHang', new Blob([JSON.stringify(chiTietDonHang)], { type: "application/json" }));
-        console.log(JSON.stringify(selectedProducts));
+        formData.append('chiTietDonHang', new Blob([JSON.stringify(chiTietSanPhamCanDoi)], { type: "application/json" }));
+
+        // Gửi yêu cầu PUT
         $http.put("/don-hang/doi-mot-phan", formData, {
             transformRequest: angular.identity,
             headers: { 'Content-Type': undefined }
@@ -1908,7 +1960,6 @@ app.controller("donhang-ctrl", function ($scope, $http) {
                 console.error("Có lỗi xảy ra khi gửi yêu cầu đổi hàng:", error);
                 alertify.error("Có lỗi xảy ra khi gửi yêu cầu đổi hàng");
             });
-
     };
 
     // Kiểm tra và đảm bảo không khởi động $digest/$apply nếu đang diễn ra

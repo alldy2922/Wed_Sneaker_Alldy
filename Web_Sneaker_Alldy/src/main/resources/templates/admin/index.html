@@ -190,14 +190,14 @@
                                 <span data-key="t-chat">Trả Hàng</span>
                             </a>
                         </li>
-                        <li th:if="${hasAdmin}">
+                        <li>
                             <a th:href="@{/admin/doi-hang}">
                                 <i class="bi bi-arrow-left-right"></i>
                                 <span data-key="t-chat">Đổi Hàng</span>
                             </a>
                         </li>
-                        <li class="menu-title" data-key="t-apps">Sản phẩm</li>
-                        <li>
+                        <li th:if="${hasAdmin}" class="menu-title" data-key="t-apps">Sản phẩm</li>
+                        <li th:if="${hasAdmin}">
                             <a href="javascript: void(0);" class="has-arrow">
                                 <i data-feather="list"></i>
                                 <span data-key="t-ecommerce">Thuộc tính/phân loại</span>
@@ -221,14 +221,14 @@
                             </ul>
                         </li>
 
-                        <li>
+                        <li th:if="${hasAdmin}">
                             <a th:href="@{/admin/san-pham}">
                                 <i data-feather="slack"></i>
                                 <span data-key="t-chat">Sản phẩm</span>
                             </a>
                         </li>
                         <!-- Người dùng -->
-                        <li class="menu-title" data-key="t-pages">Tài Khoản</li>
+                        <li th:if="${hasAdmin}" class="menu-title" data-key="t-pages">Tài Khoản</li>
 
                         <li th:if="${hasAdmin}">
                             <a th:href="@{/admin/nhan-vien}">
@@ -236,7 +236,7 @@
                                 <span data-key="t-horizontal">Nhân Viên</span>
                             </a>
                         </li>
-                        <li>
+                        <li th:if="${hasAdmin}">
                             <a th:href="@{/admin/khach-hang}">
                                 <i data-feather="users"></i>
                                 <span data-key="t-horizontal">Khách Hàng</span>

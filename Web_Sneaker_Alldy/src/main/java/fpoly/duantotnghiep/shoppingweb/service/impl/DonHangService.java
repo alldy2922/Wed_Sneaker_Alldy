@@ -782,6 +782,11 @@ public class DonHangService implements IDonHangService {
         DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElseThrow(() -> new RuntimeException("Đơn hàng không tồn tại"));
         DonHangModel model = request.mapModel();
         model.setLyDoTraHang(lyDoTraHang);
+        model.setNgayXacNhan(donHangOld.getNgayXacNhan());
+        model.setNgayDatHang(donHangOld.getNgayDatHang());
+        model.setPhiGiaoHang(donHangOld.getPhiGiaoHang());
+        model.setNgayGiaoHang(donHangOld.getNgayGiaoHang());
+        model.setNgayHoanThanh(donHangOld.getNgayHoanThanh());
         model.setPhuongThucNhanTien(phuongThucNhanTien);
         model.setGhiChu(ghiChu);
         model.setTrangThai(4);
@@ -826,6 +831,11 @@ public class DonHangService implements IDonHangService {
         DonHangModel donHangOld = donHangResponsitory.findById(request.getMa()).orElseThrow(() -> new RuntimeException("Đơn hàng không tồn tại"));
         DonHangModel model = request.mapModel();
         model.setLyDoDoiHang(lyDoDoiHang);
+        model.setNgayXacNhan(donHangOld.getNgayXacNhan());
+        model.setNgayDatHang(donHangOld.getNgayDatHang());
+        model.setPhiGiaoHang(donHangOld.getPhiGiaoHang());
+        model.setNgayGiaoHang(donHangOld.getNgayGiaoHang());
+        model.setNgayHoanThanh(donHangOld.getNgayHoanThanh());
         model.setTrangThai(4);
         List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
         String maDHDoi = codeDonHang();

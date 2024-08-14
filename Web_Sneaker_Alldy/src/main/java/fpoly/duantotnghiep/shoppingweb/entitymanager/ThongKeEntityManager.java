@@ -258,7 +258,7 @@ public class ThongKeEntityManager {
         BigDecimal tongTien = (BigDecimal) entityManager
                 .createQuery("""
                                 SELECT SUM(c.donGia*c.soLuong) FROM ChiTietDonHangModel c  
-                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
+                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai AND c.donHang.trangThai = 4
                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)
@@ -268,7 +268,7 @@ public class ThongKeEntityManager {
                 .createQuery("""
                                                 SELECT SUM((c.donGia-c.donGiaSauGiam)*c.soLuong) + (SElECT SUM(d.tienGiam) FROM DonHangModel d WHERE d.ngayDatHang between :firstDate AND :lastDate AND d.loai = :loai AND d.trangThai <> 0 AND  d.trangThai <> 5  ) 
                                                 FROM ChiTietDonHangModel c  
-                                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
+                                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai   AND  c.donHang.trangThai= 4
                                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)
@@ -281,8 +281,8 @@ public class ThongKeEntityManager {
     public String getTotalDoanhThuByDate(Date firstDate, Date lastDate){
         BigDecimal tongTien = (BigDecimal) entityManager
                 .createQuery("""
-                                SELECT SUM(c.donGiaSauGiam*c.soLuong) - (SElECT SUM(d.tienGiam) FROM DonHangModel d WHERE d.ngayDatHang between :firstDate AND :lastDate  AND d.trangThai <> 0 AND  d.trangThai <> 5  ) FROM ChiTietDonHangModel c  
-                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate  AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
+                                SELECT SUM(c.donGiaSauGiam*c.soLuong) - (SELECT SUM(d.tienGiam) FROM DonHangModel d WHERE d.ngayDatHang between :firstDate AND :lastDate  AND d.trangThai = 4  ) FROM ChiTietDonHangModel c  
+                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate  AND  c.donHang.trangThai = 4
                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)

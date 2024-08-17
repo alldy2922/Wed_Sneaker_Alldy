@@ -306,34 +306,21 @@ public class DonHangService implements IDonHangService {
                 title = "Đơn hàng đã được đổi hàng";
                 model.setNgayGiao(new Date());
                 messeger = "Xin chào " + model.getDonHang().getTenNguoiNhan() + ", đơn hàng đổi của bạn đã được bàn giao cho đơn vị vận chuyển đang trên đường giao.Vui lòng để ý liên lạc.";
-                List<DonHangDoiModel> ctdhModel = donHangDoiRepository.findByMaDonHang(maDonHangDoi);
-
-                ctdhModel.forEach(c -> {
-
-                    long soLuong = c.getSoLuong();
-                    // Lấy thông tin sản phẩm từ đơn hàng đổi và đơn hàng hoàn thành
-                    ChiTietSanPhamModel sanPhamMoi = chiTietSanPhamRepository.findById(c.getSanPhamDoi()).orElseThrow(() -> new RuntimeException("Product not found in DonHang"));
-                    sanPhamMoi.setSoLuong(soLuong+sanPhamMoi.getSoLuong());
-                    chiTietSanPhamRepository.save(sanPhamMoi);
-
-                });
+                int soLuong = model.getSoLuong();
+                ChiTietSanPhamModel sanPhamMoi = chiTietSanPhamRepository.findById(model.getSanPhamDoi()).orElseThrow(() -> new RuntimeException("Product not found in DonHang"));
+                sanPhamMoi.setSoLuong(soLuong+sanPhamMoi.getSoLuong());
+                chiTietSanPhamRepository.save(sanPhamMoi);
             } else if (trangThai == 4) {
                 subject = "Đã Đổi Hàng!";
                 title = "Đơn hàng đã được đổi hàng";
                 model.setNgayHoanThanh(new Date());
                 messeger = "Xin chào " + model.getDonHang().getTenNguoiNhan() + ", đơn hàng của bạn đã được đổi hàng.";
-                List<DonHangDoiModel> ctdhModel = donHangDoiRepository.findByMaDonHang(maDonHangDoi);
 
-                ctdhModel.forEach(c -> {
-
-                    long soLuong = c.getSoLuong();
-                    // Lấy thông tin sản phẩm từ đơn hàng đổi và đơn hàng hoàn thành
-                    ChiTietSanPhamModel sanPhamMoi = chiTietSanPhamRepository.findById(c.getChiTietSanPham().getId()).orElseThrow(() -> new RuntimeException("Product not found in DonHang"));
-                    sanPhamMoi.setSoLuong(sanPhamMoi.getSoLuong()-soLuong);
-                    chiTietSanPhamRepository.save(sanPhamMoi);
-
-                });
-
+                int soLuong = model.getSoLuong();
+                // Lấy thông tin sản phẩm từ đơn hàng đổi và đơn hàng hoàn thành
+                ChiTietSanPhamModel sanPhamMoi = chiTietSanPhamRepository.findById(model.getChiTietSanPham().getId()).orElseThrow(() -> new RuntimeException("Product not found in DonHang"));
+                sanPhamMoi.setSoLuong(sanPhamMoi.getSoLuong()-soLuong);
+                chiTietSanPhamRepository.save(sanPhamMoi);
             } else if (trangThai == 0) {
                 subject = "Từ chối Hoàn tiền!";
                 title = "Tư Chối hoàn tiền";
@@ -704,7 +691,7 @@ public class DonHangService implements IDonHangService {
             models.forEach(model -> {
                 model.getDonHang().setLyDoTraHang(lyDoTraHang);
                 model.setTrangThai(0);
-
+                model.setNgayHuy(new Date());
                 String subject = "Từ chối hoàn đơn hàng!";
                 String messeger = "Xin chào " + model.getDonHang().getTenNguoiNhan() + ",yêu cầu đơn hàng của bạn đã bị hủy. Cảm ơn bạn đã ghé qua cửa hàng";
 

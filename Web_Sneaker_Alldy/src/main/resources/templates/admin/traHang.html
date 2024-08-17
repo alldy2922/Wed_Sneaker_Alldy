@@ -617,33 +617,33 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <tr ng-if="hoanThanhTraHang.list.length == 0">
+                                                            <tr ng-if="huyTraHang.list.length == 0">
                                                                 <td colspan="8">
                                                                     <h4 class="text-center col-12 mt-5">Không có đơn
                                                                         hàng liên quan</h4>
                                                                 </td>
                                                             </tr>
-                                                            <tr ng-repeat="d in hoanThanhTraHang.list">
+                                                            <tr ng-repeat="d in huyTraHang.list">
                                                                 <td style="cursor: pointer"
-                                                                    ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    ng-click="huyTraHang.getDetail(d.donHangDtoResponse.ma)">
                                                                     {{d.donHangDtoResponse.ma}}
                                                                 </td>
                                                                 <td style="cursor: pointer"
-                                                                    ng-click="hoanThanhTraHang.getDetail(d.ma)">
+                                                                    ng-click="huyTraHang.getDetail(d.ma)">
                                                                     {{d.donHangDtoResponse.tenNguoiNhan}}
                                                                 </td>
                                                                 <td style="cursor: pointer"
-                                                                    ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    ng-click="huyTraHang.getDetail(d.donHangDtoResponse.ma)">
                                                                     {{d.donHangDtoResponse.soDienThoai}}
                                                                 </td>
                                                                 <td style="cursor: pointer"
-                                                                    ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    ng-click="huyTraHang.getDetail(d.donHangDtoResponse.ma)">
                                                                     {{d.ngayHuy | date:'yyyy-MM-dd
                                                                 HH:mm:ss'
                                                                     }}
                                                                 </td>
                                                                 <td style="cursor: pointer"
-                                                                    ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    ng-click="huyTraHang.getDetail(d.donHangDtoResponse.ma)">
                                                                     {{d.donHangDtoResponse.lyDoTraHang}}
                                                                 </td>
                                                             </tr>
@@ -772,20 +772,13 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-6">
                                             <div class="mb-3">
                                                 <label>Mã đơn hàng</label>
                                                 <span class="form-control">{{chuaXacNhanTraHang.detail.ma}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="mb-3">
-                                                <label>Ngày yêu cầu trả hàng</label>
-                                                <span class="form-control">{{chuaXacNhanTraHang.detail.ngayTraHang |
-                                                    date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
+                                        <div class="col-6">
                                             <div class="mb-3">
                                                 <label>Phương thức thanh toán khi mua</label>
                                                 <span class="form-control">

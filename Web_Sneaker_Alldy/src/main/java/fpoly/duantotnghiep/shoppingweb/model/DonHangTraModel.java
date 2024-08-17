@@ -53,6 +53,9 @@ public class DonHangTraModel {
     @Column(name = "ngayhoanthanh")
     private Date ngayHoanThanh;
 
+    @Column(name = "ngayhuy")
+    private Date ngayHuy;
+
     @Column(name = "trangthai")
     private Integer trangThai;
 

@@ -916,7 +916,7 @@
 
                                 <div class="col-6">
                                     <h4>Sản Phẩm Đã Mua</h4>
-                                    <div style="height: 215px;overflow-y: auto;">
+                                    <div style="height: 200px;overflow-y: auto;">
                                         <table class="table table-hover dt-responsive  nowrap w-100">
                                             <thead>
                                                 <tr style="position: sticky;
@@ -965,8 +965,9 @@
                                     </div>
                                     <br>
                                     <h4>Sản Phẩm Trả</h4>
-                                    <table class="table table-hover dt-responsive  nowrap w-100">
-                                        <thead>
+                                    <div style="height: 200px;overflow-y: auto;">
+                                        <table class="table table-hover dt-responsive  nowrap w-100">
+                                            <thead>
                                             <tr style="position: sticky;
                                             top: 0;
                                             z-index: 1;
@@ -978,15 +979,15 @@
                                                 <th style="width: 120px;">Thành tiền</th>
                                                 <th style="width: 15px"></th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
+                                            </thead>
+                                            <tbody>
                                             <i class="er">{{er.soLuongSP == undefined ? '' : er.soLuongSP}}</i>
                                             <tr ng-repeat="d in sanPhamTra" style="vertical-align: middle">
                                                 <td style="width: 260px;">
                                                     <div class="d-flex justify-content-start">
                                                         <div style="width: 70px;">
                                                             <img src="/image/loadImage/product/{{d.anh}}"
-                                                                style="width: 70px; height: 70px; border-radius: 10px">
+                                                                 style="width: 70px; height: 70px; border-radius: 10px">
                                                         </div>
                                                         <div>
                                                             <p style="font-weight: bold;padding-left: 10px; ">
@@ -996,20 +997,21 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>                                                   
-                                                        {{d.soLuong}}                                                 
+                                                <td>
+                                                    {{d.soLuong}}
                                                 </td>
                                                 <td>{{d.donGia | currency: "" : 0}} đ</td>
                                                 <td>
-                                                {{d.donGiaSauGiam |
-                                                        currency: "" : 0}}đ 
+                                                    {{d.donGiaSauGiam |
+                                                currency: "" : 0}}đ
                                                 </td>
                                                 <td>
-                                                        {{d.donGiaSauGiam * d.soLuong | currency: "" : 0}}đ
+                                                    {{d.donGiaSauGiam * d.soLuong | currency: "" : 0}}đ
                                                 </td>
                                             </tr>
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <hr>
                                     <table class="table">
                                         <tbody>
@@ -1158,8 +1160,8 @@
                                 </div>
                                 <!-- sản phẩm -->
                                 <div class="col-6">
-                                    <div style="max-height: 220px;overflow-y: auto;">
-                                        <h4>Sản Phẩm Đã Mua</h4>
+                                    <h4>Sản Phẩm Đã Mua</h4>
+                                    <div style="max-height: 200px;overflow-y: auto;">                                       
                                         <table id="datatable"
                                             class="table table-striped table-hover dt-responsive  nowrap w-100">
                                             <thead>
@@ -1202,7 +1204,11 @@
                                             </tbody>
                                         </table> 
                                     </div>
+
+                                    <br>
+
                                     <h4>Sản Phẩm Trả</h4>
+                                    <div  style="max-height: 200px;overflow-y: auto;">
                                     <table id="datatable"
                                         class="table table-striped table-hover dt-responsive  nowrap w-100">
                                         <thead>
@@ -1244,6 +1250,8 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    </div>
+                                    
                                     <table class="table" style="border-top: 1px solid black">
                                         <tbody>
                                             <tr>
@@ -1285,7 +1293,7 @@
                 }
 
                 .full-screen-modal .modal-dialog {
-                    width: 70%;
+                    width: 85%;
                     /* Chiều rộng toàn bộ cửa sổ trình duyệt */
                     max-width: 100vw;
                     /* Đảm bảo không vượt quá chiều rộng cửa sổ */

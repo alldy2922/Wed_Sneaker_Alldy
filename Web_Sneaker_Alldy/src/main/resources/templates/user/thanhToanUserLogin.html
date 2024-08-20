@@ -37,23 +37,6 @@
         .coupon .time {
             font-size: 1.6rem;
         }
-
-        a.btn {
-            display: inline-block;
-            padding: 4px 13px;
-            background-color: #3f3f3f;
-            color: white;
-            text-align: center;
-            border-radius: 20px;
-            /* Bo tròn nhiều hơn */
-            font-size: 12px;
-            /* Kích thước chữ nhỏ hơn */
-            text-decoration: none;
-        }
-
-        a.btn:hover {
-            background-color: #5c5c5c;
-        }
     </style>
 </head>
 
@@ -77,7 +60,7 @@
                         <div class="col-6 flex-r" ng-if="loginIn">
                             <p style="margin-bottom: 10px;">
                                 <a href="/dang-nhap" data-bs-toggle="modal" data-bs-target="#myModalDiaChi"
-                                    class="btn btn-primary">
+                                    style="color: black;">
                                     Chọn địa chỉ có sẵn</a>
                             </p>
                         </div>
@@ -349,6 +332,8 @@
                                                 <li>Không trả sản phẩm với những sản phẩm có áp dụng Voucher.</li>
                                                 <li>Chỉ chấp nhận trả sản phẩm khi đúng với lý do trả hàng và mô tả
                                                     lỗi sản phẩm.</li>
+                                                <li>Trường hợp sản phẩm lỗi và đơn có voucher,thì sản phẩm vẫn có thể được
+                                                    shop hỗ trợ đổi thì sẽ đổi hàng cho khách,không hoàn tiền.</li>
                                             </ol>
                                             <h6>2.2 Điều kiện trả sản phẩm:</h6>
                                             <ol>
@@ -442,7 +427,7 @@
                         </div>
 
                         <!-- Tab panes -->
-                        <div class="modal-body" style="height: 370px;">
+                        <div class="modal-body" style="height: 400px;">
                             <div class="tab-content p-3 text-muted"
                                 style="background-color: #dedede; height: 370px; overflow: auto;">
                                 <!--Tất cả voucher của shop-->

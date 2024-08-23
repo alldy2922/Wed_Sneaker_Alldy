@@ -190,14 +190,15 @@
                                 <span data-key="t-chat">Trả Hàng</span>
                             </a>
                         </li>
-                        <li th:if="${hasAdmin}">
+                        <li>
                             <a th:href="@{/admin/doi-hang}">
                                 <i class="bi bi-arrow-left-right"></i>
                                 <span data-key="t-chat">Đổi Hàng</span>
                             </a>
                         </li>
-                        <li class="menu-title" data-key="t-apps">Sản phẩm</li>
-                        <li>
+
+                        <li class="menu-title" data-key="t-apps">Quản Lý Sản phẩm</li>
+                        <li th:if="${hasAdmin}">
                             <a href="javascript: void(0);" class="has-arrow">
                                 <i data-feather="list"></i>
                                 <span data-key="t-ecommerce">Thuộc tính/phân loại</span>
@@ -214,7 +215,7 @@
                                 </li>
                                 <li th:if="${hasAdmin}"><a th:href="@{/admin/chat-lieu}" data-key="t-customers">Chất
                                         Liệu</a></li>
-                                <li><a th:href="@{/admin/size}" data-key="t-cart">Size</a></li>
+                                <li th:if="${hasAdmin}"><a th:href="@{/admin/size}" data-key="t-cart">Size</a></li>
                                 <li th:if="${hasAdmin}"><a th:href="@{/admin/thuong-hieu}" data-key="t-cart">Thương
                                         Hiệu</a>
                                 </li>

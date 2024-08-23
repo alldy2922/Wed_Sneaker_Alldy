@@ -150,7 +150,7 @@
         </header>
 
         <!-- ========== Left Sidebar Start ========== -->
-        <div class="vertical-menu" style="background-color: #f8f4b9">
+        <div class="vertical-menu" style="background-color: #f5f5f5">
 
             <div data-simplebar class="h-100">
                 <!--- Sidemenu -->
@@ -181,7 +181,7 @@
                         <li>
                             <a th:href="@{/admin/don-hang}">
                                 <i class="bi bi-bag-heart"></i>
-                                <span data-key="t-chat">Hóa Đơn Online</span>
+                                <span data-key="t-chat">Đơn Hàng Online</span>
                             </a>
                         </li>
                         <li th:if="${hasAdmin}">
@@ -190,14 +190,15 @@
                                 <span data-key="t-chat">Trả Hàng</span>
                             </a>
                         </li>
-                        <li th:if="${hasAdmin}">
-                            <a>
+                        <li>
+                            <a th:href="@{/admin/doi-hang}">
                                 <i class="bi bi-arrow-left-right"></i>
                                 <span data-key="t-chat">Đổi Hàng</span>
                             </a>
                         </li>
-                        <li class="menu-title" data-key="t-apps">Sản phẩm</li>
-                        <li>
+
+                        <li class="menu-title" data-key="t-apps">Quản Lý Sản phẩm</li>
+                        <li th:if="${hasAdmin}">
                             <a href="javascript: void(0);" class="has-arrow">
                                 <i data-feather="list"></i>
                                 <span data-key="t-ecommerce">Thuộc tính/phân loại</span>
@@ -214,7 +215,7 @@
                                 </li>
                                 <li th:if="${hasAdmin}"><a th:href="@{/admin/chat-lieu}" data-key="t-customers">Chất
                                         Liệu</a></li>
-                                <li><a th:href="@{/admin/size}" data-key="t-cart">Size</a></li>
+                                <li th:if="${hasAdmin}"><a th:href="@{/admin/size}" data-key="t-cart">Size</a></li>
                                 <li th:if="${hasAdmin}"><a th:href="@{/admin/thuong-hieu}" data-key="t-cart">Thương
                                         Hiệu</a>
                                 </li>
@@ -396,10 +397,10 @@
     <script src="/admin/AngularJS/ThuongHieuJS.js"></script>
     <script src="/admin/AngularJS/DonHang.js"></script>
     <script src="/admin/AngularJS/TraHang.js"></script>
+    <script src="/admin/AngularJS/DoiHang.js"></script>
     <script src="/admin/AngularJS/banHangTaiQuay.js"></script>
     <script src="/admin/AngularJS/hoaDon.js"></script>
     <script src="/admin/AngularJS/LichSuThaoTac.js"></script>
-
     <script src="/admin/assets/libs/rater-js/index.js"></script>
     <script th:src="@{/admin/AngularJS/VoucherJS.js}"></script>
     <script th:src="@{/admin/AngularJS/ResetPassword.js}"></script>

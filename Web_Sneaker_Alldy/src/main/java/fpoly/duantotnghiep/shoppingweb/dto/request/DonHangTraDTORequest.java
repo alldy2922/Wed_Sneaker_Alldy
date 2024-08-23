@@ -26,6 +26,7 @@ public class DonHangTraDTORequest {
     private Date ngayXacNhan;
     private Date ngayKiemTra;
     private Date ngayHoanThanh;
+    private Date ngayHuy;
     private Integer trangThai;
     private DonHangModel donHang;
     private ChiTietSanPhamModel chiTietSanPhamModel;
@@ -45,6 +46,7 @@ public class DonHangTraDTORequest {
         model.setNgayXacNhan(ngayXacNhan);
         model.setNgayKiemTra(ngayKiemTra);
         model.setNgayHoanThanh(ngayHoanThanh);
+        model.setNgayHuy(ngayHuy);
         model.setTrangThai(trangThai);
         model.setDonHang(donHang);
         model.setChiTietSanPham(chiTietSanPhamModel);

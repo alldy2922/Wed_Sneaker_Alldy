@@ -10,6 +10,7 @@ import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -29,6 +30,11 @@ public class KhachHangRestcontroller {
 
 
 
+    @GetMapping("/voucher")
+    public ResponseEntity<List<KhachHangDtoResponse>> getKhachHangVoucher(@RequestParam("dieuKien") int dieuKien) {
+        List<KhachHangDtoResponse> khachHangList = taiKhoanService.khachHangVoucher(dieuKien);
+        return new ResponseEntity<>(khachHangList, HttpStatus.OK);
+    }
     @GetMapping("get-all-khach-hang")
     public ResponseEntity<Page<KhachHangDtoResponse>> getAllKhachHang(@RequestParam(defaultValue = "0") Integer page,
                                                                       @RequestParam(defaultValue = "8") Integer limit,

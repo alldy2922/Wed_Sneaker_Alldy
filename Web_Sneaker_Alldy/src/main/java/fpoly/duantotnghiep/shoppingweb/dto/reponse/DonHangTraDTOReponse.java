@@ -26,6 +26,7 @@ public class DonHangTraDTOReponse {
     private Date ngayXacNhan;
     private Date ngayKiemTra;
     private Date ngayHoanThanh;
+    private Date ngayHuy;
     private Integer trangThai;
     private DonHangDtoResponse donHangDto;
 
@@ -43,6 +44,7 @@ public class DonHangTraDTOReponse {
         this.ngayXacNhan = model.getNgayXacNhan();
         this.ngayKiemTra = model.getNgayKiemTra();
         this.ngayHoanThanh = model.getNgayHoanThanh();
+        this.ngayHuy = model.getNgayHuy();
         this.trangThai = model.getTrangThai();
         this.donHangDto = new DonHangDtoResponse(model.getDonHang());
     }

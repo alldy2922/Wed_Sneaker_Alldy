@@ -4,7 +4,11 @@
       layout:decorate="~{/admin/index}">
 
 <head>
-
+    <meta charset="utf-8"/>
+    <title>ALLDY STORE | Chi Tiết Voucher</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description"/>
+    <meta content="Themesbrand" name="author"/>
 </head>
 
 <body data-topbar="dark">
@@ -28,17 +32,18 @@
                                     <ul class="navbar-nav me-auto">
                                     </ul>
                                     <form class="d-flex">
-                                        <button
+                                        <button style="margin-right: 10px"
                                                 ng-if="voucherAdd.doiTuongSuDung == 'Tất cả khách hàng'"
                                                 class="btn btn-primary" ng-click="update()" type="button"> Cập
                                             nhật
                                         </button>
-                                        <button ng-click="updateTrangThai(1)"
+                                        
+                                        <button ng-click="updateTrangThai(1)" 
                                                 ng-if="voucherAdd.trangThai == 0"
                                                 class="btn btn-danger" type="button"> Dừng kích hoạt
                                         </button>
                                         <button ng-click="updateTrangThai(0)"
-                                                style="margin-right: 10px" ng-if="voucherAdd.trangThai == 1"
+                                                ng-if="voucherAdd.trangThai == 1"
                                                 ng-disabled="voucherAdd.ngayKetThuc < ngayHienTai || voucherAdd.ngayBatDau > ngayHienTai"
                                                 class="btn btn-primary" type="button">Kích hoạt
                                         </button>
@@ -329,7 +334,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <script>document.write(new Date().getFullYear())</script>
-                    © Dason.
+                    © ALLDY STORE.
                 </div>
                 <div class="col-sm-6">
                     <div class="text-sm-end d-none d-sm-block">

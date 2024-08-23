@@ -1,0 +1,1577 @@
+<!doctype html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{/admin/index}">
+
+<head>
+    <title>ALLDY STORE | Đổi Hàng</title>
+</head>
+
+<body data-topbar="dark">
+    <div class="main-content" layout:fragment="content">
+        <style>
+            .modal-Big {
+                width: 80%;
+            }
+
+            .er {
+                color: red;
+                font-size: 13px;
+            }
+
+            .nameProduct {
+                width: 200px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .not-editable {
+                background-color: #8a8a8a;
+                /* Màu xám nhạt cho hàng không thể chỉnh sửa */
+                color: #a0a0a0;
+                /* Màu chữ xám để phù hợp với màu nền */
+            }
+
+            .editable {
+                background-color: #ffffff;
+                /* Màu nền trắng cho hàng có thể chỉnh sửa */
+            }
+        </style>
+        <div class="page-content" ng-app="doihang-app" ng-controller="doihang-ctrl">
+            <div class="container-fluid">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Đơn Hàng Đổi</h4>
+                        </div><!-- end card header -->
+
+                        <div class="card-body">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
+                                <li class="nav-item" ng-click="chuaXacNhan.getList(chuaXacNhan.page)">
+                                    <a class="nav-link active" data-bs-toggle="tab" href="#donhang1" role="tab">
+                                        <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                        <span class="d-none d-sm-block">Chờ xác nhận đổi <span
+                                                class="badge bg-danger ms-1"
+                                                style="font-size: 11px">{{chuaXacNhan.totalElement}}</span></span>
+
+                                    </a>
+                                </li>
+                                <li class="nav-item" ng-click="daXacNhan.getList(daXacNhan.page)">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#donhang2" role="tab">
+                                        <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                        <span class="d-none d-sm-block">Kiểm Tra Hàng Đổi <span
+                                                class="badge bg-danger ms-1"
+                                                style="font-size: 11px">{{daXacNhan.totalElement}}</span></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" ng-click="dangGiao.getList(dangGiao.page)">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#donhang3" role="tab">
+                                        <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                        <span class="d-none d-sm-block">Đang giao <span class="badge bg-danger ms-1"
+                                                style="font-size: 11px">{{dangGiao.totalElement}}</span></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" ng-click="hoanThanh.getList(hoanThanh.page)">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#hoanThanh" role="tab">
+                                        <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                        <span class="d-none d-sm-block">Hoàn thành<span class="badge bg-danger ms-1"
+                                                style="font-size: 11px">{{hoanThanh.totalElement}}</span></span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" ng-click="huy.getList(huy.page)">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#donhangHuy" role="tab">
+                                        <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                        <span class="d-none d-sm-block">Hủy<span class="badge bg-danger ms-1"
+                                                style="font-size: 11px">{{huy.totalElement}}</span></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content p-3 text-muted">
+                                <!-- Chưa xác nhận -->
+                                <div class="tab-pane active" id="donhang1" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div
+                                                                class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+                                                                <input class="form-control col-6"
+                                                                    ng-model="chuaXacNhan.sdtSearch"
+                                                                    onchange="angular.element(this).scope().chuaXacNhan.getList(0)"
+                                                                    placeholder="Tìm kiếm theo số điện thoại hoặc mã đơn hàng"
+                                                                    style="width: 50%">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end row -->
+
+                                                    <div class="table-responsive mb-4">
+                                                        <table
+                                                            class="table align-middle datatable dt-responsive table-check nowrap"
+                                                            style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col" style="width: 50px;">
+                                                                        <div class="form-check font-size-16">
+                                                                            <input type="checkbox"
+                                                                                ng-click="setCheckAll('checkAllChuaXacNhan','checkChuaXacNhan')"
+                                                                                class="form-check-input"
+                                                                                id="checkAllChuaXacNhan">
+                                                                        </div>
+                                                                    </th>
+                                                                    <th scope="col">Mã</th>
+                                                                    <th scope="col">Tên người nhận</th>
+                                                                    <th scope="col">Số điện thoại</th>
+                                                                    <th scope="col">Ngày gửi yêu cầu đổi</th>
+                                                                    <th scope="col">Lý Do Đổi</th>
+                                                                    <th style="width: 80px; min-width: 80px;"></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-if="chuaXacNhan.list.length == 0">
+                                                                    <td colspan="8">
+                                                                        <h4 class="text-center col-12 mt-5">Không có đơn
+                                                                            hàng liên quan</h4>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-repeat="d in chuaXacNhan.list">
+                                                                    <th scope="row">
+                                                                        <div class="form-check font-size-16">
+                                                                            <input type="checkbox"
+                                                                                ng-click="checkAllChecked('checkChuaXacNhan','checkAllChuaXacNhan')"
+                                                                                class="form-check-input"
+                                                                                name="checkChuaXacNhan"
+                                                                                value="{{d.ma}}">
+                                                                        </div>
+                                                                    </th>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="chuaXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.ma}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="chuaXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.tenNguoiNhan}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="chuaXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.soDienThoai}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="chuaXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="chuaXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.lyDoDoiHang}}
+                                                                    </td>
+                                                                    <td style="width: 200px" id="action{{d.ma}}">
+                                                                        <button class="btn btn-danger me-1"
+                                                                            data-toggle="modal"
+                                                                            data-target="#lyDoDoiHang"
+                                                                            ng-click="chuaXacNhan.setIdDonHang(d.donHangDtoResponse.ma)">Hủy
+                                                                        </button>
+                                                                        <button class="btn btn-primary"
+                                                                            ng-click="chuaXacNhan.xacNhanDH(d.donHangDtoResponse.ma)">Xác
+                                                                            nhận
+                                                                        </button>
+
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <!-- end table -->
+                                                    </div>
+                                                    <!-- end table responsive -->
+
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="row d-flex justify-content-end me-1  mb-2">
+                                                        <button class="btn btn-danger me-1 col-1" id="huyAll1" disabled
+                                                            ng-click="chuaXacNhan.setAllIdDonHang()" data-toggle="modal"
+                                                            data-target="#lyDo">Hủy
+                                                        </button>
+                                                        <button class="btn btn-primary col-2" disabled id="xacNhanAll1"
+                                                            ng-click="chuaXacNhan.xacNhanDHAll()">Xác nhận
+                                                        </button>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6"></div>
+                                                        <div class="col-6">
+                                                            <nav aria-label="Page navigation example">
+                                                                <ul class="pagination justify-content-end">
+                                                                    <li class="page-item"
+                                                                        ng-click="chuaXacNhan.getList(0)"
+                                                                        ng-if="chuaXacNhan.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="First">
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span class="sr-only">First</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item" ng-if="chuaXacNhan.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Previous"
+                                                                            ng-click="chuaXacNhan.getList(chuaXacNhan.page==0 ? 0 : chuaXacNhan.page-1)">
+                                                                            <span>
+                                                                                < </span>
+                                                                                    <span
+                                                                                        class="sr-only">Previous</span>
+                                                                            </span>
+                                                                    </li>
+                                                                    <li class="page-item" ng-if="chuaXacNhan.page>2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item pageNumber"
+                                                                        ng-repeat="p in chuaXacNhan.pages"
+                                                                        ng-click="chuaXacNhan.getList(p)">
+                                                                        <span ng-if="p!=chuaXacNhan.page"
+                                                                            class="page-link"
+                                                                            style="cursor: pointer">{{p + 1}}</span>
+                                                                        <span ng-if="p==chuaXacNhan.page"
+                                                                            class="page-link active"
+                                                                            style="cursor: pointer">{{p + 1}}</span>
+                                                                    </li>
+                                                                    <li class="page-item"
+                                                                        ng-if="chuaXacNhan.page<chuaXacNhan.totalPage -2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Next"
+                                                                            ng-if="chuaXacNhan.page<chuaXacNhan.totalPage -1"
+                                                                            ng-click="chuaXacNhan.getList(chuaXacNhan.page==chuaXacNhan.totalPage -1 ? chuaXacNhan.totalPage -1 : chuaXacNhan.page+1)">
+                                                                            <span>></span>
+                                                                            <span class="sr-only">Next</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Last"
+                                                                            ng-if="chuaXacNhan.page<chuaXacNhan.totalPage-1"
+                                                                            ng-click="chuaXacNhan.getList(chuaXacNhan.totalPage -1)">
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span class="sr-only">Last</span>
+                                                                        </span>
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--                            Đã xác nhận -->
+                                <div class="tab-pane" id="donhang2" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div
+                                                                class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+                                                                <input class="form-control col-6"
+                                                                    ng-model="daXacNhan.sdtSearch"
+                                                                    onchange="angular.element(this).scope().daXacNhan.getList(0)"
+                                                                    placeholder="Tìm kiếm theo số điện thoại hoặc mã đơn hàng"
+                                                                    style="width: 50%">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-responsive mb-4">
+                                                        <table
+                                                            class="table align-middle datatable dt-responsive table-check nowrap"
+                                                            style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col" style="width: 50px;">
+                                                                        <div class="form-check font-size-16">
+                                                                            <input type="checkbox"
+                                                                                ng-click="setCheckAll('checkAlldaXacNhan','checkDaXacNhan')"
+                                                                                class="form-check-input"
+                                                                                id="checkAlldaXacNhan">
+                                                                        </div>
+                                                                    </th>
+                                                                    <th scope="col">Mã</th>
+                                                                    <th scope="col">Tên người nhận</th>
+                                                                    <th scope="col">Số điện thoại</th>
+                                                                    <th scope="col">Ngày Kiểm Tra</th>
+                                                                    <th scope="col">Lý Do Đổi</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-if="daXacNhan.list.length == 0">
+                                                                    <td colspan="8">
+                                                                        <h4 class="text-center col-12 mt-5">Không có đơn
+                                                                            hàng liên quan</h4>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-repeat="d in daXacNhan.list">
+                                                                    <th scope="row">
+                                                                        <div class="form-check font-size-16">
+                                                                            <input type="checkbox"
+                                                                                ng-click="checkAllChecked('checkDaXacNhan','checkAlldaXacNhan')"
+                                                                                class="form-check-input"
+                                                                                name="checkDaXacNhan" value="{{d.ma}}">
+                                                                        </div>
+                                                                    </th>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="daXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.ma}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="daXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.tenNguoiNhan}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="daXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.soDienThoai}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="daXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss' }}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="daXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.lyDoDoiHang}}
+                                                                    </td>
+                                                                    <td style="width: 200px">
+                                                                        <button class="btn btn-danger me-1"
+                                                                            data-toggle="modal"
+                                                                            data-target="#lyDoDoiHang"
+                                                                            ng-click="daXacNhan.setIdDonHang(d.donHangDtoResponse.ma)">Hủy
+                                                                        </button>
+                                                                        <button class="btn btn-primary"
+                                                                            ng-click="daXacNhan.chuyenGiao(d.donHangDtoResponse.ma)">Chuyển
+                                                                            giao
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <!-- end table -->
+                                                    </div>
+                                                    <!-- end table responsive -->
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="row d-flex justify-content-end me-1  mb-2">
+                                                        <button class="btn btn-danger me-1 col-1" id="huyAll2" disabled
+                                                            ng-click="daXacNhan.setAllIdDonHang()" data-toggle="modal"
+                                                            data-target="#lyDo">Hủy
+                                                        </button>
+                                                        <button class="btn btn-primary col-2" disabled id="xacNhanAll2"
+                                                            ng-click="daXacNhan.chuyenGiaoDHAll()">Chuyển giao
+                                                        </button>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6"></div>
+                                                        <div class="col-6">
+                                                            <nav aria-label="Page navigation example">
+                                                                <ul class="pagination justify-content-end">
+                                                                    <li class="page-item"
+                                                                        ng-click="daXacNhan.getList(0)"
+                                                                        ng-if="daXacNhan.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="First">
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span class="sr-only">First</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item" ng-if="daXacNhan.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Previous"
+                                                                            ng-click="daXacNhan.getList(daXacNhan.page==0 ? 0 : daXacNhan.page-1)">
+                                                                            <span>
+                                                                                < </span>
+                                                                                    <span
+                                                                                        class="sr-only">Previous</span>
+                                                                            </span>
+                                                                    </li>
+                                                                    <li class="page-item" ng-if="daXacNhan.page>2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item pageNumber"
+                                                                        ng-repeat="p in daXacNhan.pages"
+                                                                        ng-click="daXacNhan.getList(p)" id="{{p}}">
+                                                                        <span ng-if="p!=daXacNhan.page"
+                                                                            class="page-link"
+                                                                            style="cursor: pointer">{{p + 1}}</span>
+                                                                        <span ng-if="p==daXacNhan.page"
+                                                                            class="page-link active"
+                                                                            style="cursor: pointer">{{p + 1}}</span>
+                                                                    </li>
+                                                                    <li class="page-item"
+                                                                        ng-if="daXacNhan.page<daXacNhan.totalPage -2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Next"
+                                                                            ng-if="daXacNhan.page<daXacNhan.totalPage -1"
+                                                                            ng-click="daXacNhan.getList(daXacNhan.page==daXacNhan.totalPage -1 ? daXacNhan.totalPage -1 : daXacNhan.page+1)">
+                                                                            <span>></span>
+                                                                            <span class="sr-only">Next</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Last"
+                                                                            ng-if="daXacNhan.page<daXacNhan.totalPage-1"
+                                                                            ng-click="daXacNhan.getList(daXacNhan.totalPage -1)">
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span class="sr-only">Last</span>
+                                                                        </span>
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--                            Đang giao-->
+
+                                <div class="tab-pane" id="donhang3" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div
+                                                                class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+                                                                <input class="form-control col-6"
+                                                                    ng-model="dangGiao.sdtSearch"
+                                                                    onchange="angular.element(this).scope().dangGiao.getList(0)"
+                                                                    placeholder="Tìm kiếm theo số điện thoại hoặc mã đơn hàng"
+                                                                    style="width: 50%">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-responsive mb-4">
+                                                        <table
+                                                            class="table align-middle datatable dt-responsive table-check nowrap"
+                                                            style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col" style="width: 50px;">
+                                                                        <div class="form-check font-size-16">
+                                                                            <input type="checkbox"
+                                                                                ng-click="setCheckAll('checkAllDangGiao','checkDangGiao')"
+                                                                                class="form-check-input"
+                                                                                id="checkAllDangGiao">
+                                                                        </div>
+                                                                    </th>
+                                                                    <th scope="col">Mã</th>
+                                                                    <th scope="col">Tên người nhận</th>
+                                                                    <th scope="col">Số điện thoại</th>
+                                                                    <th scope="col">Ngày giao hàng</th>
+                                                                    <th scope="col">Lý do đổi hàng</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-if="dangGiao.list.length == 0">
+                                                                    <td colspan="8">
+                                                                        <h4 class="text-center col-12 mt-5">Không có đơn
+                                                                            hàng liên quan</h4>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-repeat="d in dangGiao.list">
+                                                                    <th scope="row">
+                                                                        <div class="form-check font-size-16">
+                                                                            <input type="checkbox"
+                                                                                ng-click="checkAllChecked('checkDangGiao','checkAllDangGiao')"
+                                                                                class="form-check-input"
+                                                                                name="checkDangGiao" value="{{d.ma}}">
+                                                                        </div>
+                                                                    </th>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="dangGiao.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.ma}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="dangGiao.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.tenNguoiNhan}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="dangGiao.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.soDienThoai}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="dangGiao.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.ngayGiao | date:'yyyy-MM-dd HH:mm:ss' }}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="dangGiao.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.lyDoDoiHang}}
+                                                                    </td>
+                                                                    <td style="width: 200px">
+                                                                        <button class="btn btn-danger me-1"
+                                                                            data-toggle="modal"
+                                                                            data-target="#lyDoDoiHang"
+                                                                            ng-click="dangGiao.setIdDonHang(d.donHangDtoResponse.ma)">Hủy
+                                                                        </button>
+                                                                        <button class="btn btn-primary"
+                                                                            ng-click="dangGiao.hoanThanh(d.donHangDtoResponse.ma)">Hoàn
+                                                                            thành
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <!-- end table -->
+                                                    </div>
+                                                    <!-- end table responsive -->
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="row d-flex justify-content-end me-1  mb-2">
+                                                        <button class="btn btn-danger me-1 col-1" id="huyAll3" disabled
+                                                            ng-click="dangGiao.setAllIdDonHang()" data-toggle="modal"
+                                                            data-target="#lyDo">Hủy
+                                                        </button>
+                                                        <button class="btn btn-primary col-2" disabled id="xacNhanAll3"
+                                                            ng-click="dangGiao.hoanThanhDHAll()">Hoàn thành
+                                                        </button>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6"></div>
+                                                        <div class="col-6">
+                                                            <nav aria-label="Page navigation example">
+                                                                <ul class="pagination justify-content-end">
+                                                                    <li class="page-item" ng-click="dangGiao.getList(0)"
+                                                                        ng-if="dangGiao.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="First">
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span class="sr-only">First</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item" ng-if="dangGiao.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Previous"
+                                                                            ng-click="dangGiao.getList(dangGiao.page==0 ? 0 : dangGiao.page-1)">
+                                                                            <span>
+                                                                                < </span>
+                                                                                    <span
+                                                                                        class="sr-only">Previous</span>
+                                                                            </span>
+                                                                    </li>
+                                                                    <li class="page-item" ng-if="dangGiao.page>2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item pageNumber"
+                                                                        ng-repeat="p in dangGiao.pages" id="{{p}}">
+                                                                        <span ng-if="p!=dangGiao.page" class="page-link"
+                                                                            ng-click="dangGiao.getList(p)"
+                                                                            style="cursor: pointer">{{p + 1}}</span>
+                                                                        <span ng-if="p==dangGiao.page"
+                                                                            class="page-link active"
+                                                                            style="cursor: pointer">{{p + 1}}</span>
+                                                                    </li>
+                                                                    <li class="page-item"
+                                                                        ng-if="dangGiao.page<dangGiao.totalPage - 2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Next"
+                                                                            ng-if="dangGiao.page<dangGiao.totalPage -1"
+                                                                            ng-click="dangGiao.getList(dangGiao.page==dangGiao.totalPage -1 ? dangGiao.totalPage -1 : dangGiao.page+1)">
+                                                                            <span>></span>
+                                                                            <span class="sr-only">Next</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Last"
+                                                                            ng-if="dangGiao.page<dangGiao.totalPage-1"
+                                                                            ng-click="dangGiao.getList(dangGiao.totalPage -1)">
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span class="sr-only">Last</span>
+                                                                        </span>
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--                            Hoàn thành  -->
+                                <div class="tab-pane" id="hoanThanh" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div
+                                                                class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+                                                                <input class="form-control col-6"
+                                                                    ng-model="hoanThanh.sdtSearch"
+                                                                    onchange="angular.element(this).scope().hoanThanh.getList(0)"
+                                                                    placeholder="Tìm kiếm theo số điện thoại hoặc mã đơn hàng"
+                                                                    style="width: 50%">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-responsive mb-4">
+                                                        <table
+                                                            class="table align-middle datatable dt-responsive table-check nowrap"
+                                                            style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Mã</th>
+                                                                    <th scope="col">Tên Người Nhận</th>
+                                                                    <th scope="col">Số Điện Thoại</th>
+                                                                    <th scope="col">Ngày Hoàn Thành</th>
+                                                                    <th scope="col">Lý Do Đổi</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-if="hoanThanh.list.length == 0">
+                                                                    <td colspan="8">
+                                                                        <h4 class="text-center col-12 mt-5">Không có đơn
+                                                                            hàng liên quan</h4>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-repeat="d in hoanThanh.list">
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="hoanThanh.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.ma}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="hoanThanh.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.tenNguoiNhan}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="hoanThanh.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.soDienThoai}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="hoanThanh.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'
+                                                                        }}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="hoanThanh.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.lyDoDoiHang}}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <!-- end table -->
+                                                    </div>
+                                                    <!-- end table responsive -->
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="row">
+                                                        <div class="col-6"></div>
+                                                        <div class="col-6">
+                                                            <nav aria-label="Page navigation example">
+                                                                <ul class="pagination justify-content-end">
+                                                                    <li class="page-item"
+                                                                        ng-click="hoanThanh.getList(0)"
+                                                                        ng-if="hoanThanh.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="First">
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span class="sr-only">First</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item" ng-if="hoanThanh.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Previous"
+                                                                            ng-click="hoanThanh.getList(hoanThanh.page==0 ? 0 : hoanThanh.page-1)">
+                                                                            <span>
+                                                                                < </span>
+                                                                                    <span
+                                                                                        class="sr-only">Previous</span>
+                                                                            </span>
+                                                                    </li>
+                                                                    <li class="page-item" ng-if="hoanThanh.page>2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item pageNumber"
+                                                                        ng-repeat="p in hoanThanh.pages" id="{{p}}">
+                                                                        <span ng-if="p!=hoanThanh.page"
+                                                                            class="page-link"
+                                                                            ng-click="hoanThanh.getList(p)"
+                                                                            style="cursor: pointer">{{p + 1}}</span>
+                                                                        <span ng-if="p==hoanThanh.page"
+                                                                            class="page-link active"
+                                                                            style="cursor: pointer">{{p + 1}}</span>
+                                                                    </li>
+                                                                    <li class="page-item"
+                                                                        ng-if="hoanThanh.page<hoanThanh.totalPage - 2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Next"
+                                                                            ng-if="hoanThanh.page<hoanThanh.totalPage -1"
+                                                                            ng-click="hoanThanh.getList(hoanThanh.page==hoanThanh.totalPage -1 ? hoanThanh.totalPage -1 : hoanThanh.page+1)">
+                                                                            <span>></span>
+                                                                            <span class="sr-only">Next</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Last"
+                                                                            ng-if="hoanThanh.page<hoanThanh.totalPage-1"
+                                                                            ng-click="hoanThanh.getList(hoanThanh.totalPage -1)">
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span class="sr-only">Last</span>
+                                                                        </span>
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--                            Hủy -->
+                                <div class="tab-pane" id="donhangHuy" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div
+                                                                class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
+                                                                <input class="form-control col-6"
+                                                                    ng-model="huy.sdtSearch"
+                                                                    onchange="angular.element(this).scope().huy.getList(0)"
+                                                                    placeholder="Tìm kiếm theo số điện thoại hoặc mã đơn hàng"
+                                                                    style="width: 50%">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="table-responsive mb-4">
+                                                        <table
+                                                            class="table align-middle datatable dt-responsive table-check nowrap"
+                                                            style="border-collapse: collapse; border-spacing: 0 8px; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Mã</th>
+                                                                    <th scope="col">Tên người nhận</th>
+                                                                    <th scope="col">Số điện thoại</th>
+                                                                    <th scope="col">Ngày hủy</th>
+                                                                    <th scope="col">Lý do hủy</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-if="huy.list.length == 0">
+                                                                    <td colspan="8">
+                                                                        <h4 class="text-center col-12 mt-5">Không có đơn
+                                                                            hàng liên quan</h4>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-repeat="d in huy.list">
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="huy.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.ma}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="huy.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.tenNguoiNhan}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="huy.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.soDienThoai}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="huy.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.ngayHuy | date:'yyyy-MM-dd HH:mm:ss' }}
+                                                                    </td>
+                                                                    <!--                                                            <td style="width: 200px">-->
+                                                                    <!--                                                                <button class="btn btn-danger me-1">Hủy</button>-->
+                                                                    <!--                                                                <button class="btn btn-primary">Xác nhận</button>-->
+                                                                    <!--                                                            </td>-->
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="huy.getDetail(d.donHangDtoResponse.ma)">
+                                                                        <p class="nameProduct">
+                                                                            {{d.donHangDtoResponse.lyDoDoiHang}}</p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <!-- end table -->
+                                                    </div>
+                                                    <!-- end table responsive -->
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="row">
+                                                        <div class="col-6"></div>
+                                                        <div class="col-6">
+                                                            <nav aria-label="Page navigation example">
+                                                                <ul class="pagination justify-content-end">
+                                                                    <li class="page-item" ng-click="huy.getList(0)"
+                                                                        ng-if="huy.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="First">
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span class="sr-only">First</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item" ng-if="huy.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Previous"
+                                                                            ng-click="huy.getList(huy.page==0 ? 0 : huy.page-1)">
+                                                                            <span>
+                                                                                < </span>
+                                                                                    <span
+                                                                                        class="sr-only">Previous</span>
+                                                                            </span>
+                                                                    </li>
+                                                                    <li class="page-item" ng-if="huy.page>2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item pageNumber"
+                                                                        ng-repeat="p in huy.pages"
+                                                                        ng-click="huy.getList(p)" id="{{p}}">
+                                                                        <span ng-if="p!=huy.page" class="page-link"
+                                                                            style="cursor: pointer">{{p + 1}}</span>
+                                                                        <span ng-if="p==huy.page"
+                                                                            class="page-link active"
+                                                                            style="cursor: pointer">{{p + 1}}</span>
+                                                                    </li>
+                                                                    <li class="page-item"
+                                                                        ng-if="huy.page<huy.totalPage -2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Next"
+                                                                            ng-if="huy.page<huy.totalPage -1"
+                                                                            ng-click="huy.getList(huy.page==huy.totalPage -1 ? huy.totalPage -1 : huy.page+1)">
+                                                                            <span>></span>
+                                                                            <span class="sr-only">Next</span>
+                                                                        </span>
+                                                                    </li>
+                                                                    <li class="page-item">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                            aria-label="Last"
+                                                                            ng-if="huy.page<huy.totalPage-1"
+                                                                            ng-click="huy.getList(huy.totalPage -1)">
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span class="sr-only">Last</span>
+                                                                        </span>
+                                                                    </li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end card-body -->
+                    </div><!-- end card -->
+                </div><!-- end col -->
+            </div> <!-- container-fluid -->
+
+
+            <!--        Modal lý do hủy đơn-->
+            <div class="modal fade" id="lyDoDoiHang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Lý do từ chối đổi hàng</h5>
+                            <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input ng-model="lyDoDoiHang" class="form-control">
+                            <i style="color: red">{{messLyDo}}</i>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="closeHuy" data-dismiss="modal">Trở về
+                            </button>
+                            <button type="button" class="btn btn-primary" ng-click="huyDH()">Hủy đơn hàng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal xác nhận-->
+            <div class="modal fade bd-example-modal-lg full-screen-modal" id="XacNhanDetail" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thông tin đơn hàng</h5>
+                            <button type="button" class="close btn" data-dismiss="modal" aria-label="Close"
+                                ng-click="closeModal('#XacNhanDetail')">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body d-flex justify-content-start">
+                            <div class="me-2" style="width: 60%">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label>Mã đơn hàng</label>
+                                            <span class="form-control">{{daXacNhan.detail.ma}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label>Phương thức thanh toán</label>
+                                        <select class="form-control" ng-model="daXacNhan.detail.phuongThucThanhToan">
+                                            <option value="true">Khi nhận hàng</option>
+                                            <!-- <option value="false">Thanh toán VNPAY</option> -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label>Mã voucher</label>
+                                            <span class="form-control">{{daXacNhan.detail.voucherCode == null ? 'Không
+                                                áp dụng' : daXacNhan.detail.voucherCode}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label>Tên voucher</label>
+                                            <span class="form-control">{{daXacNhan.detail.voucherName == null ? 'Không
+                                                áp dụng' : daXacNhan.detail.voucherName}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>Tên người nhận</label>
+                                            <input class="form-control" ng-focus="er.tenNguoiNhan=''"
+                                                ng-model="daXacNhan.detail.tenNguoiNhan">
+                                            <i class="er">{{er.tenNguoiNhan == undefined ? '' : er.tenNguoiNhan}}</i>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>Số điện thoại</label>
+                                            <input class="form-control" ng-focus="er.soDienThoai=''"
+                                                ng-model="daXacNhan.detail.soDienThoai">
+                                            <i class="er">{{er.soDienThoai == undefined ? '' : er.soDienThoai}}</i>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>email</label>
+                                            <input class="form-control" ng-focus="er.email=''"
+                                                ng-model="daXacNhan.detail.email">
+                                            <i class="er">{{er.email == undefined ? '' : er.email}}</i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>Thành phố</label>
+                                            <!--                                    <input class="form-control" ng-model="chuaXacNhan.detail.thanhPhoName">-->
+                                            <select class="form-control" ng-model="daXacNhan.detail.thanhPhoCode"
+                                                ng-focus="er.thanhPhoCode=''"
+                                                onchange="angular.element(this).scope().giaoHangNhanh.cityChange(this.value)">
+                                                <option ng-repeat="c in giaoHangNhanh.citys" value="{{c.ProvinceID}}">
+                                                    {{c.ProvinceName}}
+                                                </option>
+                                            </select>
+                                            <i class="er">{{er.thanhPhoCode == undefined ? '' : er.thanhPhoCode}}</i>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>Quận huyện</label>
+                                            <select class="form-control" ng-model="daXacNhan.detail.quanHuyenCode"
+                                                ng-focus="er.quanHuyenCode=''"
+                                                onchange="angular.element(this).scope().giaoHangNhanh.districtChange(this.value)">
+                                                <option ng-repeat="d in giaoHangNhanh.districts"
+                                                    value="{{d.DistrictID}}">
+                                                    {{d.DistrictName}}
+                                                </option>
+                                            </select>
+                                            <i class="er">{{er.quanHuyenCode == undefined ? '' : er.quanHuyenCode}}</i>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="mb-3">
+                                            <label>Xã phường</label>
+                                            <select class="form-control" ng-model="daXacNhan.detail.xaPhuongCode"
+                                                ng-focus="er.xaPhuongCode=''"
+                                                onchange="angular.element(this).scope().giaoHangNhanh.getFeeShipped()">
+                                                <option ng-repeat="w in giaoHangNhanh.wards" value="{{w.WardCode}}">
+                                                    {{w.WardName}}
+                                                </option>
+                                            </select>
+                                            <i class="er">{{er.xaPhuongCode == undefined ? '' : er.xaPhuongCode}}</i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-6">
+                                        <label>Địa chỉ chi tiết</label>
+                                        <textarea class="form-control" rows="2" ng-focus="er.diaChiChiTiet=''"
+                                            ng-model="daXacNhan.detail.diaChiChiTiet"></textarea>
+                                        <i class="er">{{er.diaChiChiTiet == undefined ? '' : er.diaChiChiTiet}}</i>
+                                    </div>
+                                    <div class="mb-3 col-6">
+                                        <label>Ghi chú đổi hàng</label>
+                                        <textarea class="form-control" rows="2"
+                                            ng-model="daXacNhan.detail.lyDoDoiHang"></textarea>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div style="width: 40%" class="d-flex flex-column">
+                                <div class="col-sm-12">
+                                    <div class="dropdown">
+
+
+
+                                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"
+                                            style="margin-top: 40px;margin-left: 190px;width: 530px;max-height: 500px;overflow-y: auto;">
+
+                                            <h5 ng-if="sanPham.length ==0" style="text-align: center;padding: 5px">Không
+                                                có sản phẩm liên quan</h5>
+
+                                            <li ng-repeat="s in sanPham">
+
+                                                <div ng-if="checkSanPhamInDonHang(s.id)==false && s.soLuong>0"
+                                                    style="cursor: pointer"
+                                                    class="row d-flex justify-content-start align-items-center"
+                                                    ng-click="addChiTietDonHang(s)">
+
+                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0">
+                                                        <img src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
+                                                            style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                    </div>
+
+                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length==0">
+                                                        <img src="/image/loadImage/product/default.png"
+                                                            style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div style="white-space: nowrap;
+                                                        overflow: hidden;
+                                                        text-overflow: ellipsis;
+                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
+                                                        </div>
+                                                        <i style="font-size: 12px;">Size: {{s.size}} - Còn lại:
+                                                            {{s.soLuong}}</i>
+                                                    </div>
+                                                    <!-- <div class="col-sm-3 d-flex justify-content-center">
+                                                    <i style="text-decoration: line-through;"
+                                                        ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
+                                                </div>
+                                                <div class="col-sm-3 d-flex justify-content-center"
+                                                    style="margin-top: 15px">
+                                                    <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet}}</p>
+                                                </div> -->
+                                                </div>
+
+                                                <!--                                            /////////////////////////////////////////-->
+                                                <div ng-if="checkSanPhamInDonHang(s.id)==true || s.soLuong<=0"
+                                                    class="row d-flex justify-content-start align-items-center dropdown-item disabled"
+                                                    style="background-color: gainsboro">
+
+                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length>0"><img
+                                                            src="/image/loadImage/product/{{s.sanPhamDTO.anh[0]}}"
+                                                            style=" height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                    </div>
+                                                    <div class="col-sm-2" ng-if="s.sanPhamDTO.anh.length==0"><img
+                                                            src="/image/loadImage/product/default.png"
+                                                            style="height: 50px;border-radius: 15px;;margin-left: 10px;width: 70px;">
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div style="white-space: nowrap;
+                                                        overflow: hidden;
+                                                        text-overflow: ellipsis;
+                                                        font-weight: bold;">{{s.sanPhamDTO.ten}}
+                                                        </div>
+                                                        <i style="font-size: 12px;">Size: {{s.size}} - Còn lại:
+                                                            {{s.soLuong}}</i>
+                                                    </div>
+                                                    <!-- <div class="col-sm-3 d-flex justify-content-center">
+                                                    <i style="text-decoration: line-through;"
+                                                        ng-if="s.sanPhamDTO.giaNiemYet < s.sanPhamDTO.giaBan">{{s.sanPhamDTO.giaBan}}</i>
+                                                </div>
+                                                <div class="col-sm-3 d-flex justify-content-center"
+                                                    style="margin-top: 15px">
+                                                    <p style="font-weight: bold;">{{s.sanPhamDTO.giaNiemYet}}</p>
+                                                </div> -->
+                                                </div>
+                                                <hr>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div style="height: auto;overflow-y: auto;">
+                                    <h4>Sản Phẩm Trong Đơn</h4>
+                                  <div style="height: 200px;overflow-y: auto;">
+                                    <table class="table table-hover dt-responsive nowrap w-100"
+                                        style="height: auto; overflow-y: auto;">
+                                        <thead>
+                                            <tr style="position: sticky; top: 0; z-index: 1; background: white;">
+                                                <th>Ảnh Sản phẩm</th>
+                                                <th>Tên Sản phẩm</th>
+                                                <th style="width: 90px">Số lượng</th>
+                                                <!-- <th style="width: 15px"></th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="d in chiTietDonHang"
+                                                ng-style="{'background-color': d.highlighted ? '#FFCCCC' : '#FFFFFF'}">
+                                                <td>
+                                                    <img src="/image/loadImage/product/{{d.anh}}"
+                                                        style="width: 70px; height: 70px; border-radius: 10px">
+                                                </td>
+                                                <td>
+                                                    <!-- Làm đậm chữ cho sản phẩm được làm nổi bật -->
+                                                    <p ng-style="{'font-weight': d.highlighted ? 'bold' : 'normal'}">
+                                                        {{d.sanPham}}</p>
+                                                    <i style="font-size: 10px;">Size {{d.size}}</i>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex justify-content-center">
+                                                        <input id="{{d.idChiTietSanPham}}" ng-model="d.soLuong"
+                                                            ng-disabled="!d.editable"
+                                                            onchange="angular.element(this).scope().daXacNhan.updateSoLuong(this.id, this.value)"
+                                                            class="form-control me-1" readonly>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                  </div>
+
+                                    <br>
+
+                                    <h4>Sản Phẩm Yêu Cầu Đổi</h4>
+                                    <div style="max-height: 200px;overflow-y: auto;">
+                                        <table id="datatable"
+                                            class="table table-striped table-hover dt-responsive  nowrap w-100">
+                                            <thead>
+                                                <tr style="position: sticky;
+                                                        top: 0;
+                                                        z-index: 1;
+                                                        background: white">
+                                                    <th>Ảnh Sản phẩm</th>
+                                                    <th>Tên Sản phẩm</th>
+                                                    <th style="width: 90px">Số lượng</th>
+                                                    <!-- <th>Đơn giá</th>
+                                            <th>Đơn giá sau giảm</th>
+                                            <th>Thành tiền</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="d in sanPhamDoi">
+                                                    <td>
+                                                        <img src="/image/loadImage/product/{{d.anh}}"
+                                                            style="width: 70px; height: 70px;border-radius: 10px">
+                                                    </td>
+                                                    <td>
+                                                        <p style="font-weight: bold; ">
+                                                            {{d.sanPham}}
+                                                        </p>
+                                                        <i style="font-size: 10px;">Size
+                                                            {{d.size}}</i>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center">
+                                                            <p>{{d.soLuong}}</p>
+                                                        </div>
+                                                    </td>
+                                                    <!-- <td>{{d.donGia | currency: "" : 1}} đ</td>
+                                            <td>
+                                                {{d.donGiaSauGiam | currency: "" : 1}} đ
+    
+                                            </td>
+                                            <td>
+                                                {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}} đ
+                                            </td> -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                  
+                                </div>
+                                <hr>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                ng-click="closeModal('#XacNhanDetail')">Đóng
+                            </button>
+                            <!-- <button type="button" class="btn btn-primary" ng-click="daXacNhan.capNhat()">Cập nhật
+                        </button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal-->
+            <div class="modal fade bd-example-modal-lg full-screen-modal" id="donHangDetail" tabindex="-1" role="dialog"
+                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="donHangDetailTitle">Thông tin đơn hàng</h5>
+                            <button type="button" class="close btn" data-dismiss="modal" aria-label="Close"
+                                ng-click="closeModal('#donHangDetail')">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label>Mã đơn hàng</label>
+                                                <span class="form-control">{{donHang.ma}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 col-sm-6">
+                                            <label>Phương thức thanh toán</label>
+                                            <span class="form-control">{{donHang.phuongThucThanhToan=='true'?'Khi nhận
+                                                hàng':'VNPAY'}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label>Mã voucher</label>
+                                                <span class="form-control">{{donHang.voucherCode == null ? 'Không áp
+                                                    dụng' :
+                                                    donHang.voucherCode}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label>Tên voucher</label>
+                                                <span class="form-control">{{donHang.voucherName == null ? 'Không áp
+                                                    dụng' :
+                                                    donHang.voucherName}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Tên người nhận</label>
+                                                <span class="form-control">{{donHang.tenNguoiNhan}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Số điện thoại</label>
+                                                <span class="form-control">{{donHang.soDienThoai}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>email</label>
+                                                <span class="form-control">{{donHang.email}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Thành phố</label>
+                                                <span class="form-control">{{donHang.thanhPhoName}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Quận huyện</label>
+                                                <span class="form-control">{{donHang.quanHuyenName}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="mb-3">
+                                                <label>Xã phường</label>
+                                                <span class="form-control">{{donHang.xaPhuongName}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label>Địa chỉ chi tiết</label>
+                                            <span class="form-control">{{donHang.diaChiChiTiet}}</span>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label>Ghi chú đổi hàng</label>
+                                            <textarea class="form-control"
+                                                style="height: 40px;">{{donHang.lyDoDoiHang}}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="donHang.trangThai==0">
+                                        <div class="mb-3 col-12">
+                                            <label>Lý do hủy</label>
+                                            <span class="form-control">{{donHang.lyDoHuy}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <h4>Sản phẩm đã mua</h4>
+                                    <div style="max-height: 200px;overflow-y: auto;">
+                                        <table id="datatable"
+                                            class="table table-striped table-hover dt-responsive  nowrap w-100">
+                                            <thead>
+                                                <tr style="position: sticky;
+                                                    top: 0;
+                                                    z-index: 1;
+                                                    background: white;">
+                                                    <th>Ảnh Sản phẩm</th>
+                                                    <th>Tên Sản phẩm</th>
+                                                    <th>Số lượng</th>
+                                                    <!-- <th>Đơn giá</th>
+                                            <th>Đơn giá sau giảm</th>
+                                            <th>Thành tiền</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="d in chiTietDonHang"
+                                                    ng-style="{'background-color': d.highlighted ? '#FFCCCC' : '#FFFFFF'}">
+                                                    <td>
+                                                        <img src="/image/loadImage/product/{{d.anh}}"
+                                                            style="width: 70px; height: 70px; border-radius: 10px">
+                                                    </td>
+                                                    <td>
+                                                        <!-- Làm đậm chữ cho sản phẩm được làm nổi bật -->
+                                                        <p
+                                                            ng-style="{'font-weight': d.highlighted ? 'bold' : 'normal'}">
+                                                            {{d.sanPham}}</p>
+                                                        <i style="font-size: 10px;">Size {{d.size}}</i>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center">
+                                                            <input id="{{d.idChiTietSanPham}}" ng-model="d.soLuong"
+                                                                ng-disabled="!d.editable"
+                                                                onchange="angular.element(this).scope().daXacNhan.updateSoLuong(this.id, this.value)"
+                                                                class="form-control me-1" readonly style="width: 50px;">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <br>
+
+                                    <h4>Sản Phẩm Yêu Cầu Đổi</h4>
+                                    <div style="max-height: 200px;overflow-y: auto;">
+                                        <table id="datatable"
+                                            class="table table-striped table-hover dt-responsive  nowrap w-100">
+                                            <thead>
+                                                <tr style="position: sticky;
+                                                 top: 0;
+                                                 z-index: 1;
+                                                 background: white;">
+                                                    <th>Ảnh Sản phẩm</th>
+                                                    <th>Tên Sản phẩm</th>
+                                                    <th>Số lượng</th>
+                                                    <!-- <th>Đơn giá</th>
+                                     <th>Đơn giá sau giảm</th>
+                                     <th>Thành tiền</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="d in sanPhamDoi">
+                                                    <td>
+                                                        <div class="d-flex justify-content-start">
+                                                            <img src="/image/loadImage/product/{{d.anh}}"
+                                                                style="width: 100px; height: 70px;">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <p style="font-weight: bold; ">
+                                                            {{d.sanPham}}
+                                                        </p>
+                                                        <i style="font-size: 10px;">Size
+                                                            {{d.size}}</i>
+                                                    </td>
+                                                    <td>{{d.soLuong}}</td>
+                                                    <!-- <td>{{d.donGia | currency: "" : 1}} đ</td>
+                                     <td>
+                                         {{d.donGiaSauGiam | currency: "" : 1}} đ
+
+                                     </td>
+                                     <td>
+                                         {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}} đ
+                                     </td> -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- <table class="table" style="border-top: 1px solid black">
+                                    <tbody>
+                                        <tr>
+                                            <td>Tổng</td>
+                                            <td colspan="4">
+                                                <div class="d-flex justify-content-end">{{getTotalPrice() |
+                                                    currency: ""
+                                                    : 1}} đ
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Khuyến mãi</td>
+                                            <td colspan="4">
+                                                <div class="d-flex justify-content-end">
+                                                    {{donHang.tienGiam == null ? 0 : donHang.tienGiam | currency: ""
+                                                    :
+                                                    1}} đ
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phí giao hàng </td>
+                                            <td colspan="4">
+                                                <div class="d-flex justify-content-end">
+                                                    {{donHang.phiGiaoHang | currency: "" : 1}} đ
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Thành tiền</td>
+                                            <td colspan="4">
+                                                <div class="d-flex justify-content-end">
+                                                    {{(getTotalPrice() + donHang.phiGiaoHang) - donHang.tienGiam |
+                                                    currency: ""
+                                                    : 1}}
+                                                    đ
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                ng-click="closeModal('#donHangDetail')">Đóng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .modal.show .modal-dialog {
+                    display: flex;
+                    align-items: center;
+                    /* Căn giữa theo chiều dọc */
+                    justify-content: center;
+                    /* Căn giữa theo chiều ngang */
+                    margin: auto;
+                    /* Đảm bảo modal nằm giữa */
+                    height: auto;
+                    /* Điều chỉnh chiều cao tự động */
+                }
+
+                .full-screen-modal .modal-dialog {
+                    width: 85%;
+                    /* Chiều rộng toàn bộ cửa sổ trình duyệt */
+                    max-width: 100vw;
+                    /* Đảm bảo không vượt quá chiều rộng cửa sổ */
+                    height: auto;
+                    /* Chiều cao toàn bộ cửa sổ trình duyệt */
+                    margin: 0;
+                    /* Loại bỏ khoảng cách mặc định */
+                    padding: 0;
+                    /* Loại bỏ khoảng đệm mặc định */
+                }
+
+                .full-screen-modal .modal-content {
+                    height: auto;
+                    /* Chiều cao toàn bộ modal */
+                    border-radius: 15px;
+                    /* Loại bỏ góc bo tròn */
+                }
+
+                .full-screen-modal .modal-body {
+                    overflow-y: auto;
+                    /* Cho phép cuộn nội dung khi nội dung quá dài */
+                }
+            </style>
+            <!-- End Page-content -->
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <script>document.write(new Date().getFullYear())</script>
+                            ©ALLDY SNEAKER.
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- end main content-->
+    </div>
+</body>
+
+</html>

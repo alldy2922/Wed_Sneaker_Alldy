@@ -365,7 +365,7 @@ app.controller("hoaDon-ctrl", function ($scope, $http) {
                     nguoiSoHuu: { username: $scope.chuaXacNhan.detail.nguoiSoHuu },
                     tenNguoiNhan: $scope.chuaXacNhan.detail.tenNguoiNhan,
                     soDienThoai: $scope.chuaXacNhan.detail.soDienThoai,
-                    email: "baphuoc03@gmail.com",
+                    email: "quocthanh2929@gmail.com",
                     thanhPhoName: "a",
                     thanhPhoCode: 1,
                     quanHuyenName: "a",
@@ -396,6 +396,7 @@ app.controller("hoaDon-ctrl", function ($scope, $http) {
                 formData.append("chiTietDonHang", new Blob([JSON.stringify(chiTietDonHang)], {
                     type: 'application/json'
                 }))
+                formData.append("lyDoThayDoi", "");
                 console.log(data)
                 $http.put("/admin/don-hang", formData, {
                     transformRequest: angular.identity,
@@ -408,7 +409,8 @@ app.controller("hoaDon-ctrl", function ($scope, $http) {
                     $scope.inputProduct = ""
                     $scope.chuaXacNhan.init()
                     $scope.chuaXacNhan.getList($scope.chuaXacNhan.page)
-                }).catch(e => {
+                })
+                .catch(e => {
                     $scope.er = e.data
                     console.log(e)
                     alertify.error("Cập nhật thất bại")

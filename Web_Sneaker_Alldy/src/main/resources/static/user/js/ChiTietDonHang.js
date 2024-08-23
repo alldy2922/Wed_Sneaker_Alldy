@@ -43,20 +43,8 @@ app.controller("ctdh-ctrl", function ($scope, $http) {
 
     }).catch(e => console.log(e));
 
-    //hiện chi tiết đơn trả
-    $http.get("/don-hang/tra" + maDH).then(r => {
-        $scope.donHangTra = r.data
-        console.log("$donHangTra", $scope.donHangTRa = r.data)
-        console.log("$MaHangTra", maDH)
-    }).catch(e => console.log(e));
-    //
     $http.get("/chi-tiet-don-hang" + maDH).then(r => {
         $scope.chiTietDonHang = r.data;
-    }).catch(e => console.log(e))
-    //hiện chi tiết sản phẩm trả
-    $http.get("/don-hang/get-ctsp-tra" + maDH).then(r => {
-        $scope.sanPhamTra = r.data;
-        console.log("spt",$scope.sanPhamTra)
     }).catch(e => console.log(e))
 
     $scope.getTotalPrice = function () {
@@ -65,12 +53,4 @@ app.controller("ctdh-ctrl", function ($scope, $http) {
         return total
     }
 
-     // Hàm tính tổng tiền cho các sản phẩm trả
-     $scope.getTotalPriceSanPhamTra = function () {
-        let total = 0;
-        $scope.sanPhamTra.forEach(
-            (d) => (total += d.donGiaSauGiam * d.soLuong)
-        );
-        return total;
-    };
 })

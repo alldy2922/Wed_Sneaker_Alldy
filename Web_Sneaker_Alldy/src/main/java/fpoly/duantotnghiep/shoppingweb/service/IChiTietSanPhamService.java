@@ -13,6 +13,8 @@ public interface IChiTietSanPhamService {
 
     List<ChiTietSanPhamDtoResponse> getAllBySanPhamMa(String maSP);
 
+    List<ChiTietSanPhamDtoResponse> getAllBySanPhamMaSoLuong(String maSP);
+
     ChiTietSanPhamDtoResponse updateSoLuong(ChiTietSanPhamDtoRequest request);
 
     Boolean existsBySanPhamMaAndSizeMa(String maSP, Float size);
@@ -33,6 +35,8 @@ public interface IChiTietSanPhamService {
     Boolean checkSoLuongSP(String id, Long soLuong);
 
     List<ChiTietSanPhamDtoResponse> getChiTietSanPhamNotInDonHang(String maDonHang);
+
+    List<ChiTietSanPhamDtoResponse> getChiTietSanPhamByMaSpandSoLuong(String maDonHang);
 
     List<ChiTietSanPhamDtoResponse> getBySanPhamIdOrNameContais(String keyWord);
 

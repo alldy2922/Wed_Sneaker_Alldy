@@ -38,6 +38,12 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
 
     @Override
     public List<ChiTietSanPhamDtoResponse> getAllBySanPhamMa(String maSP) {
+        return chiTietSanPhamRepository.getChiTietSanPhambyMaDhAndSoLuong(maSP).stream()
+                .map(c -> new ChiTietSanPhamDtoResponse(c)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ChiTietSanPhamDtoResponse> getAllBySanPhamMaSoLuong(String maSP) {
         return chiTietSanPhamRepository.getAllBySanPhamMaAndTrangThaiOrderBySizeMa(maSP, true).stream()
                 .map(c -> new ChiTietSanPhamDtoResponse(c)).collect(Collectors.toList());
     }
@@ -140,6 +146,12 @@ public class ChiTietSanPhamService implements IChiTietSanPhamService {
     @Override
     public List<ChiTietSanPhamDtoResponse> getChiTietSanPhamNotInDonHang(String maDonHang){
         return chiTietSanPhamRepository.getChiTietSanPhamNotInDonHang(maDonHang).stream()
+                .map(s -> new ChiTietSanPhamDtoResponse(s)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ChiTietSanPhamDtoResponse> getChiTietSanPhamByMaSpandSoLuong(String maDonHang) {
+        return chiTietSanPhamRepository.getChiTietSanPhambyMaDhAndSoLuong(maDonHang).stream()
                 .map(s -> new ChiTietSanPhamDtoResponse(s)).collect(Collectors.toList());
     }
 

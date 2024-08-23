@@ -75,6 +75,27 @@
             color: red;
             font-size: 13px;
         }
+
+        .nav-cart {
+            color: white;
+            background-color: #3f3f3f;
+            border-radius: 10px;
+            font-size: 15px;
+            height: 30px;
+            width: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: box-shadow 0.3s;
+        }
+
+        .nav-cart:hover {
+            box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .nav-cart:active {
+            box-shadow: 0 0 15px 7px rgba(0, 0, 0, 0.9);
+        }
     </style>
 </head>
 
@@ -95,6 +116,11 @@
                             <span class="d-none d-sm-block">Chờ thanh toán</span>
                         </a>
                     </li> -->
+                    <li class="nav-item">
+                        <a class="nav-cart" href="/gio-hang" role="button" style="color: white;">
+                            Giỏ hàng
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="tab" ng-click="donHangUser(2)" href="#choXacNhan"
                             role="tab">
@@ -127,7 +153,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="tab" ng-click="loadMultipleDonHangUsers()" href="#trahang"
+                        <a class="nav-link" data-bs-toggle="tab" ng-click="loadDanhSachDoiHang()" href="#doihang"
+                            role="tab">
+                            <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
+                            <span class="d-none d-sm-block">Đổi Hàng</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" ng-click="loadDanhSachTraHang()" href="#trahang"
                             role="tab">
                             <span class="d-block d-sm-none"><i class="fas fa-cog"></i></span>
                             <span class="d-none d-sm-block">Trả hàng/Hoàn tiền</span>
@@ -136,7 +169,7 @@
                 </ul>
 
                 <div class="tab-content p-3 text-muted">
-                    <!--                    chờ xác nhận-->
+                    <!--chờ xác nhận-->
                     <div class="tab-pane active" id="choXacNhan" role="tabpanel">
                         <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                             <div class="row"
@@ -203,7 +236,7 @@
                         </div>
                         <div class="row"></div>
                     </div>
-                    <!--                    Đã xác nhận-->
+                    <!--Đã xác nhận-->
                     <div class="tab-pane" id="daXacNhan" role="tabpanel">
                         <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                             <div class="row"
@@ -260,7 +293,7 @@
                         </div>
                         <div class="row"></div>
                     </div>
-                    <!--                    đang giao-->
+                    <!--đang giao-->
                     <div class="tab-pane" id="dangGiao" role="tabpanel">
                         <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                             <div class="row"
@@ -317,7 +350,7 @@
                         </div>
                         <div class="row"></div>
                     </div>
-                    <!--                   Hoàn thành-->
+                    <!--Hoàn thành-->
                     <div class="tab-pane" id="hoanThanh" role="tabpanel">
                         <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
                             <div class="row"
@@ -369,7 +402,8 @@
                             <hr>
                             <div class="row">
                                 <div class="row col-4">
-                                    <span class="row flex-r mr-3">Đơn hàng chỉ có thể đổi trả trong 7 ngày <br>
+                                    <span class="row flex-r mr-3">
+                                        Đơn hàng chỉ có thể đổi trả trong 10 ngày <br>
                                         Trường Hợp Đổi Hàng: Cần đổi size <br>
                                         Trường Hợp Trả Hàng: Hàng bị lỗi</span>
                                 </div>
@@ -379,11 +413,11 @@
                                     </div>
                                     <div class="row flex-r mr-3 m-t-10 m-b-15">
                                         <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
-                                            <!-- <button type="button" class="btn btn-warning ml-2 m-b-10 btn-danger"
-                                                ng-click="findByMaDonHangUser(d.ma)" data-bs-toggle="modal"
-                                                data-bs-target="#traHangToanBoModal"
-                                                ng-if="isWithinSevenDays(d.ngayHoanThanh) === true">Trả Hàng Toàn Phần
-                                            </button> -->
+                                            <button type="button" class="btn btn-warning ml-2 m-b-10 btn-danger"
+                                                ng-click="findByMaDonHangUserPartial(d)" data-bs-toggle="modal"
+                                                data-bs-target="#doiHangModal"
+                                                ng-if="isWithinSevenDays(d.ngayHoanThanh) === true">Đổi Hàng
+                                            </button>
                                             <button type="button" class="btn btn-warning ml-2 m-b-10 btn-danger"
                                                 ng-click="findByMaDonHangUserPartial(d)" data-bs-toggle="modal"
                                                 data-bs-target="#traHangMotPhanModal"
@@ -518,6 +552,64 @@
                         </div>
                         <div class="row"></div>
                     </div>
+                    <!--đổi hàng-->
+                    <div class="tab-pane" id="doihang" role="tabpanel">
+                        <div class="how-pos2 p-lr-15-md" ng-if="donHangChuaXacNhanKh.length === 0">
+                            <div class="row"
+                                style="height: 500px; display: flex; justify-content: center; align-items: center;">
+
+
+                                <h4 class="m-t-2" style="text-align: center"><img style="height: 150px; width: 150px"
+                                        src="/image/loadImage/product/5fafbb923393b712b96488590b8f781f.png" alt="">Chưa
+                                    có đơn hàng</h4>
+                            </div>
+                        </div>
+                        <div class="row"></div>
+                        <div class="m-l-10 m-r-10 m-b-10" style="background-color: white;"
+                            ng-repeat="d in donHangChuaXacNhanKh" ng-if="donHangChuaXacNhanKh.length >0">
+                            <div class="row m-t-10 m-r-1 m-l-1" style="background-color: #3f3f3f; height: 50px">
+                                <div class="col-6">
+                                    <h5 style="color: white;" class="m-t-5">Hóa đơn: {{d.ma}}</h5>
+                                </div>
+                                <div class="col-6 m-t-5">
+                                    <h5 class="flex-r m-t-10" style="color: white;">Đổi Hàng</h5>
+                                </div>
+                            </div>
+                            <div class="row m-t-10 m-r-10 m-l-10" ng-repeat="ct in d.chiTietDonHang">
+                                <div class="col-1">
+                                    <img src="/image/loadImage/product/{{ct.anh}}" style="width: 100px; height: 100px;"
+                                        alt="chờ xác nhận">
+                                </div>
+                                <div class="col-7">
+                                    <div class="text" style="margin-left: 10px;">
+                                        <h8><a style="color: #666;"
+                                                href="/chi-tiet-san-pham/{{ct.maSanPham}}">{{ct.sanPham}}</a></h8>
+                                        <p>size: {{ct.size}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <h9>Số lượng: {{ct.soLuong}}</h9>
+                                </div>
+                                <div class="col-2">
+                                    <h9>{{ct.donGiaSauGiam | currency: "" : 1}}đ</h9>
+                                </div>
+                            </div>
+                            <hr>
+                            <!-- <div class="row flex-r mr-3">
+                                <h4 class="flex-r mr-3">{{d.tongTien | currency: "" : 1}}đ</h4>
+                               
+                            </div> -->
+                            <div class="row flex-r mr-3 m-t-10 m-b-15">
+                                <div class="size-101 flex-r mr-3 m-t-10 m-b-15">
+                                    <a href="/don-hang/chi-tiet-doi-hang/{{d.ma}}" type="button"
+                                        class="btn btn-secondary ml-2 m-b-10" ng-click="findByMaDonHangUser(d.ma)">Xem
+                                        chi tiết đơn hàng
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -544,7 +636,7 @@
                 </div>
             </div>
         </div>
-        <!-- trả hàng  -->
+        <!--Modal trả hàng  -->
         <div class="modal" id="traHangMotPhanModal">
             <div class="modal-dialog custom-modal ">
                 <div class="modal-content">
@@ -554,7 +646,7 @@
                         <div class="col-4">
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Lý do trả hàng</label>
+                                    <h5>Lý do trả hàng</h5><br>
                                     <textarea class="form-control" ng-model="lyDoTraHang"
                                         id="exampleFormControlTextarea1" rows="3"></textarea>
                                 </div>
@@ -594,16 +686,13 @@
                         <div class="col-8">
                             <div>
                                 <!-- chọn sản phẩm hoàn -->
-                                <h5>Danh sách sản phẩm đã mua</h5>
-                                <div class="col-6 m-t-5" ng-repeat="d in selectedDonHang.chiTietDonHang">
-                                    <h5 style="color: white;">Đơn hàng: {{selectedDonHang.ma}}</h5>
-                                </div>
+                                <h5 style="margin-top: 20px;">Danh sách sản phẩm đã mua</h5>
                                 <table class="table table-hover dt-responsive  nowrap w-100">
                                     <thead>
                                         <tr>
                                             <th scope="col">Chọn</th>
                                             <th scope="col">Sản phẩm</th>
-                                            <th scope="col">Số Lượng Hoàn</th>
+                                            <th scope="col">Số Lượng</th>
                                             <th scope="col">Đơn Giá Gốc</th>
                                             <th scope="col">Khuyến Mại</th>
                                             <th scope="col">Đơn Giá Sau Giảm</th>
@@ -703,6 +792,7 @@
                                     <strong>{{totalRefund | currency: "" : 1}} đ </strong>
                                 </h5>
                             </div>
+                            <br>
                             <style>
                                 .custom-modal {
                                     max-width: 80%;
@@ -715,6 +805,150 @@
                             <button type="button" class="btn btn-danger"
                                 ng-click="traMotPhan(maDonHang, phuongThucNhanTien,selectedNganHang, soTaiKhoan, tenNguoiNhan)">Trả
                                 Hàng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Modal đổi hàng  -->
+        <div class="modal" id="doiHangModal">
+            <div class="modal-dialog custom-modal ">
+                <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="row">
+                        <div class="col-5">
+                            <!-- lý do đổi hàng -->
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <h5>Lý do đổi hàng</h5>
+                                    <br>
+                                    <textarea class="form-control" ng-model="lyDoDoiHang"
+                                        id="exampleFormControlTextarea1" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-7">
+                            <!-- Danh sách sản phẩm -->
+                            <div>
+                                <!-- chọn đã mua -->
+                                <h5 style="margin-top: 20px;">Danh sách sản phẩm đã mua</h5>
+                                <table class="table table-hover dt-responsive  nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Chọn</th>
+                                            <th scope="col">Sản phẩm</th>
+                                            <th scope="col">Số Lượng Hoàn</th>
+                                            <th scope="col">Đơn Giá Gốc</th>
+                                            <th scope="col">Khuyến Mại</th>
+                                            <th scope="col">Đơn Giá Sau Giảm</th>
+                                            <th scope="col">Tổng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="ct in selectedDonHang.chiTietDonHang">
+                                            <td>
+                                                <input type="checkbox" ng-model="ct.selected"
+                                                    ng-change="updateSelectedProducts(ct)">
+                                            </td>
+                                            <td>
+                                                <div class="d-flex justify-content-start">
+                                                    <img src="/image/loadImage/product/{{ct.anh}}"
+                                                        style="width: 100px; height: 70px;">
+                                                    <div>
+                                                        <p style="font-weight: bold;padding-left: 10px; ">
+                                                            {{ct.sanPham}}
+                                                        </p>
+                                                        <i style="font-size: 10px;padding-left: 10px;">Size
+                                                            {{ct.size}}</i>
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <button type="button" class="btn btn-sm btn-secondary"
+                                                        ng-click="changeQuantity(ct, -1)">-</button>
+                                                    <input type="text" class="form-control"
+                                                        ng-model="ct.selectedQuantity"
+                                                        style="width: 50px; text-align: center;"
+                                                        ng-init="ct.selectedQuantity = 1" readonly />
+                                                    <button type="button" class="btn btn-sm btn-secondary"
+                                                        ng-click="changeQuantity(ct, 1)">+</button>
+                                                </div>
+                                                <small class="text-danger" ng-if="ct.selectedQuantity > ct.soLuong">Số
+                                                    lượng không được vượt quá số lượng hiện có</small>
+                                            </td>
+                                            <td>{{ct.donGia | currency: "" : 1}} đ</td>
+                                            <td>{{ct.donGia - ct.donGiaSauGiam | currency: "" : 1}} đ</td>
+                                            <td>
+                                                <div>{{ct.donGiaSauGiam | currency: "" : 1}} đ
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>{{ct.donGiaSauGiam * ct.soLuong | currency: "" : 1}}
+                                                    đ
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                            <!-- sản phẩm muốn đổi -->
+                            <div>
+                                <h5>Sản phẩm muốn đổi</h5>
+                                <table class="table table-hover dt-responsive nowrap w-100">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Sản phẩm</th>
+                                            <th scope="col">Chọn size</th>
+                                            <th scope="col">Số Lượng</th>
+                                            <th scope="col">Đơn Giá Sau Giảm</th>
+                                            <th scope="col">Tổng</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="ct in selectedProducts" ng-init="getProductDetails(ct.maSanPham)">
+                                        <td>
+                                            <div class="d-flex justify-content-start">
+                                                <img src="/image/loadImage/product/{{ct.anh}}"
+                                                     style="width: 100px; height: 70px;">
+                                                <div>
+                                                    <p style="font-weight: bold;padding-left: 10px;">
+                                                        {{ct.sanPham}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 100px;text-align: center;">
+                                            <select class="form-select"
+                                                    ng-model="selectedSize[ct.idChiTietSanPham]"
+                                                    ng-options="size as size.size for size in productDetails[ct.maSanPham]"
+                                                    ng-change="getSizes(selectedSize[ct.idChiTietSanPham], ct.idChiTietSanPham)">
+                                                <!-- <option value="">Chọn Size</option> -->
+                                            </select>
+
+                                        </td>
+                                        <td style="text-align: center;">{{ct.selectedQuantity}}</td>
+                                        <td>{{ct.donGiaSauGiam | currency: "" : 1}} đ</td>
+                                        <td>
+                                            <div>{{ct.totalPrice | currency: "" : 1}} đ</div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br>
+                        <style>
+                            .custom-modal {
+                                max-width: 80%;
+                            }
+                        </style>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" ng-click="doiMotPhan(maDonHang)">Đổi Hàng
                             </button>
                         </div>
                     </div>

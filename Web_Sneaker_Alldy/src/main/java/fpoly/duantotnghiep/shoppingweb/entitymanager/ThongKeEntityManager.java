@@ -1,9 +1,8 @@
 package fpoly.duantotnghiep.shoppingweb.entitymanager;
 
+import fpoly.duantotnghiep.shoppingweb.dto.reponse.ChiTietSanPhamDtoResponse;
 import fpoly.duantotnghiep.shoppingweb.dto.reponse.SanPhamDtoResponse;
-import fpoly.duantotnghiep.shoppingweb.dto.thongKe.ChiTietSanPhamThongKeDto;
-import fpoly.duantotnghiep.shoppingweb.dto.thongKe.SanPhamBanChayDto;
-import fpoly.duantotnghiep.shoppingweb.dto.thongKe.SanPhamDaBanDto;
+import fpoly.duantotnghiep.shoppingweb.dto.thongKe.*;
 import fpoly.duantotnghiep.shoppingweb.model.ChiTietSanPhamModel;
 import fpoly.duantotnghiep.shoppingweb.repository.ISanPhamRepository;
 import jakarta.persistence.EntityManager;
@@ -110,6 +109,50 @@ public class ThongKeEntityManager {
                         )
                 );
     }
+    //lấy sản phẩm trả nhiều nhất
+    public List<SanPhamTraDTO> getChiTietSanPhamTra() {
+        return entityManager.createQuery("""
+                SELECT ct AS chitiet ,SUM(tr.soLuong) AS soLuong
+                FROM DonHangTraModel tr
+                LEFT JOIN ChiTietSanPhamModel ct on ct.id = tr.chiTietSanPham.id
+                LEFT JOIN DonHangModel dh on dh.ma = tr.donHang.ma
+                WHERE tr.trangThai = 3
+                GROUP BY  dh.ma, ct.id
+                ORDER BY soLuong DESC
+                """, Tuple.class)
+                .getResultList().stream()
+                .map(tuple -> {
+                    ChiTietSanPhamDtoResponse chitiet = new ChiTietSanPhamDtoResponse((ChiTietSanPhamModel) tuple.get("chitiet"));
+                    Integer soLuong = ((Number) tuple.get("soLuong")).intValue();
+                    return new SanPhamTraDTO(chitiet, soLuong); // Ensure the DTO constructor matches
+                })
+                .collect(Collectors.toList());
+    }
+
+//tổng số tiền phải trả khách hàng
+    public Map<String, String> getDoanhThuTra(Date firstDate, Date lastDate) {
+        Map<String, String> result = new HashMap<>();
+
+        // Corrected query string
+        String query = """
+            SELECT SUM(d.donGiaSauGiam * d.soLuong) 
+            FROM DonHangTraModel d 
+            WHERE d.ngayHoanThanh BETWEEN :firstDate AND :lastDate 
+              AND d.trangThai = 3
+            """;
+
+        // Execute the query and get the result
+        BigDecimal tienTra = (BigDecimal) entityManager
+                .createQuery(query)
+                .setParameter("firstDate", firstDate)
+                .setParameter("lastDate", lastDate)
+                .getSingleResult();
+
+        // Convert the result to a string and put it in the map
+        result.put("tienTra", tienTra == null ? "0" : tienTra.toString());
+        return result;
+    }
+
 
     public List<ChiTietSanPhamThongKeDto> getChiTietSanPhamDaBan(String maSanPham){
 
@@ -215,7 +258,7 @@ public class ThongKeEntityManager {
         BigDecimal tongTien = (BigDecimal) entityManager
                 .createQuery("""
                                 SELECT SUM(c.donGia*c.soLuong) FROM ChiTietDonHangModel c  
-                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
+                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai AND c.donHang.trangThai = 4
                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)
@@ -225,7 +268,7 @@ public class ThongKeEntityManager {
                 .createQuery("""
                                                 SELECT SUM((c.donGia-c.donGiaSauGiam)*c.soLuong) + (SElECT SUM(d.tienGiam) FROM DonHangModel d WHERE d.ngayDatHang between :firstDate AND :lastDate AND d.loai = :loai AND d.trangThai <> 0 AND  d.trangThai <> 5  ) 
                                                 FROM ChiTietDonHangModel c  
-                                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
+                                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate AND c.donHang.loai = :loai   AND  c.donHang.trangThai= 4
                                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)
@@ -238,8 +281,8 @@ public class ThongKeEntityManager {
     public String getTotalDoanhThuByDate(Date firstDate, Date lastDate){
         BigDecimal tongTien = (BigDecimal) entityManager
                 .createQuery("""
-                                SELECT SUM(c.donGiaSauGiam*c.soLuong) - (SElECT SUM(d.tienGiam) FROM DonHangModel d WHERE d.ngayDatHang between :firstDate AND :lastDate  AND d.trangThai <> 0 AND  d.trangThai <> 5  ) FROM ChiTietDonHangModel c  
-                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate  AND c.donHang.trangThai <> 0 AND  c.donHang.trangThai <> 5
+                                SELECT SUM(c.donGiaSauGiam*c.soLuong) - (SELECT SUM(d.tienGiam) FROM DonHangModel d WHERE d.ngayDatHang between :firstDate AND :lastDate  AND d.trangThai = 4  ) FROM ChiTietDonHangModel c  
+                                WHERE c.donHang.ngayDatHang between :firstDate AND :lastDate  AND  c.donHang.trangThai = 4
                             """)
                 .setParameter("firstDate",firstDate)
                 .setParameter("lastDate",lastDate)

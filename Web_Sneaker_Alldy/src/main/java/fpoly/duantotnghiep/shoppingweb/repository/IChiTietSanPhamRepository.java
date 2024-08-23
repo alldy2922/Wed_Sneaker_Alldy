@@ -39,6 +39,11 @@ public interface IChiTietSanPhamRepository extends JpaRepository<ChiTietSanPhamM
     WHERE c.id not in (SELECT s.chiTietSanPham.id from ChiTietDonHangModel s WHERE s.donHang.ma = ?1)
 """)
     List<ChiTietSanPhamModel> getChiTietSanPhamNotInDonHang(String maDonHang);
+    @Query("""
+        SELECT c FROM ChiTietSanPhamModel c 
+        WHERE c.sanPham.ma = ?1 AND c.trangThai = true AND c.soLuong > 0 ORDER BY c.size ASC
+    """)
+    List<ChiTietSanPhamModel> getChiTietSanPhambyMaDhAndSoLuong(String maDh);
 
     @Query("""
     SELECT c FROM ChiTietSanPhamModel c 

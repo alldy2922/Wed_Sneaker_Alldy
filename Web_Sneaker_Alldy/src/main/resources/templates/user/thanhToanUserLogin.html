@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>Thanh toán</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-     <!-- SweetAlert2 -->
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .coupon .kanan {
             border-left: 1px dashed #717fe0;
@@ -59,9 +59,9 @@
                         </div>
                         <div class="col-6 flex-r" ng-if="loginIn">
                             <p style="margin-bottom: 10px;">
-                                <a href="/dang-nhap" data-bs-toggle="modal" data-bs-target="#myModalDiaChi">Chọn địa chỉ
-                                    có
-                                    sẵn</a>
+                                <a href="/dang-nhap" data-bs-toggle="modal" data-bs-target="#myModalDiaChi"
+                                    style="color: black;">
+                                    Chọn địa chỉ có sẵn</a>
                             </p>
                         </div>
                         <div class="col-6 flex-r" ng-if="!loginIn">
@@ -135,6 +135,7 @@
                         <!--                        <label class="form-check-label" for="exampleCheck1">Lưu địa chỉ cho lần sau</label>-->
                         <!--                    </div>-->
                     </form>
+                    <br> <br>
 
                     <h3 style="margin-bottom: 30px; margin-top: 30px;">Phương thức thanh toán</h3>
                     <div class="rounded-4 p-3 border"
@@ -163,17 +164,29 @@
                 <div class="col-6">
                     <h3 style="margin-bottom: 10px;">Đơn hàng</h3>
                     <table class="table table-striped mt-2">
+                        <thead>
+                            <tr style="background: #3f3f3f; z-index: 1;">
+                                <th>Ảnh Sản phẩm</th>
+                                <th>Tên Sản phẩm</th>
+                                <th style="width: 90px;">Số lượng</th>
+                                <th>Đơn giá sau giảm</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
                         <tbody>
                             <tr ng-repeat="i in cart">
                                 <th scope="row">
                                     <img style="width: 100px; height: 100px" src="/image/loadImage/product/{{i.anh}}"
                                         alt="product-img" title="product-img" class="avatar-md" />
                                 </th>
-                                <td>{{i.tenSanPham}}
+                                <td>
+                                    <p style="font-weight: bold; ">{{i.tenSanPham}}</p>
                                     <p>_size:{{i.size}}</p>
                                 </td>
                                 <td>
-                                    <p>{{i.soLuong}}</p>
+                                    <div class="d-flex justify-content-center">
+                                        <p>{{i.soLuong}}</p>
+                                    </div>
                                 </td>
 
 <<<<<<< HEAD
@@ -279,8 +292,9 @@
                                     /* Điều chỉnh nếu cần */
                                 }
                             </style>
-                            <button type="button" class="btn btn-link" style="color: black; text-align: left;font-size: 12px;"
-                                data-bs-toggle="modal" data-bs-target="#policyModal">
+                            <button type="button" class="btn btn-link"
+                                style="color: black; text-align: left;font-size: 12px;" data-bs-toggle="modal"
+                                data-bs-target="#policyModal">
                                 Xem chính sách của cửa hàng
                             </button>
                             <!-- Nội dung chính sách đổi trả -->
@@ -298,21 +312,20 @@
                                             <h6>1. Quy định đổi hàng:</h6>
                                             <h6>1.1 Nội dung</h6>
                                             <ol>
-                                                <li>Sản phẩm nguyên giá & giảm giá đến 30% được đổi size/màu hoặc
-                                                    sản phẩm khác (nếu còn hàng), áp dụng 1 đổi 1, đổi 1 lần/1 đơn
+                                                <li>Sản phẩm được đổi size,áp dụng 1 đổi 1, đổi 1 lần/1 đơn
                                                     hàng. Tổng giá trị các mặt hàng muốn đổi phải có giá trị tương
-                                                    đương hoặc lớn hơn với mặt hàng trả lại. ALLDY STORE không hoàn
+                                                    đương với mặt hàng trả lại. ALLDY STORE không hoàn
                                                     lại tiền thừa trong trường hợp sản phẩm mới có giá trị thấp hơn
                                                     sản phẩm đã mua.</li>
-                                                <li>Sản phẩm giảm giá trên 30% trở lên được đổi size (nếu còn hàng),
-                                                    áp dụng 1 đổi 1, đổi 1 lần/1 đơn hàng.</li>
                                                 <li>Sản phẩm không áp dụng đổi bao gồm: sản phẩm được tặng kèm trong
                                                     các chương trình.</li>
-                                                <li>Khách hàng đổi tại cửa hàng đã mua hàng.</li>
+                                                <li>Khách hàng đổi tại cửa hàng đã mua hàng hoặc có thể đổi online bằng
+                                                    phương thức đổi hàng và sau đó gửi hàng về cho shop,sau khi shop kiểm tra
+                                                    sẽ hỗ trợ đổi hàng nếu sản phẩm gửi về shop hợp lệ.</li>
                                             </ol>
                                             <h6>1.2 Điều kiện đổi sản phẩm</h6>
                                             <ol>
-                                                <li>Đổi hàng trong vòng 07 ngày kể từ ngày khách hàng nhận được sản
+                                                <li>Đổi hàng trong vòng 10 ngày kể từ ngày khách hàng nhận được sản
                                                     phẩm.</li>
                                                 <li>Sản phẩm còn trong tình trạng ban đầu khi nhận hàng, còn nguyên
                                                     tem và nhãn mác.</li>
@@ -340,6 +353,8 @@
                                                 <li>Không trả sản phẩm với những sản phẩm có áp dụng Voucher.</li>
                                                 <li>Chỉ chấp nhận trả sản phẩm khi đúng với lý do trả hàng và mô tả
                                                     lỗi sản phẩm.</li>
+                                                <li>Trường hợp sản phẩm lỗi và đơn có voucher,thì sản phẩm vẫn có thể được
+                                                    shop hỗ trợ đổi thì sẽ đổi hàng cho khách,không hoàn tiền.</li>
                                             </ol>
                                             <h6>2.2 Điều kiện trả sản phẩm:</h6>
                                             <ol>
@@ -367,7 +382,7 @@
                                 </button>
                             </div>
                             <div class="col-6 flex-r">
-                                <button ng-click="create()" 
+                                <button ng-click="create()"
                                     class="flex-c-m stext-80 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
                                     Thanh toán
                                 </button>
@@ -375,6 +390,7 @@
                         </div>
                     </div>
                 </div>
+                <br>
             </div>
             <br>
             <!--    modal diaChi-->
@@ -432,7 +448,7 @@
                         </div>
 
                         <!-- Tab panes -->
-                        <div class="modal-body" style="height: 370px;">
+                        <div class="modal-body" style="height: 400px;">
                             <div class="tab-content p-3 text-muted"
                                 style="background-color: #dedede; height: 370px; overflow: auto;">
                                 <!--Tất cả voucher của shop-->

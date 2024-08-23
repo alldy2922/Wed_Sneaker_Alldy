@@ -98,6 +98,9 @@ public class DonHangModel {
     @Column(name = "lydotrahang")
     private String lyDoTraHang;
 
+    @Column(name = "lydodoihang")
+    private String lyDoDoiHang;
+
     @Column(name = "ngayxacnhan")
     private Date ngayXacNhan;
 
@@ -110,17 +113,6 @@ public class DonHangModel {
     @Column(name = "ngayhuy")
     private Date ngayHuy;
 
-    @Column(name = "ngaytrahang")
-    private Date ngayTraHang;
-
-    @Column(name = "ngaykiemtratrahang")
-    private Date ngayKiemTraTraHang;
-
-    @Column(name = "ngayhoanthanhtrahang")
-    private Date ngayHoanThanhTraHang;
-
-    @Column(name = "ngayhuytrahang")
-    private Date ngayHuyTraHang;
 
     @Column(name = "loai")
     private Integer loai;
@@ -130,6 +122,10 @@ public class DonHangModel {
 
     @OneToMany(mappedBy = "donHang",fetch = FetchType.LAZY)
     private List<ChiTietDonHangModel> danhSachSanPham;
+
+
+
+
 
     public String trangThaiDetail() {
         if (trangThai == 1) {

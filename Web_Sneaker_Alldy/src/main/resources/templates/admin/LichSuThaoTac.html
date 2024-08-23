@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/admin/index}">
 <head>
-    <title>ALLDY STORE | Quản lý đơn hàng</title>
+    <title>ALLDY STORE | Lịch Sử Hệ Thống</title>
 </head>
 <body data-topbar="dark">
 <div class="main-content" layout:fragment="content">
@@ -16,8 +16,9 @@
             color: red;
             font-size: 13px;
         }
-        .nameProduct{
-            width:200px;
+
+        .nameProduct {
+            width: 200px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -34,10 +35,11 @@
                     <div class="card-body">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs nav-tabs-custom nav-justified" role="tablist">
-                            <li class="nav-item" ng-click="chuaXacNhan.getList(chuaXacNhan.page)">
+                            <li class="nav-item" ng-click="lichSuThaoTac.getList(lichSuThaoTac.page)">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#donhang1" role="tab">
                                     <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                    <span class="d-none d-sm-block">Lịch Sử Hoạt Động<span class="badge bg-danger ms-1" style="font-size: 11px">{{chuaXacNhan.totalElement}}</span></span>
+                                    <span class="d-none d-sm-block">Lịch Sử Hoạt Động<span class="badge bg-danger ms-1"
+                                                                                           style="font-size: 11px">{{lichSuThaoTac.totalElement}}</span></span>
 
                                 </a>
                             </li>
@@ -62,9 +64,12 @@
                                             <span data-bs-toggle="dropdown" aria-expanded="false"
                                                   class="btn btn-primary">
                                                 <i data-feather="filter"></i>
-                                                <span class="badge bg-primary ms-1 ml-2" style="font-size: 11px;font-weight: bold" id="lengthFilter"></span>
+                                                <span class="badge bg-primary ms-1 ml-2"
+                                                      style="font-size: 11px;font-weight: bold"
+                                                      id="lengthFilter"></span>
                                             </span>
-                                                                    <ul class="dropdown-menu" style="width: 500px;padding: 20px">
+                                                                    <ul class="dropdown-menu"
+                                                                        style="width: 500px;padding: 20px">
                                                                         <li>
                                                                             <b>Phân loại</b>
                                                                             <div class="row">
@@ -72,18 +77,34 @@
                                                                                     <form ng-submit="filterData()">
                                                                                         <div class="mb-6">
                                                                                             <label>Tên Tài Khoản</label>
-                                                                                            <input type="text" ng-model="filter.ten" class="form-control"/>
+                                                                                            <input type="text"
+                                                                                                   ng-model="filter.ten"
+                                                                                                   class="form-control"/>
                                                                                         </div>
                                                                                         <div class="mb-3">
                                                                                             <label>Ngày Bắt Đầu</label>
-                                                                                            <input type="date" ng-model="filter.ngayBatDau" class="form-control"/>
+                                                                                            <input type="date"
+                                                                                                   ng-model="filter.ngayBatDau"
+                                                                                                   class="form-control"/>
                                                                                         </div>
                                                                                         <div class="mb-3">
                                                                                             <label>Ngày Kết Thúc</label>
-                                                                                            <input type="date" ng-model="filter.ngayKetThuc" class="form-control"/>
+                                                                                            <input type="date"
+                                                                                                   ng-model="filter.ngayKetThuc"
+                                                                                                   class="form-control"/>
                                                                                         </div>
-                                                                                        <button class="btn btn-danger" type="button" style="float: left" ng-click="clearFilter()">Bỏ lọc</button>
-                                                                                        <button class="btn btn-primary" type="button" style="float: right" ng-click="filterData()">Tìm Kiếm</button>
+                                                                                        <button class="btn btn-danger"
+                                                                                                type="button"
+                                                                                                style="float: left"
+                                                                                                ng-click="clearFilter()">
+                                                                                            Bỏ lọc
+                                                                                        </button>
+                                                                                        <button class="btn btn-primary"
+                                                                                                type="button"
+                                                                                                style="float: right"
+                                                                                                ng-click="filterData()">
+                                                                                            Tìm Kiếm
+                                                                                        </button>
 
                                                                                     </form>
                                                                                 </div>
@@ -117,7 +138,8 @@
                                                         <tbody>
                                                         <tr ng-if="lichSu.length == 0">
                                                             <td colspan="8">
-                                                                <h4 class="text-center col-12 mt-5" >Không có đơn hàng liên quan</h4>
+                                                                <h4 class="text-center col-12 mt-5">Không có đơn hàng
+                                                                    liên quan</h4>
                                                             </td>
                                                         </tr>
                                                         <tr ng-repeat="d in lichSu">
@@ -145,61 +167,88 @@
                                                 <!-- end table responsive -->
 
                                             </div>
-                                        </div>-->
-                                        <div class="card-footer" >
+                                        </div>
+
+                                        <div class="card-footer">
+
                                             <div class="row">
-                                                <div class="col-6">
-                                                </div>
+                                                <div class="col-6"></div>
                                                 <div class="col-6">
                                                     <nav aria-label="Page navigation example">
                                                         <ul class="pagination justify-content-end">
-                                                            <li class="page-item" ng-click="getAll(0)" ng-if="pageNumber>0">
-                                                <span class="page-link" style="cursor: pointer" aria-label="First">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                    <span class="sr-only">First</span>
-                                                </span>
+                                                            <li class="page-item"
+                                                                ng-click="lichSuThaoTac.getList(0)"
+                                                                ng-if="lichSuThaoTac.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                              aria-label="First">
+                                                                            <span aria-hidden="true">&laquo;</span>
+                                                                            <span class="sr-only">First</span>
+                                                                        </span>
                                                             </li>
-                                                            <li class="page-item"  ng-if="pageNumber>0">
-                                                <span class="page-link" style="cursor: pointer" aria-label="Previous" ng-click="getAll(pageNumber==0 ? 0 : pageNumber-1)">
-                                                    <span><</span>
-                                                    <span class="sr-only">Previous</span>
-                                                </span>
+                                                            <li class="page-item" ng-if="lichSuThaoTac.page>0">
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                              aria-label="Previous"
+                                                                              ng-click="lichSuThaoTac.getList(lichSuThaoTac.page==0 ? 0 : lichSuThaoTac.page-1)">
+                                                                            <span>
+                                                                                < </span>
+                                                                                    <span
+                                                                                            class="sr-only">Previous</span>
+                                                                            </span>
                                                             </li>
-                                                            <li class="page-item pageNumber" ng-repeat="p in pageNumbers" ng-click="getAll(p)" id="{{p}}">
-                                                                <span ng-if="p!=pageNumber"  class="page-link" style="cursor: pointer">{{p+1}}</span>
-                                                                <span ng-if="p==pageNumber"  class="page-link active" style="cursor: pointer">{{p+1}}</span>
+                                                            <li class="page-item" ng-if="lichSuThaoTac.page>2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
+                                                            </li>
+                                                            <li class="page-item pageNumber"
+                                                                ng-repeat="p in lichSuThaoTac.pages"
+                                                                ng-click="lichSuThaoTac.getList(p)">
+                                                                        <span ng-if="p!=lichSuThaoTac.page"
+                                                                              class="page-link"
+                                                                              style="cursor: pointer">{{p + 1}}</span>
+                                                                <span ng-if="p==lichSuThaoTac.page"
+                                                                      class="page-link active"
+                                                                      style="cursor: pointer">{{p + 1}}</span>
+                                                            </li>
+                                                            <li class="page-item"
+                                                                ng-if="lichSuThaoTac.page<lichSuThaoTac.totalPage -2">
+                                                                        <span class="page-link">
+                                                                            <span>...</span>
+                                                                        </span>
                                                             </li>
                                                             <li class="page-item">
-                                                <span class="page-link" style="cursor: pointer" aria-label="Next" ng-if="pageNumber<pageNumbers.length-1"
-                                                      ng-click="getAll(pageNumber==pageNumbers.length-1 ? pageNumbers.length-1 : pageNumber+1)">
-                                                    <span>></span>
-                                                    <span class="sr-only">Next</span>
-                                                </span>
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                              aria-label="Next"
+                                                                              ng-if="lichSuThaoTac.page<clichSuThaoTac.totalPage -1"
+                                                                              ng-click="lichSuThaoTac.getList(lichSuThaoTac.page==lichSuThaoTac.totalPage -1 ? lichSuThaoTac.totalPage -1 : lichSuThaoTac.page+1)">
+                                                                            <span>></span>
+                                                                            <span class="sr-only">Next</span>
+                                                                        </span>
                                                             </li>
                                                             <li class="page-item">
-                                                <span class="page-link" style="cursor: pointer" aria-label="Last" ng-if="pageNumber<pageNumbers.length-1"
-                                                      ng-click="getAll(pageNumbers.length-1)">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                    <span class="sr-only">Last</span>
-                                                </span>
+                                                                        <span class="page-link" style="cursor: pointer"
+                                                                              aria-label="Last"
+                                                                              ng-if="lichSuThaoTac.page<lichSuThaoTac.totalPage-1"
+                                                                              ng-click="lichSuThaoTac.getList(lichSuThaoTac.totalPage -1)">
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                            <span class="sr-only">Last</span>
+                                                                        </span>
                                                             </li>
                                                         </ul>
                                                     </nav>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- end main content-->
                                     </div>
                                 </div>
-                                </footer>
-
                             </div>
-                            <!-- end main content-->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
 </body>
 </html>

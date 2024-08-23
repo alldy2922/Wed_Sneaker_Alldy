@@ -36,6 +36,7 @@ public class DonHangDtoResponse {
     private String lyDoHuy;
     private String lyDoThayDoi;
     private String lyDoTraHang;
+    private String lyDoDoiHang;
     private String voucherCode;
     private String voucherName;
     private Date ngayXacNhan;
@@ -77,6 +78,7 @@ public class DonHangDtoResponse {
         this.lyDoHuy = model.getLyDoHuy();
         this.lyDoThayDoi = model.getLyDoThayDoi();
         this.lyDoTraHang = model.getLyDoTraHang();
+        this.lyDoDoiHang = model.getLyDoDoiHang();
 
         this.loai = model.getLoai();
 
@@ -85,10 +87,6 @@ public class DonHangDtoResponse {
         if(model.getNgayGiaoHang()!=null) this.ngayGiaoHang = model.getNgayGiaoHang();
         if(model.getNgayHoanThanh()!=null) this.ngayHoanThanh = model.getNgayHoanThanh();
         if(model.getNgayHuy()!=null) this.ngayHuy = model.getNgayHuy();
-        if(model.getNgayTraHang()!=null) this.ngayTraHang = model.getNgayTraHang();
-        if(model.getNgayHuyTraHang()!=null) this.ngayHuyTraHang = model.getNgayHuyTraHang();
-        if(model.getNgayHoanThanhTraHang()!=null) this.ngayHoanThanhTraHang = model.getNgayHoanThanhTraHang();
-        if(model.getNgayKiemTraTraHang()!=null) this.ngayKiemTraTraHang = model.getNgayKiemTraTraHang();
 
         if(model.getVoucher()!=null){
             voucherCode = model.getVoucher().getMa();
@@ -98,5 +96,6 @@ public class DonHangDtoResponse {
         if(model.getNhanVien()!=null){
             nhanVienDtoResponse = new NhanVienDtoResponse(model.getNhanVien());
         }
+
     }
 }

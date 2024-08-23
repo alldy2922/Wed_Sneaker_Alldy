@@ -194,14 +194,14 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                             icon: 'success',
                             timer: 1200,
                             showConfirmButton: false
-                        }).then(() => {
+                        }).then(() => {                         
                             // Chuyển hướng dựa trên trạng thái đăng nhập
                             if ($scope.loginIn == false) {
                                 window.location.href = "/gio-hang";
                             } else {
                                 window.location.href = "/lich-su-mua-hang1";
                             }
-                        });
+                        })
                     } else {
                         // Chuyển hướng đến URL thanh toán
                         location.href = r.data.vnPayUrl;
@@ -223,6 +223,7 @@ app.controller('checkOutCtrl', function ($scope, $http) {
             }
         });
     };
+    
 
 
     $scope.getDataAPI = function (maVC) {
@@ -243,6 +244,9 @@ app.controller('checkOutCtrl', function ($scope, $http) {
                 console.log("lỗi")
             });
     };
+
+    
+
     $scope.huyVoucher = function () {
         $scope.giaGiam = 0;
         $scope.voucherDH = "";

@@ -50,6 +50,7 @@ public class DonHangDTORequest {
     private String lyDoHuy;
     private String lyDoThayDoi;
     private String lyDoTraHang;
+    private String lyDoDoiHang;
     private String tongTien;
     private Integer loai;
     private String nhanVien;
@@ -66,6 +67,7 @@ public class DonHangDTORequest {
         if (lyDoHuy != null && !lyDoHuy.isBlank()) donHangModel.setLyDoHuy(lyDoHuy);
         if (lyDoThayDoi != null && !lyDoThayDoi.isBlank()) donHangModel.setLyDoThayDoi(lyDoThayDoi);
         if (lyDoTraHang != null && !lyDoTraHang.isBlank()) donHangModel.setLyDoTraHang(lyDoTraHang);
+        if (lyDoDoiHang != null && !lyDoDoiHang.isBlank()) donHangModel.setLyDoDoiHang(lyDoDoiHang);
         donHangModel.setTenNguoiNhan(tenNguoiNhan);
         donHangModel.setSoDienThoai(soDienThoai);
         donHangModel.setEmail(email);
@@ -91,6 +93,8 @@ public class DonHangDTORequest {
             nhanVienModel.setUsername(nhanVien);
             donHangModel.setNhanVien(nhanVienModel);
         }
+
+
         return donHangModel;
     }
 }

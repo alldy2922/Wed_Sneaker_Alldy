@@ -38,6 +38,13 @@ public class DonHangController {
         }
         return "user/ChiTietTraHang";
     }
+    @GetMapping("chi-tiet-doi-hang/{maDH}")
+    public String viewChiTietDoiHang(@PathVariable("maDH")String maDH){
+        if(!donHangService.existsByMa(maDH)){
+            return "admin/authen/notFound";
+        }
+        return "user/ChiTietDoiHang";
+    }
 
     @GetMapping("email/thanh-toan/{ma}")
     public Object ThanhToanHoaDon(HttpServletRequest request, @PathVariable("ma") String ma)throws MessagingException {

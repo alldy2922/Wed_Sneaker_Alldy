@@ -9,6 +9,64 @@ app.controller("lstt-ctrl", function ($scope, $http) {
     $scope.pageNumber = 0;
     var isfilter = false;
 
+    // Danh sách số trang
+    $scope.currentPage = 0; // Trang hiện tại
+    $scope.totalPages = 0; // Tổng số trang
+    $scope.pages = []; // Danh sách số trang
+
+    // Hàm lấy dữ liệu
+
+    $scope.lichSuThaoTac = {
+        list: [],
+        detail: {},
+        totalElement: 0,
+        totalPage: 0,
+        page: 0,
+        pages: [],
+        init() {
+            $http.get("/admin/lich-su-thao-tac/getAll").then(r => {
+                this.totalElement = r.data.totalElements;
+                this.totalPage = r.data.totalPages;
+                this.setPageNumbers();
+                this.getList(0); // Gọi hàm để lấy dữ liệu trang đầu tiên
+            }).catch(e => console.log(e));
+        },
+        getList(pageNumber) {
+            this.page = pageNumber;
+            $http.get("/admin/lich-su-thao-tac/getAll?pageNumber=" + pageNumber).then(r => {
+                $scope.lichSu = r.data.content;
+                this.totalPage = r.data.totalPages;
+                this.setPageNumbers();
+            }).catch(e => console.log(e));
+        },
+        setPageNumbers() {
+            let numbers = [];
+            let i = this.page
+            let lengthLast = this.totalPage <= 3 ? this.totalPage : this.page + 3
+            let lengthFirst = this.totalPage >= 2 ? this.page - 2 : 0
+
+            if (lengthLast > this.totalPage) {
+                lengthLast = this.totalPage
+                i = lengthLast - 2
+            }
+            if (lengthFirst < 0) lengthFirst = 0
+
+            for (lengthFirst; i > lengthFirst; lengthFirst++) {
+                numbers.push(lengthFirst)
+            }
+            for (i; i < lengthLast; i++) {
+                numbers.push(i)
+            }
+            this.pages = numbers;
+        }
+    };
+
+    // Khởi tạo khi trang được tải
+    $scope.lichSuThaoTac.init();
+    $scope.lichSuThaoTac.getList(0);
+
+    // Khởi tạo trang đầu tiên
+
     $scope.getAllLichSu = function getRecentActivities() {
         $http.get("/admin/lich-su-thao-tac/getAll").then(r => {
             $scope.lichSu = r.data.content
@@ -32,16 +90,6 @@ app.controller("lstt-ctrl", function ($scope, $http) {
             $scope.filterDto = {}
             isfilter = false;
         }).catch(e => console.log(e))
-    }
-    $scope.getAll = function (pageNumber){
-        $scope.pageNumber = pageNumber;
-
-
-        $http.get("/admin/lich-su-thao-tac/getAll?pageNumber="+pageNumber).then(r => {
-            $scope.lichSu = r.data.content
-            // $scope.filterData = {}
-        }).catch(e => console.log(e))
-
     }
 
     $scope.getPageNumbers = function (totalPages){

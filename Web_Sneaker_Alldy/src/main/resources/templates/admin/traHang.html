@@ -30,7 +30,7 @@
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Đơn Hàng Hoàn</h4>
+                            <h4 class="card-title">Đơn Hàng Trả/Hoàn Tiền</h4>
                         </div><!-- end card header -->
 
                         <div class="card-body">
@@ -50,13 +50,15 @@
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
                                         <span class="d-none d-sm-block">Kiểm Tra Hàng Hoàn <span
                                                 class="badge bg-danger ms-1"
-                                                style="font-size: 11px">{{daXacNhanTraHang.totalElement}}</span></span>
+                                                style="font-size: 11px">{{daXacNhan.totalElement}}</span></span>
                                     </a>
                                 </li>
                                 <li class="nav-item" ng-click="hoanThanhTraHang.getList(hoanThanhTraHang.page)">
                                     <a class="nav-link" data-bs-toggle="tab" href="#hoanThanh" role="tab">
                                         <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
-                                        <span class="d-none d-sm-block">Hoàn Tiền</span>
+                                        <span class="d-none d-sm-block">Hoàn Tiền<span
+                                            class="badge bg-danger ms-1"
+                                            style="font-size: 11px">{{hoanThanhTraHang.totalElement}}</span></span>
                                     </a>
                                 </li>
                                 <li class="nav-item" ng-click="huyTraHang.getList(huyTraHang.page)">
@@ -126,38 +128,38 @@
                                                                                 ng-click="checkAllChecked('checkChuaXacNhan','checkAllChuaXacNhan')"
                                                                                 class="form-check-input"
                                                                                 name="checkChuaXacNhan"
-                                                                                value="{{d.ma}}">
+                                                                                value="{{d.donHangDtoResponse.ma}}">
                                                                         </div>
                                                                     </th>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
-                                                                        {{d.ma}}
+                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.ma}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.tenNguoiNhan}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
-                                                                        {{d.tenNguoiNhan}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
-                                                                        {{d.soDienThoai}}
+                                                                        {{d.donHangDtoResponse.soDienThoai}}
                                                                     </td>
                                                                     <!-- ngày hoàn hàng -->
                                                                     <td style="cursor: pointer"
                                                                         ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
-                                                                        {{d.ngayTraHang | date:'yyyy-MM-dd HH:mm:ss'}}
+                                                                        {{d.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="chuaXacNhanTraHang.getDetail(d.ma)">
-                                                                        {{d.lyDoTraHang}}
+                                                                        {{d.donHangDtoResponse.lyDoTraHang}}
                                                                     </td>
                                                                     <td style="width: 200px">
                                                                         <button class="btn btn-danger me-1"
                                                                             data-toggle="modal"
                                                                             data-target="#lyDoTraHang"
-                                                                            ng-click="chuaXacNhanTraHang.setIdDonHang(d.ma)">Hủy
+                                                                            ng-click="chuaXacNhanTraHang.setIdDonHang(d.donHangDtoResponse.ma)">Hủy
                                                                         </button>
                                                                         <button class="btn btn-primary"
-                                                                            ng-click="chuaXacNhanTraHang.xacNhanDH(d.ma)">Xác
+                                                                            ng-click="chuaXacNhanTraHang.xacNhanDH(d.donHangDtoResponse.ma)">Xác
                                                                             nhận
                                                                         </button>
                                                                     </td>
@@ -309,38 +311,38 @@
                                                                             <input type="checkbox"
                                                                                 ng-click="checkAllChecked('checkDaXacNhan','checkAllDaXacNhan')"
                                                                                 class="form-check-input"
-                                                                                name="checkDaXacNhan" value="{{d.ma}}">
+                                                                                name="checkDaXacNhan" value="{{d.donHangDtoResponse.ma}}">
                                                                         </div>
                                                                     </th>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.ma}}
+                                                                        ng-click="daXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.ma}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="daXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.tenNguoiNhan}}
+                                                                    </td>
+                                                                    <td style="cursor: pointer"
+                                                                        ng-click="daXacNhan.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.soDienThoai}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.tenNguoiNhan}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.soDienThoai}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.ngayKiemTraTraHang | date:'yyyy-MM-dd
+                                                                        {{d.ngayKiemTra | date:'yyyy-MM-dd
                                                                         HH:mm:ss' }}
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="daXacNhan.getDetail(d.ma)">
-                                                                        {{d.lyDoTraHang}}
+                                                                        {{d.donHangDtoResponse.lyDoTraHang}}
                                                                     </td>
                                                                     <td style="width: 200px">
                                                                         <button class="btn btn-danger me-1"
                                                                             data-toggle="modal"
                                                                             data-target="#lyDoTraHang"
-                                                                            ng-click="daXacNhan.setIdDonHang(d.ma)">Hủy
+                                                                            ng-click="daXacNhan.setIdDonHang(d.donHangDtoResponse.ma)">Hủy
                                                                         </button>
                                                                         <button class="btn btn-primary"
-                                                                            ng-click="daXacNhan.chuyenGiao(d.ma)">Hoàn
+                                                                            ng-click="daXacNhan.chuyenGiao(d.donHangDtoResponse.ma)">Hoàn
                                                                             Tiền
                                                                         </button>
                                                                     </td>
@@ -476,26 +478,26 @@
                                                                 </tr>
                                                                 <tr ng-repeat="d in hoanThanhTraHang.list">
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="hoanThanhTraHang.getDetail(d.ma)">
-                                                                        {{d.ma}}
+                                                                        ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.ma}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
                                                                         ng-click="hoanThanhTraHang.getDetail(d.ma)">
-                                                                        {{d.tenNguoiNhan}}
+                                                                        {{d.donHangDtoResponse.tenNguoiNhan}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="hoanThanhTraHang.getDetail(d.ma)">
-                                                                        {{d.soDienThoai}}
+                                                                        ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.soDienThoai}}
                                                                     </td>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="hoanThanhTraHang.getDetail(d.ma)">
-                                                                        {{d.ngayHoanThanhTraHang | date:'yyyy-MM-dd
+                                                                        ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.ngayHoanThanh | date:'yyyy-MM-dd
                                                                         HH:mm:ss'
                                                                         }}
                                                                     </td>
                                                                     <td style="cursor: pointer"
-                                                                        ng-click="hoanThanhTraHang.getDetail(d.ma)">
-                                                                        {{d.lyDoTraHang}}
+                                                                        ng-click="hoanThanhTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                        {{d.donHangDtoResponse.lyDoTraHang}}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -615,34 +617,36 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr ng-if="huyTraHang.list.length == 0">
-                                                                    <td colspan="8">
-                                                                        <h4 class="text-center col-12 mt-5">Không có đơn
-                                                                            hàng liên quan</h4>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr ng-repeat="d in huyTraHang.list">
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="huyTraHang.getDetail(d.ma)">{{d.ma}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="huyTraHang.getDetail(d.ma)">
-                                                                        {{d.tenNguoiNhan}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="huyTraHang.getDetail(d.ma)">
-                                                                        {{d.soDienThoai}}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="huyTraHang.getDetail(d.ma)">
-                                                                        {{d.ngayHuyTraHang | date:'yyyy-MM-dd HH:mm:ss'
-                                                                        }}
-                                                                    </td>
-                                                                    <td style="cursor: pointer"
-                                                                        ng-click="huyTrahang.getDetail(d.ma)">
-                                                                        <p class="nameProduct">{{d.lyDoTraHang}}</p>
-                                                                    </td>
-                                                                </tr>
+                                                            <tr ng-if="huyTraHang.list.length == 0">
+                                                                <td colspan="8">
+                                                                    <h4 class="text-center col-12 mt-5">Không có đơn
+                                                                        hàng liên quan</h4>
+                                                                </td>
+                                                            </tr>
+                                                            <tr ng-repeat="d in huyTraHang.list">
+                                                                <td style="cursor: pointer"
+                                                                    ng-click="huyTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    {{d.donHangDtoResponse.ma}}
+                                                                </td>
+                                                                <td style="cursor: pointer"
+                                                                    ng-click="huyTraHang.getDetail(d.ma)">
+                                                                    {{d.donHangDtoResponse.tenNguoiNhan}}
+                                                                </td>
+                                                                <td style="cursor: pointer"
+                                                                    ng-click="huyTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    {{d.donHangDtoResponse.soDienThoai}}
+                                                                </td>
+                                                                <td style="cursor: pointer"
+                                                                    ng-click="huyTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    {{d.ngayHuy | date:'yyyy-MM-dd
+                                                                HH:mm:ss'
+                                                                    }}
+                                                                </td>
+                                                                <td style="cursor: pointer"
+                                                                    ng-click="huyTraHang.getDetail(d.donHangDtoResponse.ma)">
+                                                                    {{d.donHangDtoResponse.lyDoTraHang}}
+                                                                </td>
+                                                            </tr>
                                                             </tbody>
                                                         </table>
                                                         <!-- end table -->
@@ -768,20 +772,13 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-6">
                                             <div class="mb-3">
                                                 <label>Mã đơn hàng</label>
                                                 <span class="form-control">{{chuaXacNhanTraHang.detail.ma}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="mb-3">
-                                                <label>Ngày yêu cầu trả hàng</label>
-                                                <span class="form-control">{{chuaXacNhanTraHang.detail.ngayTraHang |
-                                                    date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
+                                        <div class="col-6">
                                             <div class="mb-3">
                                                 <label>Phương thức thanh toán khi mua</label>
                                                 <span class="form-control">
@@ -901,7 +898,7 @@
                                             <div class="mb-3">
                                                 <label>Địa chỉ chi tiết</label>
                                                 <textarea class="form-control" rows="2" ng-focus="er.diaChiChiTiet=''"
-                                                    ng-model="chuaXacNhanTraHang.detail.diaChiChiTiet"></textarea>
+                                                    ng-model="chuaXacNhanTraHang.detail.diaChiChiTiet" style="height: 40px;"></textarea>
                                                 <i class="er">{{er.diaChiChiTiet == undefined ? '' :
                                                     er.diaChiChiTiet}}</i>
                                             </div>
@@ -919,7 +916,7 @@
 
                                 <div class="col-6">
                                     <h4>Sản Phẩm Đã Mua</h4>
-                                    <div style="height: 215px;overflow-y: auto;">
+                                    <div style="height: 200px;overflow-y: auto;">
                                         <table class="table table-hover dt-responsive  nowrap w-100">
                                             <thead>
                                                 <tr style="position: sticky;
@@ -952,20 +949,15 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="d-flex justify-content-center">
-                                                            {{d.soLuong}}
-                                                        </div>
+                                                        {{d.soLuong}}
                                                     </td>
                                                     <td>{{d.donGia | currency: "" : 0}} đ</td>
                                                     <td>
-                                                        <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
-                                                            currency: "" : 0}}đ
-                                                        </div>
+                                                        {{d.donGiaSauGiam |
+                                                        currency: "" : 0}}đ
                                                     </td>
                                                     <td>
-                                                        <div class="d-flex justify-content-end">
-                                                            {{d.donGiaSauGiam * d.soLuong | currency: "" : 0}}đ
-                                                        </div>
+                                                       {{d.donGiaSauGiam * d.soLuong | currency: "" : 0}}đ
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -973,8 +965,9 @@
                                     </div>
                                     <br>
                                     <h4>Sản Phẩm Trả</h4>
-                                    <table class="table table-hover dt-responsive  nowrap w-100">
-                                        <thead>
+                                    <div style="height: 200px;overflow-y: auto;">
+                                        <table class="table table-hover dt-responsive  nowrap w-100">
+                                            <thead>
                                             <tr style="position: sticky;
                                             top: 0;
                                             z-index: 1;
@@ -986,15 +979,15 @@
                                                 <th style="width: 120px;">Thành tiền</th>
                                                 <th style="width: 15px"></th>
                                             </tr>
-                                        </thead>
-                                        <tbody>
+                                            </thead>
+                                            <tbody>
                                             <i class="er">{{er.soLuongSP == undefined ? '' : er.soLuongSP}}</i>
                                             <tr ng-repeat="d in sanPhamTra" style="vertical-align: middle">
                                                 <td style="width: 260px;">
                                                     <div class="d-flex justify-content-start">
                                                         <div style="width: 70px;">
                                                             <img src="/image/loadImage/product/{{d.anh}}"
-                                                                style="width: 70px; height: 70px; border-radius: 10px">
+                                                                 style="width: 70px; height: 70px; border-radius: 10px">
                                                         </div>
                                                         <div>
                                                             <p style="font-weight: bold;padding-left: 10px; ">
@@ -1005,24 +998,20 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex justify-content-center">
-                                                        {{d.soLuong}}
-                                                    </div>
+                                                    {{d.soLuong}}
                                                 </td>
                                                 <td>{{d.donGia | currency: "" : 0}} đ</td>
                                                 <td>
-                                                    <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
-                                                        currency: "" : 0}}đ
-                                                    </div>
+                                                    {{d.donGiaSauGiam |
+                                                currency: "" : 0}}đ
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex justify-content-end">
-                                                        {{d.donGiaSauGiam * d.soLuong | currency: "" : 0}}đ
-                                                    </div>
+                                                    {{d.donGiaSauGiam * d.soLuong | currency: "" : 0}}đ
                                                 </td>
                                             </tr>
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <hr>
                                     <table class="table">
                                         <tbody>
@@ -1171,7 +1160,8 @@
                                 </div>
                                 <!-- sản phẩm -->
                                 <div class="col-6">
-                                    <div style="max-height: 220px;overflow-y: auto;">
+                                    <h4>Sản Phẩm Đã Mua</h4>
+                                    <div style="max-height: 200px;overflow-y: auto;">                                       
                                         <table id="datatable"
                                             class="table table-striped table-hover dt-responsive  nowrap w-100">
                                             <thead>
@@ -1204,24 +1194,21 @@
                                                     <td>{{d.soLuong}}</td>
                                                     <td>{{d.donGia | currency: "" : 1}} đ</td>
                                                     <td>
-                                                        <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
-                                                            currency: ""
-                                                            :
-                                                            1}}
-                                                            đ
-                                                        </div>
+                                                       {{d.donGiaSauGiam | currency: "" : 1}} đ
                                                     </td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-end">
+                                                    <td>                                                     
                                                             {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
                                                             đ
-                                                        </div>
                                                     </td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table> 
                                     </div>
+
+                                    <br>
+
                                     <h4>Sản Phẩm Trả</h4>
+                                    <div  style="max-height: 200px;overflow-y: auto;">
                                     <table id="datatable"
                                         class="table table-striped table-hover dt-responsive  nowrap w-100">
                                         <thead>
@@ -1254,22 +1241,17 @@
                                                 <td>{{d.soLuong}}</td>
                                                 <td>{{d.donGia | currency: "" : 1}} đ</td>
                                                 <td>
-                                                    <div class="d-flex justify-content-end">{{d.donGiaSauGiam |
-                                                        currency: ""
-                                                        :
-                                                        1}}
-                                                        đ
-                                                    </div>
+                                                    {{d.donGiaSauGiam | currency: ""  : 1}}  đ
+                                                    
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex justify-content-end">
-                                                        {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
-                                                        đ
-                                                    </div>
+                                                    {{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}  đ
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
+                                    </div>
+                                    
                                     <table class="table" style="border-top: 1px solid black">
                                         <tbody>
                                             <tr>
@@ -1297,32 +1279,43 @@
             </div>
         </div>
 
-
         <style>
-            .full-screen-modal .modal-dialog {
-                width: 100vw;
-                /* Chiều rộng toàn bộ cửa sổ trình duyệt */
-                max-width: 100vw;
-                /* Đảm bảo không vượt quá chiều rộng cửa sổ */
-                height: auto;
-                /* Chiều cao toàn bộ cửa sổ trình duyệt */
-                margin: 0;
-                /* Loại bỏ khoảng cách mặc định */
-                padding: 0;
-                /* Loại bỏ khoảng đệm mặc định */
-            }
+          .modal.show .modal-dialog {
+                    display: flex;
+                    align-items: center;
+                    /* Căn giữa theo chiều dọc */
+                    justify-content: center;
+                    /* Căn giữa theo chiều ngang */
+                    margin: auto;
+                    /* Đảm bảo modal nằm giữa */
+                    height: auto;
+                    /* Điều chỉnh chiều cao tự động */
+                }
 
-            .full-screen-modal .modal-content {
-                height: auto;
-                /* Chiều cao toàn bộ modal */
-                border-radius: 0;
-                /* Loại bỏ góc bo tròn */
-            }
+                .full-screen-modal .modal-dialog {
+                    width: 85%;
+                    /* Chiều rộng toàn bộ cửa sổ trình duyệt */
+                    max-width: 100vw;
+                    /* Đảm bảo không vượt quá chiều rộng cửa sổ */
+                    height: auto;
+                    /* Chiều cao toàn bộ cửa sổ trình duyệt */
+                    margin: 0;
+                    /* Loại bỏ khoảng cách mặc định */
+                    padding: 0;
+                    /* Loại bỏ khoảng đệm mặc định */
+                }
 
-            .full-screen-modal .modal-body {
-                overflow-y: auto;
-                /* Cho phép cuộn nội dung khi nội dung quá dài */
-            }
+                .full-screen-modal .modal-content {
+                    height: auto;
+                    /* Chiều cao toàn bộ modal */
+                    border-radius: 15px;
+                    /* Loại bỏ góc bo tròn */
+                }
+
+                .full-screen-modal .modal-body {
+                    overflow-y: auto;
+                    /* Cho phép cuộn nội dung khi nội dung quá dài */
+                }
         </style>
 
         <!-- End Page-content -->

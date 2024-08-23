@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:/www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{/user/trangChu}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ALLDY STORE | Chi Tiết Đổi Hàng</title>
+    <style>
+        .step-wizard-list {
+            background: white;
+            color: #333;
+            list-style-type: none;
+            display: flex;
+            padding: 60px 10px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .step-wizard-item {
+            padding: 0 20px;
+            flex-basis: 0;
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            min-width: 170px;
+            position: relative;
+        }
+
+        .step-wizard-item+.step-wizard-item:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 19px;
+            background: #2dc258;
+            width: 100%;
+            height: 2px;
+            transform: translateX(-50%);
+            z-index: -10;
+        }
+
+        .progress-count {
+            height: 40px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 600;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            color: transparent;
+        }
+
+        .progress-count:after {
+            content: "";
+            height: 40px;
+            width: 40px;
+            background: #2dc258;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: -10;
+        }
+
+        .progress-count:before {
+            content: "";
+            height: 10px;
+            width: 20px;
+            border-left: 3px solid #fff;
+            border-bottom: 3px solid #fff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -60%) rotate(-45deg);
+            transform-origin: center center;
+        }
+
+        .progress-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .current-item .progress-count:before,
+        .current-item~.step-wizard-item .progress-count:before {
+            display: none;
+        }
+
+        .current-item~.step-wizard-item .progress-count:after {
+            height: 10px;
+            width: 10px;
+        }
+
+        .current-item~.step-wizard-item .progress-label {
+            opacity: 0.5;
+        }
+
+        .current-item .progress-count:after {
+            background: #fff;
+            border: 2px solid #2dc258;
+        }
+
+        .current-item .progress-count {
+            color: #2dc258;
+        }
+
+        .DM1xQK {
+            height: 0.1875rem;
+            width: 100%;
+            background-position-x: -1.875rem;
+            background-size: 7.25rem 0.1875rem;
+            background-image: repeating-linear-gradient(45deg, #6fa6d6, #6fa6d6 33px, transparent 0, transparent 41px, #f18d9b 0, #f18d9b 74px, transparent 0, transparent 82px);
+        }
+
+        .header-cart-buttons {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div layout:fragment="contentUser" class="bg0 m-t-23 p-b-140" ng-app="ctdhdoi-app" ng-controller="ctdhdoi-ctrl">
+        <div class="page-content container-fulid" style="background-color: #f9f9fa">
+            <div class="container bg-white">
+                <div class="card-header row" style="background-color: #3f3f3f">
+                    <div class="col-4">
+                        <a href="/lich-su-mua-hang1">
+                            <img src="/userStyle/images/icons/icon-prev.png" alt="" srcset="">
+                        </a>
+
+                    </div>
+                </div>
+                <div class="row" ng-repeat="donHangDoi in donHangDoijs track by $index">
+                    <!-- hủy -->
+                    <div class="col-6 m-t-80 m-b-80" ng-if="donHangDoi.trangThai === 0  && $index === 0">
+                        <h4 class="m-l-20" style="color: red">Từ chối đổi hàng</h4>
+                        <span class="m-l-20">{{donHangDoi.ngayHuy | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                    </div>
+                    <!--                đổi hàng-->
+                    <ul class="step-wizard-list" ng-if="donHangDoi.trangThai != 0  && $index === 0">
+                        <!--                    Chờ xác nhận trả hàng-->
+                        <li class="step-wizard-item">
+                            <span class="progress-count">1</span>
+                            <span class="progress-label">Chờ xác nhận đổi hàng</span>
+                            <span class="progress-label">{{donHangDoi.ngayXacNhan | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </li>
+                        <!--                    Kiểm tra hàng hoàn-->
+                        <li class="step-wizard-item" ng-if="donHangDoi.trangThai != 1">
+                            <span class="progress-count">2</span>
+                            <span class="progress-label">Kiểm tra hàng đổi</span>
+                            <span class="progress-label">{{donHangDoi.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </li>
+                        <li class="step-wizard-item current-item" ng-if="donHangDoi.trangThai === 1">
+                            <span class="progress-count">2</span>
+                            <span class="progress-label">Kiểm tra hàng đổi</span>
+                            <span class="progress-label">{{donHangDoi.ngayKiemTra | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </li>
+                        <!--                   Giao Hàng -->
+                        <li class="step-wizard-item" ng-if="donHangDoi.trangThai != 2">
+                            <span class="progress-count">3</span>
+                            <span class="progress-label">Đang Giao</span>
+                            <span class="progress-label">{{donHangDoi.ngayGiao | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </li>
+                        <li class="step-wizard-item  current-item" ng-if="donHangDoi.trangThai === 2">
+                            <span class="progress-count">3</span>
+                            <span class="progress-label">Đang Giao</span>
+                            <span class="progress-label">{{donHangDoi.ngayGiao | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </li>
+                        <!--                   Đổi Hàng Thành Công -->
+                        <li class="step-wizard-item" ng-if="donHangDoi.trangThai != 3">
+                            <span class="progress-count">4</span>
+                            <span class="progress-label">Đổi Thành Công</span>
+                            <span class="progress-label">{{donHangDoi.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </li>
+                        <li class="step-wizard-item  current-item" ng-if="donHangDoi.trangThai === 3">
+                            <span class="progress-count">4</span>
+                            <span class="progress-label">Đổi Thành Công</span>
+                            <span class="progress-label">{{donHangDoi.ngayHoanThanh | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <h4 class="m-t-20 m-b-20">Thông tin đơn hàng</h4>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label>Mã đơn hàng</label>
+                                <span class="form-control">{{donHang.ma}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label>Phương thức thanh toán khi mua</label>
+                                <span class="form-control">{{donHang.phuongThucThanhToan}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label>Mã voucher</label>
+                                <span class="form-control">{{donHang.voucherCode == null ? 'Không áp dụng' :
+                                    donHang.voucherCode}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label>Tên voucher</label>
+                                <span class="form-control">{{donHang.voucherName == null ? 'Không áp dụng' :
+                                    donHang.voucherName}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label>Tên người nhận</label>
+                                <span class="form-control">{{donHang.tenNguoiNhan}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label>Số điện thoại</label>
+                                <span class="form-control">{{donHang.soDienThoai}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="mb-3">
+                                <label>email</label>
+                                <span class="form-control">{{donHang.email}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label>Thành phố</label>
+                                <span class="form-control">{{donHang.thanhPhoName}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label>Quận huyện</label>
+                                <span class="form-control">{{donHang.quanHuyenName}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label>Xã phường</label>
+                                <span class="form-control">{{donHang.xaPhuongName}}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="mb-3">
+                                <label>Địa chỉ chi tiết</label>
+                                <span class="form-control">{{donHang.diaChiChiTiet}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>Lý do đổi hàng</label>
+                            <textarea class="form-control">{{donHang.lyDoDoiHang}}</textarea>
+                        </div>
+
+                    </div>
+                    <hr>
+                    <h4>Sản Phẩm Đã Mua</h4>
+                    <div>
+                        <table id="datatable" class="table table-hover dt-responsive  nowrap w-100">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sản phẩm</th>
+                                    <th scope="col">Số Lượng</th>
+                                    <th scope="col">Đơn Giá Gốc</th>
+                                    <th scope="col">Khuyến Mại</th>
+                                    <th scope="col">Đơn Giá Sau Giảm</th>
+                                    <th scope="col">Tổng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="d in chiTietDonHang">
+                                    <td>
+                                        <div class="d-flex justify-content-start">
+                                            <img src="/image/loadImage/product/{{d.anh}}"
+                                                style="width: 100px; height: 70px;">
+                                            <div>
+                                                <p style="font-weight: bold;padding-left: 10px; ">{{d.sanPham}}</p>
+                                                <i style="font-size: 10px;padding-left: 10px;">Size {{d.size}}</i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{{d.soLuong}}</td>
+                                    <td>{{d.donGia | currency: "" : 1}} đ</td>
+                                    <td>{{d.donGia - d.donGiaSauGiam | currency: "" : 1}} đ</td>
+                                    <td>
+                                        <div>{{d.donGiaSauGiam | currency: "" : 1}} đ
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}
+                                            đ
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- sp trả đc chọn -->
+                    <h4>Sản Phẩm Đổi</h4>
+                    <table id="datatable" class="table table-hover dt-responsive  nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sản phẩm</th>
+                                <th scope="col">Số Lượng</th>
+                                <th scope="col">Đơn Giá Gốc</th>
+                                <th scope="col">Khuyến Mại</th>
+                                <th scope="col">Đơn Giá Sau Giảm</th>
+                                <th scope="col">Tổng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="d in sanPhamDoi">
+                                <td>
+                                    <div class="d-flex justify-content-start">
+                                        <img src="/image/loadImage/product/{{d.anh}}"
+                                            style="width: 100px; height: 70px;">
+                                        <div>
+                                            <p style="font-weight: bold;padding-left: 10px; ">{{d.sanPham}}</p>
+                                            <i style="font-size: 10px;padding-left: 10px;">Size {{d.size}}</i>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{d.soLuong}}</td>
+                                <td>{{d.donGia | currency: "" : 1}} đ</td>
+                                <td>{{d.donGia - d.donGiaSauGiam | currency: "" : 1}} đ</td>
+                                <td>
+                                    <div>{{d.donGiaSauGiam | currency: "" : 1}} đ
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>{{d.donGiaSauGiam * d.soLuong | currency: "" : 1}}đ
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

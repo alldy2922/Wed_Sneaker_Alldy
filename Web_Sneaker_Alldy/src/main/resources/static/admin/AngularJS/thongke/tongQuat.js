@@ -122,6 +122,7 @@ app.controller("ctrl", function ($scope, $http){
                                 return `
                                     <div style="width: 280px; height: 245px; display: flex; flex-direction: column; padding: 10px">
                                         <div style="word-wrap: break-word">${productName}</div>
+                                      
                                         <div style="padding: 5px 0">
                                             ${value} sản phẩm
                                         </div>
@@ -146,7 +147,7 @@ app.controller("ctrl", function ($scope, $http){
     var delay = 100;
     setTimeout(function() {
         $scope.chartNum = 10;
-        $scope.chartStart = new Date(2022, 0, 1);
+        $scope.chartStart = new Date(2024, 0, 1);
         $scope.chartEnd = new Date();
         $scope.getChart();
     }, delay);

@@ -39,7 +39,7 @@ public interface IDonHangResponsitory extends JpaRepository<DonHangModel, String
             "JOIN sanpham AS SP ON SP.Ma = SPCT.SanPham " +
             "JOIN TempTableAnh AS TTA ON SP.Ma = TTA.SanPham " +
             "WHERE " +
-            "    HD.trangthai != 4 " +
+            "    HD.trangthai != 0 and HD.trangthai != 5 " +
             "    AND HD.ngayhoanthanh BETWEEN ?1 AND ?2 " +
             "GROUP BY " +
             "    SP.ten, SPCT.size, TTA.TenAnh " +

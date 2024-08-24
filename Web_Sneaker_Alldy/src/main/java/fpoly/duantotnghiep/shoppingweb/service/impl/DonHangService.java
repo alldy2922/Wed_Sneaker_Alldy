@@ -776,7 +776,7 @@ public class DonHangService implements IDonHangService {
         model.setNgayHoanThanh(donHangOld.getNgayHoanThanh());
         model.setPhuongThucNhanTien(phuongThucNhanTien);
         model.setGhiChu(ghiChu);
-        model.setTrangThai(4);
+        model.setTrangThai(6);
 
         List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
         String maDHTra = codeDonHang();
@@ -823,7 +823,7 @@ public class DonHangService implements IDonHangService {
         model.setPhiGiaoHang(donHangOld.getPhiGiaoHang());
         model.setNgayGiaoHang(donHangOld.getNgayGiaoHang());
         model.setNgayHoanThanh(donHangOld.getNgayHoanThanh());
-        model.setTrangThai(4);
+        model.setTrangThai(6);
         List<ChiTietDonHangModel> ctdhModel = chiTietDonHangRepository.findAllByDonHang(model);
         String maDHDoi = codeDonHang();
         List<ChiTietDonHangModel> ctdhModelOld = chiTietDonHangRepository.findAllByDonHang(model);

@@ -94,7 +94,7 @@ public class PdfService {
         title2.setAlignment(Element.ALIGN_CENTER);
         Paragraph title3 = new Paragraph("So dien thoai: 0388700177"+
                 "\nEmail: alldystoresneaker@gmail.com" +
-                "\nDia chi: So 136 Cau Dien, Ha Noi\n------------------------------------------",
+                "\nDia chi: So 67, Duong làng Doài, xã Liên Hà, huyen Dan Phuong, thành pho Hà Nội\n------------------------------------------",
                 new Font(Font.HELVETICA, 13));
         title3.setAlignment(Element.ALIGN_CENTER);
         Image image1 = Image.getInstance("src/main/resources/static/admin/images/logo.jpg");
@@ -104,7 +104,7 @@ public class PdfService {
         Paragraph thongtinHD = new Paragraph("\n\nNhan Vien: " + (donHangReponseUser.getNhanVienDtoResponse() == null ? "Khong xac dinh" : donHangReponseUser.getNhanVienDtoResponse().getUsername())
                 + " - " +( donHangReponseUser.getNhanVienDtoResponse() == null ? "" : RemoveAccent.removeAccent(donHangReponseUser.getNhanVienDtoResponse().getHoVaTen()))
                 + "\nKhach Hang: " + RemoveAccent.removeAccent(donHangReponseUser.getTenNguoiNhan()) + "\nNgay mua: " + simpleDateFormat.format(donHangReponseUser.getNgayDatHang())
-                + "\nHinh thuc thanh toan: " + (donHangReponseUser.getPhuongThucThanhToan()=="Thanh toán khi nhận hàng"?"Tien mat":"VN PAY")
+                + "\nHinh thuc thanh toan: " + (donHangReponseUser.getPhuongThucThanhToan()=="Thanh toán khi nhận hàng"?"Tien mat":"Chuyen Khoan")
                 + "\n\n------------------------------------------------------------------------------------------------------------------------",
                 new Font(Font.HELVETICA, 13));
         title3.setAlignment(Element.ALIGN_CENTER);

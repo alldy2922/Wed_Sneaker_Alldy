@@ -41,5 +41,32 @@ public class NhanXetRestController {
         return ResponseEntity.ok(nhanXetService.getNhanXetBySanPham(page,limit,maSP));
     }
 
+    @GetMapping("avg-by-sanpham")
+    public ResponseEntity<?> getAvgBySanPham(@RequestParam String maSP,
+                                             @RequestParam(required = false)Boolean pheDuyet){
+        if(pheDuyet != null){
+            return ResponseEntity.ok(nhanXetService.getAvgRatingBySanPhamAndPheDuyet(maSP,pheDuyet));
+        }
+        return ResponseEntity.ok(nhanXetService.getAvgRatingBySanPham(maSP));
+    }
+
+    @GetMapping("avg-rates-by-sanpham")
+    public ResponseEntity<?> getAvgRatesByMaSP(@RequestParam String maSP,
+                                               @RequestParam(required = false)Boolean pheDuyet){
+        if(pheDuyet!=null){
+            return ResponseEntity.ok(nhanXetEntityManager.getAvgRatesByMaSPAndPheDuyet(maSP,pheDuyet));
+        }
+        return ResponseEntity.ok(nhanXetEntityManager.getAvgRatesByMaSP(maSP));
+    }
+
+    @PutMapping("phe-duyet/{id}")
+    public ResponseEntity<?> pheDuyet(@PathVariable("id")String id,
+                                      @RequestBody Boolean pheDuyet){
+        if(!nhanXetService.existsById(id)){
+            return ResponseEntity.ok(HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(nhanXetService.pheDuyetNhanXet(pheDuyet,id));
+    }
 
 }

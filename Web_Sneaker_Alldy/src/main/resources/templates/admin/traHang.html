@@ -905,10 +905,14 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="mb-3 col-6">
+                                        <div class="col-6">
                                             <label>Thông tin nhận tiền hoàn (Chuyển Khoản)</label>
                                             <textarea class="form-control" style="height: 70px;" rows="2"
                                                 ng-model="chuaXacNhanTraHang.detail.ghiChu"></textarea>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Lý do trả hàng</label>
+                                            <span class="form-control">{{chuaXacNhanTraHang.detail.lyDoTraHang}}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1146,7 +1150,7 @@
                                                 </div>
 
                                                 <div class="mb-3 col-12">
-                                                    <label>Lý do hủy</label>
+                                                    <label>Lý do trả hàng</label>
                                                     <span class="form-control">{{donHang.lyDoTraHang}}</span>
                                                 </div>
                                             </div>

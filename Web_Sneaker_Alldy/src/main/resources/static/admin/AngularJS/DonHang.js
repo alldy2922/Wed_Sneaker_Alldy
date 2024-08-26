@@ -1334,7 +1334,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
     };
     $scope.loadDanhSachTraHang = function () {
         let promises = [];
-        let trangThais = [1, 2, 3];
+        let trangThais = [1, 2, 3,0];
 
         trangThais.forEach(trangThai => {
             promises.push(
@@ -1570,6 +1570,10 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         $scope.selectedProducts = [];
     };
     $scope.changeQuantity = function (product, change) {
+        if (!product.selected){
+            alertify.error("Cần chọn sản phẩm để thay đổi số lượng");
+            return;
+        }
         if (!product.selectedQuantity) {
             product.selectedQuantity = 1;
         }
@@ -1581,6 +1585,7 @@ app.controller("donhang-ctrl", function ($scope, $http) {
         } else if (newQuantity > product.soLuong) {
             newQuantity = product.soLuong;
             alertify.error("Số lượng không được vượt quá số lượng hiện có");
+            return;
         }
 
         product.selectedQuantity = newQuantity;
